@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --balena-pink: #F2BDC1;
+  --balena-cream: #EEE8E1;
+  --balena-dark: #0E2226;
+  --balena-brown: #A68C76;
+  --balena-light: #F2F2F2;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+body {
+  color: var(--balena-dark);
+  background: var(--balena-light);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* Loading animations */
+@keyframes progress {
+  0% { 
+    width: 0%; 
+    opacity: 0.8;
+  }
+  50% { 
+    width: 70%; 
+    opacity: 1;
+  }
+  100% { 
+    width: 100%; 
+    opacity: 0.8;
+  }
+}
+
+.progress-animation {
+  animation: progress 2s ease-in-out infinite;
+}

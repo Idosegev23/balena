@@ -1,0 +1,422 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { Company, supabase } from '@/lib/supabase'
+import { X, Star, MapPin, Phone, Mail, Globe, Building2, Users, Calendar, FileText, Camera, Bookmark } from 'lucide-react'
+import { VisitTracker } from './VisitTracker'
+import { BusinessCardScanner } from './BusinessCardScanner'
+import { NotesAndPhotos } from './NotesAndPhotos'
+import { FollowUpInterface } from './FollowUpInterface'
+
+interface CompanyModalProps {
+  company: Company | null
+  isOpen: boolean
+  onClose: () => void
+  onUpdate: () => void
+}
+
+export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModalProps) {
+  const [editedCompany, setEditedCompany] = useState<Company | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const [activeTab, setActiveTab] = useState<'info' | 'visit' | 'notes' | 'follow'>('info')
+
+  useEffect(() => {
+    if (company) {
+      setEditedCompany({ ...company })
+    }
+  }, [company])
+
+  if (!isOpen || !company || !editedCompany) return null
+
+  const handleSave = async () => {
+    setLoading(true)
+    setMessage('')
+    
+    try {
+      const { error } = await supabase
+        .from('companies')
+        .update({
+          company: editedCompany.company,
+          location: editedCompany.location,
+          hall: editedCompany.hall,
+          stand: editedCompany.stand,
+          email: editedCompany.email,
+          phone: editedCompany.phone,
+          website: editedCompany.website,
+          description: editedCompany.description,
+          visit_priority: editedCompany.visit_priority,
+          department: editedCompany.department,
+          balena_value: editedCompany.balena_value,
+          connection_type: editedCompany.connection_type,
+          where_they_present: editedCompany.where_they_present,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', company.id)
+
+      if (error) throw error
+
+      setMessage('✅ החברה עודכנה בהצלחה!')
+      onUpdate()
+      setTimeout(() => {
+        onClose()
+      }, 1500)
+    } catch (error) {
+      setMessage('❌ שגיאה בשמירה. נסה שוב.')
+      console.error('Error updating company:', error)
+    }
+    
+    setLoading(false)
+  }
+
+  const handleInputChange = (field: keyof Company, value: string) => {
+    setEditedCompany(prev => prev ? { ...prev, [field]: value } : null)
+  }
+
+  const priorityColors = {
+    'MUST_VISIT': 'bg-red-100 text-red-800 border-red-200',
+    'HIGH': 'bg-orange-100 text-orange-800 border-orange-200',
+    'MEDIUM': 'bg-yellow-100 text-yellow-800 border-yellow-200',
+    'LOW': 'bg-gray-100 text-gray-800 border-gray-200',
+    'MONITOR_ONLY': 'bg-blue-100 text-blue-800 border-blue-200'
+  }
+
+  const connectionColors = {
+    'SUPPLIER': 'bg-green-100 text-green-800',
+    'PARTNER': 'bg-purple-100 text-purple-800',
+    'COMPETITOR': 'bg-red-100 text-red-800',
+    'CUSTOMER': 'bg-blue-100 text-blue-800',
+    'SERVICE': 'bg-yellow-100 text-yellow-800',
+    'STRATEGIC': 'bg-pink-100 text-pink-800'
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b" style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}>
+          <div className="flex items-center gap-4">
+            <Building2 className="w-8 h-8 text-white" />
+            <div>
+              <h2 className="text-2xl font-bold text-white">{company.company}</h2>
+              <p className="text-white/80">{company.location}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className={`px-3 py-1 rounded-full text-sm font-medium ${priorityColors[company.visit_priority || 'LOW']}`}>
+              {company.visit_priority === 'MUST_VISIT' ? 'חובה לבקר' : 
+               company.visit_priority === 'HIGH' ? 'גבוהה' :
+               company.visit_priority === 'MEDIUM' ? 'בינונית' :
+               company.visit_priority === 'LOW' ? 'נמוכה' : 'מעקב בלבד'}
+            </div>
+            {company.relevance_score && (
+              <div className="flex items-center gap-1 px-3 py-1 bg-white/20 rounded-full text-white">
+                <Star className="w-4 h-4" />
+                <span className="font-bold">{company.relevance_score}/10</span>
+              </div>
+            )}
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-white/20 rounded-lg text-white"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex border-b">
+          <button
+            onClick={() => setActiveTab('info')}
+            className={`flex-1 px-6 py-3 text-center font-medium transition-colors ${
+              activeTab === 'info' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
+            }`}
+            style={{ borderColor: activeTab === 'info' ? 'var(--balena-dark)' : 'transparent' }}
+          >
+            📋 פרטי החברה
+          </button>
+          <button
+            onClick={() => setActiveTab('visit')}
+            className={`flex-1 px-6 py-3 text-center font-medium transition-colors ${
+              activeTab === 'visit' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
+            }`}
+            style={{ borderColor: activeTab === 'visit' ? 'var(--balena-dark)' : 'transparent' }}
+          >
+            🎯 תכנון ביקור
+          </button>
+          <button
+            onClick={() => setActiveTab('notes')}
+            className={`flex-1 px-6 py-3 text-center font-medium transition-colors ${
+              activeTab === 'notes' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
+            }`}
+            style={{ borderColor: activeTab === 'notes' ? 'var(--balena-dark)' : 'transparent' }}
+          >
+            📝 הערות
+          </button>
+          <button
+            onClick={() => setActiveTab('follow')}
+            className={`flex-1 px-6 py-3 text-center font-medium transition-colors ${
+              activeTab === 'follow' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
+            }`}
+            style={{ borderColor: activeTab === 'follow' ? 'var(--balena-dark)' : 'transparent' }}
+          >
+            ✅ פולואפ
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="p-6 overflow-y-auto max-h-[60vh]">
+          {activeTab === 'info' && (
+            <div className="space-y-6">
+              {/* Basic Info */}
+              <div className="grid gap-4 md:grid-cols-2">
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-right">שם החברה</label>
+                  <input
+                    type="text"
+                    value={editedCompany.company}
+                    onChange={(e) => handleInputChange('company', e.target.value)}
+                    className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                    style={{ borderColor: 'var(--balena-brown)' }}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-right">מיקום</label>
+                  <input
+                    type="text"
+                    value={editedCompany.location || ''}
+                    onChange={(e) => handleInputChange('location', e.target.value)}
+                    className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                    style={{ borderColor: 'var(--balena-brown)' }}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-right">אולם</label>
+                  <input
+                    type="text"
+                    value={editedCompany.hall || ''}
+                    onChange={(e) => handleInputChange('hall', e.target.value)}
+                    className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                    style={{ borderColor: 'var(--balena-brown)' }}
+                    placeholder="Hall 8a"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-right">דוכן</label>
+                  <input
+                    type="text"
+                    value={editedCompany.stand || ''}
+                    onChange={(e) => handleInputChange('stand', e.target.value)}
+                    className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                    style={{ borderColor: 'var(--balena-brown)' }}
+                    placeholder="B40"
+                  />
+                </div>
+              </div>
+
+              {/* Contact Info */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-bold text-right" style={{ color: 'var(--balena-dark)' }}>פרטי קשר</h3>
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div>
+                    <label className="block text-sm font-medium mb-2 text-right">אימייל</label>
+                    <input
+                      type="email"
+                      value={editedCompany.email || ''}
+                      onChange={(e) => handleInputChange('email', e.target.value)}
+                      className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                      style={{ borderColor: 'var(--balena-brown)' }}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2 text-right">טלפון</label>
+                    <input
+                      type="tel"
+                      value={editedCompany.phone || ''}
+                      onChange={(e) => handleInputChange('phone', e.target.value)}
+                      className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                      style={{ borderColor: 'var(--balena-brown)' }}
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium mb-2 text-right">אתר אינטרנט</label>
+                    <input
+                      type="url"
+                      value={editedCompany.website || ''}
+                      onChange={(e) => handleInputChange('website', e.target.value)}
+                      className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                      style={{ borderColor: 'var(--balena-brown)' }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Classification */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-bold text-right" style={{ color: 'var(--balena-dark)' }}>סיווג וערך</h3>
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div>
+                    <label className="block text-sm font-medium mb-2 text-right">עדיפות ביקור</label>
+                    <select
+                      value={editedCompany.visit_priority || 'LOW'}
+                      onChange={(e) => handleInputChange('visit_priority', e.target.value)}
+                      className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                      style={{ borderColor: 'var(--balena-brown)' }}
+                    >
+                      <option value="MUST_VISIT">חובה לבקר</option>
+                      <option value="HIGH">גבוהה</option>
+                      <option value="MEDIUM">בינונית</option>
+                      <option value="LOW">נמוכה</option>
+                      <option value="MONITOR_ONLY">מעקב בלבד</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2 text-right">סוג קשר</label>
+                    <select
+                      value={editedCompany.connection_type || 'SUPPLIER'}
+                      onChange={(e) => handleInputChange('connection_type', e.target.value)}
+                      className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                      style={{ borderColor: 'var(--balena-brown)' }}
+                    >
+                      <option value="SUPPLIER">ספק</option>
+                      <option value="PARTNER">שותף</option>
+                      <option value="COMPETITOR">מתחרה</option>
+                      <option value="CUSTOMER">לקוח</option>
+                      <option value="SERVICE">שירות</option>
+                      <option value="STRATEGIC">אסטרטגי</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2 text-right">מחלקה</label>
+                    <select
+                      value={editedCompany.department || 'Commercial'}
+                      onChange={(e) => handleInputChange('department', e.target.value)}
+                      className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                      style={{ borderColor: 'var(--balena-brown)' }}
+                    >
+                      <option value="Commercial">Commercial</option>
+                      <option value="Operations">Operations</option>
+                      <option value="R&D">R&D</option>
+                      <option value="Marketing">Marketing</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Description & Value */}
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-right">תיאור החברה</label>
+                  <textarea
+                    value={editedCompany.description || ''}
+                    onChange={(e) => handleInputChange('description', e.target.value)}
+                    rows={3}
+                    className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                    style={{ borderColor: 'var(--balena-brown)' }}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-right">ערך לBalena</label>
+                  <textarea
+                    value={editedCompany.balena_value || ''}
+                    onChange={(e) => handleInputChange('balena_value', e.target.value)}
+                    rows={3}
+                    className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                    style={{ borderColor: 'var(--balena-brown)' }}
+                    placeholder="למה החברה הזו רלוונטית לBalena? איך היא יכולה לעזור לנו?"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'visit' && (
+            <div className="space-y-6">
+              {/* Visit Tracking */}
+              <VisitTracker company={company} />
+              
+              {/* Future Features */}
+              <div className="border-t pt-6">
+                <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--balena-dark)' }}>
+                  תכנון מתקדם (בפיתוח)
+                </h3>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="p-3 bg-gray-50 rounded-lg">
+                    <div className="font-medium text-sm mb-1">📅 תזמון אופטימלי</div>
+                    <div className="text-xs text-gray-600">זמן ביקור מומלץ על בסיס צפיפות</div>
+                  </div>
+                  <div className="p-3 bg-gray-50 rounded-lg">
+                    <div className="font-medium text-sm mb-1">🗺️ מסלול חכם</div>
+                    <div className="text-xs text-gray-600">ניווט מדוכנים קרובים</div>
+                  </div>
+                  <div className="p-3 bg-gray-50 rounded-lg">
+                    <div className="font-medium text-sm mb-1">👥 תיאום צוות</div>
+                    <div className="text-xs text-gray-600">שיתוף מיקום ותכנון</div>
+                  </div>
+                  <div className="p-3 bg-gray-50 rounded-lg">
+                    <div className="font-medium text-sm mb-1">📋 שאלות מוכנות</div>
+                    <div className="text-xs text-gray-600">רשימה מותאמת לחברה</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'notes' && (
+            <div className="space-y-6">
+              {/* Business Card Scanner */}
+              <div className="border-b pb-6">
+                <h3 className="font-bold mb-4 flex items-center gap-2">
+                  <Camera className="w-5 h-5" />
+                  כרטיסי ביקור
+                </h3>
+                <BusinessCardScanner 
+                  companyId={company.id}
+                  onCardAdded={() => {
+                    // Refresh or show success message
+                  }}
+                />
+              </div>
+
+              {/* Notes and Photos */}
+              <NotesAndPhotos companyId={company.id} />
+            </div>
+          )}
+
+          {activeTab === 'follow' && (
+            <div className="space-y-6">
+              <FollowUpInterface companyId={company.id} />
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="flex items-center justify-between p-6 border-t bg-gray-50">
+          {message && (
+            <div className="text-sm font-medium">
+              {message}
+            </div>
+          )}
+          <div className="flex gap-3 mr-auto">
+            <button
+              onClick={onClose}
+              disabled={loading}
+              className="px-6 py-2 border rounded-lg hover:bg-gray-50 disabled:opacity-50"
+              style={{ borderColor: 'var(--balena-brown)', color: 'var(--balena-brown)' }}
+            >
+              ביטול
+            </button>
+            <button
+              onClick={handleSave}
+              disabled={loading}
+              className="px-6 py-2 rounded-lg text-white font-medium hover:shadow-lg disabled:opacity-50"
+              style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}
+            >
+              {loading ? '⏳ שומר...' : '💾 שמור שינויים'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
