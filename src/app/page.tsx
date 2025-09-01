@@ -291,6 +291,7 @@ export default function Home() {
                   className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
                   style={{ borderColor: 'var(--balena-brown)' }}
                   placeholder={isSignUp ? "name@balena.science או triroars@gmail.com" : "name@balena.science"}
+                  autoComplete="email"
                   required
                 />
               </div>
@@ -304,6 +305,7 @@ export default function Home() {
                   className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
                   style={{ borderColor: 'var(--balena-brown)' }}
                   placeholder="••••••••"
+                  autoComplete="current-password"
                   required
                 />
               </div>

@@ -12,10 +12,7 @@ interface RealtimeRatingProps {
 }
 
 interface RatingWithUser extends CompanyRating {
-  user?: {
-    full_name?: string
-    email: string
-  }
+  user_email?: string
 }
 
 export function RealtimeRating({ companyId, size = 'medium', showTeamRatings = true }: RealtimeRatingProps) {
@@ -58,13 +55,10 @@ export function RealtimeRating({ companyId, size = 'medium', showTeamRatings = t
 
   const fetchRatings = async () => {
     try {
-      // Fetch all ratings for this company
+      // Fetch all ratings for this company - note: no join since auth.users is not accessible
       const { data: ratings, error } = await supabase
         .from('company_ratings')
-        .select(`
-          *,
-          user:users(full_name, email)
-        `)
+        .select('*')
         .eq('company_id', companyId)
 
       if (error) throw error
@@ -215,11 +209,11 @@ export function RealtimeRating({ companyId, size = 'medium', showTeamRatings = t
                 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border-2
                 ${getRatingColor(rating.rating)}
               `}
-              title={`${rating.user?.full_name || rating.user?.email}: ${
+              title={`משתמש: ${
                 rating.rating === 1 ? '👍 רלוונטי' : rating.rating === -1 ? '👎 לא רלוונטי' : '😐 נייטרלי'
               }`}
             >
-              {rating.user?.full_name?.charAt(0) || rating.user?.email?.charAt(0) || '?'}
+              {rating.rating === 1 ? '👍' : rating.rating === -1 ? '👎' : '😐'}
             </div>
           ))}
           {teamRatings.length > 3 && (

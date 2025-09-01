@@ -10,10 +10,7 @@ interface VisitTrackerProps {
 }
 
 interface VisitWithUser extends Visit {
-  user?: {
-    full_name?: string
-    email: string
-  }
+  user_email?: string
 }
 
 export function VisitTracker({ company }: VisitTrackerProps) {
@@ -32,10 +29,7 @@ export function VisitTracker({ company }: VisitTrackerProps) {
     try {
       const { data: visitsData, error } = await supabase
         .from('visits')
-        .select(`
-          *,
-          user:users(full_name, email)
-        `)
+        .select('*')
         .eq('company_id', company.id)
         .order('visit_date', { ascending: false })
 
@@ -88,7 +82,7 @@ export function VisitTracker({ company }: VisitTrackerProps) {
       )
 
       if (activeVisits.length > 0) {
-        alert(`⚠️ ${activeVisits[0].user?.full_name || 'חבר צוות אחר'} כבר ביוקר את החברה הזו!`)
+        alert(`⚠️ חבר צוות אחר כבר ביוקר את החברה הזו!`)
         return
       }
 
@@ -221,7 +215,7 @@ export function VisitTracker({ company }: VisitTrackerProps) {
               <div className="text-sm text-yellow-600">
                 {activeVisits.map(visit => (
                   <span key={visit.id}>
-                    {visit.user?.full_name || visit.user?.email} • 
+                    חבר צוות • 
                     {new Date(visit.visit_date).toLocaleTimeString('he-IL', { 
                       hour: '2-digit', 
                       minute: '2-digit' 
@@ -288,7 +282,7 @@ export function VisitTracker({ company }: VisitTrackerProps) {
                     </div>
                   </div>
                   <span className="text-sm font-medium">
-                    {visit.user?.full_name || visit.user?.email}
+                    חבר צוות
                   </span>
                 </div>
                 <div className="text-xs text-gray-600 text-right">

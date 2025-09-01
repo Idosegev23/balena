@@ -11,10 +11,7 @@ interface NotesAndPhotosProps {
 }
 
 interface NoteWithUser extends Note {
-  user?: {
-    full_name?: string
-    email: string
-  }
+  user_email?: string
 }
 
 export function NotesAndPhotos({ companyId, visitId }: NotesAndPhotosProps) {
@@ -37,10 +34,7 @@ export function NotesAndPhotos({ companyId, visitId }: NotesAndPhotosProps) {
     try {
       const { data: notesData, error } = await supabase
         .from('notes')
-        .select(`
-          *,
-          user:users(full_name, email)
-        `)
+        .select('*')
         .eq('company_id', companyId)
         .order('created_at', { ascending: false })
 
@@ -327,7 +321,7 @@ export function NotesAndPhotos({ companyId, visitId }: NotesAndPhotosProps) {
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="font-medium text-sm">
-                        {note.user?.full_name || note.user?.email}
+                        חבר צוות
                       </span>
                       {note.is_private && (
                         <span className="px-2 py-0.5 bg-yellow-200 text-yellow-800 text-xs rounded-full">
