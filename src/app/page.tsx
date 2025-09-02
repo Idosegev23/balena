@@ -33,6 +33,7 @@ export default function Home() {
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null)
   const [showCompanyModal, setShowCompanyModal] = useState(false)
   const [showDiscoveryPage, setShowDiscoveryPage] = useState(false)
+  const [deptFilter, setDeptFilter] = useState<string>('')
 
   // Fetch dashboard data
   useEffect(() => {
@@ -40,6 +41,24 @@ export default function Home() {
       fetchDashboardData()
     }
   }, [user])
+
+  // Initialize/persist department filter (mobile-first)
+  useEffect(() => {
+    if (!user) return
+    const persisted = sessionStorage.getItem('dashboard_dept_filter')
+    if (persisted) {
+      setDeptFilter(persisted)
+    } else {
+      const userDept = (user.user_metadata?.team_role as string) || ''
+      setDeptFilter(userDept)
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (deptFilter !== undefined) {
+      sessionStorage.setItem('dashboard_dept_filter', deptFilter)
+    }
+  }, [deptFilter])
 
   const fetchDashboardData = async () => {
     try {
@@ -403,6 +422,36 @@ export default function Home() {
             </p>
           </div>
 
+          {/* Active Department Filter */}
+          <div className="bg-white rounded-lg p-3 shadow-sm flex items-center justify-between">
+            <div className="text-sm" style={{ color: 'var(--balena-dark)' }}>
+              סינון ברירת מחדל לפי מחלקה
+            </div>
+            <div className="flex items-center gap-2">
+              <select
+                value={deptFilter}
+                onChange={(e) => setDeptFilter(e.target.value)}
+                className="px-2 py-1 border rounded-lg text-sm"
+                style={{ borderColor: 'var(--balena-brown)' }}
+              >
+                <option value="">כל המחלקות</option>
+                <option value="Commercial">Commercial</option>
+                <option value="Operations">Operations</option>
+                <option value="R&D">R&D</option>
+                <option value="Marketing">Marketing</option>
+              </select>
+              {deptFilter && (
+                <button
+                  onClick={() => setDeptFilter('')}
+                  className="px-2 py-1 border rounded-lg text-xs hover:bg-gray-50"
+                  style={{ borderColor: 'var(--balena-brown)', color: 'var(--balena-brown)' }}
+                >
+                  נקה
+                </button>
+              )}
+            </div>
+          </div>
+
           {/* Mobile-First Stats */}
           <div className="grid gap-2 grid-cols-2 lg:grid-cols-4">
             <button 
@@ -479,7 +528,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Top Priority Companies - Compact */}
+          {/* Top Priority Companies - Compact (respects dept filter) */}
           {companies.length > 0 && (
             <div className="bg-white rounded-lg p-4 shadow-sm">
               <div className="flex items-center justify-between mb-3">
@@ -487,12 +536,12 @@ export default function Home() {
                   🎯 חברות חובה
                 </h3>
                 <span className="text-xs px-2 py-1 bg-red-100 text-red-800 rounded-full">
-                  {companies.filter(c => c.visit_priority === 'MUST_VISIT').length}
+                  {companies.filter(c => (!deptFilter || c.department === deptFilter) && c.visit_priority === 'MUST_VISIT').length}
                 </span>
               </div>
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {companies
-                  .filter(company => company.visit_priority === 'MUST_VISIT')
+                  .filter(company => (!deptFilter || company.department === deptFilter) && company.visit_priority === 'MUST_VISIT')
                   .slice(0, 6)
                   .map((company) => (
                     <button
@@ -537,10 +586,10 @@ export default function Home() {
                     </button>
                   ))}
               </div>
-              {companies.filter(c => c.visit_priority === 'MUST_VISIT').length > 6 && (
+              {companies.filter(c => (!deptFilter || c.department === deptFilter) && c.visit_priority === 'MUST_VISIT').length > 6 && (
                 <div className="text-center mt-4">
                   <button className="px-6 py-2 text-sm border rounded-lg hover:bg-gray-50" style={{ borderColor: 'var(--balena-brown)', color: 'var(--balena-brown)' }}>
-                    צפה בכל החברות הפריוריטות ({companies.filter(c => c.visit_priority === 'MUST_VISIT').length})
+                    צפה בכל החברות הפריוריטות ({companies.filter(c => (!deptFilter || c.department === deptFilter) && c.visit_priority === 'MUST_VISIT').length})
                   </button>
                 </div>
               )}

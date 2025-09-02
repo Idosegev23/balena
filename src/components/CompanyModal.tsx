@@ -22,19 +22,30 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
   const [activeTab, setActiveTab] = useState<'info' | 'visit' | 'notes' | 'follow'>('info')
   const modalRef = useRef<HTMLDivElement>(null)
 
-  const sanitizeText = (text: string) => {
-    if (!text) return ''
-    // Remove HTML tags and common developer artifacts
-    const noHtml = text.replace(/<[^>]*>/g, ' ')
-    const collapsed = noHtml.replace(/\s+/g, ' ').trim()
-    return collapsed
+  const sanitizeText = (html: string) => {
+    if (!html) return ''
+    try {
+      // Preserve line breaks where meaningful
+      const normalized = html
+        .replace(/<\s*br\s*\/?\s*>/gi, '\n')
+        .replace(/<\s*\/p\s*>/gi, '\n')
+        .replace(/<\s*p\s*>/gi, '')
+      const el = document.createElement('div')
+      el.innerHTML = normalized
+      const text = (el.textContent || el.innerText || '')
+      return text.replace(/\r?\n\s*\n+/g, '\n\n').replace(/\s+$/g, '').trim()
+    } catch {
+      // Fallback: strip tags
+      return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+    }
   }
 
   useEffect(() => {
     if (company) {
       setEditedCompany({
         ...company,
-        description: sanitizeText(company.description || '')
+        description: sanitizeText(company.description || ''),
+        balena_value: sanitizeText(company.balena_value || '')
       })
     }
   }, [company])
@@ -108,7 +119,8 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
   }
 
   const handleInputChange = (field: keyof Company, value: string) => {
-    setEditedCompany(prev => prev ? { ...prev, [field]: value } : null)
+    const nextValue = (field === 'description' || field === 'balena_value') ? sanitizeText(value) : value
+    setEditedCompany(prev => prev ? { ...prev, [field]: nextValue as any } : null)
   }
 
   const priorityColors = {
