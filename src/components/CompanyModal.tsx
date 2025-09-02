@@ -93,7 +93,6 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
           email: editedCompany.email,
           phone: editedCompany.phone,
           website: editedCompany.website,
-          description: editedCompany.description,
           visit_priority: editedCompany.visit_priority,
           department: editedCompany.department,
           balena_value: editedCompany.balena_value,
@@ -242,7 +241,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
               {/* Basic Info */}
               <details className="bg-white border rounded-lg" open>
                 <summary className="px-4 py-3 cursor-pointer text-sm font-medium flex items-center justify-between">פרטי בסיס</summary>
-                <div className="p-4 grid gap-4 md:grid-cols-2">
+                <div className="p-4 grid gap-3 grid-cols-1 sm:grid-cols-2">
                 <div>
                   <label className="block text-sm font-medium mb-2 text-right">שם החברה</label>
                   <input
@@ -291,7 +290,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
               {/* Contact Info */}
               <details className="bg-white border rounded-lg" open>
                 <summary className="px-4 py-3 cursor-pointer text-sm font-medium flex items-center justify-between">פרטי קשר</summary>
-                <div className="p-4 grid gap-4 md:grid-cols-2">
+                <div className="p-4 grid gap-3 grid-cols-1 sm:grid-cols-2">
                   <div>
                     <label className="block text-sm font-medium mb-2 text-right">אימייל</label>
                     <input
@@ -327,8 +326,8 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
 
               {/* Classification */}
               <details className="bg-white border rounded-lg" open>
-                <summary className="px-4 py-3 cursor-pointer text-sm font-medium flex items-center justify-between">סיווג וערך</summary>
-                <div className="p-4 grid gap-4 md:grid-cols-2">
+                <summary className="px-4 py-3 cursor-pointer text-sm font-medium flex items-center justify-between">סיווג</summary>
+                <div className="p-4 grid gap-3 grid-cols-1 sm:grid-cols-2">
                   <div>
                     <label className="block text-sm font-medium mb-2 text-right">עדיפות ביקור</label>
                     <select
@@ -383,25 +382,10 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
           {activeTab === 'value' && (
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2 text-right">תיאור החברה</label>
-                <textarea
-                  value={editedCompany.description || ''}
-                  onChange={(e) => handleInputChange('description', e.target.value)}
-                  rows={6}
-                  className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2 min-h-[140px]"
-                  style={{ borderColor: 'var(--balena-brown)' }}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2 text-right">ערך לBalena</label>
-                <textarea
-                  value={editedCompany.balena_value || ''}
-                  onChange={(e) => handleInputChange('balena_value', e.target.value)}
-                  rows={8}
-                  className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2 min-h-[180px]"
-                  style={{ borderColor: 'var(--balena-brown)' }}
-                  placeholder="למה החברה הזו רלוונטית לBalena? איך היא יכולה לעזור לנו?"
-                />
+                <label className="block text-sm font-bold mb-2 text-right" style={{ color: 'var(--balena-dark)' }}>ערך לBalena</label>
+                <div className="p-4 border rounded-lg bg-gray-50 text-sm leading-6 whitespace-pre-wrap" style={{ borderColor: 'var(--balena-brown)', color: 'var(--balena-dark)' }}>
+                  {editedCompany.balena_value || '—'}
+                </div>
               </div>
             </div>
           )}
