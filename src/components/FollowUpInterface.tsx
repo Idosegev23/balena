@@ -52,9 +52,7 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
         .from('follow_ups')
         .select(`
           *,
-          company:companies(id, company, hall, stand),
-          assigned_user:users!follow_ups_assigned_user_id_fkey(full_name, email),
-          created_by_user:users!follow_ups_created_by_user_id_fkey(full_name, email)
+          company:companies(id, company, hall, stand)
         `)
         .order('created_at', { ascending: false })
 
@@ -460,7 +458,7 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
                     {showAllCompanies && followUp.company && (
                       <span>🏢 {followUp.company.company}</span>
                     )}
-                    <span>👤 {followUp.assigned_user?.full_name || followUp.assigned_user?.email}</span>
+                    <span>👤 משויך למשתמש</span>
                     {followUp.due_date && (
                       <span>📅 {formatDate(followUp.due_date)}</span>
                     )}

@@ -52,10 +52,25 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
   const connectionTypes = ['SUPPLIER', 'PARTNER', 'COMPETITOR', 'CUSTOMER', 'SERVICE', 'STRATEGIC']
 
   useEffect(() => {
+    // Load persisted filters first
+    const persisted = sessionStorage.getItem('discovery_filters')
+    if (persisted) {
+      try {
+        const parsed = JSON.parse(persisted)
+        setFilters(prev => ({ ...prev, ...parsed }))
+      } catch {}
+    } else {
+      // Default department filter to user's team_role when first loading
+      const userDept = user?.user_metadata?.team_role as string | undefined
+      if (userDept && ['Commercial', 'Operations', 'R&D', 'Marketing'].includes(userDept)) {
+        setFilters(prev => ({ ...prev, department: userDept }))
+      }
+    }
     fetchCompanies()
   }, [])
 
   useEffect(() => {
+    sessionStorage.setItem('discovery_filters', JSON.stringify(filters))
     applyFilters()
   }, [companies, filters, sortBy, sortOrder])
 
@@ -197,7 +212,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
   }
 
   const exportToCSV = () => {
-    const headers = ['שם החברה', 'מיקום', 'אולם', 'דוכן', 'עדיפות', 'ציון רלוונטיות', 'אימייל', 'טלפון', 'אתר']
+    const headers = ['שם החברה', 'מיקום', 'אולם', 'דוכן', 'עדיפות', 'ציון רלוונטיות', 'סוג קשר', 'היכן מציגים', 'ערך לBalena', 'אימייל', 'טלפון', 'אתר']
     const csvContent = [
       headers.join(','),
       ...filteredCompanies.map(company => [
@@ -207,6 +222,9 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
         company.stand || '',
         company.visit_priority || '',
         company.relevance_score || '',
+        company.connection_type || '',
+        company.where_they_present || '',
+        (company.balena_value || '').replace(/\n/g, ' ').slice(0, 500),
         company.email || '',
         company.phone || '',
         company.website || ''
@@ -258,7 +276,14 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
             <input
               type="text"
               value={filters.searchTerm}
-              onChange={(e) => setFilters(prev => ({ ...prev, searchTerm: e.target.value }))}
+              onChange={(e) => {
+                const value = e.target.value
+                // Debounce 250ms
+                window.clearTimeout((window as any).__searchTimer)
+                ;(window as any).__searchTimer = window.setTimeout(() => {
+                  setFilters(prev => ({ ...prev, searchTerm: value }))
+                }, 250)
+              }}
               placeholder="חפש לפי שם חברה, תיאור או מיקום..."
               className="w-full pr-10 pl-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -463,9 +488,14 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                   </div>
 
                   {company.balena_value && (
-                    <p className="text-xs mb-3" style={{ color: 'var(--balena-dark)' }}>
-                      💡 {company.balena_value.slice(0, 60)}...
-                    </p>
+                    <details className="mb-3">
+                      <summary className="text-xs cursor-pointer" style={{ color: 'var(--balena-dark)' }}>
+                        💡 {company.balena_value.slice(0, 60)}{company.balena_value.length > 60 ? '…' : ''}
+                      </summary>
+                      <p className="text-xs mt-1" style={{ color: 'var(--balena-dark)' }}>
+                        {company.balena_value}
+                      </p>
+                    </details>
                   )}
 
                   <div onClick={(e) => e.stopPropagation()}>

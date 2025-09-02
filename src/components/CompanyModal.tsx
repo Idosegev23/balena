@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Company, supabase } from '@/lib/supabase'
 import { X, Star, MapPin, Phone, Mail, Globe, Building2, Users, Calendar, FileText, Camera, Bookmark } from 'lucide-react'
 import { VisitTracker } from './VisitTracker'
@@ -20,12 +20,50 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [activeTab, setActiveTab] = useState<'info' | 'visit' | 'notes' | 'follow'>('info')
+  const modalRef = useRef<HTMLDivElement>(null)
+
+  const sanitizeText = (text: string) => {
+    if (!text) return ''
+    // Remove HTML tags and common developer artifacts
+    const noHtml = text.replace(/<[^>]*>/g, ' ')
+    const collapsed = noHtml.replace(/\s+/g, ' ').trim()
+    return collapsed
+  }
 
   useEffect(() => {
     if (company) {
-      setEditedCompany({ ...company })
+      setEditedCompany({
+        ...company,
+        description: sanitizeText(company.description || '')
+      })
     }
   }, [company])
+
+  useEffect(() => {
+    if (!isOpen) return
+    const original = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+      if (e.key === 'Tab') {
+        const nodes = modalRef.current?.querySelectorAll<HTMLElement>('a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])')
+        if (!nodes || nodes.length === 0) return
+        const first = nodes[0]
+        const last = nodes[nodes.length - 1]
+        const active = document.activeElement as HTMLElement | null
+        if (e.shiftKey) {
+          if (active === first) { e.preventDefault(); last.focus() }
+        } else {
+          if (active === last) { e.preventDefault(); first.focus() }
+        }
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.body.style.overflow = original
+      window.removeEventListener('keydown', onKeyDown)
+    }
+  }, [isOpen, onClose])
 
   if (!isOpen || !company || !editedCompany) return null
 
@@ -91,15 +129,26 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+    <div
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="company-modal-title"
+      aria-describedby="company-modal-content"
+    >
+      <div
+        className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden"
+        style={{ maxHeight: '90vh' }}
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b" style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}>
-          <div className="flex items-center gap-4">
+        <div className="flex items-center justify-between p-4 md:p-6 border-b sticky top-0 z-10" style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)`, paddingTop: 'max(1rem, env(safe-area-inset-top))' }}>
+          <div className="flex items-center gap-3 md:gap-4 min-w-0">
             <Building2 className="w-8 h-8 text-white" />
             <div>
-              <h2 className="text-2xl font-bold text-white">{company.company}</h2>
-              <p className="text-white/80">{company.location}</p>
+              <h2 id="company-modal-title" className="text-xl md:text-2xl font-bold text-white truncate max-w-[60vw] md:max-w-none">{company.company}</h2>
+              <p className="text-white/80 truncate max-w-[60vw] md:max-w-none">{company.location}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -118,6 +167,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
             <button
               onClick={onClose}
               className="p-2 hover:bg-white/20 rounded-lg text-white"
+              aria-label="סגור"
             >
               <X className="w-6 h-6" />
             </button>
@@ -125,7 +175,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b">
+        <div className="flex border-b sticky top-[64px] md:top-[80px] z-10 bg-white">
           <button
             onClick={() => setActiveTab('info')}
             className={`flex-1 px-6 py-3 text-center font-medium transition-colors ${
@@ -165,7 +215,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[60vh]">
+        <div id="company-modal-content" className="p-4 md:p-6 overflow-y-auto" style={{ maxHeight: '75vh' }}>
           {activeTab === 'info' && (
             <div className="space-y-6">
               {/* Basic Info */}
@@ -310,8 +360,8 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                   <textarea
                     value={editedCompany.description || ''}
                     onChange={(e) => handleInputChange('description', e.target.value)}
-                    rows={3}
-                    className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                    rows={5}
+                    className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2 min-h-[120px] md:min-h-[100px]"
                     style={{ borderColor: 'var(--balena-brown)' }}
                   />
                 </div>
@@ -320,8 +370,8 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                   <textarea
                     value={editedCompany.balena_value || ''}
                     onChange={(e) => handleInputChange('balena_value', e.target.value)}
-                    rows={3}
-                    className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                    rows={6}
+                    className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2 min-h-[140px] md:min-h-[120px]"
                     style={{ borderColor: 'var(--balena-brown)' }}
                     placeholder="למה החברה הזו רלוונטית לBalena? איך היא יכולה לעזור לנו?"
                   />
