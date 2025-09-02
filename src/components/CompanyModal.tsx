@@ -19,7 +19,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
   const [editedCompany, setEditedCompany] = useState<Company | null>(null)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
-  const [activeTab, setActiveTab] = useState<'info' | 'visit' | 'notes' | 'follow'>('info')
+  const [activeTab, setActiveTab] = useState<'info' | 'value' | 'visit' | 'notes' | 'follow'>('info')
   const modalRef = useRef<HTMLDivElement>(null)
 
   const sanitizeText = (html: string) => {
@@ -198,6 +198,15 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
             📋 פרטי החברה
           </button>
           <button
+            onClick={() => setActiveTab('value')}
+            className={`flex-1 px-6 py-3 text-center font-medium transition-colors ${
+              activeTab === 'value' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
+            }`}
+            style={{ borderColor: activeTab === 'value' ? 'var(--balena-dark)' : 'transparent' }}
+          >
+            💡 ערך לBalena
+          </button>
+          <button
             onClick={() => setActiveTab('visit')}
             className={`flex-1 px-6 py-3 text-center font-medium transition-colors ${
               activeTab === 'visit' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
@@ -231,7 +240,9 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
           {activeTab === 'info' && (
             <div className="space-y-6">
               {/* Basic Info */}
-              <div className="grid gap-4 md:grid-cols-2">
+              <details className="bg-white border rounded-lg" open>
+                <summary className="px-4 py-3 cursor-pointer text-sm font-medium flex items-center justify-between">פרטי בסיס</summary>
+                <div className="p-4 grid gap-4 md:grid-cols-2">
                 <div>
                   <label className="block text-sm font-medium mb-2 text-right">שם החברה</label>
                   <input
@@ -274,12 +285,13 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                     placeholder="B40"
                   />
                 </div>
-              </div>
+                </div>
+              </details>
 
               {/* Contact Info */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-bold text-right" style={{ color: 'var(--balena-dark)' }}>פרטי קשר</h3>
-                <div className="grid gap-4 md:grid-cols-2">
+              <details className="bg-white border rounded-lg" open>
+                <summary className="px-4 py-3 cursor-pointer text-sm font-medium flex items-center justify-between">פרטי קשר</summary>
+                <div className="p-4 grid gap-4 md:grid-cols-2">
                   <div>
                     <label className="block text-sm font-medium mb-2 text-right">אימייל</label>
                     <input
@@ -311,12 +323,12 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                     />
                   </div>
                 </div>
-              </div>
+              </details>
 
               {/* Classification */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-bold text-right" style={{ color: 'var(--balena-dark)' }}>סיווג וערך</h3>
-                <div className="grid gap-4 md:grid-cols-2">
+              <details className="bg-white border rounded-lg" open>
+                <summary className="px-4 py-3 cursor-pointer text-sm font-medium flex items-center justify-between">סיווג וערך</summary>
+                <div className="p-4 grid gap-4 md:grid-cols-2">
                   <div>
                     <label className="block text-sm font-medium mb-2 text-right">עדיפות ביקור</label>
                     <select
@@ -363,31 +375,33 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                     </select>
                   </div>
                 </div>
-              </div>
+              </details>
 
-              {/* Description & Value */}
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-right">תיאור החברה</label>
-                  <textarea
-                    value={editedCompany.description || ''}
-                    onChange={(e) => handleInputChange('description', e.target.value)}
-                    rows={5}
-                    className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2 min-h-[120px] md:min-h-[100px]"
-                    style={{ borderColor: 'var(--balena-brown)' }}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-right">ערך לBalena</label>
-                  <textarea
-                    value={editedCompany.balena_value || ''}
-                    onChange={(e) => handleInputChange('balena_value', e.target.value)}
-                    rows={6}
-                    className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2 min-h-[140px] md:min-h-[120px]"
-                    style={{ borderColor: 'var(--balena-brown)' }}
-                    placeholder="למה החברה הזו רלוונטית לBalena? איך היא יכולה לעזור לנו?"
-                  />
-                </div>
+            </div>
+          )}
+
+          {activeTab === 'value' && (
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2 text-right">תיאור החברה</label>
+                <textarea
+                  value={editedCompany.description || ''}
+                  onChange={(e) => handleInputChange('description', e.target.value)}
+                  rows={6}
+                  className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2 min-h-[140px]"
+                  style={{ borderColor: 'var(--balena-brown)' }}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2 text-right">ערך לBalena</label>
+                <textarea
+                  value={editedCompany.balena_value || ''}
+                  onChange={(e) => handleInputChange('balena_value', e.target.value)}
+                  rows={8}
+                  className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2 min-h-[180px]"
+                  style={{ borderColor: 'var(--balena-brown)' }}
+                  placeholder="למה החברה הזו רלוונטית לBalena? איך היא יכולה לעזור לנו?"
+                />
               </div>
             </div>
           )}
