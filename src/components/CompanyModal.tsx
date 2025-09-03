@@ -41,6 +41,14 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
     }
   }
 
+  const isEnglishText = (text: string) => {
+    if (!text) return false
+    // Check if text contains more Latin characters than Hebrew characters
+    const latinChars = text.match(/[a-zA-Z]/g) || []
+    const hebrewChars = text.match(/[\u0590-\u05FF]/g) || []
+    return latinChars.length > hebrewChars.length && latinChars.length > 10
+  }
+
   useEffect(() => {
     if (company) {
       setEditedCompany({
@@ -196,58 +204,76 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
           </div>
         </div>
 
-        {/* Tabs - Mobile Optimized */}
-        <div className="flex border-b bg-white overflow-x-auto hide-scrollbar">
-          <button
-            onClick={() => { setActiveTab('info'); setIsEditing(false); }}
-            className={`flex-1 min-w-0 px-3 py-3 text-center font-medium transition-colors flex flex-col items-center gap-1 ${
-              activeTab === 'info' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
-            }`}
-            style={{ borderColor: activeTab === 'info' ? 'var(--balena-dark)' : 'transparent' }}
-          >
-            <span className="text-lg">📋</span>
-            <span className="text-xs hidden sm:inline">פרטים</span>
-          </button>
-          <button
-            onClick={() => { setActiveTab('value'); setIsEditing(false); }}
-            className={`flex-1 min-w-0 px-3 py-3 text-center font-medium transition-colors flex flex-col items-center gap-1 ${
-              activeTab === 'value' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
-            }`}
-            style={{ borderColor: activeTab === 'value' ? 'var(--balena-dark)' : 'transparent' }}
-          >
-            <span className="text-lg">💡</span>
-            <span className="text-xs hidden sm:inline">ערך</span>
-          </button>
-          <button
-            onClick={() => { setActiveTab('visit'); setIsEditing(false); }}
-            className={`flex-1 min-w-0 px-3 py-3 text-center font-medium transition-colors flex flex-col items-center gap-1 ${
-              activeTab === 'visit' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
-            }`}
-            style={{ borderColor: activeTab === 'visit' ? 'var(--balena-dark)' : 'transparent' }}
-          >
-            <span className="text-lg">🎯</span>
-            <span className="text-xs hidden sm:inline">ביקור</span>
-          </button>
-          <button
-            onClick={() => { setActiveTab('notes'); setIsEditing(false); }}
-            className={`flex-1 min-w-0 px-3 py-3 text-center font-medium transition-colors flex flex-col items-center gap-1 ${
-              activeTab === 'notes' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
-            }`}
-            style={{ borderColor: activeTab === 'notes' ? 'var(--balena-dark)' : 'transparent' }}
-          >
-            <span className="text-lg">📝</span>
-            <span className="text-xs hidden sm:inline">הערות</span>
-          </button>
-          <button
-            onClick={() => { setActiveTab('follow'); setIsEditing(false); }}
-            className={`flex-1 min-w-0 px-3 py-3 text-center font-medium transition-colors flex flex-col items-center gap-1 ${
-              activeTab === 'follow' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
-            }`}
-            style={{ borderColor: activeTab === 'follow' ? 'var(--balena-dark)' : 'transparent' }}
-          >
-            <span className="text-lg">✅</span>
-            <span className="text-xs hidden sm:inline">פולואפ</span>
-          </button>
+        {/* Tabs - With Current Tab Title */}
+        <div className="border-b bg-white">
+          {/* Current Tab Title with Back Button */}
+          <div className="px-4 py-3 bg-gray-50 border-b flex items-center">
+            <button
+              onClick={onClose}
+              className="flex items-center gap-2 px-3 py-1 rounded-lg hover:bg-gray-200 transition-colors"
+              style={{ color: 'var(--balena-dark)' }}
+            >
+              <span className="text-lg">←</span>
+              <span className="text-sm font-medium">חזור</span>
+            </button>
+            <h3 className="flex-1 text-base font-bold text-center" style={{ color: 'var(--balena-dark)' }}>
+              {activeTab === 'info' && '📋 פרטי החברה'}
+              {activeTab === 'value' && '💡 ערך לBalena'}
+              {activeTab === 'visit' && '🎯 תכנון ביקור'}
+              {activeTab === 'notes' && '📝 הערות'}
+              {activeTab === 'follow' && '✅ פולואפ'}
+            </h3>
+            <div className="w-16"></div> {/* Spacer for centering */}
+          </div>
+          
+          {/* Tab Buttons */}
+          <div className="flex overflow-x-auto hide-scrollbar">
+            <button
+              onClick={() => { setActiveTab('info'); setIsEditing(false); }}
+              className={`flex-1 min-w-0 px-4 py-3 text-center font-medium transition-colors ${
+                activeTab === 'info' ? 'bg-blue-50 border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+              }`}
+              style={{ borderColor: activeTab === 'info' ? 'var(--balena-dark)' : 'transparent' }}
+            >
+              <span className="text-lg">📋</span>
+            </button>
+            <button
+              onClick={() => { setActiveTab('value'); setIsEditing(false); }}
+              className={`flex-1 min-w-0 px-4 py-3 text-center font-medium transition-colors ${
+                activeTab === 'value' ? 'bg-blue-50 border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+              }`}
+              style={{ borderColor: activeTab === 'value' ? 'var(--balena-dark)' : 'transparent' }}
+            >
+              <span className="text-lg">💡</span>
+            </button>
+            <button
+              onClick={() => { setActiveTab('visit'); setIsEditing(false); }}
+              className={`flex-1 min-w-0 px-4 py-3 text-center font-medium transition-colors ${
+                activeTab === 'visit' ? 'bg-blue-50 border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+              }`}
+              style={{ borderColor: activeTab === 'visit' ? 'var(--balena-dark)' : 'transparent' }}
+            >
+              <span className="text-lg">🎯</span>
+            </button>
+            <button
+              onClick={() => { setActiveTab('notes'); setIsEditing(false); }}
+              className={`flex-1 min-w-0 px-4 py-3 text-center font-medium transition-colors ${
+                activeTab === 'notes' ? 'bg-blue-50 border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+              }`}
+              style={{ borderColor: activeTab === 'notes' ? 'var(--balena-dark)' : 'transparent' }}
+            >
+              <span className="text-lg">📝</span>
+            </button>
+            <button
+              onClick={() => { setActiveTab('follow'); setIsEditing(false); }}
+              className={`flex-1 min-w-0 px-4 py-3 text-center font-medium transition-colors ${
+                activeTab === 'follow' ? 'bg-blue-50 border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+              }`}
+              style={{ borderColor: activeTab === 'follow' ? 'var(--balena-dark)' : 'transparent' }}
+            >
+              <span className="text-lg">✅</span>
+            </button>
+          </div>
         </div>
 
         {/* Content */}
@@ -285,7 +311,12 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                       style={{ borderColor: 'var(--balena-brown)' }}
                     />
                   ) : (
-                    <div className="text-base font-semibold text-right" style={{ color: 'var(--balena-dark)' }}>
+                    <div 
+                      className={`text-base font-semibold ${
+                        isEnglishText(editedCompany.company || '') ? 'text-left' : 'text-right'
+                      }`} 
+                      style={{ color: 'var(--balena-dark)' }}
+                    >
                       {editedCompany.company || '—'}
                     </div>
                   )}
@@ -303,7 +334,13 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                       style={{ borderColor: 'var(--balena-brown)' }}
                     />
                   ) : (
-                    <div className="text-sm text-right">{editedCompany.location || '—'}</div>
+                    <div 
+                      className={`text-sm ${
+                        isEnglishText(editedCompany.location || '') ? 'text-left' : 'text-right'
+                      }`}
+                    >
+                      {editedCompany.location || '—'}
+                    </div>
                   )}
                 </div>
 
@@ -519,12 +556,14 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
           )}
 
           {activeTab === 'value' && (
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-bold mb-2 text-right" style={{ color: 'var(--balena-dark)' }}>ערך לBalena</label>
-                <div className="p-4 border rounded-lg bg-gray-50 text-sm leading-6 whitespace-pre-wrap" style={{ borderColor: 'var(--balena-brown)', color: 'var(--balena-dark)' }}>
-                  {editedCompany.balena_value || '—'}
-                </div>
+            <div className="space-y-6">
+              <div 
+                className={`text-lg leading-8 whitespace-pre-wrap ${
+                  isEnglishText(editedCompany.balena_value || '') ? 'text-left' : 'text-right'
+                }`} 
+                style={{ color: 'var(--balena-dark)' }}
+              >
+                {editedCompany.balena_value || 'אין מידע זמין על הערך לBalena'}
               </div>
             </div>
           )}
