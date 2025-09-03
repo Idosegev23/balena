@@ -20,6 +20,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [activeTab, setActiveTab] = useState<'info' | 'value' | 'visit' | 'notes' | 'follow'>('info')
+  const [isEditing, setIsEditing] = useState(false)
   const modalRef = useRef<HTMLDivElement>(null)
 
   const sanitizeText = (html: string) => {
@@ -105,10 +106,11 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
       if (error) throw error
 
       setMessage('✅ החברה עודכנה בהצלחה!')
+      setIsEditing(false)
       onUpdate()
       setTimeout(() => {
-        onClose()
-      }, 1500)
+        setMessage('')
+      }, 3000)
     } catch (error) {
       setMessage('❌ שגיאה בשמירה. נסה שוב.')
       console.error('Error updating company:', error)
@@ -188,7 +190,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
         {/* Tabs */}
         <div className="flex border-b sticky top-[64px] md:top-[80px] z-10 bg-white">
           <button
-            onClick={() => setActiveTab('info')}
+            onClick={() => { setActiveTab('info'); setIsEditing(false); }}
             className={`flex-1 px-6 py-3 text-center font-medium transition-colors ${
               activeTab === 'info' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
             }`}
@@ -197,7 +199,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
             📋 פרטי החברה
           </button>
           <button
-            onClick={() => setActiveTab('value')}
+            onClick={() => { setActiveTab('value'); setIsEditing(false); }}
             className={`flex-1 px-6 py-3 text-center font-medium transition-colors ${
               activeTab === 'value' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
             }`}
@@ -206,7 +208,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
             💡 ערך לBalena
           </button>
           <button
-            onClick={() => setActiveTab('visit')}
+            onClick={() => { setActiveTab('visit'); setIsEditing(false); }}
             className={`flex-1 px-6 py-3 text-center font-medium transition-colors ${
               activeTab === 'visit' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
             }`}
@@ -215,7 +217,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
             🎯 תכנון ביקור
           </button>
           <button
-            onClick={() => setActiveTab('notes')}
+            onClick={() => { setActiveTab('notes'); setIsEditing(false); }}
             className={`flex-1 px-6 py-3 text-center font-medium transition-colors ${
               activeTab === 'notes' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
             }`}
@@ -224,7 +226,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
             📝 הערות
           </button>
           <button
-            onClick={() => setActiveTab('follow')}
+            onClick={() => { setActiveTab('follow'); setIsEditing(false); }}
             className={`flex-1 px-6 py-3 text-center font-medium transition-colors ${
               activeTab === 'follow' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
             }`}
@@ -237,103 +239,178 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
         {/* Content */}
         <div id="company-modal-content" className="p-4 md:p-6 overflow-y-auto" style={{ maxHeight: '75vh' }}>
           {activeTab === 'info' && (
-            <div className="space-y-6">
-              {/* Basic Info */}
-              <details className="bg-white border rounded-lg" open>
-                <summary className="px-4 py-3 cursor-pointer text-sm font-medium flex items-center justify-between">פרטי בסיס</summary>
-                <div className="p-4 grid gap-3 grid-cols-1 sm:grid-cols-2">
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-right">שם החברה</label>
-                  <input
-                    type="text"
-                    value={editedCompany.company}
-                    onChange={(e) => handleInputChange('company', e.target.value)}
-                    className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
-                    style={{ borderColor: 'var(--balena-brown)' }}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-right">מיקום</label>
-                  <input
-                    type="text"
-                    value={editedCompany.location || ''}
-                    onChange={(e) => handleInputChange('location', e.target.value)}
-                    className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
-                    style={{ borderColor: 'var(--balena-brown)' }}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-right">אולם</label>
-                  <input
-                    type="text"
-                    value={editedCompany.hall || ''}
-                    onChange={(e) => handleInputChange('hall', e.target.value)}
-                    className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
-                    style={{ borderColor: 'var(--balena-brown)' }}
-                    placeholder="Hall 8a"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-right">דוכן</label>
-                  <input
-                    type="text"
-                    value={editedCompany.stand || ''}
-                    onChange={(e) => handleInputChange('stand', e.target.value)}
-                    className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
-                    style={{ borderColor: 'var(--balena-brown)' }}
-                    placeholder="B40"
-                  />
-                </div>
-                </div>
-              </details>
+            <div className="space-y-4">
+              {/* Edit Button */}
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-bold" style={{ color: 'var(--balena-dark)' }}>
+                  פרטי החברה
+                </h3>
+                <button
+                  onClick={() => setIsEditing(!isEditing)}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                    isEditing 
+                      ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' 
+                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                  }`}
+                >
+                  {isEditing ? '❌ ביטול' : '✏️ עריכה'}
+                </button>
+              </div>
 
-              {/* Contact Info */}
-              <details className="bg-white border rounded-lg" open>
-                <summary className="px-4 py-3 cursor-pointer text-sm font-medium flex items-center justify-between">פרטי קשר</summary>
-                <div className="p-4 grid gap-3 grid-cols-1 sm:grid-cols-2">
-                  <div>
-                    <label className="block text-sm font-medium mb-2 text-right">אימייל</label>
+              {/* Company Info Grid - Always 2 columns */}
+              <div className="grid grid-cols-2 gap-3">
+                {/* Company Name */}
+                <div className="p-3 border rounded-lg bg-white">
+                  <div className="text-xs font-medium text-gray-500 mb-1">שם החברה</div>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={editedCompany.company}
+                      onChange={(e) => handleInputChange('company', e.target.value)}
+                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
+                      style={{ borderColor: 'var(--balena-brown)' }}
+                    />
+                  ) : (
+                    <div className="text-sm font-medium text-right">{editedCompany.company || '—'}</div>
+                  )}
+                </div>
+
+                {/* Location */}
+                <div className="p-3 border rounded-lg bg-white">
+                  <div className="text-xs font-medium text-gray-500 mb-1">מיקום</div>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={editedCompany.location || ''}
+                      onChange={(e) => handleInputChange('location', e.target.value)}
+                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
+                      style={{ borderColor: 'var(--balena-brown)' }}
+                    />
+                  ) : (
+                    <div className="text-sm text-right">{editedCompany.location || '—'}</div>
+                  )}
+                </div>
+
+                {/* Hall */}
+                <div className="p-3 border rounded-lg bg-white">
+                  <div className="text-xs font-medium text-gray-500 mb-1">אולם</div>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={editedCompany.hall || ''}
+                      onChange={(e) => handleInputChange('hall', e.target.value)}
+                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
+                      style={{ borderColor: 'var(--balena-brown)' }}
+                      placeholder="Hall 8a"
+                    />
+                  ) : (
+                    <div className="text-sm text-right font-medium" style={{ color: 'var(--balena-dark)' }}>
+                      {editedCompany.hall || '—'}
+                    </div>
+                  )}
+                </div>
+
+                {/* Stand */}
+                <div className="p-3 border rounded-lg bg-white">
+                  <div className="text-xs font-medium text-gray-500 mb-1">דוכן</div>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={editedCompany.stand || ''}
+                      onChange={(e) => handleInputChange('stand', e.target.value)}
+                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
+                      style={{ borderColor: 'var(--balena-brown)' }}
+                      placeholder="B40"
+                    />
+                  ) : (
+                    <div className="text-sm text-right font-medium" style={{ color: 'var(--balena-dark)' }}>
+                      {editedCompany.stand || '—'}
+                    </div>
+                  )}
+                </div>
+
+                {/* Email */}
+                <div className="p-3 border rounded-lg bg-white">
+                  <div className="text-xs font-medium text-gray-500 mb-1">אימייל</div>
+                  {isEditing ? (
                     <input
                       type="email"
                       value={editedCompany.email || ''}
                       onChange={(e) => handleInputChange('email', e.target.value)}
-                      className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
                       style={{ borderColor: 'var(--balena-brown)' }}
+                      autoComplete="email"
                     />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2 text-right">טלפון</label>
+                  ) : (
+                    <div className="text-sm text-right">
+                      {editedCompany.email ? (
+                        <a href={`mailto:${editedCompany.email}`} className="text-blue-600 hover:underline">
+                          {editedCompany.email}
+                        </a>
+                      ) : '—'}
+                    </div>
+                  )}
+                </div>
+
+                {/* Phone */}
+                <div className="p-3 border rounded-lg bg-white">
+                  <div className="text-xs font-medium text-gray-500 mb-1">טלפון</div>
+                  {isEditing ? (
                     <input
                       type="tel"
                       value={editedCompany.phone || ''}
                       onChange={(e) => handleInputChange('phone', e.target.value)}
-                      className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
                       style={{ borderColor: 'var(--balena-brown)' }}
+                      autoComplete="tel"
                     />
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium mb-2 text-right">אתר אינטרנט</label>
+                  ) : (
+                    <div className="text-sm text-right">
+                      {editedCompany.phone ? (
+                        <a href={`tel:${editedCompany.phone}`} className="text-blue-600 hover:underline">
+                          {editedCompany.phone}
+                        </a>
+                      ) : '—'}
+                    </div>
+                  )}
+                </div>
+
+                {/* Website - Span 2 columns */}
+                <div className="col-span-2 p-3 border rounded-lg bg-white">
+                  <div className="text-xs font-medium text-gray-500 mb-1">אתר אינטרנט</div>
+                  {isEditing ? (
                     <input
                       type="url"
                       value={editedCompany.website || ''}
                       onChange={(e) => handleInputChange('website', e.target.value)}
-                      className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
                       style={{ borderColor: 'var(--balena-brown)' }}
+                      autoComplete="url"
                     />
-                  </div>
+                  ) : (
+                    <div className="text-sm text-right">
+                      {editedCompany.website ? (
+                        <a 
+                          href={editedCompany.website.startsWith('http') ? editedCompany.website : `https://${editedCompany.website}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="text-blue-600 hover:underline"
+                        >
+                          {editedCompany.website}
+                        </a>
+                      ) : '—'}
+                    </div>
+                  )}
                 </div>
-              </details>
 
-              {/* Classification */}
-              <details className="bg-white border rounded-lg" open>
-                <summary className="px-4 py-3 cursor-pointer text-sm font-medium flex items-center justify-between">סיווג</summary>
-                <div className="p-4 grid gap-3 grid-cols-1 sm:grid-cols-2">
-                  <div>
-                    <label className="block text-sm font-medium mb-2 text-right">עדיפות ביקור</label>
+                {/* Visit Priority */}
+                <div className="p-3 border rounded-lg bg-white">
+                  <div className="text-xs font-medium text-gray-500 mb-1">עדיפות ביקור</div>
+                  {isEditing ? (
                     <select
                       value={editedCompany.visit_priority || 'LOW'}
                       onChange={(e) => handleInputChange('visit_priority', e.target.value)}
-                      className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
                       style={{ borderColor: 'var(--balena-brown)' }}
                     >
                       <option value="MUST_VISIT">חובה לבקר</option>
@@ -342,13 +419,24 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                       <option value="LOW">נמוכה</option>
                       <option value="MONITOR_ONLY">מעקב בלבד</option>
                     </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2 text-right">סוג קשר</label>
+                  ) : (
+                    <div className={`inline-block px-2 py-1 rounded text-xs font-medium ${priorityColors[editedCompany.visit_priority || 'LOW']}`}>
+                      {editedCompany.visit_priority === 'MUST_VISIT' ? 'חובה לבקר' : 
+                       editedCompany.visit_priority === 'HIGH' ? 'גבוהה' :
+                       editedCompany.visit_priority === 'MEDIUM' ? 'בינונית' :
+                       editedCompany.visit_priority === 'LOW' ? 'נמוכה' : 'מעקב בלבד'}
+                    </div>
+                  )}
+                </div>
+
+                {/* Connection Type */}
+                <div className="p-3 border rounded-lg bg-white">
+                  <div className="text-xs font-medium text-gray-500 mb-1">סוג קשר</div>
+                  {isEditing ? (
                     <select
                       value={editedCompany.connection_type || 'SUPPLIER'}
                       onChange={(e) => handleInputChange('connection_type', e.target.value)}
-                      className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
                       style={{ borderColor: 'var(--balena-brown)' }}
                     >
                       <option value="SUPPLIER">ספק</option>
@@ -358,13 +446,25 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                       <option value="SERVICE">שירות</option>
                       <option value="STRATEGIC">אסטרטגי</option>
                     </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2 text-right">מחלקה</label>
+                  ) : (
+                    <div className={`inline-block px-2 py-1 rounded text-xs font-medium ${connectionColors[editedCompany.connection_type || 'SUPPLIER']}`}>
+                      {editedCompany.connection_type === 'SUPPLIER' ? 'ספק' :
+                       editedCompany.connection_type === 'PARTNER' ? 'שותף' :
+                       editedCompany.connection_type === 'COMPETITOR' ? 'מתחרה' :
+                       editedCompany.connection_type === 'CUSTOMER' ? 'לקוח' :
+                       editedCompany.connection_type === 'SERVICE' ? 'שירות' : 'אסטרטגי'}
+                    </div>
+                  )}
+                </div>
+
+                {/* Department */}
+                <div className="p-3 border rounded-lg bg-white">
+                  <div className="text-xs font-medium text-gray-500 mb-1">מחלקה</div>
+                  {isEditing ? (
                     <select
                       value={editedCompany.department || 'Commercial'}
                       onChange={(e) => handleInputChange('department', e.target.value)}
-                      className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
                       style={{ borderColor: 'var(--balena-brown)' }}
                     >
                       <option value="Commercial">Commercial</option>
@@ -372,10 +472,29 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                       <option value="R&D">R&D</option>
                       <option value="Marketing">Marketing</option>
                     </select>
-                  </div>
+                  ) : (
+                    <div className="text-sm text-right font-medium">
+                      {editedCompany.department || '—'}
+                    </div>
+                  )}
                 </div>
-              </details>
 
+                {/* Where they present */}
+                <div className="p-3 border rounded-lg bg-white">
+                  <div className="text-xs font-medium text-gray-500 mb-1">היכן הם נוכחים</div>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={editedCompany.where_they_present || ''}
+                      onChange={(e) => handleInputChange('where_they_present', e.target.value)}
+                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
+                      style={{ borderColor: 'var(--balena-brown)' }}
+                    />
+                  ) : (
+                    <div className="text-sm text-right">{editedCompany.where_they_present || '—'}</div>
+                  )}
+                </div>
+              </div>
             </div>
           )}
 
@@ -451,31 +570,35 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between p-6 border-t bg-gray-50">
-          {message && (
-            <div className="text-sm font-medium">
-              {message}
-            </div>
-          )}
-          <div className="flex gap-3 mr-auto">
-            <button
-              onClick={onClose}
-              disabled={loading}
-              className="px-6 py-2 border rounded-lg hover:bg-gray-50 disabled:opacity-50"
-              style={{ borderColor: 'var(--balena-brown)', color: 'var(--balena-brown)' }}
-            >
-              ביטול
-            </button>
-            <button
-              onClick={handleSave}
-              disabled={loading}
-              className="px-6 py-2 rounded-lg text-white font-medium hover:shadow-lg disabled:opacity-50"
-              style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}
-            >
-              {loading ? '⏳ שומר...' : '💾 שמור שינויים'}
-            </button>
+        {(isEditing || message) && (
+          <div className="flex items-center justify-between p-6 border-t bg-gray-50">
+            {message && (
+              <div className="text-sm font-medium">
+                {message}
+              </div>
+            )}
+            {isEditing && (
+              <div className="flex gap-3 mr-auto">
+                <button
+                  onClick={() => setIsEditing(false)}
+                  disabled={loading}
+                  className="px-6 py-2 border rounded-lg hover:bg-gray-50 disabled:opacity-50"
+                  style={{ borderColor: 'var(--balena-brown)', color: 'var(--balena-brown)' }}
+                >
+                  ביטול
+                </button>
+                <button
+                  onClick={handleSave}
+                  disabled={loading}
+                  className="px-6 py-2 rounded-lg text-white font-medium hover:shadow-lg disabled:opacity-50"
+                  style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}
+                >
+                  {loading ? '⏳ שומר...' : '💾 שמור שינויים'}
+                </button>
+              </div>
+            )}
           </div>
-        </div>
+        )}
       </div>
     </div>
   )
