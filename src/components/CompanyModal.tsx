@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { Company, supabase } from '@/lib/supabase'
-import { X, Star, MapPin, Phone, Mail, Globe, Building2, Users, Calendar, FileText, Camera, Bookmark } from 'lucide-react'
+import { X, Star, MapPin, Phone, Mail, Globe, Building2, Users, Calendar, FileText, Camera, Bookmark, ArrowLeft, Info, Lightbulb, Target, CheckSquare } from 'lucide-react'
 import { VisitTracker } from './VisitTracker'
 import { BusinessCardScanner } from './BusinessCardScanner'
 import { NotesAndPhotos } from './NotesAndPhotos'
@@ -185,10 +185,10 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
           {/* Bottom Row - Priority & Score */}
           <div className="flex items-center gap-2 justify-center">
             <div className={`px-3 py-1 rounded-full text-xs font-medium ${priorityColors[company.visit_priority || 'LOW']}`}>
-              {company.visit_priority === 'MUST_VISIT' ? '🔥 חובה לבקר' : 
-               company.visit_priority === 'HIGH' ? '⭐ גבוהה' :
-               company.visit_priority === 'MEDIUM' ? '📍 בינונית' :
-               company.visit_priority === 'LOW' ? '📎 נמוכה' : '👁 מעקב בלבד'}
+              {company.visit_priority === 'MUST_VISIT' ? 'חובה לבקר' : 
+               company.visit_priority === 'HIGH' ? 'עדיפות גבוהה' :
+               company.visit_priority === 'MEDIUM' ? 'עדיפות בינונית' :
+               company.visit_priority === 'LOW' ? 'עדיפות נמוכה' : 'מעקב בלבד'}
             </div>
             {company.relevance_score && (
               <div className="flex items-center gap-1 px-3 py-1 bg-white/20 rounded-full text-white">
@@ -198,7 +198,8 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
             )}
             {company.hall && company.stand && (
               <div className="flex items-center gap-1 px-3 py-1 bg-white/20 rounded-full text-white">
-                <span className="text-sm font-bold">🏢 {company.hall}/{company.stand}</span>
+                <Building2 className="w-3 h-3" />
+                <span className="text-sm font-bold">{company.hall}/{company.stand}</span>
               </div>
             )}
           </div>
@@ -213,15 +214,40 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
               className="flex items-center gap-2 px-3 py-1 rounded-lg hover:bg-gray-200 transition-colors"
               style={{ color: 'var(--balena-dark)' }}
             >
-              <span className="text-lg">←</span>
+              <ArrowLeft className="w-4 h-4" />
               <span className="text-sm font-medium">חזור</span>
             </button>
             <h3 className="flex-1 text-base font-bold text-center" style={{ color: 'var(--balena-dark)' }}>
-              {activeTab === 'info' && '📋 פרטי החברה'}
-              {activeTab === 'value' && '💡 ערך לBalena'}
-              {activeTab === 'visit' && '🎯 תכנון ביקור'}
-              {activeTab === 'notes' && '📝 הערות'}
-              {activeTab === 'follow' && '✅ פולואפ'}
+              {activeTab === 'info' && (
+                <div className="flex items-center justify-center gap-2">
+                  <Info className="w-4 h-4" />
+                  <span>פרטי החברה</span>
+                </div>
+              )}
+              {activeTab === 'value' && (
+                <div className="flex items-center justify-center gap-2">
+                  <Lightbulb className="w-4 h-4" />
+                  <span>ערך לBalena</span>
+                </div>
+              )}
+              {activeTab === 'visit' && (
+                <div className="flex items-center justify-center gap-2">
+                  <Target className="w-4 h-4" />
+                  <span>תכנון ביקור</span>
+                </div>
+              )}
+              {activeTab === 'notes' && (
+                <div className="flex items-center justify-center gap-2">
+                  <FileText className="w-4 h-4" />
+                  <span>הערות</span>
+                </div>
+              )}
+              {activeTab === 'follow' && (
+                <div className="flex items-center justify-center gap-2">
+                  <CheckSquare className="w-4 h-4" />
+                  <span>פולואפ</span>
+                </div>
+              )}
             </h3>
             <div className="w-16"></div> {/* Spacer for centering */}
           </div>
@@ -230,48 +256,48 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
           <div className="flex overflow-x-auto hide-scrollbar">
             <button
               onClick={() => { setActiveTab('info'); setIsEditing(false); }}
-              className={`flex-1 min-w-0 px-4 py-3 text-center font-medium transition-colors ${
+              className={`flex-1 min-w-0 px-4 py-3 text-center font-medium transition-colors flex items-center justify-center ${
                 activeTab === 'info' ? 'bg-blue-50 border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
               }`}
               style={{ borderColor: activeTab === 'info' ? 'var(--balena-dark)' : 'transparent' }}
             >
-              <span className="text-lg">📋</span>
+              <Info className="w-4 h-4" />
             </button>
             <button
               onClick={() => { setActiveTab('value'); setIsEditing(false); }}
-              className={`flex-1 min-w-0 px-4 py-3 text-center font-medium transition-colors ${
+              className={`flex-1 min-w-0 px-4 py-3 text-center font-medium transition-colors flex items-center justify-center ${
                 activeTab === 'value' ? 'bg-blue-50 border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
               }`}
               style={{ borderColor: activeTab === 'value' ? 'var(--balena-dark)' : 'transparent' }}
             >
-              <span className="text-lg">💡</span>
+              <Lightbulb className="w-4 h-4" />
             </button>
             <button
               onClick={() => { setActiveTab('visit'); setIsEditing(false); }}
-              className={`flex-1 min-w-0 px-4 py-3 text-center font-medium transition-colors ${
+              className={`flex-1 min-w-0 px-4 py-3 text-center font-medium transition-colors flex items-center justify-center ${
                 activeTab === 'visit' ? 'bg-blue-50 border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
               }`}
               style={{ borderColor: activeTab === 'visit' ? 'var(--balena-dark)' : 'transparent' }}
             >
-              <span className="text-lg">🎯</span>
+              <Target className="w-4 h-4" />
             </button>
             <button
               onClick={() => { setActiveTab('notes'); setIsEditing(false); }}
-              className={`flex-1 min-w-0 px-4 py-3 text-center font-medium transition-colors ${
+              className={`flex-1 min-w-0 px-4 py-3 text-center font-medium transition-colors flex items-center justify-center ${
                 activeTab === 'notes' ? 'bg-blue-50 border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
               }`}
               style={{ borderColor: activeTab === 'notes' ? 'var(--balena-dark)' : 'transparent' }}
             >
-              <span className="text-lg">📝</span>
+              <FileText className="w-4 h-4" />
             </button>
             <button
               onClick={() => { setActiveTab('follow'); setIsEditing(false); }}
-              className={`flex-1 min-w-0 px-4 py-3 text-center font-medium transition-colors ${
+              className={`flex-1 min-w-0 px-4 py-3 text-center font-medium transition-colors flex items-center justify-center ${
                 activeTab === 'follow' ? 'bg-blue-50 border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
               }`}
               style={{ borderColor: activeTab === 'follow' ? 'var(--balena-dark)' : 'transparent' }}
             >
-              <span className="text-lg">✅</span>
+              <CheckSquare className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -347,7 +373,8 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                 {/* Hall - Highlighted for Navigation */}
                 <div className="p-4 border-2 border-blue-200 rounded-xl bg-blue-50 shadow-sm">
                   <div className="text-xs font-semibold text-blue-600 mb-2 flex items-center gap-1">
-                    🏢 אולם
+                    <Building2 className="w-3 h-3" />
+                    אולם
                   </div>
                   {isEditing ? (
                     <input
@@ -368,7 +395,8 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                 {/* Stand - Highlighted for Navigation */}
                 <div className="p-4 border-2 border-blue-200 rounded-xl bg-blue-50 shadow-sm">
                   <div className="text-xs font-semibold text-blue-600 mb-2 flex items-center gap-1">
-                    📍 דוכן
+                    <MapPin className="w-3 h-3" />
+                    דוכן
                   </div>
                   {isEditing ? (
                     <input

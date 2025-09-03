@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/components/AuthProvider'
 import { supabase, Company } from '@/lib/supabase'
-import { Building2 } from 'lucide-react'
+import { Building2, Star, CheckSquare, Calendar, MapPin, Lightbulb } from 'lucide-react'
 import { CompanyModal } from '@/components/CompanyModal'
 import { RealtimeRating } from '@/components/RealtimeRating'
 import { SmartRecommendations } from '@/components/SmartRecommendations'
@@ -463,9 +463,9 @@ export default function Home() {
         <div ref={elementRef} className="max-w-7xl mx-auto p-3 sm:p-4 lg:p-6 pb-24 overflow-y-auto">
           <div className="space-y-4">
           {/* Mobile-First Welcome */}
-          <div className="text-center py-3 bg-white rounded-lg shadow-sm">
-            <h2 className="text-lg sm:text-xl font-bold mb-1 flex items-center justify-center gap-2" style={{ color: 'var(--balena-dark)' }}>
-              🎯 K-Show 2025
+          <div className="text-center py-4 bg-white rounded-lg shadow-sm">
+            <h2 className="text-lg sm:text-xl font-bold mb-1" style={{ color: 'var(--balena-dark)' }}>
+              K-Show 2025
             </h2>
             <p className="text-xs sm:text-sm" style={{ color: 'var(--balena-brown)' }}>
               Düsseldorf • 8-15 באוקטובר
@@ -532,30 +532,42 @@ export default function Home() {
           <div className="grid gap-2 grid-cols-2 lg:grid-cols-4">
             <button 
               onClick={() => setShowDiscoveryPage(true)}
-              className="bg-white rounded-lg p-3 sm:p-4 shadow-sm text-center hover:shadow-md transition-all hover:bg-blue-50 active:scale-95"
+              className="bg-white rounded-lg p-3 sm:p-4 shadow-sm text-center hover:shadow-md transition-all hover:bg-blue-50 active:scale-95 flex flex-col items-center gap-2"
             >
-              <div className="text-xl sm:text-2xl font-bold mb-1" style={{ color: 'var(--balena-dark)' }}>
+              <div className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--balena-dark)' }}>
                 {stats?.totalCompanies || 0}
               </div>
-              <div className="text-xs font-medium">🔍 גלה</div>
+              <div className="text-xs font-medium flex items-center gap-1">
+                <Building2 className="w-3 h-3" />
+                גלה חברות
+              </div>
             </button>
-            <div className="bg-white rounded-lg p-3 sm:p-4 shadow-sm text-center border-l-4 border-red-500">
-              <div className="text-xl sm:text-2xl font-bold mb-1 text-red-600">
+            <div className="bg-white rounded-lg p-3 sm:p-4 shadow-sm text-center border-l-4 border-red-500 flex flex-col items-center gap-2">
+              <div className="text-xl sm:text-2xl font-bold text-red-600">
                 {stats?.mustVisitCompanies || 0}
               </div>
-              <div className="text-xs font-medium">⭐ חובה</div>
+              <div className="text-xs font-medium flex items-center gap-1">
+                <Star className="w-3 h-3 text-red-500" />
+                חובה לבקר
+              </div>
             </div>
-            <div className="bg-white rounded-lg p-3 sm:p-4 shadow-sm text-center border-l-4 border-green-500">
-              <div className="text-xl sm:text-2xl font-bold mb-1 text-green-600">
+            <div className="bg-white rounded-lg p-3 sm:p-4 shadow-sm text-center border-l-4 border-green-500 flex flex-col items-center gap-2">
+              <div className="text-xl sm:text-2xl font-bold text-green-600">
                 {stats?.visitedCompanies || 0}
               </div>
-              <div className="text-xs font-medium">✅ בוקרו</div>
+              <div className="text-xs font-medium flex items-center gap-1">
+                <CheckSquare className="w-3 h-3 text-green-500" />
+                בוקרו
+              </div>
             </div>
-            <div className="bg-white rounded-lg p-3 sm:p-4 shadow-sm text-center border-l-4 border-blue-500">
-              <div className="text-xl sm:text-2xl font-bold mb-1 text-blue-600">
+            <div className="bg-white rounded-lg p-3 sm:p-4 shadow-sm text-center border-l-4 border-blue-500 flex flex-col items-center gap-2">
+              <div className="text-xl sm:text-2xl font-bold text-blue-600">
                 {stats?.followUpRequired || 0}
               </div>
-              <div className="text-xs font-medium">📋 פולואפ</div>
+              <div className="text-xs font-medium flex items-center gap-1">
+                <Calendar className="w-3 h-3 text-blue-500" />
+                פולואפ
+              </div>
             </div>
           </div>
 
@@ -608,8 +620,9 @@ export default function Home() {
           {companies.length > 0 && (
             <div className="bg-white rounded-lg p-4 shadow-sm">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-lg font-bold" style={{ color: 'var(--balena-dark)' }}>
-                  🎯 חברות חובה
+                <h3 className="text-lg font-bold flex items-center gap-2" style={{ color: 'var(--balena-dark)' }}>
+                  <Star className="w-5 h-5 text-red-500" />
+                  חברות חובה
                 </h3>
                 <span className="text-xs px-2 py-1 bg-red-100 text-red-800 rounded-full">
                   {companies.filter(c => (!deptFilter || c.department === deptFilter) && c.visit_priority === 'MUST_VISIT').length}
@@ -632,12 +645,14 @@ export default function Home() {
                             {company.company}
                           </h4>
                           <div className="flex items-center gap-2">
-                            <span className="px-2 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full">
-                              🔥 חובה לבקר
+                            <span className="px-2 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full flex items-center gap-1">
+                              <Star className="w-3 h-3" />
+                              חובה לבקר
                             </span>
                             {company.relevance_score && (
-                              <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">
-                                ⭐ {company.relevance_score}/10
+                              <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full flex items-center gap-1">
+                                <Star className="w-3 h-3" />
+                                {company.relevance_score}/10
                               </span>
                             )}
                           </div>
@@ -647,11 +662,13 @@ export default function Home() {
                       {/* Location and booth info */}
                       <div className="flex items-center gap-3 mb-3 text-sm">
                         <span className="flex items-center gap-1" style={{ color: 'var(--balena-brown)' }}>
-                          📍 {company.location}
+                          <MapPin className="w-3 h-3" />
+                          {company.location}
                         </span>
                         {company.hall && company.stand && (
                           <span className="flex items-center gap-1 font-bold text-blue-600">
-                            🏢 {company.hall}/{company.stand}
+                            <Building2 className="w-3 h-3" />
+                            {company.hall}/{company.stand}
                           </span>
                         )}
                       </div>
@@ -659,9 +676,12 @@ export default function Home() {
                       {/* Value preview */}
                       {company.balena_value && (
                         <div className="mb-3 p-3 bg-gray-50 rounded-lg">
-                          <p className="text-sm leading-relaxed" style={{ color: 'var(--balena-dark)' }}>
-                            💡 {company.balena_value.slice(0, 120)}...
-                          </p>
+                          <div className="flex items-start gap-2">
+                            <Lightbulb className="w-3 h-3 mt-0.5 text-yellow-500 flex-shrink-0" />
+                            <p className="text-sm leading-relaxed" style={{ color: 'var(--balena-dark)' }}>
+                              {company.balena_value.slice(0, 120)}...
+                            </p>
+                          </div>
                         </div>
                       )}
 
