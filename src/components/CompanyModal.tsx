@@ -143,7 +143,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/50 z-50 flex md:items-center md:justify-center md:p-4"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -151,93 +151,107 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
       aria-describedby="company-modal-content"
     >
       <div
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden"
-        style={{ maxHeight: '90vh' }}
+        className="bg-white w-full h-full md:max-w-4xl md:h-auto md:max-h-[90vh] md:rounded-2xl shadow-2xl overflow-hidden flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 md:p-6 border-b sticky top-0 z-10" style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)`, paddingTop: 'max(1rem, env(safe-area-inset-top))' }}>
-          <div className="flex items-center gap-3 md:gap-4 min-w-0">
-            <Building2 className="w-8 h-8 text-white" />
-            <div>
-              <h2 id="company-modal-title" className="text-xl md:text-2xl font-bold text-white truncate max-w-[60vw] md:max-w-none">{company.company}</h2>
-              <p className="text-white/80 truncate max-w-[60vw] md:max-w-none">{company.location}</p>
+        {/* Header - Mobile Optimized */}
+        <div className="flex flex-col gap-3 p-4 border-b" style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)`, paddingTop: 'max(1rem, env(safe-area-inset-top))' }}>
+          {/* Top Row - Company Name & Close */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3 min-w-0 flex-1">
+              <Building2 className="w-6 h-6 text-white flex-shrink-0" />
+              <div className="min-w-0 flex-1">
+                <h2 id="company-modal-title" className="text-lg font-bold text-white truncate">{company.company}</h2>
+                <p className="text-white/80 text-sm truncate">{company.location}</p>
+              </div>
             </div>
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-white/20 rounded-lg text-white flex-shrink-0"
+              aria-label="סגור"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
-          <div className="flex items-center gap-3">
-            <div className={`px-3 py-1 rounded-full text-sm font-medium ${priorityColors[company.visit_priority || 'LOW']}`}>
-              {company.visit_priority === 'MUST_VISIT' ? 'חובה לבקר' : 
-               company.visit_priority === 'HIGH' ? 'גבוהה' :
-               company.visit_priority === 'MEDIUM' ? 'בינונית' :
-               company.visit_priority === 'LOW' ? 'נמוכה' : 'מעקב בלבד'}
+          
+          {/* Bottom Row - Priority & Score */}
+          <div className="flex items-center gap-2 justify-center">
+            <div className={`px-3 py-1 rounded-full text-xs font-medium ${priorityColors[company.visit_priority || 'LOW']}`}>
+              {company.visit_priority === 'MUST_VISIT' ? '🔥 חובה לבקר' : 
+               company.visit_priority === 'HIGH' ? '⭐ גבוהה' :
+               company.visit_priority === 'MEDIUM' ? '📍 בינונית' :
+               company.visit_priority === 'LOW' ? '📎 נמוכה' : '👁 מעקב בלבד'}
             </div>
             {company.relevance_score && (
               <div className="flex items-center gap-1 px-3 py-1 bg-white/20 rounded-full text-white">
-                <Star className="w-4 h-4" />
-                <span className="font-bold">{company.relevance_score}/10</span>
+                <Star className="w-3 h-3" />
+                <span className="font-bold text-sm">{company.relevance_score}/10</span>
               </div>
             )}
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-white/20 rounded-lg text-white"
-              aria-label="סגור"
-            >
-              <X className="w-6 h-6" />
-            </button>
+            {company.hall && company.stand && (
+              <div className="flex items-center gap-1 px-3 py-1 bg-white/20 rounded-full text-white">
+                <span className="text-sm font-bold">🏢 {company.hall}/{company.stand}</span>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="flex border-b sticky top-[64px] md:top-[80px] z-10 bg-white">
+        {/* Tabs - Mobile Optimized */}
+        <div className="flex border-b bg-white overflow-x-auto hide-scrollbar">
           <button
             onClick={() => { setActiveTab('info'); setIsEditing(false); }}
-            className={`flex-1 px-6 py-3 text-center font-medium transition-colors ${
+            className={`flex-1 min-w-0 px-3 py-3 text-center font-medium transition-colors flex flex-col items-center gap-1 ${
               activeTab === 'info' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
             }`}
             style={{ borderColor: activeTab === 'info' ? 'var(--balena-dark)' : 'transparent' }}
           >
-            📋 פרטי החברה
+            <span className="text-lg">📋</span>
+            <span className="text-xs hidden sm:inline">פרטים</span>
           </button>
           <button
             onClick={() => { setActiveTab('value'); setIsEditing(false); }}
-            className={`flex-1 px-6 py-3 text-center font-medium transition-colors ${
+            className={`flex-1 min-w-0 px-3 py-3 text-center font-medium transition-colors flex flex-col items-center gap-1 ${
               activeTab === 'value' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
             }`}
             style={{ borderColor: activeTab === 'value' ? 'var(--balena-dark)' : 'transparent' }}
           >
-            💡 ערך לBalena
+            <span className="text-lg">💡</span>
+            <span className="text-xs hidden sm:inline">ערך</span>
           </button>
           <button
             onClick={() => { setActiveTab('visit'); setIsEditing(false); }}
-            className={`flex-1 px-6 py-3 text-center font-medium transition-colors ${
+            className={`flex-1 min-w-0 px-3 py-3 text-center font-medium transition-colors flex flex-col items-center gap-1 ${
               activeTab === 'visit' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
             }`}
             style={{ borderColor: activeTab === 'visit' ? 'var(--balena-dark)' : 'transparent' }}
           >
-            🎯 תכנון ביקור
+            <span className="text-lg">🎯</span>
+            <span className="text-xs hidden sm:inline">ביקור</span>
           </button>
           <button
             onClick={() => { setActiveTab('notes'); setIsEditing(false); }}
-            className={`flex-1 px-6 py-3 text-center font-medium transition-colors ${
+            className={`flex-1 min-w-0 px-3 py-3 text-center font-medium transition-colors flex flex-col items-center gap-1 ${
               activeTab === 'notes' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
             }`}
             style={{ borderColor: activeTab === 'notes' ? 'var(--balena-dark)' : 'transparent' }}
           >
-            📝 הערות
+            <span className="text-lg">📝</span>
+            <span className="text-xs hidden sm:inline">הערות</span>
           </button>
           <button
             onClick={() => { setActiveTab('follow'); setIsEditing(false); }}
-            className={`flex-1 px-6 py-3 text-center font-medium transition-colors ${
+            className={`flex-1 min-w-0 px-3 py-3 text-center font-medium transition-colors flex flex-col items-center gap-1 ${
               activeTab === 'follow' ? 'border-b-2 text-blue-600' : 'text-gray-600 hover:text-gray-800'
             }`}
             style={{ borderColor: activeTab === 'follow' ? 'var(--balena-dark)' : 'transparent' }}
           >
-            ✅ פולואפ
+            <span className="text-lg">✅</span>
+            <span className="text-xs hidden sm:inline">פולואפ</span>
           </button>
         </div>
 
         {/* Content */}
-        <div id="company-modal-content" className="p-4 md:p-6 overflow-y-auto" style={{ maxHeight: '75vh' }}>
+        <div id="company-modal-content" className="flex-1 p-4 md:p-6 overflow-y-auto" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
           {activeTab === 'info' && (
             <div className="space-y-4">
               {/* Edit Button */}
@@ -257,21 +271,23 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                 </button>
               </div>
 
-              {/* Company Info Grid - Always 2 columns */}
-              <div className="grid grid-cols-2 gap-3">
+              {/* Company Info Grid - Mobile Optimized */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Company Name */}
-                <div className="p-3 border rounded-lg bg-white">
-                  <div className="text-xs font-medium text-gray-500 mb-1">שם החברה</div>
+                <div className="p-4 border rounded-xl bg-white shadow-sm">
+                  <div className="text-xs font-semibold text-gray-500 mb-2">שם החברה</div>
                   {isEditing ? (
                     <input
                       type="text"
                       value={editedCompany.company}
                       onChange={(e) => handleInputChange('company', e.target.value)}
-                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
+                      className="w-full p-3 border rounded-lg text-base text-right focus:outline-none focus:ring-2 focus:ring-blue-500"
                       style={{ borderColor: 'var(--balena-brown)' }}
                     />
                   ) : (
-                    <div className="text-sm font-medium text-right">{editedCompany.company || '—'}</div>
+                    <div className="text-base font-semibold text-right" style={{ color: 'var(--balena-dark)' }}>
+                      {editedCompany.company || '—'}
+                    </div>
                   )}
                 </div>
 
@@ -291,39 +307,43 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                   )}
                 </div>
 
-                {/* Hall */}
-                <div className="p-3 border rounded-lg bg-white">
-                  <div className="text-xs font-medium text-gray-500 mb-1">אולם</div>
+                {/* Hall - Highlighted for Navigation */}
+                <div className="p-4 border-2 border-blue-200 rounded-xl bg-blue-50 shadow-sm">
+                  <div className="text-xs font-semibold text-blue-600 mb-2 flex items-center gap-1">
+                    🏢 אולם
+                  </div>
                   {isEditing ? (
                     <input
                       type="text"
                       value={editedCompany.hall || ''}
                       onChange={(e) => handleInputChange('hall', e.target.value)}
-                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
+                      className="w-full p-3 border rounded-lg text-base text-right focus:outline-none focus:ring-2 focus:ring-blue-500"
                       style={{ borderColor: 'var(--balena-brown)' }}
                       placeholder="Hall 8a"
                     />
                   ) : (
-                    <div className="text-sm text-right font-medium" style={{ color: 'var(--balena-dark)' }}>
+                    <div className="text-lg font-bold text-right text-blue-700">
                       {editedCompany.hall || '—'}
                     </div>
                   )}
                 </div>
 
-                {/* Stand */}
-                <div className="p-3 border rounded-lg bg-white">
-                  <div className="text-xs font-medium text-gray-500 mb-1">דוכן</div>
+                {/* Stand - Highlighted for Navigation */}
+                <div className="p-4 border-2 border-blue-200 rounded-xl bg-blue-50 shadow-sm">
+                  <div className="text-xs font-semibold text-blue-600 mb-2 flex items-center gap-1">
+                    📍 דוכן
+                  </div>
                   {isEditing ? (
                     <input
                       type="text"
                       value={editedCompany.stand || ''}
                       onChange={(e) => handleInputChange('stand', e.target.value)}
-                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
+                      className="w-full p-3 border rounded-lg text-base text-right focus:outline-none focus:ring-2 focus:ring-blue-500"
                       style={{ borderColor: 'var(--balena-brown)' }}
                       placeholder="B40"
                     />
                   ) : (
-                    <div className="text-sm text-right font-medium" style={{ color: 'var(--balena-dark)' }}>
+                    <div className="text-lg font-bold text-right text-blue-700">
                       {editedCompany.stand || '—'}
                     </div>
                   )}
@@ -569,20 +589,20 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
           )}
         </div>
 
-        {/* Footer */}
+        {/* Footer - Mobile Optimized */}
         {(isEditing || message) && (
-          <div className="flex items-center justify-between p-6 border-t bg-gray-50">
+          <div className="border-t bg-white" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
             {message && (
-              <div className="text-sm font-medium">
+              <div className="p-4 text-center text-sm font-medium" style={{ color: 'var(--balena-dark)' }}>
                 {message}
               </div>
             )}
             {isEditing && (
-              <div className="flex gap-3 mr-auto">
+              <div className="flex gap-3 p-4">
                 <button
                   onClick={() => setIsEditing(false)}
                   disabled={loading}
-                  className="px-6 py-2 border rounded-lg hover:bg-gray-50 disabled:opacity-50"
+                  className="flex-1 py-3 border rounded-lg hover:bg-gray-50 disabled:opacity-50 font-medium"
                   style={{ borderColor: 'var(--balena-brown)', color: 'var(--balena-brown)' }}
                 >
                   ביטול
@@ -590,10 +610,10 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                 <button
                   onClick={handleSave}
                   disabled={loading}
-                  className="px-6 py-2 rounded-lg text-white font-medium hover:shadow-lg disabled:opacity-50"
+                  className="flex-1 py-3 rounded-lg text-white font-medium hover:shadow-lg disabled:opacity-50"
                   style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}
                 >
-                  {loading ? '⏳ שומר...' : '💾 שמור שינויים'}
+                  {loading ? '⏳ שומר...' : '💾 שמור'}
                 </button>
               </div>
             )}
