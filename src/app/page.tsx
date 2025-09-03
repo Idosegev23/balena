@@ -11,6 +11,11 @@ import { RouteOptimizer } from '@/components/RouteOptimizer'
 import { LiveCompanyAdd } from '@/components/LiveCompanyAdd'
 import { DataExport } from '@/components/DataExport'
 import { CompanyDiscoveryPage } from '@/components/CompanyDiscoveryPage'
+import { BottomNavigation } from '@/components/BottomNavigation'
+import { VisitsDashboard } from '@/components/VisitsDashboard'
+import { QuickAddModal } from '@/components/QuickAddModal'
+import { usePullToRefresh } from '@/hooks/usePullToRefresh'
+import { PullToRefreshIndicator } from '@/components/PullToRefreshIndicator'
 
 interface DashboardStats {
   totalCompanies: number
@@ -34,6 +39,8 @@ export default function Home() {
   const [showCompanyModal, setShowCompanyModal] = useState(false)
   const [showDiscoveryPage, setShowDiscoveryPage] = useState(false)
   const [deptFilter, setDeptFilter] = useState<string>('')
+  const [activeView, setActiveView] = useState<'dashboard' | 'discovery' | 'visits' | 'settings'>('dashboard')
+  const [showQuickAddModal, setShowQuickAddModal] = useState(false)
 
   // Fetch dashboard data
   useEffect(() => {
@@ -89,6 +96,12 @@ export default function Home() {
     }
   }
 
+  // Pull to refresh
+  const { elementRef, isRefreshing, pullDistance, pullToRefreshStyles, threshold } = usePullToRefresh({
+    onRefresh: fetchDashboardData,
+    disabled: activeView !== 'dashboard'
+  })
+
   const handleCompanyClick = (company: Company) => {
     setSelectedCompany(company)
     setShowCompanyModal(true)
@@ -101,6 +114,34 @@ export default function Home() {
 
   const handleUpdateCompany = () => {
     fetchDashboardData() // Refresh data after update
+  }
+
+  const handleViewChange = (view: 'dashboard' | 'discovery' | 'visits' | 'settings') => {
+    setActiveView(view)
+    if (view === 'discovery') {
+      setShowDiscoveryPage(true)
+    } else {
+      setShowDiscoveryPage(false)
+    }
+  }
+
+  const handleQuickAddActions = {
+    addCompany: () => {
+      setShowDiscoveryPage(true)
+      setActiveView('discovery')
+    },
+    scanCard: () => {
+      // TODO: Implement business card scanning
+      setMessage('תכונת סריקה בפיתוח')
+    },
+    addNote: () => {
+      // TODO: Implement quick note
+      setMessage('תכונת הערה מהירה בפיתוח')
+    },
+    scheduleVisit: () => {
+      // TODO: Implement visit scheduling
+      setMessage('תכונת תזמון ביקור בפיתוח')
+    }
   }
 
   const handleAuth = async (e: React.FormEvent) => {
@@ -409,9 +450,18 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Pull to Refresh Indicator */}
+      <PullToRefreshIndicator 
+        isRefreshing={isRefreshing}
+        pullDistance={pullDistance}
+        threshold={threshold}
+        style={pullToRefreshStyles}
+      />
+
       {/* Mobile-First Content */}
-      <div className="max-w-7xl mx-auto p-3 sm:p-4 lg:p-6">
-        <div className="space-y-4">
+      {activeView === 'dashboard' && (
+        <div ref={elementRef} className="max-w-7xl mx-auto p-3 sm:p-4 lg:p-6 pb-24 overflow-y-auto">
+          <div className="space-y-4">
           {/* Mobile-First Welcome */}
           <div className="text-center py-3 bg-white rounded-lg shadow-sm">
             <h2 className="text-lg sm:text-xl font-bold mb-1 flex items-center justify-center gap-2" style={{ color: 'var(--balena-dark)' }}>
@@ -422,33 +472,59 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Active Department Filter */}
-          <div className="bg-white rounded-lg p-3 shadow-sm flex items-center justify-between">
-            <div className="text-sm" style={{ color: 'var(--balena-dark)' }}>
-              סינון ברירת מחדל לפי מחלקה
-            </div>
-            <div className="flex items-center gap-2">
-              <select
-                value={deptFilter}
-                onChange={(e) => setDeptFilter(e.target.value)}
-                className="px-2 py-1 border rounded-lg text-sm"
-                style={{ borderColor: 'var(--balena-brown)' }}
+          {/* Department Filter Tabs - Mobile First */}
+          <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div className="flex border-b">
+              <button
+                onClick={() => setDeptFilter('')}
+                className={`flex-1 px-3 py-2 text-sm font-medium transition-colors ${
+                  !deptFilter 
+                    ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
+                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+                }`}
               >
-                <option value="">כל המחלקות</option>
-                <option value="Commercial">Commercial</option>
-                <option value="Operations">Operations</option>
-                <option value="R&D">R&D</option>
-                <option value="Marketing">Marketing</option>
-              </select>
-              {deptFilter && (
-                <button
-                  onClick={() => setDeptFilter('')}
-                  className="px-2 py-1 border rounded-lg text-xs hover:bg-gray-50"
-                  style={{ borderColor: 'var(--balena-brown)', color: 'var(--balena-brown)' }}
-                >
-                  נקה
-                </button>
-              )}
+                כל המחלקות
+              </button>
+              <button
+                onClick={() => setDeptFilter('Commercial')}
+                className={`flex-1 px-3 py-2 text-sm font-medium transition-colors ${
+                  deptFilter === 'Commercial' 
+                    ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
+                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+                }`}
+              >
+                מסחר
+              </button>
+              <button
+                onClick={() => setDeptFilter('Operations')}
+                className={`flex-1 px-3 py-2 text-sm font-medium transition-colors ${
+                  deptFilter === 'Operations' 
+                    ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
+                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+                }`}
+              >
+                תפעול
+              </button>
+              <button
+                onClick={() => setDeptFilter('R&D')}
+                className={`flex-1 px-3 py-2 text-sm font-medium transition-colors ${
+                  deptFilter === 'R&D' 
+                    ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
+                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+                }`}
+              >
+                מו״פ
+              </button>
+              <button
+                onClick={() => setDeptFilter('Marketing')}
+                className={`flex-1 px-3 py-2 text-sm font-medium transition-colors ${
+                  deptFilter === 'Marketing' 
+                    ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
+                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+                }`}
+              >
+                שיווק
+              </button>
             </div>
           </div>
 
@@ -539,7 +615,7 @@ export default function Home() {
                   {companies.filter(c => (!deptFilter || c.department === deptFilter) && c.visit_priority === 'MUST_VISIT').length}
                 </span>
               </div>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="space-y-4">
                 {companies
                   .filter(company => (!deptFilter || company.department === deptFilter) && company.visit_priority === 'MUST_VISIT')
                   .slice(0, 6)
@@ -547,40 +623,61 @@ export default function Home() {
                     <button
                       key={company.id}
                       onClick={() => handleCompanyClick(company)}
-                      className="border rounded-lg p-3 hover:shadow-md transition-all text-right bg-gray-50 hover:bg-white cursor-pointer group"
-                      style={{ borderColor: 'var(--balena-pink)' }}
+                      className="w-full bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-all text-right border-l-4 border-red-500 group active:scale-[0.99]"
                     >
-                      <div className="flex items-start justify-between mb-2">
-                        <h4 className="font-bold text-sm group-hover:text-blue-600 transition-colors flex-1" style={{ color: 'var(--balena-dark)' }}>
-                          {company.company}
-                        </h4>
-                        {company.relevance_score && (
-                          <span className="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded-full font-medium ml-2">
-                            ⭐ {company.relevance_score}
+                      {/* Header with company name and priority */}
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex-1">
+                          <h4 className="font-bold text-lg mb-1 group-hover:text-blue-600 transition-colors" style={{ color: 'var(--balena-dark)' }}>
+                            {company.company}
+                          </h4>
+                          <div className="flex items-center gap-2">
+                            <span className="px-2 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full">
+                              🔥 חובה לבקר
+                            </span>
+                            {company.relevance_score && (
+                              <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">
+                                ⭐ {company.relevance_score}/10
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Location and booth info */}
+                      <div className="flex items-center gap-3 mb-3 text-sm">
+                        <span className="flex items-center gap-1" style={{ color: 'var(--balena-brown)' }}>
+                          📍 {company.location}
+                        </span>
+                        {company.hall && company.stand && (
+                          <span className="flex items-center gap-1 font-bold text-blue-600">
+                            🏢 {company.hall}/{company.stand}
                           </span>
                         )}
                       </div>
-                      <div className="flex items-center gap-2 mb-2 text-xs" style={{ color: 'var(--balena-brown)' }}>
-                        <span>📍 {company.location}</span>
-                        {company.hall && company.stand && (
-                          <span>🏢 {company.hall}/{company.stand}</span>
-                        )}
-                      </div>
+
+                      {/* Value preview */}
                       {company.balena_value && (
-                        <p className="text-xs mb-3" style={{ color: 'var(--balena-dark)' }}>
-                          💡 {company.balena_value.slice(0, 60)}...
-                        </p>
+                        <div className="mb-3 p-3 bg-gray-50 rounded-lg">
+                          <p className="text-sm leading-relaxed" style={{ color: 'var(--balena-dark)' }}>
+                            💡 {company.balena_value.slice(0, 120)}...
+                          </p>
+                        </div>
                       )}
-                      <div className="flex items-center justify-between">
-                        <div onClick={(e) => e.stopPropagation()}>
+
+                      {/* Actions bar */}
+                      <div className="flex items-center justify-between pt-3 border-t">
+                        <div onClick={(e) => e.stopPropagation()} className="flex items-center gap-3">
                           <RealtimeRating 
                             companyId={company.id} 
                             size="small" 
                             showTeamRatings={false}
                           />
+                          <span className="text-xs text-gray-500">דירוג צוות</span>
                         </div>
-                        <div className="text-xs text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">
-                          לחץ לפרטים →
+                        <div className="flex items-center gap-2 text-blue-600 group-hover:text-blue-700">
+                          <span className="text-sm font-medium">פתח פרטים</span>
+                          <span className="text-lg">←</span>
                         </div>
                       </div>
                     </button>
@@ -635,8 +732,41 @@ export default function Home() {
               </div>
             </details>
           </div>
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* Visits Dashboard */}
+      {activeView === 'visits' && (
+        <VisitsDashboard onCompanyClick={handleCompanyClick} />
+      )}
+
+      {/* Settings View */}
+      {activeView === 'settings' && (
+        <div className="p-6 pb-24">
+          <div className="max-w-md mx-auto">
+            <h1 className="text-2xl font-bold mb-6 text-center" style={{ color: 'var(--balena-dark)' }}>הגדרות</h1>
+            <div className="bg-white rounded-lg p-6 shadow-sm space-y-4">
+              <div className="flex items-center justify-between">
+                <span>משתמש מחובר</span>
+                <span className="font-medium">{user?.email}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>מחלקה</span>
+                <span className="font-medium">{user?.user_metadata?.team_role || 'לא הוגדר'}</span>
+              </div>
+              <div className="border-t pt-4">
+                <button
+                  onClick={signOut}
+                  className="w-full py-3 px-4 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors"
+                >
+                  יציאה מהמערכת
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Company Modal */}
       <CompanyModal
@@ -655,6 +785,30 @@ export default function Home() {
             handleCompanyClick(company)
           }}
         />
+      )}
+
+      {/* Quick Add Modal */}
+      <QuickAddModal
+        isOpen={showQuickAddModal}
+        onClose={() => setShowQuickAddModal(false)}
+        onAddCompany={handleQuickAddActions.addCompany}
+        onScanCard={handleQuickAddActions.scanCard}
+        onAddNote={handleQuickAddActions.addNote}
+        onScheduleVisit={handleQuickAddActions.scheduleVisit}
+      />
+
+      {/* Bottom Navigation */}
+      <BottomNavigation
+        activeTab={activeView}
+        onTabChange={handleViewChange}
+        onQuickAdd={() => setShowQuickAddModal(true)}
+      />
+
+      {/* Message Toast */}
+      {message && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-white px-6 py-3 rounded-lg shadow-lg border z-50">
+          <p className="text-sm font-medium">{message}</p>
+        </div>
       )}
     </div>
   )

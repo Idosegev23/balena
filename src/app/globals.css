@@ -58,3 +58,69 @@ button {
 .progress-animation {
   animation: progress 2s ease-in-out infinite;
 }
+
+/* Mobile-first enhancements */
+@media (max-width: 768px) {
+  /* Touch-friendly buttons */
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Improved touch targets */
+  .touch-target {
+    padding: 12px;
+    margin: 4px;
+  }
+  
+  /* Smooth scrolling for better mobile experience */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Hide scrollbars on mobile while keeping functionality */
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Loading states */
+.loading-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Card hover effects for mobile */
+.card-mobile {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-mobile:active {
+  transform: scale(0.98);
+}
+
+/* Safe area support for mobile devices */
+@supports (padding: max(0px)) {
+  .safe-area-bottom {
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  }
+  
+  .safe-area-top {
+    padding-top: max(0.5rem, env(safe-area-inset-top));
+  }
+}
