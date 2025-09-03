@@ -113,14 +113,14 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
 
       if (error) throw error
 
-      setMessage('✅ החברה עודכנה בהצלחה!')
+      setMessage('✅ Company updated successfully!')
       setIsEditing(false)
       onUpdate()
       setTimeout(() => {
         setMessage('')
       }, 3000)
     } catch (error) {
-      setMessage('❌ שגיאה בשמירה. נסה שוב.')
+      setMessage('❌ Error saving. Please try again.')
       console.error('Error updating company:', error)
     }
     
@@ -176,7 +176,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
             <button
               onClick={onClose}
               className="p-2 hover:bg-white/20 rounded-lg text-white flex-shrink-0"
-              aria-label="סגור"
+              aria-label="Close"
             >
               <X className="w-5 h-5" />
             </button>
@@ -185,10 +185,10 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
           {/* Bottom Row - Priority & Score */}
           <div className="flex items-center gap-2 justify-center">
             <div className={`px-3 py-1 rounded-full text-xs font-medium ${priorityColors[company.visit_priority || 'LOW']}`}>
-              {company.visit_priority === 'MUST_VISIT' ? 'חובה לבקר' : 
-               company.visit_priority === 'HIGH' ? 'עדיפות גבוהה' :
-               company.visit_priority === 'MEDIUM' ? 'עדיפות בינונית' :
-               company.visit_priority === 'LOW' ? 'עדיפות נמוכה' : 'מעקב בלבד'}
+              {company.visit_priority === 'MUST_VISIT' ? 'Must Visit' : 
+               company.visit_priority === 'HIGH' ? 'High Priority' :
+               company.visit_priority === 'MEDIUM' ? 'Medium Priority' :
+               company.visit_priority === 'LOW' ? 'Low Priority' : 'Monitor Only'}
             </div>
             {company.relevance_score && (
               <div className="flex items-center gap-1 px-3 py-1 bg-white/20 rounded-full text-white">
@@ -215,37 +215,37 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
               style={{ color: 'var(--balena-dark)' }}
             >
               <ArrowLeft className="w-4 h-4" />
-              <span className="text-sm font-medium">חזור</span>
+              <span className="text-sm font-medium">Back</span>
             </button>
             <h3 className="flex-1 text-base font-bold text-center" style={{ color: 'var(--balena-dark)' }}>
               {activeTab === 'info' && (
                 <div className="flex items-center justify-center gap-2">
                   <Info className="w-4 h-4" />
-                  <span>פרטי החברה</span>
+                  <span>Company Details</span>
                 </div>
               )}
               {activeTab === 'value' && (
                 <div className="flex items-center justify-center gap-2">
                   <Lightbulb className="w-4 h-4" />
-                  <span>ערך לBalena</span>
+                  <span>Value for Balena</span>
                 </div>
               )}
               {activeTab === 'visit' && (
                 <div className="flex items-center justify-center gap-2">
                   <Target className="w-4 h-4" />
-                  <span>תכנון ביקור</span>
+                  <span>Visit Planning</span>
                 </div>
               )}
               {activeTab === 'notes' && (
                 <div className="flex items-center justify-center gap-2">
                   <FileText className="w-4 h-4" />
-                  <span>הערות</span>
+                  <span>Notes</span>
                 </div>
               )}
               {activeTab === 'follow' && (
                 <div className="flex items-center justify-center gap-2">
                   <CheckSquare className="w-4 h-4" />
-                  <span>פולואפ</span>
+                  <span>Follow-up</span>
                 </div>
               )}
             </h3>
@@ -309,7 +309,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
               {/* Edit Button */}
               <div className="flex justify-between items-center">
                 <h3 className="text-lg font-bold" style={{ color: 'var(--balena-dark)' }}>
-                  פרטי החברה
+                  Company Details
                 </h3>
                 <button
                   onClick={() => setIsEditing(!isEditing)}
@@ -319,7 +319,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                       : 'bg-blue-600 text-white hover:bg-blue-700'
                   }`}
                 >
-                  {isEditing ? '❌ ביטול' : '✏️ עריכה'}
+                  {isEditing ? '❌ Cancel' : '✏️ Edit'}
                 </button>
               </div>
 
@@ -327,7 +327,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Company Name */}
                 <div className="p-4 border rounded-xl bg-white shadow-sm">
-                  <div className="text-xs font-semibold text-gray-500 mb-2">שם החברה</div>
+                  <div className="text-xs font-semibold text-gray-500 mb-2">Company Name</div>
                   {isEditing ? (
                     <input
                       type="text"
@@ -350,7 +350,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
 
                 {/* Location */}
                 <div className="p-3 border rounded-lg bg-white">
-                  <div className="text-xs font-medium text-gray-500 mb-1">מיקום</div>
+                  <div className="text-xs font-medium text-gray-500 mb-1">Location</div>
                   {isEditing ? (
                     <input
                       type="text"
@@ -374,7 +374,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                 <div className="p-4 border-2 border-blue-200 rounded-xl bg-blue-50 shadow-sm">
                   <div className="text-xs font-semibold text-blue-600 mb-2 flex items-center gap-1">
                     <Building2 className="w-3 h-3" />
-                    אולם
+                    Hall
                   </div>
                   {isEditing ? (
                     <input
@@ -396,7 +396,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                 <div className="p-4 border-2 border-blue-200 rounded-xl bg-blue-50 shadow-sm">
                   <div className="text-xs font-semibold text-blue-600 mb-2 flex items-center gap-1">
                     <MapPin className="w-3 h-3" />
-                    דוכן
+                    Stand
                   </div>
                   {isEditing ? (
                     <input
@@ -416,7 +416,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
 
                 {/* Email */}
                 <div className="p-3 border rounded-lg bg-white">
-                  <div className="text-xs font-medium text-gray-500 mb-1">אימייל</div>
+                  <div className="text-xs font-medium text-gray-500 mb-1">Email</div>
                   {isEditing ? (
                     <input
                       type="email"
@@ -439,7 +439,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
 
                 {/* Phone */}
                 <div className="p-3 border rounded-lg bg-white">
-                  <div className="text-xs font-medium text-gray-500 mb-1">טלפון</div>
+                  <div className="text-xs font-medium text-gray-500 mb-1">Phone</div>
                   {isEditing ? (
                     <input
                       type="tel"
@@ -462,7 +462,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
 
                 {/* Website - Span 2 columns */}
                 <div className="col-span-2 p-3 border rounded-lg bg-white">
-                  <div className="text-xs font-medium text-gray-500 mb-1">אתר אינטרנט</div>
+                  <div className="text-xs font-medium text-gray-500 mb-1">Website</div>
                   {isEditing ? (
                     <input
                       type="url"
@@ -490,7 +490,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
 
                 {/* Visit Priority */}
                 <div className="p-3 border rounded-lg bg-white">
-                  <div className="text-xs font-medium text-gray-500 mb-1">עדיפות ביקור</div>
+                  <div className="text-xs font-medium text-gray-500 mb-1">Visit Priority</div>
                   {isEditing ? (
                     <select
                       value={editedCompany.visit_priority || 'LOW'}
@@ -498,25 +498,25 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                       className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
                       style={{ borderColor: 'var(--balena-brown)' }}
                     >
-                      <option value="MUST_VISIT">חובה לבקר</option>
-                      <option value="HIGH">גבוהה</option>
-                      <option value="MEDIUM">בינונית</option>
-                      <option value="LOW">נמוכה</option>
-                      <option value="MONITOR_ONLY">מעקב בלבד</option>
+                      <option value="MUST_VISIT">Must Visit</option>
+                      <option value="HIGH">High</option>
+                      <option value="MEDIUM">Medium</option>
+                      <option value="LOW">Low</option>
+                      <option value="MONITOR_ONLY">Monitor Only</option>
                     </select>
                   ) : (
                     <div className={`inline-block px-2 py-1 rounded text-xs font-medium ${priorityColors[editedCompany.visit_priority || 'LOW']}`}>
-                      {editedCompany.visit_priority === 'MUST_VISIT' ? 'חובה לבקר' : 
-                       editedCompany.visit_priority === 'HIGH' ? 'גבוהה' :
-                       editedCompany.visit_priority === 'MEDIUM' ? 'בינונית' :
-                       editedCompany.visit_priority === 'LOW' ? 'נמוכה' : 'מעקב בלבד'}
+                      {editedCompany.visit_priority === 'MUST_VISIT' ? 'Must Visit' : 
+                       editedCompany.visit_priority === 'HIGH' ? 'High' :
+                       editedCompany.visit_priority === 'MEDIUM' ? 'Medium' :
+                       editedCompany.visit_priority === 'LOW' ? 'Low' : 'Monitor Only'}
                     </div>
                   )}
                 </div>
 
                 {/* Connection Type */}
                 <div className="p-3 border rounded-lg bg-white">
-                  <div className="text-xs font-medium text-gray-500 mb-1">סוג קשר</div>
+                  <div className="text-xs font-medium text-gray-500 mb-1">Connection Type</div>
                   {isEditing ? (
                     <select
                       value={editedCompany.connection_type || 'SUPPLIER'}
@@ -524,27 +524,27 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                       className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
                       style={{ borderColor: 'var(--balena-brown)' }}
                     >
-                      <option value="SUPPLIER">ספק</option>
-                      <option value="PARTNER">שותף</option>
-                      <option value="COMPETITOR">מתחרה</option>
-                      <option value="CUSTOMER">לקוח</option>
-                      <option value="SERVICE">שירות</option>
-                      <option value="STRATEGIC">אסטרטגי</option>
+                      <option value="SUPPLIER">Supplier</option>
+                      <option value="PARTNER">Partner</option>
+                      <option value="COMPETITOR">Competitor</option>
+                      <option value="CUSTOMER">Customer</option>
+                      <option value="SERVICE">Service</option>
+                      <option value="STRATEGIC">Strategic</option>
                     </select>
                   ) : (
                     <div className={`inline-block px-2 py-1 rounded text-xs font-medium ${connectionColors[editedCompany.connection_type || 'SUPPLIER']}`}>
-                      {editedCompany.connection_type === 'SUPPLIER' ? 'ספק' :
-                       editedCompany.connection_type === 'PARTNER' ? 'שותף' :
-                       editedCompany.connection_type === 'COMPETITOR' ? 'מתחרה' :
-                       editedCompany.connection_type === 'CUSTOMER' ? 'לקוח' :
-                       editedCompany.connection_type === 'SERVICE' ? 'שירות' : 'אסטרטגי'}
+                      {editedCompany.connection_type === 'SUPPLIER' ? 'Supplier' :
+                       editedCompany.connection_type === 'PARTNER' ? 'Partner' :
+                       editedCompany.connection_type === 'COMPETITOR' ? 'Competitor' :
+                       editedCompany.connection_type === 'CUSTOMER' ? 'Customer' :
+                       editedCompany.connection_type === 'SERVICE' ? 'Service' : 'Strategic'}
                     </div>
                   )}
                 </div>
 
                 {/* Department */}
                 <div className="p-3 border rounded-lg bg-white">
-                  <div className="text-xs font-medium text-gray-500 mb-1">מחלקה</div>
+                  <div className="text-xs font-medium text-gray-500 mb-1">Department</div>
                   {isEditing ? (
                     <select
                       value={editedCompany.department || 'Commercial'}
@@ -566,7 +566,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
 
                 {/* Where they present */}
                 <div className="p-3 border rounded-lg bg-white">
-                  <div className="text-xs font-medium text-gray-500 mb-1">היכן הם נוכחים</div>
+                  <div className="text-xs font-medium text-gray-500 mb-1">Where They Present</div>
                   {isEditing ? (
                     <input
                       type="text"
@@ -591,7 +591,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                 }`} 
                 style={{ color: 'var(--balena-dark)' }}
               >
-                {editedCompany.balena_value || 'אין מידע זמין על הערך לBalena'}
+                {editedCompany.balena_value || 'No information available about value for Balena'}
               </div>
             </div>
           )}
@@ -617,7 +617,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                   </div>
                   <div className="p-3 bg-gray-50 rounded-lg">
                     <div className="font-medium text-sm mb-1">👥 תיאום צוות</div>
-                    <div className="text-xs text-gray-600">שיתוף מיקום ותכנון</div>
+                    <div className="text-xs text-gray-600">שיתוף Location ותכנון</div>
                   </div>
                   <div className="p-3 bg-gray-50 rounded-lg">
                     <div className="font-medium text-sm mb-1">📋 שאלות מוכנות</div>
@@ -672,7 +672,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                   className="flex-1 py-3 border rounded-lg hover:bg-gray-50 disabled:opacity-50 font-medium"
                   style={{ borderColor: 'var(--balena-brown)', color: 'var(--balena-brown)' }}
                 >
-                  ביטול
+                  Cancel
                 </button>
                 <button
                   onClick={handleSave}
@@ -680,7 +680,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                   className="flex-1 py-3 rounded-lg text-white font-medium hover:shadow-lg disabled:opacity-50"
                   style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}
                 >
-                  {loading ? '⏳ שומר...' : '💾 שמור'}
+                  {loading ? '⏳ Saving...' : '💾 Save'}
                 </button>
               </div>
             )}

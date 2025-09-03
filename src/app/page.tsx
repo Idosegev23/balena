@@ -155,13 +155,13 @@ export default function Home() {
         const isAllowedEmail = email === 'triroars@gmail.com' || email.endsWith('@balena.science')
         
         if (!isAllowedEmail) {
-          setMessage('❌ רק חברי צוות Balena יכולים להירשם. צור קשר עם המנהל להרשאות.')
+          setMessage('❌ Only Balena team members can register. Contact admin for permissions.')
           setLoading(false)
           return
         }
 
         if (!fullName.trim() || !teamRole.trim()) {
-          setMessage('❌ אנא מלא את כל השדות')
+          setMessage('❌ Please fill all fields')
           setLoading(false)
           return
         }
@@ -171,7 +171,7 @@ export default function Home() {
         if (error) {
           setMessage(`❌ ${error.message}`)
         } else {
-          setMessage('✅ נרשמת בהצלחה! בדוק את תיבת האימייל שלך לאישור.')
+          setMessage('✅ Successfully registered! Check your email for confirmation.')
         }
       } else {
         const { error } = await signIn(email, password)
@@ -179,11 +179,11 @@ export default function Home() {
         if (error) {
           setMessage(`❌ ${error.message}`)
         } else {
-          setMessage('✅ נכנסת בהצלחה!')
+          setMessage('✅ Successfully logged in!')
         }
       }
     } catch (error) {
-      setMessage('❌ שגיאה במערכת. נסה שוב.')
+      setMessage('❌ System error. Please try again.')
     }
     
     setLoading(false)
@@ -303,7 +303,7 @@ export default function Home() {
 
           <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl p-8">
             <h2 className="text-2xl font-bold text-center mb-6" style={{ color: 'var(--balena-dark)' }}>
-              {isSignUp ? 'הרשמה למערכת' : 'כניסה למערכת'}
+              {isSignUp ? 'Sign Up' : 'Login'}
             </h2>
             
             <form onSubmit={handleAuth} className="space-y-4">
@@ -315,23 +315,23 @@ export default function Home() {
                       type="text"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                      className="w-full px-4 py-3 border rounded-lg text-left focus:outline-none focus:ring-2"
                       style={{ borderColor: 'var(--balena-brown)' }}
-                      placeholder="שם פרטי ומשפחה"
+                      placeholder="Full Name"
                       required
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium mb-2 text-right">תפקיד בצוות</label>
+                    <label className="block text-sm font-medium mb-2 text-left">Team Role</label>
                     <select
                       value={teamRole}
                       onChange={(e) => setTeamRole(e.target.value)}
-                      className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                      className="w-full px-4 py-3 border rounded-lg text-left focus:outline-none focus:ring-2"
                       style={{ borderColor: 'var(--balena-brown)' }}
                       required
                     >
-                      <option value="">בחר תפקיד</option>
+                      <option value="">Select Role</option>
                       <option value="Commercial">Commercial</option>
                       <option value="Operations">Operations</option>
                       <option value="R&D">R&D</option>
@@ -343,21 +343,21 @@ export default function Home() {
               )}
               
               <div>
-                <label className="block text-sm font-medium mb-2 text-right">אימייל</label>
+                <label className="block text-sm font-medium mb-2 text-left">Email</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
                   style={{ borderColor: 'var(--balena-brown)' }}
-                  placeholder={isSignUp ? "name@balena.science או triroars@gmail.com" : "name@balena.science"}
+                  placeholder={isSignUp ? "name@balena.science or triroars@gmail.com" : "name@balena.science"}
                   autoComplete="email"
                   required
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium mb-2 text-right">סיסמה</label>
+                <label className="block text-sm font-medium mb-2 text-left">Password</label>
                 <input
                   type="password"
                   value={password}
@@ -382,7 +382,7 @@ export default function Home() {
                 className="w-full py-3 rounded-lg text-white font-medium text-lg transition-all hover:shadow-lg disabled:opacity-50"
                 style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}
               >
-                {loading ? '⏳ בתהליך...' : (isSignUp ? 'הרשמה' : 'כניסה')}
+                {loading ? '⏳ Processing...' : (isSignUp ? 'Sign Up' : 'Login')}
               </button>
             </form>
             
@@ -399,7 +399,7 @@ export default function Home() {
                 className="text-sm underline"
                 style={{ color: 'var(--balena-brown)' }}
               >
-                {isSignUp ? 'יש לי כבר חשבון - כניסה' : 'אין לי חשבון - הרשמה'}
+                {isSignUp ? 'Already have an account - Login' : 'Don\'t have an account - Sign Up'}
               </button>
             </div>
             
@@ -468,7 +468,7 @@ export default function Home() {
               K-Show 2025
             </h2>
             <p className="text-xs sm:text-sm" style={{ color: 'var(--balena-brown)' }}>
-              Düsseldorf • 8-15 באוקטובר
+              Düsseldorf • October 8-15
             </p>
           </div>
 
@@ -483,7 +483,7 @@ export default function Home() {
                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
                 }`}
               >
-                כל המחלקות
+                All Departments
               </button>
               <button
                 onClick={() => setDeptFilter('Commercial')}
@@ -493,7 +493,7 @@ export default function Home() {
                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
                 }`}
               >
-                מסחר
+                Commercial
               </button>
               <button
                 onClick={() => setDeptFilter('Operations')}
@@ -503,7 +503,7 @@ export default function Home() {
                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
                 }`}
               >
-                תפעול
+                Operations
               </button>
               <button
                 onClick={() => setDeptFilter('R&D')}
@@ -513,7 +513,7 @@ export default function Home() {
                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
                 }`}
               >
-                מו״פ
+                R&D
               </button>
               <button
                 onClick={() => setDeptFilter('Marketing')}
@@ -523,7 +523,7 @@ export default function Home() {
                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
                 }`}
               >
-                שיווק
+                Marketing
               </button>
             </div>
           </div>
@@ -539,7 +539,7 @@ export default function Home() {
               </div>
               <div className="text-xs font-medium flex items-center gap-1">
                 <Building2 className="w-3 h-3" />
-                גלה חברות
+                Discover Companies
               </div>
             </button>
             <div className="bg-white rounded-lg p-3 sm:p-4 shadow-sm text-center border-l-4 border-red-500 flex flex-col items-center gap-2">
@@ -548,7 +548,7 @@ export default function Home() {
               </div>
               <div className="text-xs font-medium flex items-center gap-1">
                 <Star className="w-3 h-3 text-red-500" />
-                חובה לבקר
+                Must Visit
               </div>
             </div>
             <div className="bg-white rounded-lg p-3 sm:p-4 shadow-sm text-center border-l-4 border-green-500 flex flex-col items-center gap-2">
@@ -557,7 +557,7 @@ export default function Home() {
               </div>
               <div className="text-xs font-medium flex items-center gap-1">
                 <CheckSquare className="w-3 h-3 text-green-500" />
-                בוקרו
+                Visited
               </div>
             </div>
             <div className="bg-white rounded-lg p-3 sm:p-4 shadow-sm text-center border-l-4 border-blue-500 flex flex-col items-center gap-2">
@@ -566,53 +566,8 @@ export default function Home() {
               </div>
               <div className="text-xs font-medium flex items-center gap-1">
                 <Calendar className="w-3 h-3 text-blue-500" />
-                פולואפ
+                Follow-up
               </div>
-            </div>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="bg-white rounded-xl p-6 shadow-sm">
-            <h3 className="text-xl font-bold mb-4 text-center" style={{ color: 'var(--balena-dark)' }}>
-              מה תרצה לעשות?
-            </h3>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              <button className="p-6 border-2 rounded-xl text-center hover:shadow-lg transition-all relative" style={{ borderColor: 'var(--balena-pink)' }}>
-                <div className="text-2xl mb-2">🔍</div>
-                <div className="font-bold">גלה חברות</div>
-                <div className="text-xs mt-1" style={{ color: 'var(--balena-brown)' }}>
-                  {stats?.totalCompanies || 0} חברות זמינות
-                </div>
-                {stats && stats.totalCompanies > 0 && (
-                  <div className="absolute -top-2 -left-2 bg-green-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
-                    ✓
-                  </div>
-                )}
-              </button>
-              <button className="p-6 border-2 rounded-xl text-center hover:shadow-lg transition-all relative" style={{ borderColor: 'var(--balena-brown)' }}>
-                <div className="text-2xl mb-2">📋</div>
-                <div className="font-bold">תכנן ביקורים</div>
-                <div className="text-xs mt-1" style={{ color: 'var(--balena-brown)' }}>
-                  {stats?.mustVisitCompanies || 0} מטרות עיקריות
-                </div>
-                {stats && stats.mustVisitCompanies > 0 && (
-                  <div className="absolute -top-2 -left-2 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
-                    !
-                  </div>
-                )}
-              </button>
-              <button className="p-6 border-2 rounded-xl text-center hover:shadow-lg transition-all" style={{ borderColor: 'var(--balena-brown)' }}>
-                <div className="text-2xl mb-2">👥</div>
-                <div className="font-bold">רשום ביקור</div>
-                <div className="text-xs mt-1" style={{ color: 'var(--balena-brown)' }}>במהלך התערוכה</div>
-              </button>
-              <button className="p-6 border-2 rounded-xl text-center hover:shadow-lg transition-all" style={{ borderColor: 'var(--balena-brown)' }}>
-                <div className="text-2xl mb-2">✅</div>
-                <div className="font-bold">פולואפ</div>
-                <div className="text-xs mt-1" style={{ color: 'var(--balena-brown)' }}>
-                  {stats?.followUpRequired || 0} דורשים מעקב
-                </div>
-              </button>
             </div>
           </div>
 
@@ -622,7 +577,7 @@ export default function Home() {
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-lg font-bold flex items-center gap-2" style={{ color: 'var(--balena-dark)' }}>
                   <Star className="w-5 h-5 text-red-500" />
-                  חברות חובה
+                  Priority Companies
                 </h3>
                 <span className="text-xs px-2 py-1 bg-red-100 text-red-800 rounded-full">
                   {companies.filter(c => (!deptFilter || c.department === deptFilter) && c.visit_priority === 'MUST_VISIT').length}
@@ -647,7 +602,7 @@ export default function Home() {
                           <div className="flex items-center gap-2">
                             <span className="px-2 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full flex items-center gap-1">
                               <Star className="w-3 h-3" />
-                              חובה לבקר
+                              Must Visit
                             </span>
                             {company.relevance_score && (
                               <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full flex items-center gap-1">
@@ -706,7 +661,7 @@ export default function Home() {
               {companies.filter(c => (!deptFilter || c.department === deptFilter) && c.visit_priority === 'MUST_VISIT').length > 6 && (
                 <div className="text-center mt-4">
                   <button className="px-6 py-2 text-sm border rounded-lg hover:bg-gray-50" style={{ borderColor: 'var(--balena-brown)', color: 'var(--balena-brown)' }}>
-                    צפה בכל החברות הפריוריטות ({companies.filter(c => (!deptFilter || c.department === deptFilter) && c.visit_priority === 'MUST_VISIT').length})
+                    View All Priority Companies ({companies.filter(c => (!deptFilter || c.department === deptFilter) && c.visit_priority === 'MUST_VISIT').length})
                   </button>
                 </div>
               )}
@@ -765,22 +720,22 @@ export default function Home() {
       {activeView === 'settings' && (
         <div className="p-6 pb-24">
           <div className="max-w-md mx-auto">
-            <h1 className="text-2xl font-bold mb-6 text-center" style={{ color: 'var(--balena-dark)' }}>הגדרות</h1>
+            <h1 className="text-2xl font-bold mb-6 text-center" style={{ color: 'var(--balena-dark)' }}>Settings</h1>
             <div className="bg-white rounded-lg p-6 shadow-sm space-y-4">
               <div className="flex items-center justify-between">
-                <span>משתמש מחובר</span>
+                <span>Logged in User</span>
                 <span className="font-medium">{user?.email}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span>מחלקה</span>
-                <span className="font-medium">{user?.user_metadata?.team_role || 'לא הוגדר'}</span>
+                <span>Department</span>
+                <span className="font-medium">{user?.user_metadata?.team_role || 'Not set'}</span>
               </div>
               <div className="border-t pt-4">
                 <button
                   onClick={signOut}
                   className="w-full py-3 px-4 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors"
                 >
-                  יציאה מהמערכת
+                  Logout
                 </button>
               </div>
             </div>
