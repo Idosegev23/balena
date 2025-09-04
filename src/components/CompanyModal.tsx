@@ -51,8 +51,23 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
 
   useEffect(() => {
     if (company) {
+      // Extract hall and stand from location if they're not separate
+      let hall = company.hall
+      let stand = company.stand
+      
+      if (!hall || !stand) {
+        // Try to parse location like "Hall 6 / A39" or "Hall 8a / F10"
+        const locationMatch = company.location?.match(/Hall\s*(\w+)\s*\/\s*(\w+)/i)
+        if (locationMatch) {
+          hall = hall || `Hall ${locationMatch[1]}`
+          stand = stand || locationMatch[2]
+        }
+      }
+
       setEditedCompany({
         ...company,
+        hall,
+        stand,
         description: sanitizeText(company.description || ''),
         balena_value: sanitizeText(company.balena_value || '')
       })
@@ -432,6 +447,17 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                         <a href={`mailto:${editedCompany.email}`} className="text-blue-600 hover:underline">
                           {editedCompany.email}
                         </a>
+                      ) : company.website_emails ? (
+                        <div className="space-y-1">
+                          {company.website_emails.split(',').slice(0, 2).map((email, idx) => (
+                            <div key={idx}>
+                              <a href={`mailto:${email.trim()}`} className="text-blue-600 hover:underline text-xs">
+                                {email.trim()}
+                              </a>
+                              <span className="text-gray-400 text-xs ml-1">(website)</span>
+                            </div>
+                          ))}
+                        </div>
                       ) : '—'}
                     </div>
                   )}
@@ -455,6 +481,17 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                         <a href={`tel:${editedCompany.phone}`} className="text-blue-600 hover:underline">
                           {editedCompany.phone}
                         </a>
+                      ) : company.website_phones ? (
+                        <div className="space-y-1">
+                          {company.website_phones.split(',').slice(0, 2).map((phone, idx) => (
+                            <div key={idx}>
+                              <a href={`tel:${phone.trim()}`} className="text-blue-600 hover:underline text-xs">
+                                {phone.trim()}
+                              </a>
+                              <span className="text-gray-400 text-xs ml-1">(website)</span>
+                            </div>
+                          ))}
+                        </div>
                       ) : '—'}
                     </div>
                   )}
@@ -580,6 +617,53 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                   )}
                 </div>
               </div>
+
+              {/* Company Quick Summary from Scraped Data */}
+              {(company.why_relevant || company.description || company.about_us) && (
+                <div className="mt-6 pt-6 border-t">
+                  <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--balena-dark)' }}>
+                    📋 Company Overview
+                  </h3>
+                  <div className="space-y-4">
+                    
+                    {/* Claude Analysis Quick View */}
+                    {company.why_relevant && (
+                      <div className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-200">
+                        <div className="text-sm font-bold text-blue-800 mb-2 flex items-center gap-2">
+                          🤖 AI Analysis Summary
+                        </div>
+                        <div className="text-sm text-gray-700 leading-relaxed">
+                          {company.why_relevant.substring(0, 200)}
+                          {company.why_relevant.length > 200 ? '...' : ''}
+                        </div>
+                        <div className="flex gap-2 mt-2">
+                          {company.department && (
+                            <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                              {company.department}
+                            </span>
+                          )}
+                          {company.goal_category && (
+                            <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">
+                              {company.goal_category}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Quick Description */}
+                    {(company.description || company.about_us) && (
+                      <div className="p-3 bg-gray-50 rounded-lg">
+                        <div className="text-xs font-medium text-gray-600 mb-1">Company Description</div>
+                        <div className="text-sm text-gray-700 leading-relaxed">
+                          {(company.description || company.about_us || '').substring(0, 300)}
+                          {(company.description || company.about_us || '').length > 300 ? '...' : ''}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
 
               {/* Additional Contact Information from Scraper */}
               {(company.website_emails || company.website_phones || company.contact_person || company.contact_info) && (
@@ -785,10 +869,10 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                 <h3 className="text-sm font-bold text-yellow-700 mb-3">✏️ Manual Assessment</h3>
                 <div 
                   className={`text-base leading-7 whitespace-pre-wrap ${
-                    isEnglishText(editedCompany.balena_value || '') ? 'text-left' : 'text-right'
-                  }`} 
-                  style={{ color: 'var(--balena-dark)' }}
-                >
+                  isEnglishText(editedCompany.balena_value || '') ? 'text-left' : 'text-right'
+                }`} 
+                style={{ color: 'var(--balena-dark)' }}
+              >
                   {editedCompany.balena_value || 'No manual assessment yet - add your insights about value for Balena'}
                 </div>
               </div>
