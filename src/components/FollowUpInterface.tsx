@@ -130,7 +130,7 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
             user_name: user.user_metadata?.full_name || user.email,
             action_type: 'followup_created',
             company_id: companyId,
-            description: `יצר משימת פולואפ: ${formData.title}`,
+            description: `Created follow-up task: ${formData.title}`,
             metadata: {
               title: formData.title,
               priority: formData.priority,
@@ -143,7 +143,7 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
       fetchFollowUps()
     } catch (error) {
       console.error('Error saving follow-up:', error)
-      alert('שגיאה בשמירת המשימה')
+      alert('Error saving task')
     }
   }
 
@@ -168,12 +168,12 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
       fetchFollowUps()
     } catch (error) {
       console.error('Error updating status:', error)
-      alert('שגיאה בעדכון הסטטוס')
+      alert('Error updating status')
     }
   }
 
   const deleteFollowUp = async (followUpId: number) => {
-    if (!confirm('האם אתה בטוח שברצונך למחוק את המשימה?')) return
+    if (!confirm('Are you sure you want to delete this task?')) return
 
     try {
       const { error } = await supabase

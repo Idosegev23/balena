@@ -76,13 +76,13 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
   const getStatusText = (status: string) => {
     switch (status) {
       case 'planned':
-        return 'מתוכנן'
+        return 'Planned'
       case 'in_progress':
-        return 'בתהליך'
+        return 'In Progress'
       case 'completed':
-        return 'הושלם'
+        return 'Completed'
       default:
-        return 'לא ידוע'
+        return 'Unknown'
     }
   }
 
@@ -115,10 +115,10 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
         {/* Header */}
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-2" style={{ color: 'var(--balena-dark)' }}>
-            ביקורים ומעקב
+            Visits & Tracking
           </h1>
           <p className="text-sm" style={{ color: 'var(--balena-brown)' }}>
-            ניהול ביקורים בתערוכה
+            Visit management at the exhibition
           </p>
         </div>
 
@@ -126,15 +126,15 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
         <div className="grid grid-cols-3 gap-3">
           <div className="bg-white rounded-lg p-4 text-center shadow-sm border-l-4 border-blue-500">
             <div className="text-2xl font-bold text-blue-600">{plannedVisits.length}</div>
-            <div className="text-xs text-blue-600">מתוכנן</div>
+            <div className="text-xs text-blue-600">Planned</div>
           </div>
           <div className="bg-white rounded-lg p-4 text-center shadow-sm border-l-4 border-orange-500">
             <div className="text-2xl font-bold text-orange-600">{inProgressVisits.length}</div>
-            <div className="text-xs text-orange-600">בתהליך</div>
+            <div className="text-xs text-orange-600">In Progress</div>
           </div>
           <div className="bg-white rounded-lg p-4 text-center shadow-sm border-l-4 border-green-500">
             <div className="text-2xl font-bold text-green-600">{completedVisits.length}</div>
-            <div className="text-xs text-green-600">הושלם</div>
+            <div className="text-xs text-green-600">Completed</div>
           </div>
         </div>
 
@@ -143,14 +143,14 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
           <div className="bg-white rounded-lg p-4 shadow-sm">
             <h3 className="font-bold mb-3 flex items-center gap-2" style={{ color: 'var(--balena-dark)' }}>
               <Calendar className="w-5 h-5" />
-              ביקורים להיום ({todayVisits.length})
+              Today's Visits ({todayVisits.length})
             </h3>
             <div className="space-y-3">
               {todayVisits.map((visit) => (
                 <button
                   key={visit.id}
                   onClick={() => onCompanyClick(visit.companies)}
-                  className="w-full p-3 border rounded-lg hover:shadow-md transition-all text-right"
+                  className="w-full p-3 border rounded-lg hover:shadow-md transition-all text-left"
                 >
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-medium" style={{ color: 'var(--balena-dark)' }}>
@@ -179,14 +179,14 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
         {/* All Visits */}
         <div className="bg-white rounded-lg p-4 shadow-sm">
           <h3 className="font-bold mb-3" style={{ color: 'var(--balena-dark)' }}>
-            כל הביקורים ({visits.length})
+            All Visits ({visits.length})
           </h3>
           <div className="space-y-3">
             {visits.map((visit) => (
               <button
                 key={visit.id}
                 onClick={() => onCompanyClick(visit.companies)}
-                className="w-full p-3 border rounded-lg hover:shadow-md transition-all text-right"
+                className="w-full p-3 border rounded-lg hover:shadow-md transition-all text-left"
               >
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-medium" style={{ color: 'var(--balena-dark)' }}>
@@ -208,7 +208,7 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
                     )}
                   </div>
                   <span className="text-xs">
-                    {new Date(visit.created_at).toLocaleDateString('he-IL')}
+                    {new Date(visit.created_at).toLocaleDateString('en-US')}
                   </span>
                 </div>
               </button>
@@ -219,8 +219,8 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
         {visits.length === 0 && (
           <div className="text-center py-12">
             <Calendar className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-            <h3 className="text-lg font-medium mb-2 text-gray-600">אין ביקורים עדיין</h3>
-            <p className="text-sm text-gray-500">התחל לתכנן ביקורים מהדאשבורד הראשי</p>
+            <h3 className="text-lg font-medium mb-2 text-gray-600">No visits yet</h3>
+            <p className="text-sm text-gray-500">Start planning visits from the main dashboard</p>
           </div>
         )}
       </div>

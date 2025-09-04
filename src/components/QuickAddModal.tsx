@@ -25,29 +25,29 @@ export function QuickAddModal({
   const actions = [
     {
       icon: <Building2 className="w-8 h-8" />,
-      title: 'הוסף חברה',
-      description: 'הוסף חברה חדשה למערכת',
+      title: 'Add Company',
+      description: 'Add new company to system',
       action: onAddCompany,
       color: 'bg-blue-50 hover:bg-blue-100 text-blue-600'
     },
     {
       icon: <Camera className="w-8 h-8" />,
-      title: 'סרוק כרטיס ביקור',
-      description: 'צלם וסרוק כרטיס ביקור',
+      title: 'Scan Business Card',
+      description: 'Capture and scan business card',
       action: onScanCard,
       color: 'bg-green-50 hover:bg-green-100 text-green-600'
     },
     {
       icon: <FileText className="w-8 h-8" />,
-      title: 'הוסף הערה',
-      description: 'רשום הערה מהירה',
+      title: 'Add Note',
+      description: 'Write quick note',
       action: onAddNote,
       color: 'bg-purple-50 hover:bg-purple-100 text-purple-600'
     },
     {
       icon: <Calendar className="w-8 h-8" />,
-      title: 'תכנן ביקור',
-      description: 'קבע ביקור חברה',
+      title: 'Schedule Visit',
+      description: 'Plan company visit',
       action: onScheduleVisit,
       color: 'bg-orange-50 hover:bg-orange-100 text-orange-600'
     }
@@ -65,7 +65,7 @@ export function QuickAddModal({
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b">
           <h2 className="text-xl font-bold" style={{ color: 'var(--balena-dark)' }}>
-            פעולה מהירה
+            Quick Action
           </h2>
           <button
             onClick={onClose}
@@ -84,7 +84,7 @@ export function QuickAddModal({
                 action.action()
                 onClose()
               }}
-              className={`w-full p-4 rounded-xl transition-all text-right ${action.color}`}
+              className={`w-full p-4 rounded-xl transition-all text-left ${action.color}`}
             >
               <div className="flex items-center gap-4">
                 <div className="flex-shrink-0">
@@ -105,7 +105,7 @@ export function QuickAddModal({
             onClick={onClose}
             className="w-full py-3 text-center text-gray-600 hover:text-gray-800 transition-colors"
           >
-            ביטול
+            Cancel
           </button>
         </div>
       </div>

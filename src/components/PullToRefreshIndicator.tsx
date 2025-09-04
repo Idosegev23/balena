@@ -22,17 +22,17 @@ export function PullToRefreshIndicator({
         {isRefreshing ? (
           <>
             <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-            <span>מרענן...</span>
+            <span>Refreshing...</span>
           </>
         ) : pullDistance >= threshold ? (
           <>
             <div className="w-4 h-4 text-green-500">↓</div>
-            <span>שחרר לרענון</span>
+            <span>Release to refresh</span>
           </>
         ) : (
           <>
             <div className="w-4 h-4 text-gray-400">↓</div>
-            <span>משוך לרענון</span>
+            <span>Pull to refresh</span>
           </>
         )}
       </div>

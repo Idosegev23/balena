@@ -25,6 +25,23 @@ export interface Company {
   logo?: string
   created_at?: string
   updated_at?: string
+  // New columns from scraper
+  source_search_term?: string
+  source_url?: string
+  profile_url?: string
+  why_relevant?: string
+  goal_category?: string
+  claude_analysis?: string
+  website_title?: string
+  about_us?: string
+  products_services?: string
+  products?: string
+  sustainability_info?: string
+  contact_info?: string
+  website_phones?: string
+  meta_description?: string
+  contact_person?: string
+  website_emails?: string
 }
 
 export interface User {

@@ -160,7 +160,7 @@ export function RealtimeRating({ companyId, size = 'medium', showTeamRatings = t
             : 'text-gray-600 bg-white border-gray-200 hover:bg-green-50 hover:border-green-200'
           }
         `}
-        title="רלוונטי לBalena"
+        title="Relevant for Balena"
       >
         <ThumbsUp className={`${config.icon} ${userRating === 1 ? 'fill-current' : ''}`} />
       </button>
@@ -194,7 +194,7 @@ export function RealtimeRating({ companyId, size = 'medium', showTeamRatings = t
             : 'text-gray-600 bg-white border-gray-200 hover:bg-red-50 hover:border-red-200'
           }
         `}
-        title="לא רלוונטי לBalena"
+        title="Not relevant for Balena"
       >
         <ThumbsDown className={`${config.icon} ${userRating === -1 ? 'fill-current' : ''}`} />
       </button>
@@ -209,8 +209,8 @@ export function RealtimeRating({ companyId, size = 'medium', showTeamRatings = t
                 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border-2
                 ${getRatingColor(rating.rating)}
               `}
-              title={`משתמש: ${
-                rating.rating === 1 ? '👍 רלוונטי' : rating.rating === -1 ? '👎 לא רלוונטי' : '😐 נייטרלי'
+              title={`User: ${
+                rating.rating === 1 ? '👍 Relevant' : rating.rating === -1 ? '👎 Not relevant' : '😐 Neutral'
               }`}
             >
               {rating.rating === 1 ? '👍' : rating.rating === -1 ? '👎' : '😐'}

@@ -68,10 +68,10 @@ export function SmartRecommendations({ currentCompany, onCompanyClick }: SmartRe
 
         if (highlyRatedCompanies.length > 0) {
           recommendationGroups.push({
-            title: 'מומלץ על ידי הצוות',
-            description: 'חברות שקיבלו דירוג חיובי מחברי צוות מרובים',
+            title: 'Team Recommended',
+            description: 'Companies that received positive ratings from multiple team members',
             companies: highlyRatedCompanies.slice(0, 5),
-            reason: 'הצוות דירג חיובי',
+            reason: 'Team rated positively',
             icon: <Users className="w-5 h-5 text-green-600" />,
             priority: 'high'
           })
@@ -93,7 +93,7 @@ export function SmartRecommendations({ currentCompany, onCompanyClick }: SmartRe
 
         if (similarCompanies.length > 0) {
           recommendationGroups.push({
-            title: 'חברות דומות',
+            title: 'Similar Companies',
             description: `דומות ל-${currentCompany.company}`,
             companies: similarCompanies.slice(0, 4),
             reason: 'מאפיינים דומים',

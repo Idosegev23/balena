@@ -202,17 +202,17 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
 
   const getPriorityText = (priority: string) => {
     switch (priority) {
-      case 'MUST_VISIT': return 'חובה'
-      case 'HIGH': return 'גבוה'
-      case 'MEDIUM': return 'בינוני'
-      case 'LOW': return 'נמוך'
-      case 'MONITOR_ONLY': return 'מעקב'
+      case 'MUST_VISIT': return 'Must Visit'
+      case 'HIGH': return 'High'
+      case 'MEDIUM': return 'Medium'
+      case 'LOW': return 'Low'
+      case 'MONITOR_ONLY': return 'Monitor'
       default: return priority
     }
   }
 
   const exportToCSV = () => {
-    const headers = ['שם החברה', 'מיקום', 'אולם', 'דוכן', 'עדיפות', 'ציון רלוונטיות', 'סוג קשר', 'היכן מציגים', 'ערך לBalena', 'אימייל', 'טלפון', 'אתר']
+    const headers = ['Company Name', 'Location', 'Hall', 'Stand', 'Priority', 'Relevance Score', 'Connection Type', 'Where Presenting', 'Value for Balena', 'Email', 'Phone', 'Website']
     const csvContent = [
       headers.join(','),
       ...filteredCompanies.map(company => [
@@ -255,9 +255,9 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       <div className="flex items-center justify-between p-6 border-b bg-gradient-to-r" style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}>
         <div className="flex items-center gap-3">
           <Building2 className="w-6 h-6 text-white" />
-          <h1 className="text-2xl font-bold text-white">גילוי חברות מתקדם</h1>
+          <h1 className="text-2xl font-bold text-white">Advanced Company Discovery</h1>
           <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm">
-            {filteredCompanies.length} מתוך {companies.length}
+            {filteredCompanies.length} of {companies.length}
           </span>
         </div>
         <button
@@ -284,7 +284,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                   setFilters(prev => ({ ...prev, searchTerm: value }))
                 }, 250)
               }}
-              placeholder="חפש לפי שם חברה, תיאור או מיקום..."
+              placeholder="Search by company name, description or location..."
               className="w-full pr-10 pl-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -475,9 +475,14 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                         <span>{company.hall} / {company.stand}</span>
                       </div>
                     )}
-                    {company.email && (
+                    {(company.email || company.website_emails) && (
                       <div className="flex items-center gap-1">
-                        <span>📧 {company.email}</span>
+                        <span>📧 {company.email || company.website_emails?.split(',')[0]}</span>
+                      </div>
+                    )}
+                    {(company.phone || company.website_phones) && (
+                      <div className="flex items-center gap-1">
+                        <span>📞 {company.phone || company.website_phones?.split(',')[0]}</span>
                       </div>
                     )}
                     {company.website && (
@@ -485,16 +490,32 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                         <span>🌐 אתר זמין</span>
                       </div>
                     )}
+                    {company.contact_person && (
+                      <div className="flex items-center gap-1">
+                        <span>👤 {company.contact_person}</span>
+                      </div>
+                    )}
                   </div>
 
-                  {company.balena_value && (
+                  {(company.why_relevant || company.balena_value) && (
                     <details className="mb-3">
                       <summary className="text-xs cursor-pointer" style={{ color: 'var(--balena-dark)' }}>
-                        💡 {company.balena_value.slice(0, 60)}{company.balena_value.length > 60 ? '…' : ''}
+                        💡 {(company.why_relevant || company.balena_value || '').slice(0, 60)}{(company.why_relevant || company.balena_value || '').length > 60 ? '…' : ''}
                       </summary>
-                      <p className="text-xs mt-1" style={{ color: 'var(--balena-dark)' }}>
-                        {company.balena_value}
-                      </p>
+                      <div className="text-xs mt-1 space-y-1" style={{ color: 'var(--balena-dark)' }}>
+                        {company.why_relevant && (
+                          <p><strong>Claude Analysis:</strong> {company.why_relevant}</p>
+                        )}
+                        {company.balena_value && company.balena_value !== company.why_relevant && (
+                          <p><strong>Balena Value:</strong> {company.balena_value}</p>
+                        )}
+                        {company.department && (
+                          <p><strong>Department:</strong> {company.department}</p>
+                        )}
+                        {company.goal_category && (
+                          <p><strong>Goal Category:</strong> {company.goal_category}</p>
+                        )}
+                      </div>
                     </details>
                   )}
 

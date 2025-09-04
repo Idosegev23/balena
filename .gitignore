@@ -48,3 +48,30 @@ screenshots/
 # OS
 .DS_Store
 Thumbs.db
+
+# Python scraping scripts and related files
+*.py
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Scraper specific files
+.env.scraper
+requirements_scraper.txt
+scraped_companies.csv
+companies_for_supabase.csv
+scraping_summary.json
+exhibitors_tab_debug.png
+SCRAPER_README.md
+
+# Scraper temp and debug files
+*.log
+debug_*.png
+screenshot_*.png
