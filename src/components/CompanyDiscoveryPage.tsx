@@ -39,7 +39,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
     searchTerm: '',
     department: '',
     visitPriority: '',
-    relevanceScore: [0, 10],
+    relevanceScore: [0, 100],
     location: '',
     hall: '',
     connectionType: '',
@@ -364,7 +364,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                 <input
                   type="range"
                   min="0"
-                  max="10"
+                  max="100"
                   value={filters.relevanceScore[0]}
                   onChange={(e) => setFilters(prev => ({ 
                     ...prev, 
@@ -375,7 +375,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                 <input
                   type="range"
                   min="0"
-                  max="10"
+                  max="100"
                   value={filters.relevanceScore[1]}
                   onChange={(e) => setFilters(prev => ({ 
                     ...prev, 
