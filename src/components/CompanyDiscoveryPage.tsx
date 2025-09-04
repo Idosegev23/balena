@@ -52,12 +52,16 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
   const connectionTypes = ['SUPPLIER', 'PARTNER', 'COMPETITOR', 'CUSTOMER', 'SERVICE', 'STRATEGIC']
 
   useEffect(() => {
-    // Load persisted filters first
-    const persisted = sessionStorage.getItem('discovery_filters')
-    if (persisted) {
+    // Load persisted state
+    const persistedState = sessionStorage.getItem('discovery_state')
+    if (persistedState) {
       try {
-        const parsed = JSON.parse(persisted)
-        setFilters(prev => ({ ...prev, ...parsed }))
+        const parsed = JSON.parse(persistedState)
+        setFilters(prev => ({ ...prev, ...parsed.filters }))
+        setSortBy(parsed.sortBy || 'relevance_score')
+        setSortOrder(parsed.sortOrder || 'desc')
+        setPage(parsed.page || 1)
+        setShowFilters(parsed.showFilters || false)
       } catch {}
     } else {
       // Default department filter to user's team_role when first loading
@@ -70,9 +74,17 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
   }, [])
 
   useEffect(() => {
-    sessionStorage.setItem('discovery_filters', JSON.stringify(filters))
+    // Save all discovery state to sessionStorage
+    const discoveryState = {
+      filters,
+      sortBy,
+      sortOrder,
+      page,
+      showFilters
+    }
+    sessionStorage.setItem('discovery_state', JSON.stringify(discoveryState))
     applyFilters()
-  }, [companies, filters, sortBy, sortOrder])
+  }, [companies, filters, sortBy, sortOrder, page, showFilters])
 
   const fetchCompanies = async () => {
     setLoading(true)

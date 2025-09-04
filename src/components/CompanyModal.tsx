@@ -225,12 +225,15 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
           {/* Current Tab Title with Back Button */}
           <div className="px-4 py-3 bg-gray-50 border-b flex items-center">
             <button
-              onClick={onClose}
-              className="flex items-center gap-2 px-3 py-1 rounded-lg hover:bg-gray-200 transition-colors"
+              onClick={() => {
+                // Preserve the discovery state when going back
+                onClose()
+              }}
+              className="flex items-center gap-2 px-3 py-1 rounded-lg hover:bg-gray-200 transition-colors active:scale-95"
               style={{ color: 'var(--balena-dark)' }}
             >
               <ArrowLeft className="w-4 h-4" />
-              <span className="text-sm font-medium">Back</span>
+              <span className="text-sm font-medium">חזור</span>
             </button>
             <h3 className="flex-1 text-base font-bold text-center" style={{ color: 'var(--balena-dark)' }}>
               {activeTab === 'info' && (

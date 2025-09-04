@@ -110,6 +110,11 @@ export default function Home() {
   const handleCloseModal = () => {
     setShowCompanyModal(false)
     setSelectedCompany(null)
+    // If we came from Discovery Page, restore it
+    if (showDiscoveryPage) {
+      // Discovery Page is already shown, modal just closes
+      return
+    }
   }
 
   const handleUpdateCompany = () => {
@@ -417,35 +422,48 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Top Bar */}
-      <div className="bg-white shadow-sm border-b px-4 py-4">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
-          <div className="flex items-center">
-            <img
-              src="https://balena.science/cdn/shop/files/logo_2x_1102b1b4-e239-4c62-aa43-69f45080c3b1.png?v=1653928291&width=280"
-              alt="Balena"
-              className="h-8 ml-3"
-            />
-            <div className="text-right">
-              <h1 className="text-xl font-bold" style={{ color: 'var(--balena-dark)' }}>
-                K-Show 2025
-              </h1>
-              <p className="text-sm" style={{ color: 'var(--balena-brown)' }}>
-                ניהול חברות
-              </p>
+      {/* Mobile-First Top Bar */}
+      <div className="bg-white shadow-lg border-b border-gray-100 sticky top-0 z-40">
+        <div className="px-4 py-3">
+          <div className="flex items-center justify-between">
+            {/* Logo and Title - Mobile Optimized */}
+            <div className="flex items-center gap-3">
+              <img
+                src="https://balena.science/cdn/shop/files/logo_2x_1102b1b4-e239-4c62-aa43-69f45080c3b1.png?v=1653928291&width=280"
+                alt="Balena"
+                className="h-10 w-auto"
+              />
+              <div className="text-right">
+                <h1 className="text-lg sm:text-xl font-bold leading-none" style={{ color: 'var(--balena-dark)' }}>
+                  K-Show 2025
+                </h1>
+                <p className="text-xs sm:text-sm leading-none mt-1" style={{ color: 'var(--balena-brown)' }}>
+                  {user.user_metadata?.team_role || 'ניהול חברות'}
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-sm" style={{ color: 'var(--balena-brown)' }}>
-              {user.user_metadata?.full_name || user.email}
-            </span>
-            <button
-              onClick={signOut}
-              className="px-4 py-2 text-sm border rounded-lg hover:bg-gray-50"
-              style={{ borderColor: 'var(--balena-brown)', color: 'var(--balena-brown)' }}
-            >
-              יציאה
-            </button>
+
+            {/* User Menu - Mobile Optimized */}
+            <div className="flex items-center gap-2">
+              <div className="text-right hidden sm:block">
+                <div className="text-sm font-medium text-gray-900">
+                  {user.user_metadata?.full_name || user.email?.split('@')[0]}
+                </div>
+                <div className="text-xs text-gray-500">
+                  {user.user_metadata?.team_role || 'Member'}
+                </div>
+              </div>
+              <button
+                onClick={() => setActiveView('settings')}
+                className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors active:scale-95"
+              >
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                  {(user.user_metadata?.full_name || user.email || 'U')
+                    .charAt(0)
+                    .toUpperCase()}
+                </div>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -461,6 +479,21 @@ export default function Home() {
       {/* Mobile-First Content */}
       {activeView === 'dashboard' && (
         <div ref={elementRef} className="max-w-7xl mx-auto p-3 sm:p-4 lg:p-6 pb-24 overflow-y-auto">
+          {/* Loading State */}
+          {!stats && (
+            <div className="space-y-4 animate-pulse">
+              <div className="bg-white rounded-xl h-20"></div>
+              <div className="bg-white rounded-xl h-32"></div>
+              <div className="grid gap-3 grid-cols-2 sm:grid-cols-4">
+                <div className="bg-white rounded-xl h-24"></div>
+                <div className="bg-white rounded-xl h-24"></div>
+                <div className="bg-white rounded-xl h-24"></div>
+                <div className="bg-white rounded-xl h-24"></div>
+              </div>
+            </div>
+          )}
+          
+          {stats && (
           <div className="space-y-4">
           {/* Mobile-First Welcome */}
           <div className="text-center py-4 bg-white rounded-lg shadow-sm">
@@ -472,105 +505,263 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Department Filter Tabs - Mobile First */}
-          <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-            <div className="flex border-b">
+          {/* Department Filter Tabs - Mobile Optimized */}
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div className="p-3">
+              <h3 className="text-sm font-medium text-gray-600 mb-3 text-center">סנן לפי מחלקה</h3>
+              <div className="grid grid-cols-2 gap-2 sm:flex">
+                <button
+                  onClick={() => setDeptFilter('')}
+                  className={`px-4 py-3 text-sm font-medium rounded-lg transition-all active:scale-95 ${
+                    !deptFilter 
+                      ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md' 
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  🏢 כל המחלקות
+                </button>
+                <button
+                  onClick={() => setDeptFilter('Commercial')}
+                  className={`px-4 py-3 text-sm font-medium rounded-lg transition-all active:scale-95 ${
+                    deptFilter === 'Commercial' 
+                      ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-md' 
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  💼 מסחרי
+                </button>
+                <button
+                  onClick={() => setDeptFilter('Operations')}
+                  className={`px-4 py-3 text-sm font-medium rounded-lg transition-all active:scale-95 ${
+                    deptFilter === 'Operations' 
+                      ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md' 
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  ⚙️ תפעול
+                </button>
+                <button
+                  onClick={() => setDeptFilter('R&D')}
+                  className={`px-4 py-3 text-sm font-medium rounded-lg transition-all active:scale-95 ${
+                    deptFilter === 'R&D' 
+                      ? 'bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-md' 
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  🔬 מו״פ
+                </button>
+                <button
+                  onClick={() => setDeptFilter('Marketing')}
+                  className={`px-4 py-3 text-sm font-medium rounded-lg transition-all active:scale-95 col-span-2 sm:col-span-1 ${
+                    deptFilter === 'Marketing' 
+                      ? 'bg-gradient-to-r from-pink-500 to-pink-600 text-white shadow-md' 
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  📢 שיווק
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile-First Stats Cards */}
+          <div className="grid gap-3 grid-cols-2 sm:grid-cols-4">
+            <button 
+              onClick={() => {
+                setActiveView('discovery')
+                setShowDiscoveryPage(true)
+              }}
+              className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 shadow-lg text-center hover:shadow-xl transition-all active:scale-95 flex flex-col items-center gap-2 text-white"
+            >
+              <Building2 className="w-6 h-6 mb-1" />
+              <div className="text-2xl font-bold">
+                {stats?.totalCompanies || 0}
+              </div>
+              <div className="text-xs font-medium opacity-90">
+                🏢 גלה חברות
+              </div>
+            </button>
+            
+            <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-xl p-4 shadow-lg text-center flex flex-col items-center gap-2 text-white">
+              <Star className="w-6 h-6 mb-1" />
+              <div className="text-2xl font-bold">
+                {stats?.mustVisitCompanies || 0}
+              </div>
+              <div className="text-xs font-medium opacity-90">
+                ⭐ חובה לבקר
+              </div>
+            </div>
+            
+            <button
+              onClick={() => setActiveView('visits')}
+              className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 shadow-lg text-center hover:shadow-xl transition-all active:scale-95 flex flex-col items-center gap-2 text-white"
+            >
+              <CheckSquare className="w-6 h-6 mb-1" />
+              <div className="text-2xl font-bold">
+                {stats?.visitedCompanies || 0}
+              </div>
+              <div className="text-xs font-medium opacity-90">
+                ✅ ביקרתי
+              </div>
+            </button>
+            
+            <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-4 shadow-lg text-center flex flex-col items-center gap-2 text-white">
+              <Calendar className="w-6 h-6 mb-1" />
+              <div className="text-2xl font-bold">
+                {stats?.followUpRequired || 0}
+              </div>
+              <div className="text-xs font-medium opacity-90">
+                📅 מעקב
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Actions Mobile-First */}
+          <div className="bg-white rounded-xl shadow-sm p-4">
+            <h3 className="text-lg font-bold mb-4 text-center" style={{ color: 'var(--balena-dark)' }}>
+              פעולות מהירות
+            </h3>
+            <div className="grid gap-3 grid-cols-2">
               <button
-                onClick={() => setDeptFilter('')}
-                className={`flex-1 px-3 py-2 text-sm font-medium transition-colors ${
-                  !deptFilter 
-                    ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
-                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-                }`}
+                onClick={() => {
+                  setActiveView('discovery')
+                  setShowDiscoveryPage(true)
+                }}
+                className="bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-200 rounded-xl p-4 hover:from-blue-100 hover:to-blue-200 transition-all active:scale-95 flex flex-col items-center gap-2"
               >
-                All Departments
+                <Building2 className="w-8 h-8 text-blue-600 mb-1" />
+                <span className="text-sm font-medium text-blue-800">גלה חברות</span>
+                <span className="text-xs text-blue-600">חפש והוסף חברות חדשות</span>
               </button>
+              
               <button
-                onClick={() => setDeptFilter('Commercial')}
-                className={`flex-1 px-3 py-2 text-sm font-medium transition-colors ${
-                  deptFilter === 'Commercial' 
-                    ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
-                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-                }`}
+                onClick={() => setActiveView('visits')}
+                className="bg-gradient-to-r from-green-50 to-green-100 border-2 border-green-200 rounded-xl p-4 hover:from-green-100 hover:to-green-200 transition-all active:scale-95 flex flex-col items-center gap-2"
               >
-                Commercial
+                <MapPin className="w-8 h-8 text-green-600 mb-1" />
+                <span className="text-sm font-medium text-green-800">ניהול ביקורים</span>
+                <span className="text-xs text-green-600">תכנן ועקוב אחר ביקורים</span>
               </button>
+              
               <button
-                onClick={() => setDeptFilter('Operations')}
-                className={`flex-1 px-3 py-2 text-sm font-medium transition-colors ${
-                  deptFilter === 'Operations' 
-                    ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
-                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-                }`}
+                onClick={() => setShowQuickAddModal(true)}
+                className="bg-gradient-to-r from-purple-50 to-purple-100 border-2 border-purple-200 rounded-xl p-4 hover:from-purple-100 hover:to-purple-200 transition-all active:scale-95 flex flex-col items-center gap-2"
               >
-                Operations
+                <Lightbulb className="w-8 h-8 text-purple-600 mb-1" />
+                <span className="text-sm font-medium text-purple-800">הוספה מהירה</span>
+                <span className="text-xs text-purple-600">הוסף חברה או הערה</span>
               </button>
+              
               <button
-                onClick={() => setDeptFilter('R&D')}
-                className={`flex-1 px-3 py-2 text-sm font-medium transition-colors ${
-                  deptFilter === 'R&D' 
-                    ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
-                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-                }`}
+                onClick={() => setActiveView('settings')}
+                className="bg-gradient-to-r from-gray-50 to-gray-100 border-2 border-gray-200 rounded-xl p-4 hover:from-gray-100 hover:to-gray-200 transition-all active:scale-95 flex flex-col items-center gap-2"
               >
-                R&D
-              </button>
-              <button
-                onClick={() => setDeptFilter('Marketing')}
-                className={`flex-1 px-3 py-2 text-sm font-medium transition-colors ${
-                  deptFilter === 'Marketing' 
-                    ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
-                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-                }`}
-              >
-                Marketing
+                <Star className="w-8 h-8 text-gray-600 mb-1" />
+                <span className="text-sm font-medium text-gray-800">הגדרות</span>
+                <span className="text-xs text-gray-600">פרופיל ועדיפויות</span>
               </button>
             </div>
           </div>
 
-          {/* Mobile-First Stats */}
-          <div className="grid gap-2 grid-cols-2 lg:grid-cols-4">
-            <button 
-              onClick={() => setShowDiscoveryPage(true)}
-              className="bg-white rounded-lg p-3 sm:p-4 shadow-sm text-center hover:shadow-md transition-all hover:bg-blue-50 active:scale-95 flex flex-col items-center gap-2"
-            >
-              <div className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--balena-dark)' }}>
-                {stats?.totalCompanies || 0}
-              </div>
-              <div className="text-xs font-medium flex items-center gap-1">
-                <Building2 className="w-3 h-3" />
-                Discover Companies
-              </div>
-            </button>
-            <div className="bg-white rounded-lg p-3 sm:p-4 shadow-sm text-center border-l-4 border-red-500 flex flex-col items-center gap-2">
-              <div className="text-xl sm:text-2xl font-bold text-red-600">
-                {stats?.mustVisitCompanies || 0}
-              </div>
-              <div className="text-xs font-medium flex items-center gap-1">
-                <Star className="w-3 h-3 text-red-500" />
-                Must Visit
+          {/* Top Companies Preview - Mobile Optimized */}
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div className="p-4 border-b border-gray-100">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-bold" style={{ color: 'var(--balena-dark)' }}>
+                  חברות מובילות
+                </h3>
+                <button
+                  onClick={() => {
+                    setActiveView('discovery')
+                    setShowDiscoveryPage(true)
+                  }}
+                  className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                >
+                  ראה הכל ←
+                </button>
               </div>
             </div>
-            <div className="bg-white rounded-lg p-3 sm:p-4 shadow-sm text-center border-l-4 border-green-500 flex flex-col items-center gap-2">
-              <div className="text-xl sm:text-2xl font-bold text-green-600">
-                {stats?.visitedCompanies || 0}
-              </div>
-              <div className="text-xs font-medium flex items-center gap-1">
-                <CheckSquare className="w-3 h-3 text-green-500" />
-                Visited
-              </div>
+            <div className="p-4">
+              {companies
+                .filter(c => deptFilter ? c.department?.includes(deptFilter) : true)
+                .slice(0, 3)
+                .map((company, index) => (
+                  <button
+                    key={company.id}
+                    onClick={() => handleCompanyClick(company)}
+                    className="w-full p-3 mb-3 last:mb-0 bg-gray-50 hover:bg-blue-50 rounded-lg transition-all active:scale-98 text-right"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-gray-900 truncate mb-1">
+                          {company.company}
+                        </div>
+                        <div className="text-sm text-gray-500 truncate">
+                          📍 {company.location}
+                        </div>
+                        {company.why_relevant && (
+                          <div className="text-xs text-blue-600 mt-1 line-clamp-2">
+                            {company.why_relevant.substring(0, 80)}...
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex flex-col items-center gap-1 mr-3">
+                        {company.relevance_score && (
+                          <span className="text-sm font-bold text-yellow-600">
+                            ⭐ {company.relevance_score}
+                          </span>
+                        )}
+                        {company.department && (
+                          <span className="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded-full">
+                            {company.department}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              {companies.length === 0 && (
+                <div className="text-center py-8 text-gray-500">
+                  <Building2 className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                  <p className="text-sm">אין חברות להציג</p>
+                  <button
+                    onClick={() => {
+                      setActiveView('discovery')
+                      setShowDiscoveryPage(true)
+                    }}
+                    className="mt-2 text-blue-600 text-sm hover:text-blue-800"
+                  >
+                    גלה חברות חדשות
+                  </button>
+                </div>
+              )}
             </div>
-            <div className="bg-white rounded-lg p-3 sm:p-4 shadow-sm text-center border-l-4 border-blue-500 flex flex-col items-center gap-2">
-              <div className="text-xl sm:text-2xl font-bold text-blue-600">
-                {stats?.followUpRequired || 0}
-              </div>
-              <div className="text-xs font-medium flex items-center gap-1">
-                <Calendar className="w-3 h-3 text-blue-500" />
-                Follow-up
+          </div>
+
+          {/* K-Show Info Card - Mobile */}
+          <div className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-xl p-4 border border-purple-200">
+            <div className="text-center">
+              <h3 className="text-lg font-bold text-purple-800 mb-2">
+                📅 K-Show 2025
+              </h3>
+              <div className="space-y-2 text-sm text-purple-700">
+                <div className="flex items-center justify-center gap-2">
+                  <MapPin className="w-4 h-4" />
+                  <span>Düsseldorf, Germany</span>
+                </div>
+                <div className="flex items-center justify-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  <span>8-15 October 2025</span>
+                </div>
+                <div className="mt-3 pt-3 border-t border-purple-200">
+                  <p className="text-xs text-purple-600">
+                    התערוכה הגדולה בעולם לתעשיית הפלסטיק והגומי
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+          )}
         </div>
       )}
 
@@ -579,29 +770,110 @@ export default function Home() {
         <VisitsDashboard onCompanyClick={handleCompanyClick} />
       )}
 
-      {/* Settings View */}
+      {/* Settings View - Mobile Optimized */}
       {activeView === 'settings' && (
-        <div className="p-6 pb-24">
-          <div className="max-w-md mx-auto">
-            <h1 className="text-2xl font-bold mb-6 text-center" style={{ color: 'var(--balena-dark)' }}>Settings</h1>
-            <div className="bg-white rounded-lg p-6 shadow-sm space-y-4">
-              <div className="flex items-center justify-between">
-                <span>Logged in User</span>
-                <span className="font-medium">{user?.email}</span>
+        <div className="p-4 pb-24 space-y-4">
+          {/* User Profile Card */}
+          <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-6 text-white">
+            <div className="text-center">
+              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold">
+                  {(user?.user_metadata?.full_name || user?.email || 'U')
+                    .charAt(0)
+                    .toUpperCase()}
+                </span>
               </div>
-              <div className="flex items-center justify-between">
-                <span>Department</span>
-                <span className="font-medium">{user?.user_metadata?.team_role || 'Not set'}</span>
+              <h2 className="text-xl font-bold mb-1">
+                {user?.user_metadata?.full_name || 'משתמש'}
+              </h2>
+              <p className="text-blue-100 text-sm">
+                {user?.user_metadata?.team_role || 'חבר צוות'}
+              </p>
+              <p className="text-blue-200 text-xs mt-1">
+                {user?.email}
+              </p>
+            </div>
+          </div>
+
+          {/* Settings Options */}
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div className="p-4 border-b border-gray-100">
+              <h3 className="text-lg font-bold" style={{ color: 'var(--balena-dark)' }}>
+                הגדרות משתמש
+              </h3>
+            </div>
+            <div className="divide-y divide-gray-100">
+              <div className="p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="font-medium text-gray-900">מחלקה</div>
+                    <div className="text-sm text-gray-500">המחלקה שלך ב-Balena</div>
+                  </div>
+                  <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                    {user?.user_metadata?.team_role || 'לא נקבע'}
+                  </span>
+                </div>
               </div>
-              <div className="border-t pt-4">
-                <button
-                  onClick={signOut}
-                  className="w-full py-3 px-4 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors"
-                >
-                  Logout
-                </button>
+              
+              <div className="p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="font-medium text-gray-900">אימייל</div>
+                    <div className="text-sm text-gray-500">כתובת המייל שלך</div>
+                  </div>
+                  <span className="text-gray-600 text-sm">
+                    {user?.email}
+                  </span>
+                </div>
               </div>
             </div>
+          </div>
+
+          {/* App Info */}
+          <div className="bg-white rounded-xl shadow-sm p-4">
+            <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--balena-dark)' }}>
+              על האפליקציה
+            </h3>
+            <div className="space-y-3 text-sm text-gray-600">
+              <div className="flex items-center justify-between">
+                <span>גרסה</span>
+                <span className="font-medium">1.0.0</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>עדכון אחרון</span>
+                <span className="font-medium">ינואר 2025</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>מטרה</span>
+                <span className="font-medium">K-Show 2025</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="space-y-3">
+            <button
+              onClick={() => fetchDashboardData()}
+              className="w-full p-4 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-xl transition-colors active:scale-98 flex items-center justify-center gap-2"
+            >
+              <span>🔄</span>
+              <span className="font-medium">רענן נתונים</span>
+            </button>
+            
+            <button
+              onClick={signOut}
+              className="w-full p-4 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl transition-colors active:scale-98 flex items-center justify-center gap-2"
+            >
+              <span>🚪</span>
+              <span className="font-medium">התנתק</span>
+            </button>
+          </div>
+
+          {/* Footer */}
+          <div className="text-center py-4">
+            <p className="text-xs text-gray-400">
+              פותח עבור Balena Science במיוחד ל-K-Show 2025
+            </p>
           </div>
         </div>
       )}
@@ -617,9 +889,12 @@ export default function Home() {
       {/* Company Discovery Page */}
       {showDiscoveryPage && (
         <CompanyDiscoveryPage
-          onClose={() => setShowDiscoveryPage(false)}
-          onCompanyClick={(company) => {
+          onClose={() => {
             setShowDiscoveryPage(false)
+            setActiveView('dashboard')
+          }}
+          onCompanyClick={(company) => {
+            // Keep Discovery Page open in background, just show modal on top
             handleCompanyClick(company)
           }}
         />
