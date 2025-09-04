@@ -30,7 +30,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
   const [showFilters, setShowFilters] = useState(false)
-  const [sortBy, setSortBy] = useState<'relevance' | 'company' | 'location' | 'priority'>('relevance')
+  const [sortBy, setSortBy] = useState<'relevance' | 'company' | 'location' | 'priority' | 'department' | 'hall'>('relevance')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
   
   const companiesPerPage = 20
@@ -95,14 +95,25 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
   const applyFilters = () => {
     let filtered = [...companies]
 
-    // Search term
+    // Search term - Enhanced to include scraped data
     if (filters.searchTerm) {
       const term = filters.searchTerm.toLowerCase()
       filtered = filtered.filter(company => 
         company.company?.toLowerCase().includes(term) ||
         company.description?.toLowerCase().includes(term) ||
         company.location?.toLowerCase().includes(term) ||
-        company.balena_value?.toLowerCase().includes(term)
+        company.balena_value?.toLowerCase().includes(term) ||
+        company.why_relevant?.toLowerCase().includes(term) ||
+        company.department?.toLowerCase().includes(term) ||
+        company.goal_category?.toLowerCase().includes(term) ||
+        company.about_us?.toLowerCase().includes(term) ||
+        company.products?.toLowerCase().includes(term) ||
+        company.products_services?.toLowerCase().includes(term) ||
+        company.sustainability_info?.toLowerCase().includes(term) ||
+        company.contact_person?.toLowerCase().includes(term) ||
+        company.website_title?.toLowerCase().includes(term) ||
+        company.hall?.toLowerCase().includes(term) ||
+        company.stand?.toLowerCase().includes(term)
       )
     }
 
@@ -173,6 +184,14 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
           aValue = priorityOrder[a.visit_priority as keyof typeof priorityOrder] || 0
           bValue = priorityOrder[b.visit_priority as keyof typeof priorityOrder] || 0
           break
+        case 'department':
+          aValue = a.department?.toLowerCase() || ''
+          bValue = b.department?.toLowerCase() || ''
+          break
+        case 'hall':
+          aValue = a.hall?.toLowerCase() || ''
+          bValue = b.hall?.toLowerCase() || ''
+          break
         default:
           aValue = a.company
           bValue = b.company
@@ -212,7 +231,11 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
   }
 
   const exportToCSV = () => {
-    const headers = ['Company Name', 'Location', 'Hall', 'Stand', 'Priority', 'Relevance Score', 'Connection Type', 'Where Presenting', 'Value for Balena', 'Email', 'Phone', 'Website']
+    const headers = [
+      'Company Name', 'Location', 'Hall', 'Stand', 'Priority', 'Relevance Score', 'Department', 'Goal Category',
+      'Connection Type', 'Where Presenting', 'Contact Person', 'Email', 'Phone', 'Website', 'Website Emails', 'Website Phones',
+      'Claude Analysis', 'Manual Value Assessment', 'About Us', 'Products & Services', 'Sustainability'
+    ]
     const csvContent = [
       headers.join(','),
       ...filteredCompanies.map(company => [
@@ -220,14 +243,23 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
         company.location || '',
         company.hall || '',
         company.stand || '',
-        company.visit_priority || '',
+        getPriorityText(company.visit_priority || ''),
         company.relevance_score || '',
+        company.department || '',
+        company.goal_category || '',
         company.connection_type || '',
         company.where_they_present || '',
-        (company.balena_value || '').replace(/\n/g, ' ').slice(0, 500),
+        company.contact_person || '',
         company.email || '',
         company.phone || '',
-        company.website || ''
+        company.website || '',
+        company.website_emails || '',
+        company.website_phones || '',
+        (company.why_relevant || '').replace(/\n/g, ' ').slice(0, 300),
+        (company.balena_value || '').replace(/\n/g, ' ').slice(0, 300),
+        (company.about_us || '').replace(/\n/g, ' ').slice(0, 200),
+        (company.products_services || '').replace(/\n/g, ' ').slice(0, 200),
+        (company.sustainability_info || '').replace(/\n/g, ' ').slice(0, 200)
       ].map(field => `"${field}"`).join(','))
     ].join('\n')
 
@@ -284,7 +316,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                   setFilters(prev => ({ ...prev, searchTerm: value }))
                 }, 250)
               }}
-              placeholder="Search by company name, description or location..."
+              placeholder="🔍 חפש לפי שם חברה, תיאור, מיקום, הול, מוצרים, קיימות, איש קשר..."
               className="w-full pr-10 pl-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -415,12 +447,14 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
-            className="px-3 py-1 border rounded"
+            className="px-3 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="relevance">רלוונטיות</option>
-            <option value="company">שם החברה</option>
-            <option value="location">מיקום</option>
-            <option value="priority">עדיפות</option>
+            <option value="relevance">⭐ רלוונטיות (ציון)</option>
+            <option value="company">🏢 שם החברה (A-Z)</option>
+            <option value="location">📍 מיקום</option>
+            <option value="hall">🏛️ הול</option>
+            <option value="department">🏢 מחלקה</option>
+            <option value="priority">🎯 עדיפות ביקור</option>
           </select>
           <button
             onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}

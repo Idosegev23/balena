@@ -193,7 +193,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
             {company.relevance_score && (
               <div className="flex items-center gap-1 px-3 py-1 bg-white/20 rounded-full text-white">
                 <Star className="w-3 h-3" />
-                <span className="font-bold text-sm">{company.relevance_score}/10</span>
+                <span className="font-bold text-sm">{company.relevance_score}/100</span>
               </div>
             )}
             {company.hall && company.stand && (
@@ -580,18 +580,217 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                   )}
                 </div>
               </div>
+
+              {/* Additional Contact Information from Scraper */}
+              {(company.website_emails || company.website_phones || company.contact_person || company.contact_info) && (
+                <div className="mt-6 pt-6 border-t">
+                  <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--balena-dark)' }}>
+                    📞 Additional Contact Details (from website)
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    
+                    {/* Contact Person */}
+                    {company.contact_person && (
+                      <div className="p-3 border rounded-lg bg-blue-50 border-blue-200">
+                        <div className="text-xs font-medium text-blue-600 mb-1">Contact Person</div>
+                        <div className="text-sm font-medium text-blue-800">
+                          {company.contact_person}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Website Emails */}
+                    {company.website_emails && (
+                      <div className="p-3 border rounded-lg bg-green-50 border-green-200">
+                        <div className="text-xs font-medium text-green-600 mb-1">Website Emails</div>
+                        <div className="text-sm">
+                          {company.website_emails.split(',').map((email, idx) => (
+                            <div key={idx} className="mb-1">
+                              <a href={`mailto:${email.trim()}`} className="text-green-700 hover:underline text-sm">
+                                {email.trim()}
+                              </a>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Website Phones */}
+                    {company.website_phones && (
+                      <div className="p-3 border rounded-lg bg-purple-50 border-purple-200">
+                        <div className="text-xs font-medium text-purple-600 mb-1">Website Phones</div>
+                        <div className="text-sm">
+                          {company.website_phones.split(',').map((phone, idx) => (
+                            <div key={idx} className="mb-1">
+                              <a href={`tel:${phone.trim()}`} className="text-purple-700 hover:underline text-sm">
+                                {phone.trim()}
+                              </a>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Website Contact Info */}
+                    {company.contact_info && (
+                      <div className="col-span-full p-3 border rounded-lg bg-gray-50">
+                        <div className="text-xs font-medium text-gray-600 mb-1">Contact Information</div>
+                        <div className="text-sm text-gray-700 leading-relaxed">
+                          {company.contact_info.substring(0, 300)}
+                          {company.contact_info.length > 300 ? '...' : ''}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Website Information */}
+              {(company.website_title || company.meta_description) && (
+                <div className="mt-6 pt-6 border-t">
+                  <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--balena-dark)' }}>
+                    🌐 Website Information
+                  </h3>
+                  <div className="space-y-4">
+                    
+                    {company.website_title && (
+                      <div className="p-3 border rounded-lg bg-indigo-50 border-indigo-200">
+                        <div className="text-xs font-medium text-indigo-600 mb-1">Website Title</div>
+                        <div className="text-sm font-medium text-indigo-800">
+                          {company.website_title}
+                        </div>
+                      </div>
+                    )}
+
+                    {company.meta_description && (
+                      <div className="p-3 border rounded-lg bg-gray-50">
+                        <div className="text-xs font-medium text-gray-600 mb-1">Meta Description</div>
+                        <div className="text-sm text-gray-700 leading-relaxed">
+                          {company.meta_description}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
           {activeTab === 'value' && (
             <div className="space-y-6">
-              <div 
-                className={`text-lg leading-8 whitespace-pre-wrap ${
-                  isEnglishText(editedCompany.balena_value || '') ? 'text-left' : 'text-right'
-                }`} 
-                style={{ color: 'var(--balena-dark)' }}
-              >
-                {editedCompany.balena_value || 'No information available about value for Balena'}
+              {/* Claude AI Analysis */}
+              {company.why_relevant && (
+                <div className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-200">
+                  <h3 className="text-sm font-bold text-blue-800 mb-3 flex items-center gap-2">
+                    🤖 Claude AI Analysis
+                  </h3>
+                  <div 
+                    className={`text-base leading-7 whitespace-pre-wrap ${
+                      isEnglishText(company.why_relevant) ? 'text-left' : 'text-right'
+                    }`} 
+                    style={{ color: 'var(--balena-dark)' }}
+                  >
+                    {company.why_relevant}
+                  </div>
+                  
+                  {/* Department & Category Tags */}
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {company.department && (
+                      <span className="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
+                        🏢 {company.department}
+                      </span>
+                    )}
+                    {company.goal_category && (
+                      <span className="px-3 py-1 bg-purple-100 text-purple-800 text-xs font-medium rounded-full">
+                        🎯 {company.goal_category}
+                      </span>
+                    )}
+                    {company.relevance_score && (
+                      <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full">
+                        ⭐ {company.relevance_score}/100
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Company Description */}
+              {company.description && (
+                <div className="p-4 bg-gray-50 rounded-xl">
+                  <h3 className="text-sm font-bold text-gray-700 mb-3">📋 Company Description</h3>
+                  <div 
+                    className={`text-base leading-7 whitespace-pre-wrap ${
+                      isEnglishText(company.description) ? 'text-left' : 'text-right'
+                    }`} 
+                    style={{ color: 'var(--balena-dark)' }}
+                  >
+                    {company.description}
+                  </div>
+                </div>
+              )}
+
+              {/* About Us from Website */}
+              {company.about_us && (
+                <div className="p-4 bg-green-50 rounded-xl border border-green-200">
+                  <h3 className="text-sm font-bold text-green-700 mb-3 flex items-center gap-2">
+                    🌐 About Company (from website)
+                  </h3>
+                  <div 
+                    className={`text-sm leading-6 whitespace-pre-wrap ${
+                      isEnglishText(company.about_us) ? 'text-left' : 'text-right'
+                    }`} 
+                    style={{ color: 'var(--balena-dark)' }}
+                  >
+                    {company.about_us.substring(0, 500)}{company.about_us.length > 500 ? '...' : ''}
+                  </div>
+                </div>
+              )}
+
+              {/* Products & Services */}
+              {(company.products || company.products_services) && (
+                <div className="p-4 bg-orange-50 rounded-xl border border-orange-200">
+                  <h3 className="text-sm font-bold text-orange-700 mb-3">🛠️ Products & Services</h3>
+                  <div 
+                    className={`text-sm leading-6 whitespace-pre-wrap ${
+                      isEnglishText(company.products || company.products_services || '') ? 'text-left' : 'text-right'
+                    }`} 
+                    style={{ color: 'var(--balena-dark)' }}
+                  >
+                    {(company.products_services || company.products || '').substring(0, 400)}
+                    {(company.products_services || company.products || '').length > 400 ? '...' : ''}
+                  </div>
+                </div>
+              )}
+
+              {/* Sustainability Info */}
+              {company.sustainability_info && (
+                <div className="p-4 bg-green-50 rounded-xl border border-green-200">
+                  <h3 className="text-sm font-bold text-green-700 mb-3 flex items-center gap-2">
+                    🌱 Sustainability
+                  </h3>
+                  <div 
+                    className={`text-sm leading-6 whitespace-pre-wrap ${
+                      isEnglishText(company.sustainability_info) ? 'text-left' : 'text-right'
+                    }`} 
+                    style={{ color: 'var(--balena-dark)' }}
+                  >
+                    {company.sustainability_info.substring(0, 400)}
+                    {company.sustainability_info.length > 400 ? '...' : ''}
+                  </div>
+                </div>
+              )}
+
+              {/* Manual Balena Value */}
+              <div className="p-4 bg-yellow-50 rounded-xl border border-yellow-200">
+                <h3 className="text-sm font-bold text-yellow-700 mb-3">✏️ Manual Assessment</h3>
+                <div 
+                  className={`text-base leading-7 whitespace-pre-wrap ${
+                    isEnglishText(editedCompany.balena_value || '') ? 'text-left' : 'text-right'
+                  }`} 
+                  style={{ color: 'var(--balena-dark)' }}
+                >
+                  {editedCompany.balena_value || 'No manual assessment yet - add your insights about value for Balena'}
+                </div>
               </div>
             </div>
           )}
