@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { supabase, Company } from '@/lib/supabase'
 import { useAuth } from '@/components/AuthProvider'
 import { Search, Filter, Download, Eye, Star, MapPin, Building2, X, ChevronDown, ChevronUp } from 'lucide-react'
@@ -32,6 +32,12 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
   const [showFilters, setShowFilters] = useState(false)
   const [sortBy, setSortBy] = useState<'relevance' | 'company' | 'location' | 'priority' | 'department' | 'hall'>('relevance')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
+  
+  // Autocomplete states
+  const [searchInput, setSearchInput] = useState('')
+  const [showAutocomplete, setShowAutocomplete] = useState(false)
+  const [autocompleteCompanies, setAutocompleteCompanies] = useState<Company[]>([])
+  const searchInputRef = useRef<HTMLInputElement>(null)
   
   const companiesPerPage = 20
 
@@ -86,6 +92,19 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
     applyFilters()
   }, [companies, filters, sortBy, sortOrder, page, showFilters])
 
+  const parseLocationString = (location: string): { hall?: string, stand?: string } => {
+    if (!location) return {}
+    
+    // Common patterns: "Hall 8a Level 1 Stand E03-32", "Hall 7/Level 1/Stand A23-45", "Hall 8a, Stand E03-32"
+    const hallMatch = location.match(/Hall\s*(\d+[a-z]?)/i)
+    const standMatch = location.match(/Stand\s*([A-Z]\d{2}-\d{2}|[A-Z]\d+[-/]?\d*)/i)
+    
+    return {
+      hall: hallMatch ? `Hall ${hallMatch[1]}` : undefined,
+      stand: standMatch ? standMatch[1] : undefined
+    }
+  }
+
   const fetchCompanies = async () => {
     setLoading(true)
     
@@ -96,7 +115,21 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
         .order('company')
 
       if (error) throw error
-      setCompanies(data || [])
+      
+      // Parse location data and update missing hall/stand info
+      const companiesWithParsedLocation = (data || []).map(company => {
+        if (company.location && (!company.hall || !company.stand)) {
+          const parsed = parseLocationString(company.location)
+          return {
+            ...company,
+            hall: company.hall || parsed.hall,
+            stand: company.stand || parsed.stand
+          }
+        }
+        return company
+      })
+      
+      setCompanies(companiesWithParsedLocation)
     } catch (error) {
       console.error('Error fetching companies:', error)
     }
@@ -316,21 +349,69 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       <div className="p-6 border-b bg-gray-50">
         <div className="flex gap-4 mb-4">
           <div className="flex-1 relative">
-            <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
+              ref={searchInputRef}
               type="text"
-              value={filters.searchTerm}
+              value={searchInput}
               onChange={(e) => {
                 const value = e.target.value
-                // Debounce 250ms
+                setSearchInput(value)
+                
+                // Show autocomplete for company names
+                if (value.length >= 2) {
+                  const suggestions = companies
+                    .filter(company => 
+                      company.company?.toLowerCase().includes(value.toLowerCase())
+                    )
+                    .slice(0, 8)
+                  setAutocompleteCompanies(suggestions)
+                  setShowAutocomplete(true)
+                } else {
+                  setShowAutocomplete(false)
+                }
+                
+                // Debounce filter update
                 window.clearTimeout((window as any).__searchTimer)
                 ;(window as any).__searchTimer = window.setTimeout(() => {
                   setFilters(prev => ({ ...prev, searchTerm: value }))
                 }, 250)
               }}
-              placeholder="🔍 חפש לפי שם חברה, תיאור, מיקום, הול, מוצרים, קיימות, איש קשר..."
-              className="w-full pr-10 pl-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onFocus={() => {
+                if (searchInput.length >= 2) setShowAutocomplete(true)
+              }}
+              onBlur={() => {
+                // Delay hiding to allow click on autocomplete
+                setTimeout(() => setShowAutocomplete(false), 200)
+              }}
+              placeholder="🔍 Search by company name, description, location, hall, products..."
+              className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            
+            {/* Autocomplete Dropdown */}
+            {showAutocomplete && autocompleteCompanies.length > 0 && (
+              <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-64 overflow-y-auto">
+                {autocompleteCompanies.map((company) => (
+                  <button
+                    key={company.id}
+                    onClick={() => {
+                      setSearchInput(company.company || '')
+                      setFilters(prev => ({ ...prev, searchTerm: company.company || '' }))
+                      setShowAutocomplete(false)
+                    }}
+                    className="w-full px-4 py-3 text-left hover:bg-gray-50 border-b border-gray-100 last:border-b-0 flex items-center gap-3"
+                  >
+                    <Building2 className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium text-gray-900 truncate">{company.company}</div>
+                      <div className="text-sm text-gray-500 truncate">
+                        {company.hall && company.stand ? `${company.hall}/${company.stand}` : company.location}
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           <button
             onClick={() => setShowFilters(!showFilters)}
@@ -381,29 +462,49 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">מיקום</label>
+              <label className="block text-sm font-medium mb-2">Location</label>
               <input
                 type="text"
                 value={filters.location}
                 onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value }))}
-                placeholder="גרמניה, הולנד..."
+                placeholder="Germany, Netherlands..."
                 className="w-full px-3 py-2 border rounded-lg"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">אולם</label>
-              <input
-                type="text"
+              <label className="block text-sm font-medium mb-2">Hall</label>
+              <select
                 value={filters.hall}
                 onChange={(e) => setFilters(prev => ({ ...prev, hall: e.target.value }))}
-                placeholder="Hall 8a, Hall 7..."
                 className="w-full px-3 py-2 border rounded-lg"
-              />
+              >
+                <option value="">All Halls</option>
+                <option value="Hall 1">Hall 1</option>
+                <option value="Hall 2">Hall 2</option>
+                <option value="Hall 3">Hall 3</option>
+                <option value="Hall 4">Hall 4</option>
+                <option value="Hall 5">Hall 5</option>
+                <option value="Hall 6">Hall 6</option>
+                <option value="Hall 7">Hall 7</option>
+                <option value="Hall 7a">Hall 7a</option>
+                <option value="Hall 8">Hall 8</option>
+                <option value="Hall 8a">Hall 8a</option>
+                <option value="Hall 8b">Hall 8b</option>
+                <option value="Hall 9">Hall 9</option>
+                <option value="Hall 10">Hall 10</option>
+                <option value="Hall 11">Hall 11</option>
+                <option value="Hall 12">Hall 12</option>
+                <option value="Hall 13">Hall 13</option>
+                <option value="Hall 14">Hall 14</option>
+                <option value="Hall 15">Hall 15</option>
+                <option value="Hall 16">Hall 16</option>
+                <option value="Hall 17">Hall 17</option>
+              </select>
             </div>
 
             <div className="sm:col-span-2">
-              <label className="block text-sm font-medium mb-2">ציון רלוונטיות: {filters.relevanceScore[0]} - {filters.relevanceScore[1]}</label>
+              <label className="block text-sm font-medium mb-2">Relevance Score: {filters.relevanceScore[0]} - {filters.relevanceScore[1]}</label>
               <div className="flex gap-2">
                 <input
                   type="range"
@@ -438,7 +539,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                   onChange={(e) => setFilters(prev => ({ ...prev, hasContact: e.target.checked }))}
                   className="rounded"
                 />
-                <span className="text-sm">יש פרטי קשר</span>
+                <span className="text-sm">Has Contact Info</span>
               </label>
               <label className="flex items-center gap-2">
                 <input
@@ -447,7 +548,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                   onChange={(e) => setFilters(prev => ({ ...prev, hasWebsite: e.target.checked }))}
                   className="rounded"
                 />
-                <span className="text-sm">יש אתר</span>
+                <span className="text-sm">Has Website</span>
               </label>
             </div>
           </div>
@@ -579,8 +680,8 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
             {filteredCompanies.length === 0 && !loading && (
               <div className="text-center py-12">
                 <Search className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-                <h3 className="text-lg font-medium text-gray-600 mb-2">לא נמצאו חברות</h3>
-                <p className="text-gray-500">נסה לשנות את הפילטרים או חפש מונח אחר</p>
+                <h3 className="text-lg font-medium text-gray-600 mb-2">No companies found</h3>
+                <p className="text-gray-500">Try adjusting filters or search terms</p>
               </div>
             )}
           </div>
@@ -595,7 +696,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
             disabled={page === 1}
             className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50"
           >
-            הקודם
+            Previous
           </button>
           
           <div className="flex items-center gap-1">
@@ -618,7 +719,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
             disabled={page === totalPages}
             className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50"
           >
-            הבא
+            Next
           </button>
         </div>
       )}

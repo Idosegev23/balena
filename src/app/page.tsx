@@ -42,6 +42,67 @@ export default function Home() {
   const [activeView, setActiveView] = useState<'dashboard' | 'discovery' | 'visits' | 'settings'>('dashboard')
   const [showQuickAddModal, setShowQuickAddModal] = useState(false)
 
+  // Browser history management for mobile back button
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (event.state) {
+        const { view, companyModal, discoveryPage, quickAddModal } = event.state
+        
+        if (quickAddModal) {
+          setShowQuickAddModal(true)
+          return
+        }
+        
+        if (companyModal && selectedCompany) {
+          setShowCompanyModal(true)
+          return
+        }
+        
+        if (discoveryPage) {
+          setShowDiscoveryPage(true)
+          setActiveView('discovery')
+          return
+        }
+        
+        if (view) {
+          setActiveView(view)
+          setShowCompanyModal(false)
+          setShowDiscoveryPage(false)
+          setShowQuickAddModal(false)
+          return
+        }
+      }
+      
+      // Default: close all modals and go to dashboard
+      setShowCompanyModal(false)
+      setShowDiscoveryPage(false)
+      setShowQuickAddModal(false)
+      setActiveView('dashboard')
+    }
+
+    window.addEventListener('popstate', handlePopState)
+    
+    // Set initial state
+    window.history.replaceState({ view: 'dashboard' }, '')
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState)
+    }
+  }, [selectedCompany])
+
+  // Update history when views change
+  useEffect(() => {
+    if (showQuickAddModal) {
+      window.history.pushState({ view: activeView, quickAddModal: true }, '')
+    } else if (showCompanyModal && selectedCompany) {
+      window.history.pushState({ view: activeView, companyModal: true }, '')
+    } else if (showDiscoveryPage) {
+      window.history.pushState({ view: 'discovery', discoveryPage: true }, '')
+    } else {
+      window.history.pushState({ view: activeView }, '')
+    }
+  }, [activeView, showCompanyModal, showDiscoveryPage, showQuickAddModal, selectedCompany])
+
   // Fetch dashboard data
   useEffect(() => {
     if (user) {
@@ -67,6 +128,32 @@ export default function Home() {
     }
   }, [deptFilter])
 
+  // Update stats when department filter changes
+  useEffect(() => {
+    if (companies.length > 0) {
+      const newStats = calculateFilteredStats(companies, deptFilter)
+      setStats(newStats)
+    }
+  }, [companies, deptFilter])
+
+  const calculateFilteredStats = (allCompanies: Company[], filter: string) => {
+    const filteredCompanies = filter 
+      ? allCompanies.filter(c => c.department === filter)
+      : allCompanies
+
+    const totalCompanies = filteredCompanies.length
+    const mustVisitCompanies = filteredCompanies.filter(c => c.visit_priority === 'MUST_VISIT').length
+    const visitedCompanies = 0 // TODO: Add visited tracking based on filtered companies
+    const followUpRequired = 0 // TODO: Add follow-up tracking based on filtered companies
+
+    return {
+      totalCompanies,
+      mustVisitCompanies,
+      visitedCompanies,
+      followUpRequired
+    }
+  }
+
   const fetchDashboardData = async () => {
     try {
       // Fetch companies
@@ -79,18 +166,9 @@ export default function Home() {
 
       setCompanies(companiesData || [])
 
-      // Calculate stats
-      const totalCompanies = companiesData?.length || 0
-      const mustVisitCompanies = companiesData?.filter(c => c.visit_priority === 'MUST_VISIT').length || 0
-      const visitedCompanies = 0 // TODO: Add visited tracking
-      const followUpRequired = 0 // TODO: Add follow-up tracking
-
-      setStats({
-        totalCompanies,
-        mustVisitCompanies,
-        visitedCompanies,
-        followUpRequired
-      })
+      // Calculate stats based on current filter
+      const newStats = calculateFilteredStats(companiesData || [], deptFilter)
+      setStats(newStats)
     } catch (error) {
       console.error('Error fetching dashboard data:', error)
     }
@@ -132,15 +210,15 @@ export default function Home() {
     },
     scanCard: () => {
       // TODO: Implement business card scanning
-      setMessage('תכונת סריקה בפיתוח')
+      setMessage('Card scanning feature in development')
     },
     addNote: () => {
       // TODO: Implement quick note
-      setMessage('תכונת הערה מהירה בפיתוח')
+      setMessage('Quick note feature in development')
     },
     scheduleVisit: () => {
       // TODO: Implement visit scheduling
-      setMessage('תכונת תזמון ביקור בפיתוח')
+      setMessage('Visit scheduling feature in development')
     }
   }
 
@@ -251,10 +329,10 @@ export default function Home() {
             </div>
             
             <p className="text-xl font-medium" style={{ color: 'var(--balena-dark)' }}>
-              טוען את המערכת...
+              Loading system...
             </p>
             <p className="text-sm" style={{ color: 'var(--balena-brown)' }}>
-              מתחבר לבסיס הנתונים
+              Connecting to database
             </p>
           </div>
         </div>
@@ -310,7 +388,7 @@ export default function Home() {
               {isSignUp && (
                 <>
                   <div>
-                    <label className="block text-sm font-medium mb-2 text-right">שם מלא</label>
+                    <label className="block text-sm font-medium mb-2 text-left">Full Name</label>
                     <input
                       type="text"
                       value={fullName}
@@ -405,8 +483,8 @@ export default function Home() {
             
             {isSignUp && (
               <div className="mt-4 p-3 bg-yellow-50 rounded-lg text-xs text-center">
-                💡 רק חברי צוות Balena יכולים להירשם<br/>
-                (@balena.science או triroars@gmail.com)
+                💡 Only Balena team members can register<br/>
+                (@balena.science or triroars@gmail.com)
               </div>
             )}
           </div>
@@ -431,7 +509,7 @@ export default function Home() {
                 K-Show 2025
               </h1>
               <p className="text-sm" style={{ color: 'var(--balena-brown)' }}>
-                ניהול חברות
+                Company Management
               </p>
             </div>
           </div>
@@ -444,7 +522,7 @@ export default function Home() {
               className="px-4 py-2 text-sm border rounded-lg hover:bg-gray-50"
               style={{ borderColor: 'var(--balena-brown)', color: 'var(--balena-brown)' }}
             >
-              יציאה
+              Logout
             </button>
           </div>
         </div>
@@ -472,22 +550,22 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Department Filter Tabs - Mobile First */}
+          {/* Department Filter Tabs - Mobile First with improved spacing */}
           <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-            <div className="flex border-b">
+            <div className="flex border-b overflow-x-auto">
               <button
                 onClick={() => setDeptFilter('')}
-                className={`flex-1 px-3 py-2 text-sm font-medium transition-colors ${
+                className={`flex-shrink-0 px-2 sm:px-3 py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                   !deptFilter 
                     ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
                 }`}
               >
-                All Departments
+                All Depts
               </button>
               <button
                 onClick={() => setDeptFilter('Commercial')}
-                className={`flex-1 px-3 py-2 text-sm font-medium transition-colors ${
+                className={`flex-shrink-0 px-2 sm:px-3 py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                   deptFilter === 'Commercial' 
                     ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
@@ -497,7 +575,7 @@ export default function Home() {
               </button>
               <button
                 onClick={() => setDeptFilter('Operations')}
-                className={`flex-1 px-3 py-2 text-sm font-medium transition-colors ${
+                className={`flex-shrink-0 px-2 sm:px-3 py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                   deptFilter === 'Operations' 
                     ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
@@ -507,7 +585,7 @@ export default function Home() {
               </button>
               <button
                 onClick={() => setDeptFilter('R&D')}
-                className={`flex-1 px-3 py-2 text-sm font-medium transition-colors ${
+                className={`flex-shrink-0 px-2 sm:px-3 py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                   deptFilter === 'R&D' 
                     ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
@@ -517,7 +595,7 @@ export default function Home() {
               </button>
               <button
                 onClick={() => setDeptFilter('Marketing')}
-                className={`flex-1 px-3 py-2 text-sm font-medium transition-colors ${
+                className={`flex-shrink-0 px-2 sm:px-3 py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                   deptFilter === 'Marketing' 
                     ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
@@ -542,7 +620,7 @@ export default function Home() {
                 {stats?.totalCompanies || 0}
               </div>
               <div className="text-xs font-medium opacity-90">
-                🏢 גלה חברות
+                🏢 Discover
               </div>
             </button>
             <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-xl p-4 shadow-lg text-center flex flex-col items-center gap-2 text-white">
@@ -551,7 +629,7 @@ export default function Home() {
                 {stats?.mustVisitCompanies || 0}
               </div>
               <div className="text-xs font-medium opacity-90">
-                ⭐ חובה לבקר
+                ⭐ Must Visit
               </div>
             </div>
             <button
@@ -563,7 +641,7 @@ export default function Home() {
                 {stats?.visitedCompanies || 0}
               </div>
               <div className="text-xs font-medium opacity-90">
-                ✅ ביקרתי
+                ✅ Visited
               </div>
             </button>
             <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-4 shadow-lg text-center flex flex-col items-center gap-2 text-white">
@@ -572,7 +650,7 @@ export default function Home() {
                 {stats?.followUpRequired || 0}
               </div>
               <div className="text-xs font-medium opacity-90">
-                📅 מעקב
+                📅 Follow-up
               </div>
             </div>
           </div>

@@ -233,7 +233,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
               style={{ color: 'var(--balena-dark)' }}
             >
               <ArrowLeft className="w-4 h-4" />
-              <span className="text-sm font-medium">חזור</span>
+              <span className="text-sm font-medium">Back</span>
             </button>
             <h3 className="flex-1 text-base font-bold text-center" style={{ color: 'var(--balena-dark)' }}>
               {activeTab === 'info' && (
@@ -890,24 +890,24 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
               {/* Future Features */}
               <div className="border-t pt-6">
                 <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--balena-dark)' }}>
-                  תכנון מתקדם (בפיתוח)
+                  Advanced Planning (In Development)
                 </h3>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div className="p-3 bg-gray-50 rounded-lg">
-                    <div className="font-medium text-sm mb-1">📅 תזמון אופטימלי</div>
-                    <div className="text-xs text-gray-600">זמן ביקור מומלץ על בסיס צפיפות</div>
+                    <div className="font-medium text-sm mb-1">📅 Optimal Timing</div>
+                    <div className="text-xs text-gray-600">Recommended visit time based on crowd density</div>
                   </div>
                   <div className="p-3 bg-gray-50 rounded-lg">
-                    <div className="font-medium text-sm mb-1">🗺️ מסלול חכם</div>
-                    <div className="text-xs text-gray-600">ניווט מדוכנים קרובים</div>
+                    <div className="font-medium text-sm mb-1">🗺️ Smart Route</div>
+                    <div className="text-xs text-gray-600">Navigation between nearby booths</div>
                   </div>
                   <div className="p-3 bg-gray-50 rounded-lg">
-                    <div className="font-medium text-sm mb-1">👥 תיאום צוות</div>
-                    <div className="text-xs text-gray-600">שיתוף Location ותכנון</div>
+                    <div className="font-medium text-sm mb-1">👥 Team Coordination</div>
+                    <div className="text-xs text-gray-600">Share location and planning</div>
                   </div>
                   <div className="p-3 bg-gray-50 rounded-lg">
-                    <div className="font-medium text-sm mb-1">📋 שאלות מוכנות</div>
-                    <div className="text-xs text-gray-600">רשימה מותאמת לחברה</div>
+                    <div className="font-medium text-sm mb-1">📋 Prepared Questions</div>
+                    <div className="text-xs text-gray-600">Customized company checklist</div>
                   </div>
                 </div>
               </div>
@@ -920,7 +920,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
               <div className="border-b pb-6">
                 <h3 className="font-bold mb-4 flex items-center gap-2">
                   <Camera className="w-5 h-5" />
-                  כרטיסי ביקור
+                  Business Cards
                 </h3>
                 <BusinessCardScanner 
                   companyId={company.id}

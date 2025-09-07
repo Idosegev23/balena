@@ -22,53 +22,53 @@ export function BottomNavigation({ activeTab, onTabChange, onQuickAdd }: BottomN
       </button>
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-40" style={{ paddingBottom: 'max(0.5rem, env(safe-area-inset-bottom))' }}>
-        <div className="grid grid-cols-4 max-w-md mx-auto">
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-40" style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}>
+        <div className="grid grid-cols-4 h-16">
           <button
             onClick={() => onTabChange('dashboard')}
-            className={`flex flex-col items-center justify-center py-2 px-1 transition-colors ${
+            className={`flex flex-col items-center justify-center py-2 px-2 transition-colors active:scale-95 ${
               activeTab === 'dashboard' 
-                ? 'text-blue-600' 
-                : 'text-gray-500 hover:text-gray-700'
+                ? 'text-blue-600 bg-blue-50' 
+                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
             }`}
           >
-            <Home className="w-6 h-6 mb-1" />
-            <span className="text-xs font-medium">Dashboard</span>
+            <Home className="w-5 h-5 mb-1" />
+            <span className="text-xs font-medium">Home</span>
           </button>
 
           <button
             onClick={() => onTabChange('discovery')}
-            className={`flex flex-col items-center justify-center py-2 px-1 transition-colors ${
+            className={`flex flex-col items-center justify-center py-2 px-2 transition-colors active:scale-95 ${
               activeTab === 'discovery' 
-                ? 'text-blue-600' 
-                : 'text-gray-500 hover:text-gray-700'
+                ? 'text-blue-600 bg-blue-50' 
+                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
             }`}
           >
-            <Search className="w-6 h-6 mb-1" />
-            <span className="text-xs font-medium">Search</span>
+            <Search className="w-5 h-5 mb-1" />
+            <span className="text-xs font-medium">Discover</span>
           </button>
 
           <button
             onClick={() => onTabChange('visits')}
-            className={`flex flex-col items-center justify-center py-2 px-1 transition-colors ${
+            className={`flex flex-col items-center justify-center py-2 px-2 transition-colors active:scale-95 ${
               activeTab === 'visits' 
-                ? 'text-blue-600' 
-                : 'text-gray-500 hover:text-gray-700'
+                ? 'text-blue-600 bg-blue-50' 
+                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
             }`}
           >
-            <Calendar className="w-6 h-6 mb-1" />
+            <Calendar className="w-5 h-5 mb-1" />
             <span className="text-xs font-medium">Visits</span>
           </button>
 
           <button
             onClick={() => onTabChange('settings')}
-            className={`flex flex-col items-center justify-center py-2 px-1 transition-colors ${
+            className={`flex flex-col items-center justify-center py-2 px-2 transition-colors active:scale-95 ${
               activeTab === 'settings' 
-                ? 'text-blue-600' 
-                : 'text-gray-500 hover:text-gray-700'
+                ? 'text-blue-600 bg-blue-50' 
+                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
             }`}
           >
-            <Settings className="w-6 h-6 mb-1" />
+            <Settings className="w-5 h-5 mb-1" />
             <span className="text-xs font-medium">Settings</span>
           </button>
         </div>
