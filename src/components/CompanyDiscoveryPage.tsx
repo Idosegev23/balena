@@ -89,8 +89,25 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       showFilters
     }
     sessionStorage.setItem('discovery_state', JSON.stringify(discoveryState))
+  }, [filters, sortBy, sortOrder, page, showFilters])
+
+  useEffect(() => {
     applyFilters()
-  }, [companies, filters, sortBy, sortOrder, page, showFilters])
+  }, [companies, filters, sortBy, sortOrder])
+
+  // Reset page to 1 when filters actually change (not on mount)
+  const [isFirstLoad, setIsFirstLoad] = useState(true)
+  useEffect(() => {
+    if (!isFirstLoad) {
+      setPage(1)
+    }
+  }, [filters, sortBy, sortOrder])
+
+  useEffect(() => {
+    if (isFirstLoad) {
+      setIsFirstLoad(false)
+    }
+  }, [])
 
   const parseLocationString = (location: string): { hall?: string, stand?: string } => {
     if (!location) return {}
@@ -250,7 +267,6 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
     })
 
     setFilteredCompanies(filtered)
-    setPage(1) // Reset to first page when filters change
   }
 
   const getPriorityColor = (priority: string) => {
@@ -338,7 +354,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
           </span>
         </div>
         <button
-          onClick={onClose}
+          onClick={() => window.history.back()}
           className="p-2 hover:bg-white/20 rounded-lg text-white"
         >
           <X className="w-6 h-6" />
@@ -418,7 +434,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
             className="flex items-center gap-2 px-4 py-3 border rounded-lg hover:bg-gray-100"
           >
             <Filter className="w-5 h-5" />
-            סינונים
+            Filters
             {showFilters ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </button>
           <button
@@ -426,7 +442,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
             className="flex items-center gap-2 px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700"
           >
             <Download className="w-5 h-5" />
-            ייצוא CSV
+            Export CSV
           </button>
         </div>
 
@@ -434,13 +450,13 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
         {showFilters && (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 p-4 bg-white rounded-lg border">
             <div>
-              <label className="block text-sm font-medium mb-2">מחלקה</label>
+              <label className="block text-sm font-medium mb-2">Department</label>
               <select
                 value={filters.department}
                 onChange={(e) => setFilters(prev => ({ ...prev, department: e.target.value }))}
                 className="w-full px-3 py-2 border rounded-lg"
               >
-                <option value="">כל המחלקות</option>
+                <option value="">All Departments</option>
                 {departments.map(dept => (
                   <option key={dept} value={dept}>{dept}</option>
                 ))}
@@ -448,13 +464,13 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">עדיפות ביקור</label>
+              <label className="block text-sm font-medium mb-2">Visit Priority</label>
               <select
                 value={filters.visitPriority}
                 onChange={(e) => setFilters(prev => ({ ...prev, visitPriority: e.target.value }))}
                 className="w-full px-3 py-2 border rounded-lg"
               >
-                <option value="">כל העדיפויות</option>
+                <option value="">All Priorities</option>
                 {visitPriorities.map(priority => (
                   <option key={priority} value={priority}>{getPriorityText(priority)}</option>
                 ))}
@@ -556,24 +572,24 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
 
         {/* Sorting */}
         <div className="flex items-center gap-4 mt-4">
-          <span className="text-sm font-medium">מיון לפי:</span>
+          <span className="text-sm font-medium">Sort by:</span>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
             className="px-3 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="relevance">⭐ רלוונטיות (ציון)</option>
-            <option value="company">🏢 שם החברה (A-Z)</option>
-            <option value="location">📍 מיקום</option>
-            <option value="hall">🏛️ הול</option>
-            <option value="department">🏢 מחלקה</option>
-            <option value="priority">🎯 עדיפות ביקור</option>
+            <option value="relevance">⭐ Relevance (Score)</option>
+            <option value="company">🏢 Company Name (A-Z)</option>
+            <option value="location">📍 Location</option>
+            <option value="hall">🏛️ Hall</option>
+            <option value="department">🏢 Department</option>
+            <option value="priority">🎯 Visit Priority</option>
           </select>
           <button
             onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
             className="px-3 py-1 border rounded hover:bg-gray-100"
           >
-            {sortOrder === 'asc' ? '↑ עולה' : '↓ יורד'}
+            {sortOrder === 'asc' ? '↑ Ascending' : '↓ Descending'}
           </button>
         </div>
       </div>
@@ -634,7 +650,16 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                     )}
                     {company.website && (
                       <div className="flex items-center gap-1">
-                        <span>🌐 אתר זמין</span>
+                        <a 
+                          href={company.website.startsWith('http') ? company.website : `https://${company.website}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline flex items-center gap-1"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <span>🌐</span>
+                          <span className="underline">Company Website</span>
+                        </a>
                       </div>
                     )}
                     {company.contact_person && (

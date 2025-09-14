@@ -185,7 +185,7 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
       fetchFollowUps()
     } catch (error) {
       console.error('Error deleting follow-up:', error)
-      alert('שגיאה במחיקת המשימה')
+      alert('Error deleting task')
     }
   }
 
@@ -267,7 +267,7 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
     return (
       <div className="text-center py-8">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-3"></div>
-        <p>טוען משימות פולואפ...</p>
+        <p>Loading follow-up tasks...</p>
       </div>
     )
   }
@@ -279,17 +279,17 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
         <div className="flex items-center gap-4">
           <h3 className="text-lg font-bold flex items-center gap-2">
             <Calendar className="w-5 h-5" />
-            משימות פולואפ
+            Follow-up Tasks
           </h3>
           <div className="flex gap-2">
             {pendingCount > 0 && (
               <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
-                {pendingCount} ממתינות
+                {pendingCount} Pending
               </span>
             )}
             {overdueCount > 0 && (
               <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-medium">
-                {overdueCount} באיחור
+                {overdueCount} Overdue
               </span>
             )}
           </div>
@@ -300,7 +300,7 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
           className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
           <Plus className="w-4 h-4" />
-          משימה חדשה
+          New Task
         </button>
       </div>
 
@@ -311,11 +311,11 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
           onChange={(e) => setFilterStatus(e.target.value)}
           className="px-3 py-2 border rounded-lg text-sm"
         >
-          <option value="all">כל הסטטוסים</option>
-          <option value="pending">ממתין</option>
-          <option value="in_progress">בתהליך</option>
-          <option value="completed">הושלם</option>
-          <option value="cancelled">בוטל</option>
+          <option value="all">All Statuses</option>
+          <option value="pending">Pending</option>
+          <option value="in_progress">In Progress</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
         </select>
 
         <select
@@ -323,11 +323,11 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
           onChange={(e) => setFilterPriority(e.target.value)}
           className="px-3 py-2 border rounded-lg text-sm"
         >
-          <option value="all">כל העדיפויות</option>
-          <option value="urgent">דחוף</option>
-          <option value="high">גבוה</option>
-          <option value="medium">בינוני</option>
-          <option value="low">נמוך</option>
+          <option value="all">All Priorities</option>
+          <option value="urgent">Urgent</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
         </select>
       </div>
 
@@ -335,49 +335,49 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
       {showForm && (
         <div className="border rounded-lg p-4 bg-gray-50">
           <h4 className="font-medium mb-4">
-            {editingFollowUp ? 'ערוך משימה' : 'משימה חדשה'}
+            {editingFollowUp ? 'Edit Task' : 'New Task'}
           </h4>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2">כותרת המשימה *</label>
+              <label className="block text-sm font-medium mb-2">Task Title *</label>
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                 className="w-full px-3 py-2 border rounded-lg"
-                placeholder="לדוגמה: שלח דוגמאות חומרים"
+                placeholder="e.g.: Send material samples"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">תיאור</label>
+              <label className="block text-sm font-medium mb-2">Description</label>
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                 rows={2}
                 className="w-full px-3 py-2 border rounded-lg"
-                placeholder="פרטים נוספים על המשימה..."
+                placeholder="Additional details about the task..."
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2">עדיפות</label>
+                <label className="block text-sm font-medium mb-2">Priority</label>
                 <select
                   value={formData.priority}
                   onChange={(e) => setFormData(prev => ({ ...prev, priority: e.target.value as any }))}
                   className="w-full px-3 py-2 border rounded-lg"
                 >
-                  <option value="low">נמוכה</option>
-                  <option value="medium">בינונית</option>
-                  <option value="high">גבוהה</option>
-                  <option value="urgent">דחופה</option>
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                  <option value="urgent">Urgent</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2">תאריך יעד</label>
+                <label className="block text-sm font-medium mb-2">Due Date</label>
                 <input
                   type="date"
                   value={formData.due_date}
@@ -393,13 +393,13 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
                 disabled={!formData.title.trim()}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
               >
-                {editingFollowUp ? 'עדכן' : 'הוסף'}
+                {editingFollowUp ? 'Update' : 'Add'}
               </button>
               <button
                 onClick={resetForm}
                 className="px-4 py-2 border rounded-lg hover:bg-gray-50"
               >
-                ביטול
+                Cancel
               </button>
             </div>
           </div>
@@ -411,8 +411,8 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
         {filteredFollowUps.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
             <Calendar className="w-12 h-12 mx-auto mb-2 text-gray-300" />
-            <p>אין משימות פולואפ</p>
-            <p className="text-sm">הוסף את המשימה הראשונה</p>
+            <p>No follow-up tasks</p>
+            <p className="text-sm">Add your first task</p>
           </div>
         ) : (
           filteredFollowUps.map((followUp) => (
@@ -428,22 +428,22 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
                     <div className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(followUp.status)}`}>
                       <div className="flex items-center gap-1">
                         {getStatusIcon(followUp.status)}
-                        {followUp.status === 'pending' ? 'ממתין' :
-                         followUp.status === 'in_progress' ? 'בתהליך' :
-                         followUp.status === 'completed' ? 'הושלם' : 'בוטל'}
+                        {followUp.status === 'pending' ? 'Pending' :
+                         followUp.status === 'in_progress' ? 'In Progress' :
+                         followUp.status === 'completed' ? 'Completed' : 'Cancelled'}
                       </div>
                     </div>
 
                     <div className={`px-2 py-1 rounded-full text-xs font-medium border ${getPriorityColor(followUp.priority)}`}>
                       <Flag className="w-3 h-3 inline mr-1" />
-                      {followUp.priority === 'urgent' ? 'דחוף' :
-                       followUp.priority === 'high' ? 'גבוה' :
-                       followUp.priority === 'medium' ? 'בינוני' : 'נמוך'}
+                      {followUp.priority === 'urgent' ? 'Urgent' :
+                       followUp.priority === 'high' ? 'High' :
+                       followUp.priority === 'medium' ? 'Medium' : 'Low'}
                     </div>
 
                     {followUp.due_date && isOverdue(followUp.due_date) && followUp.status !== 'completed' && (
                       <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs font-medium">
-                        באיחור
+                        Overdue
                       </span>
                     )}
                   </div>
@@ -458,11 +458,11 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
                     {showAllCompanies && followUp.company && (
                       <span>🏢 {followUp.company.company}</span>
                     )}
-                    <span>👤 משויך למשתמש</span>
+                    <span>👤 Assigned to user</span>
                     {followUp.due_date && (
                       <span>📅 {formatDate(followUp.due_date)}</span>
                     )}
-                    <span>נוצר {formatDate(followUp.created_at)}</span>
+                    <span>Created {formatDate(followUp.created_at)}</span>
                   </div>
                 </div>
 
@@ -474,10 +474,10 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
                         onChange={(e) => updateStatus(followUp.id, e.target.value)}
                         className="text-xs px-2 py-1 border rounded"
                       >
-                        <option value="pending">ממתין</option>
-                        <option value="in_progress">בתהליך</option>
-                        <option value="completed">הושלם</option>
-                        <option value="cancelled">בוטל</option>
+                        <option value="pending">Pending</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
                       </select>
                     </>
                   )}

@@ -307,11 +307,11 @@ export function VisitTracker({ company }: VisitTrackerProps) {
       <div className="grid grid-cols-2 gap-3">
         <div className="text-center p-2 bg-blue-50 rounded-lg">
           <div className="text-lg font-bold text-blue-600">{visits.length}</div>
-          <div className="text-xs text-blue-600">סה"כ ביקורים</div>
+          <div className="text-xs text-blue-600">Total Visits</div>
         </div>
         <div className="text-center p-2 bg-green-50 rounded-lg">
           <div className="text-lg font-bold text-green-600">{completedVisits.length}</div>
-          <div className="text-xs text-green-600">הושלמו</div>
+          <div className="text-xs text-green-600">Completed</div>
         </div>
       </div>
     </div>

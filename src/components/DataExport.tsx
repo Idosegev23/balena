@@ -39,12 +39,12 @@ export function DataExport() {
     if (!user) return
     
     setExporting(true)
-    setExportStatus('מכין נתונים לייצוא...')
+    setExportStatus('Preparing data for export...')
     
     try {
       const exportData: any = {
         metadata: {
-          exportedBy: user?.user_metadata?.full_name || user?.email || 'לא ידוע',
+          exportedBy: user?.user_metadata?.full_name || user?.email || 'Unknown',
           exportedAt: new Date().toISOString(),
           exportOptions: options
         }
@@ -52,7 +52,7 @@ export function DataExport() {
 
       // Export companies
       if (options.includeCompanies) {
-        setExportStatus('מייצא נתוני חברות...')
+        setExportStatus('Exporting company data...')
         
         let companiesQuery = supabase
           .from('companies')
@@ -71,7 +71,7 @@ export function DataExport() {
 
       // Export visits
       if (options.includeVisits) {
-        setExportStatus('מייצא נתוני ביקורים...')
+        setExportStatus('Exporting visits data...')
         
         const { data: visits, error: visitsError } = await supabase
           .from('visits')
@@ -88,7 +88,7 @@ export function DataExport() {
 
       // Export business cards
       if (options.includeBusinessCards) {
-        setExportStatus('מייצא כרטיסי ביקור...')
+        setExportStatus('Exporting business cards...')
         
         const { data: businessCards, error: cardsError } = await supabase
           .from('business_cards')
@@ -104,7 +104,7 @@ export function DataExport() {
 
       // Export notes
       if (options.includeNotes) {
-        setExportStatus('מייצא הערות...')
+        setExportStatus('Exporting notes...')
         
         const { data: notes, error: notesError } = await supabase
           .from('notes')
@@ -122,7 +122,7 @@ export function DataExport() {
 
       // Export follow-ups
       if (options.includeFollowUps) {
-        setExportStatus('מייצא משימות פולואפ...')
+        setExportStatus('Exporting follow-up tasks...')
         
         const { data: followUps, error: followUpsError } = await supabase
           .from('follow_ups')
@@ -139,7 +139,7 @@ export function DataExport() {
       }
 
       // Generate file based on format
-      setExportStatus('יוצר קובץ...')
+      setExportStatus('Creating file...')
       
       if (options.format === 'json') {
         downloadJSON(exportData)
@@ -153,9 +153,9 @@ export function DataExport() {
       await supabase
         .from('activity_feed')
         .insert({
-          user_name: user?.user_metadata?.full_name || user?.email || 'לא ידוע',
+          user_name: user?.user_metadata?.full_name || user?.email || 'Unknown',
           action_type: 'data_exported',
-          description: `ייצא נתונים בפורמט ${options.format}`,
+          description: `Exported data in ${options.format} format`,
           metadata: {
             format: options.format,
             options: options,
@@ -169,11 +169,11 @@ export function DataExport() {
           }
         })
 
-      setExportStatus('הייצוא הושלם בהצלחה!')
+      setExportStatus('Export completed successfully!')
       
     } catch (error) {
       console.error('Export error:', error)
-      setExportStatus('שגיאה בייצוא הנתונים')
+      setExportStatus('Error exporting data')
     }
     
     setExporting(false)
@@ -200,8 +200,8 @@ export function DataExport() {
     
     // Companies sheet
     if (data.companies) {
-      csvContent += "=== חברות ===\n"
-      csvContent += "שם החברה,מיקום,אולם,דוכן,אימייל,טלפון,אתר,תיאור,עדיפות ביקור,ציון רלוונטיות\n"
+      csvContent += "=== Companies ===\n"
+      csvContent += "Company Name,Location,Hall,Stand,Email,Phone,Website,Description,Visit Priority,Relevance Score\n"
       
       data.companies.forEach((company: any) => {
         csvContent += [
@@ -222,8 +222,8 @@ export function DataExport() {
 
     // Visits sheet
     if (data.visits) {
-      csvContent += "=== ביקורים ===\n"
-      csvContent += "חברה,מבקר,סטטוס,תאריך ביקור,משך זמן,הערות\n"
+      csvContent += "=== Visits ===\n"
+      csvContent += "Company,Visitor,Status,Visit Date,Duration,Notes\n"
       
       data.visits.forEach((visit: any) => {
         csvContent += [
@@ -257,7 +257,7 @@ export function DataExport() {
       <html dir="rtl" lang="he">
       <head>
         <meta charset="UTF-8">
-        <title>ייצוא נתונים - Balena K-Show 2025</title>
+        <title>Data Export - Balena K-Show 2025</title>
         <style>
           body { font-family: Arial, sans-serif; direction: rtl; }
           h1, h2 { color: #0E2226; }
@@ -268,19 +268,19 @@ export function DataExport() {
         </style>
       </head>
       <body>
-        <h1>ייצוא נתונים - Balena K-Show 2025</h1>
-        <p>תאריך ייצוא: ${new Date().toLocaleDateString('he-IL')}</p>
-        <p>מייצא: ${user?.user_metadata?.full_name || user?.email || 'לא ידוע'}</p>
+        <h1>Data Export - Balena K-Show 2025</h1>
+        <p>Export Date: ${new Date().toLocaleDateString('he-IL')}</p>
+        <p>Exported by: ${user?.user_metadata?.full_name || user?.email || 'Unknown'}</p>
         
         ${data.companies ? `
-          <h2>חברות (${data.companies.length})</h2>
+          <h2>Companies (${data.companies.length})</h2>
           <table>
             <tr>
-              <th>שם החברה</th>
-              <th>מיקום</th>
-              <th>אולם/דוכן</th>
-              <th>עדיפות</th>
-              <th>ציון רלוונטיות</th>
+              <th>Company Name</th>
+              <th>Location</th>
+              <th>Hall/Stand</th>
+              <th>Priority</th>
+              <th>Relevance Score</th>
             </tr>
             ${data.companies.map((company: any) => `
               <tr>
@@ -296,21 +296,21 @@ export function DataExport() {
         
         ${data.visits ? `
           <div class="page-break"></div>
-          <h2>ביקורים (${data.visits.length})</h2>
+          <h2>Visits (${data.visits.length})</h2>
           <table>
             <tr>
-              <th>חברה</th>
-              <th>מבקר</th>
-              <th>תאריך</th>
-              <th>משך זמן</th>
-              <th>סטטוס</th>
+              <th>Company</th>
+              <th>Visitor</th>
+              <th>Date</th>
+              <th>Duration</th>
+              <th>Status</th>
             </tr>
             ${data.visits.map((visit: any) => `
               <tr>
                 <td>${visit.company?.company || ''}</td>
                 <td>${visit.user?.full_name || visit.user?.email || ''}</td>
                 <td>${new Date(visit.visit_date).toLocaleDateString('he-IL')}</td>
-                <td>${visit.duration_minutes || ''} דקות</td>
+                <td>${visit.duration_minutes || ''} minutes</td>
                 <td>${visit.visit_status || ''}</td>
               </tr>
             `).join('')}
@@ -330,7 +330,7 @@ export function DataExport() {
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
     
-    alert('קובץ HTML נוצר. תוכל לפתוח אותו בדפדפן ולהדפיס כ-PDF')
+    alert('HTML file created. You can open it in browser and print as PDF')
   }
 
   return (
@@ -338,26 +338,26 @@ export function DataExport() {
       <div className="flex items-center gap-2">
         <Download className="w-6 h-6" style={{ color: 'var(--balena-dark)' }} />
         <h2 className="text-xl font-bold" style={{ color: 'var(--balena-dark)' }}>
-          ייצוא נתונים
+          Data Export
         </h2>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Export Options */}
         <div className="space-y-4">
-          <h3 className="font-bold">אפשרויות ייצוא</h3>
+          <h3 className="font-bold">Export Options</h3>
           
           {/* Data Types */}
           <div className="space-y-3">
-            <h4 className="font-medium text-sm">סוגי נתונים</h4>
+            <h4 className="font-medium text-sm">Data Types</h4>
             <div className="space-y-2">
               {[
-                { key: 'includeCompanies', label: 'חברות ופרטי קשר', icon: <Building2 className="w-4 h-4" /> },
-                { key: 'includeVisits', label: 'ביקורים ומעקב', icon: <CheckCircle className="w-4 h-4" /> },
-                { key: 'includeNotes', label: 'הערות (פומביות)', icon: <FileText className="w-4 h-4" /> },
-                { key: 'includeBusinessCards', label: 'כרטיסי ביקור', icon: <Mail className="w-4 h-4" /> },
-                { key: 'includeFollowUps', label: 'משימות פולואפ', icon: <AlertCircle className="w-4 h-4" /> },
-                { key: 'includeImages', label: 'תמונות (יגדיל את הקובץ)', icon: <Image className="w-4 h-4" /> }
+                { key: 'includeCompanies', label: 'Companies and contact details', icon: <Building2 className="w-4 h-4" /> },
+                { key: 'includeVisits', label: 'Visits and tracking', icon: <CheckCircle className="w-4 h-4" /> },
+                { key: 'includeNotes', label: 'Notes (public)', icon: <FileText className="w-4 h-4" /> },
+                { key: 'includeBusinessCards', label: 'Business cards', icon: <Mail className="w-4 h-4" /> },
+                { key: 'includeFollowUps', label: 'Follow-up tasks', icon: <AlertCircle className="w-4 h-4" /> },
+                { key: 'includeImages', label: 'Images (will increase file size)', icon: <Image className="w-4 h-4" /> }
               ].map(({ key, label, icon }) => (
                 <label key={key} className="flex items-center gap-2">
                   <input
@@ -375,12 +375,12 @@ export function DataExport() {
 
           {/* Format */}
           <div className="space-y-3">
-            <h4 className="font-medium text-sm">פורמט קובץ</h4>
+            <h4 className="font-medium text-sm">File Format</h4>
             <div className="space-y-2">
               {[
-                { value: 'excel', label: 'Excel/CSV (מומלץ לניתוח)', icon: '📊' },
-                { value: 'pdf', label: 'PDF/HTML (מומלץ לדוחות)', icon: '📄' },
-                { value: 'json', label: 'JSON (מתקדם)', icon: '💻' }
+                { value: 'excel', label: 'Excel/CSV (recommended for analysis)', icon: '📊' },
+                { value: 'pdf', label: 'PDF/HTML (recommended for reports)', icon: '📄' },
+                { value: 'json', label: 'JSON (advanced)', icon: '💻' }
               ].map(({ value, label, icon }) => (
                 <label key={value} className="flex items-center gap-2">
                   <input
@@ -400,16 +400,16 @@ export function DataExport() {
 
           {/* Filters */}
           <div className="space-y-3">
-            <h4 className="font-medium text-sm">סינון נתונים</h4>
+            <h4 className="font-medium text-sm">Data Filtering</h4>
             
             <div>
-              <label className="block text-sm mb-2">עדיפויות ביקור</label>
+              <label className="block text-sm mb-2">Visit Priorities</label>
               <div className="space-y-1">
                 {[
-                  { value: 'MUST_VISIT', label: 'חובה לבקר' },
-                  { value: 'HIGH', label: 'עדיפות גבוהה' },
-                  { value: 'MEDIUM', label: 'עדיפות בינונית' },
-                  { value: 'LOW', label: 'עדיפות נמוכה' }
+                  { value: 'MUST_VISIT', label: 'Must Visit' },
+                  { value: 'HIGH', label: 'High Priority' },
+                  { value: 'MEDIUM', label: 'Medium Priority' },
+                  { value: 'LOW', label: 'Low Priority' }
                 ].map(({ value, label }) => (
                   <label key={value} className="flex items-center gap-2">
                     <input
@@ -434,15 +434,15 @@ export function DataExport() {
 
         {/* Export Status & Action */}
         <div className="space-y-4">
-          <h3 className="font-bold">סטטוס ייצוא</h3>
+          <h3 className="font-bold">Export Status</h3>
           
           <div className="border rounded-lg p-4 bg-gray-50">
             {!exporting && !exportStatus && (
               <div className="text-center py-6">
                 <Package className="w-12 h-12 mx-auto mb-3 text-gray-400" />
-                <p className="text-gray-600 mb-4">מוכן לייצוא נתונים</p>
+                <p className="text-gray-600 mb-4">Ready to export data</p>
                 <p className="text-sm text-gray-500">
-                  בחר את האפשרויות המתאימות ולחץ על ייצוא
+                  Select the appropriate options and click Export
                 </p>
               </div>
             )}
@@ -451,7 +451,7 @@ export function DataExport() {
               <div className="text-center py-6">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-3"></div>
                 <p className="font-medium">{exportStatus}</p>
-                <p className="text-sm text-gray-500 mt-2">אנא המתן...</p>
+                <p className="text-sm text-gray-500 mt-2">Please wait...</p>
               </div>
             )}
 
@@ -468,13 +468,13 @@ export function DataExport() {
             disabled={exporting || (!options.includeCompanies && !options.includeVisits && !options.includeNotes && !options.includeBusinessCards && !options.includeFollowUps)}
             className="w-full py-3 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {exporting ? '⏳ מייצא...' : '📥 ייצא נתונים'}
+            {exporting ? '⏳ Exporting...' : '📥 Export Data'}
           </button>
 
           <div className="text-xs text-gray-500 space-y-1">
-            <p>• הייצוא כולל רק נתונים שיש לך הרשאה לצפות בהם</p>
-            <p>• הערות פרטיות לא ייכללו בייצוא</p>
-            <p>• קבצי תמונות עלולים ליצור קובץ גדול</p>
+            <p>• Export includes only data you have permission to view</p>
+            <p>• Private notes will not be included in export</p>
+            <p>• Image files may create a large file</p>
           </div>
         </div>
       </div>

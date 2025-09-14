@@ -1,0 +1,15 @@
+{
+  "description": "מתכון לחילוץ מידע מ-K-Show",
+  "steps": [
+    {
+      "type": "navigate",
+      "instruction": "Navigate to https://www.k-online.com/vis/v1/en/search?_query=ACTEGA+GmbH"
+    }
+  ],
+  "expected_data": {
+    "hall": "Hall",
+    "stand": "8a",
+    "phone": "43\n46483",
+    "website": "https://www.actega.com"
+  }
+}

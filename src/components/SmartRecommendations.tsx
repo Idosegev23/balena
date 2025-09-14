@@ -94,9 +94,9 @@ export function SmartRecommendations({ currentCompany, onCompanyClick }: SmartRe
         if (similarCompanies.length > 0) {
           recommendationGroups.push({
             title: 'Similar Companies',
-            description: `דומות ל-${currentCompany.company}`,
+            description: `Similar to ${currentCompany.company}`,
             companies: similarCompanies.slice(0, 4),
-            reason: 'מאפיינים דומים',
+            reason: 'Similar characteristics',
             icon: <Target className="w-5 h-5 text-blue-600" />,
             priority: 'medium'
           })
@@ -111,10 +111,10 @@ export function SmartRecommendations({ currentCompany, onCompanyClick }: SmartRe
 
       if (unratedHighRelevance.length > 0) {
         recommendationGroups.push({
-          title: 'רלוונטיות גבוהה',
-          description: 'חברות עם ציון רלוונטיות גבוה שעדיין לא דורגו',
+          title: 'High Relevance',
+          description: 'Companies with high relevance scores not yet rated',
           companies: unratedHighRelevance.slice(0, 6),
-          reason: 'ציון רלוונטיות גבוה',
+          reason: 'High relevance score',
           icon: <TrendingUp className="w-5 h-5 text-orange-600" />,
           priority: 'high'
         })
@@ -127,10 +127,10 @@ export function SmartRecommendations({ currentCompany, onCompanyClick }: SmartRe
 
       if (mustVisitCompanies.length > 0) {
         recommendationGroups.push({
-          title: 'חובה לבקר',
-          description: 'חברות שסומנו כעדיפות גבוהה ביותר',
+          title: 'Must Visit',
+          description: 'Companies marked as highest priority',
           companies: mustVisitCompanies.slice(0, 8),
-          reason: 'עדיפות גבוהה ביותר',
+          reason: 'Highest priority',
           icon: <Target className="w-5 h-5 text-red-600" />,
           priority: 'high'
         })
@@ -169,7 +169,7 @@ export function SmartRecommendations({ currentCompany, onCompanyClick }: SmartRe
         <div className="flex items-center gap-2 mb-4">
           <Lightbulb className="w-6 h-6" style={{ color: 'var(--balena-dark)' }} />
           <h2 className="text-xl font-bold" style={{ color: 'var(--balena-dark)' }}>
-            המלצות חכמות
+            Smart Recommendations
           </h2>
         </div>
         <div className="space-y-3">
@@ -193,9 +193,9 @@ export function SmartRecommendations({ currentCompany, onCompanyClick }: SmartRe
     return (
       <div className="text-center py-8">
         <Lightbulb className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-        <h3 className="text-lg font-medium text-gray-600 mb-2">אין המלצות זמינות</h3>
+        <h3 className="text-lg font-medium text-gray-600 mb-2">No recommendations available</h3>
         <p className="text-sm text-gray-500">
-          התחל לדרג חברות כדי לקבל המלצות מותאמות אישית
+          Start rating companies to receive personalized recommendations
         </p>
       </div>
     )
@@ -206,7 +206,7 @@ export function SmartRecommendations({ currentCompany, onCompanyClick }: SmartRe
       <div className="flex items-center gap-2 mb-4">
         <Lightbulb className="w-6 h-6" style={{ color: 'var(--balena-dark)' }} />
         <h2 className="text-xl font-bold" style={{ color: 'var(--balena-dark)' }}>
-          המלצות חכמות
+          Smart Recommendations
         </h2>
       </div>
 
@@ -224,8 +224,8 @@ export function SmartRecommendations({ currentCompany, onCompanyClick }: SmartRe
               </div>
             </div>
             <div className={`px-3 py-1 rounded-full text-xs font-medium ${getPriorityBadgeColor(group.priority)}`}>
-              {group.priority === 'high' ? 'עדיפות גבוהה' : 
-               group.priority === 'medium' ? 'עדיפות בינונית' : 'עדיפות נמוכה'}
+              {group.priority === 'high' ? 'High Priority' : 
+               group.priority === 'medium' ? 'Medium Priority' : 'Low Priority'}
             </div>
           </div>
 
@@ -258,7 +258,7 @@ export function SmartRecommendations({ currentCompany, onCompanyClick }: SmartRe
 
           {group.companies.length === 0 && (
             <p className="text-center text-gray-500 py-4">
-              אין חברות זמינות בקטגוריה זו
+              No companies available in this category
             </p>
           )}
         </div>

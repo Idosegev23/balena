@@ -1,0 +1,161 @@
+{
+  "total_actions": 43,
+  "action_types": {
+    "navigate": 1,
+    "scroll_change": 4,
+    "modal_detected": 22,
+    "js_hover": 7,
+    "js_scroll": 3,
+    "js_click": 2,
+    "js_dom_change": 3,
+    "final_state": 1
+  },
+  "timeline": [
+    {
+      "time": 1757793371.916933,
+      "type": "navigate",
+      "description": "Navigated to https://www.k-online.com/vis/v1/en/search?_query=ACTEGA+GmbH"
+    },
+    {
+      "time": 1757793378.950609,
+      "type": "modal_detected",
+      "description": "Modal detected with 7 elements"
+    },
+    {
+      "time": 1757793379.753878,
+      "type": "modal_detected",
+      "description": "Modal detected with 7 elements"
+    },
+    {
+      "time": 1757793380.57456,
+      "type": "modal_detected",
+      "description": "Modal detected with 7 elements"
+    },
+    {
+      "time": 1757793381.405118,
+      "type": "modal_detected",
+      "description": "Modal detected with 7 elements"
+    },
+    {
+      "time": 1757793382.2511182,
+      "type": "modal_detected",
+      "description": "Modal detected with 7 elements"
+    },
+    {
+      "time": 1757793383.415267,
+      "type": "modal_detected",
+      "description": "Modal detected with 22 elements"
+    },
+    {
+      "time": 1757793384.5909288,
+      "type": "modal_detected",
+      "description": "Modal detected with 22 elements"
+    },
+    {
+      "time": 1757793385.7833211,
+      "type": "modal_detected",
+      "description": "Modal detected with 22 elements"
+    },
+    {
+      "time": 1757793387.17418,
+      "type": "modal_detected",
+      "description": "Modal detected with 22 elements"
+    },
+    {
+      "time": 1757793388.5382452,
+      "type": "modal_detected",
+      "description": "Modal detected with 22 elements"
+    },
+    {
+      "time": 1757793389.756258,
+      "type": "modal_detected",
+      "description": "Modal detected with 22 elements"
+    },
+    {
+      "time": 1757793391.079267,
+      "type": "modal_detected",
+      "description": "Modal detected with 22 elements"
+    },
+    {
+      "time": 1757793392.4276211,
+      "type": "modal_detected",
+      "description": "Modal detected with 22 elements"
+    },
+    {
+      "time": 1757793393.7311108,
+      "type": "modal_detected",
+      "description": "Modal detected with 22 elements"
+    },
+    {
+      "time": 1757793395.9822452,
+      "type": "modal_detected",
+      "description": "Modal detected with 22 elements"
+    },
+    {
+      "time": 1757793400.081114,
+      "type": "modal_detected",
+      "description": "Modal detected with 22 elements"
+    },
+    {
+      "time": 1757793404.3419662,
+      "type": "modal_detected",
+      "description": "Modal detected with 22 elements"
+    },
+    {
+      "time": 1757793408.347008,
+      "type": "modal_detected",
+      "description": "Modal detected with 22 elements"
+    },
+    {
+      "time": 1757793413.294755,
+      "type": "modal_detected",
+      "description": "Modal detected with 22 elements"
+    },
+    {
+      "time": 1757793417.4412,
+      "type": "modal_detected",
+      "description": "Modal detected with 22 elements"
+    },
+    {
+      "time": 1757793421.631892,
+      "type": "modal_detected",
+      "description": "Modal detected with 22 elements"
+    },
+    {
+      "time": 1757793425.538238,
+      "type": "modal_detected",
+      "description": "Modal detected with 22 elements"
+    },
+    {
+      "time": 1757793426.338264,
+      "type": "js_click",
+      "description": "Clicked on DIV - "
+    },
+    {
+      "time": 1757793426.338563,
+      "type": "js_click",
+      "description": "Clicked on SPAN - Go to Exhibitor Profile"
+    },
+    {
+      "time": 1757793433.633554,
+      "type": "final_state",
+      "description": "Final state: 22 modals, company info: True"
+    }
+  ],
+  "key_findings": {
+    "company_info_found": {
+      "hall": "Hall",
+      "stand": "8a",
+      "address": [
+        "Abelstraße 43",
+        "46483Wesel",
+        "Germany"
+      ],
+      "phone": "43\n46483",
+      "website": "https://www.actega.com"
+    },
+    "modals_detected": 22,
+    "final_url": "https://www.k-online.com/vis/v1/en/search?_query=ACTEGA+GmbH",
+    "scroll_activity": 7
+  }
+}

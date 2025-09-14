@@ -1,0 +1,2687 @@
+[
+  {
+    "step": 0,
+    "timestamp": 1757793371.916933,
+    "action_type": "navigate",
+    "data": {
+      "url": "https://www.k-online.com/vis/v1/en/search?_query=ACTEGA+GmbH"
+    }
+  },
+  {
+    "step": 1,
+    "timestamp": 1757793374.250535,
+    "action_type": "scroll_change",
+    "data": {
+      "from": 0,
+      "to": 286
+    }
+  },
+  {
+    "step": 2,
+    "timestamp": 1757793374.7970188,
+    "action_type": "scroll_change",
+    "data": {
+      "from": 286,
+      "to": 492
+    }
+  },
+  {
+    "step": 3,
+    "timestamp": 1757793375.338956,
+    "action_type": "scroll_change",
+    "data": {
+      "from": 492,
+      "to": 546
+    }
+  },
+  {
+    "step": 4,
+    "timestamp": 1757793375.889516,
+    "action_type": "scroll_change",
+    "data": {
+      "from": 546,
+      "to": 687
+    }
+  },
+  {
+    "step": 5,
+    "timestamp": 1757793378.950609,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Close",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 6,
+    "timestamp": 1757793379.753878,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Close",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 7,
+    "timestamp": 1757793380.57456,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Close",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 8,
+    "timestamp": 1757793381.405118,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Close",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 9,
+    "timestamp": 1757793382.2511182,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Close",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Close",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 10,
+    "timestamp": 1757793383.415267,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-page-layout__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-details__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section",
+          "id": ""
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data"
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": ""
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 11,
+    "timestamp": 1757793384.5909288,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-page-layout__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-details__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section",
+          "id": ""
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data"
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": ""
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 12,
+    "timestamp": 1757793385.7833211,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-page-layout__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-details__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section",
+          "id": ""
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data"
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": ""
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 13,
+    "timestamp": 1757793387.17418,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-page-layout__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-details__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section",
+          "id": ""
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data"
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": ""
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 14,
+    "timestamp": 1757793388.5382452,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-page-layout__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-details__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section",
+          "id": ""
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data"
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": ""
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 15,
+    "timestamp": 1757793389.756258,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-page-layout__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-details__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section",
+          "id": ""
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data"
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": ""
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 16,
+    "timestamp": 1757793391.079267,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-page-layout__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-details__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section",
+          "id": ""
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data"
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": ""
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 17,
+    "timestamp": 1757793392.4276211,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-page-layout__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-details__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section",
+          "id": ""
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data"
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": ""
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 18,
+    "timestamp": 1757793393.7311108,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-page-layout__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-details__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section",
+          "id": ""
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data"
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": ""
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 19,
+    "timestamp": 1757793395.9822452,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-page-layout__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-details__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section",
+          "id": ""
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data"
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": ""
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 20,
+    "timestamp": 1757793400.081114,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-page-layout__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-details__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section",
+          "id": ""
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data"
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": ""
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 21,
+    "timestamp": 1757793404.3419662,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-page-layout__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-details__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section",
+          "id": ""
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data"
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": ""
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 22,
+    "timestamp": 1757793408.347008,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-page-layout__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-details__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section",
+          "id": ""
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data"
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": ""
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 23,
+    "timestamp": 1757793413.294755,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-page-layout__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-details__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section",
+          "id": ""
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data"
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": ""
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 24,
+    "timestamp": 1757793417.4412,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-page-layout__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-details__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section",
+          "id": ""
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data"
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": ""
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 25,
+    "timestamp": 1757793421.631892,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-page-layout__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-details__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section",
+          "id": ""
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data"
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": ""
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 26,
+    "timestamp": 1757793425.538238,
+    "action_type": "modal_detected",
+    "data": {
+      "modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-manager",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window-wrap__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": ""
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-page-layout__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "content-modal-details__content",
+          "id": ""
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing c",
+          "classes": "modal-section",
+          "id": ""
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data"
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": ""
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": ""
+        }
+      ]
+    }
+  },
+  {
+    "step": 27,
+    "timestamp": 1757793426.338062,
+    "action_type": "js_hover",
+    "data": {
+      "actionId": 1,
+      "element": {
+        "className": "entry has-children",
+        "id": "",
+        "tagName": "A",
+        "text": "\n            \n            Media & News\n            \n        ",
+        "xpath": "id(\"nav_main\")/UL[1]/LI[6]/A[1]"
+      },
+      "timestamp": 1757793373579,
+      "type": "hover"
+    }
+  },
+  {
+    "step": 28,
+    "timestamp": 1757793426.338125,
+    "action_type": "js_hover",
+    "data": {
+      "actionId": 2,
+      "element": {
+        "className": "button-list-anchor",
+        "id": "",
+        "tagName": "A",
+        "text": "\n        \n\n        \n\n\n\n\n        \n        \n            Exhibitor List A-Z\n        \n    ",
+        "xpath": "id(\"main\")/DIV[2]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[3]/A[1]"
+      },
+      "timestamp": 1757793373787,
+      "type": "hover"
+    }
+  },
+  {
+    "step": 29,
+    "timestamp": 1757793426.338166,
+    "action_type": "js_scroll",
+    "data": {
+      "actionId": 3,
+      "position": {
+        "x": 0,
+        "y": 286
+      },
+      "timestamp": 1757793374203,
+      "type": "scroll"
+    }
+  },
+  {
+    "step": 30,
+    "timestamp": 1757793426.338198,
+    "action_type": "js_scroll",
+    "data": {
+      "actionId": 4,
+      "position": {
+        "x": 0,
+        "y": 546
+      },
+      "timestamp": 1757793375030,
+      "type": "scroll"
+    }
+  },
+  {
+    "step": 31,
+    "timestamp": 1757793426.338228,
+    "action_type": "js_scroll",
+    "data": {
+      "actionId": 5,
+      "position": {
+        "x": 0,
+        "y": 690
+      },
+      "timestamp": 1757793376039,
+      "type": "scroll"
+    }
+  },
+  {
+    "step": 32,
+    "timestamp": 1757793426.338264,
+    "action_type": "js_click",
+    "data": {
+      "actionId": 6,
+      "element": {
+        "className": "overlay",
+        "id": "",
+        "tagName": "DIV",
+        "text": "",
+        "xpath": "id(\"finder-search\")/DIV[1]/DIV[1]/SECTION[1]/DIV[1]/DIV[2]/DIV[2]/UL[1]/LI[1]/DIV[1]/ARTICLE[1]/DIV[1]/DIV[1]/FIGURE[1]/DIV[1]"
+      },
+      "position": {
+        "x": 530,
+        "y": 466
+      },
+      "timestamp": 1757793378151,
+      "type": "click"
+    }
+  },
+  {
+    "step": 33,
+    "timestamp": 1757793426.3382971,
+    "action_type": "js_dom_change",
+    "data": {
+      "actionId": 7,
+      "description": "Modal/Popup appeared",
+      "timestamp": 1757793378164,
+      "type": "dom_change"
+    }
+  },
+  {
+    "step": 34,
+    "timestamp": 1757793426.33833,
+    "action_type": "js_hover",
+    "data": {
+      "actionId": 8,
+      "element": {
+        "className": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+        "id": "",
+        "tagName": "DIV",
+        "text": "",
+        "xpath": "BODY/DIV[5]/DIV[2]/DIV[1]/DIV[1]/DIV[2]/DIV[2]/DIV[1]"
+      },
+      "timestamp": 1757793378623,
+      "type": "hover"
+    }
+  },
+  {
+    "step": 35,
+    "timestamp": 1757793426.338364,
+    "action_type": "js_dom_change",
+    "data": {
+      "actionId": 9,
+      "description": "Modal/Popup appeared",
+      "timestamp": 1757793382431,
+      "type": "dom_change"
+    }
+  },
+  {
+    "step": 36,
+    "timestamp": 1757793426.33841,
+    "action_type": "js_dom_change",
+    "data": {
+      "actionId": 10,
+      "description": "Modal/Popup appeared",
+      "timestamp": 1757793382463,
+      "type": "dom_change"
+    }
+  },
+  {
+    "step": 37,
+    "timestamp": 1757793426.338443,
+    "action_type": "js_hover",
+    "data": {
+      "actionId": 11,
+      "element": {
+        "className": "content-modal-details__content",
+        "id": "",
+        "tagName": "DIV",
+        "text": "ACTEGA GmbHACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company spec",
+        "xpath": "id(\"finder-modal__content-modal-details\")/DIV[1]"
+      },
+      "timestamp": 1757793388859,
+      "type": "hover"
+    }
+  },
+  {
+    "step": 38,
+    "timestamp": 1757793426.338475,
+    "action_type": "js_hover",
+    "data": {
+      "actionId": 12,
+      "element": {
+        "className": "modal-section",
+        "id": "",
+        "tagName": "SECTION",
+        "text": "ACTEGA GmbHACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company spec",
+        "xpath": "id(\"finder-modal__content-modal-details\")/DIV[1]/SECTION[1]"
+      },
+      "timestamp": 1757793393201,
+      "type": "hover"
+    }
+  },
+  {
+    "step": 39,
+    "timestamp": 1757793426.338505,
+    "action_type": "js_hover",
+    "data": {
+      "actionId": 13,
+      "element": {
+        "className": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+        "id": "",
+        "tagName": "DIV",
+        "text": "ACTEGA GmbHACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company spec",
+        "xpath": "BODY/DIV[5]/DIV[2]/DIV[1]/DIV[1]/DIV[1]/DIV[2]/DIV[1]"
+      },
+      "timestamp": 1757793393405,
+      "type": "hover"
+    }
+  },
+  {
+    "step": 40,
+    "timestamp": 1757793426.3385339,
+    "action_type": "js_hover",
+    "data": {
+      "actionId": 14,
+      "element": {
+        "className": "content-modal-page__title-bar-wrapper",
+        "id": "",
+        "tagName": "DIV",
+        "text": "InfoInfoCompany dataCompany dataNotesNotesGo to Exhibitor Profile",
+        "xpath": "BODY/DIV[5]/DIV[2]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]"
+      },
+      "timestamp": 1757793393585,
+      "type": "hover"
+    }
+  },
+  {
+    "step": 41,
+    "timestamp": 1757793426.338563,
+    "action_type": "js_click",
+    "data": {
+      "actionId": 15,
+      "element": {
+        "className": "cta-button__label",
+        "id": "",
+        "tagName": "SPAN",
+        "text": "Go to Exhibitor Profile",
+        "xpath": "BODY/DIV[5]/DIV[2]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[2]/A[1]/DIV[1]/SPAN[1]"
+      },
+      "position": {
+        "x": 1074,
+        "y": 38
+      },
+      "timestamp": 1757793394812,
+      "type": "click"
+    }
+  },
+  {
+    "step": 42,
+    "timestamp": 1757793433.633554,
+    "action_type": "final_state",
+    "data": {
+      "url": "https://www.k-online.com/vis/v1/en/search?_query=ACTEGA+GmbH",
+      "title": "Exhibitors & Products 2025",
+      "company_info": {
+        "hall": "Hall",
+        "stand": "8a",
+        "address": [
+          "Abelstraße 43",
+          "46483Wesel",
+          "Germany"
+        ],
+        "phone": "43\n46483",
+        "website": "https://www.actega.com"
+      },
+      "active_modals": [
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing compounds for food closures and packaging, TPE materials for medical and pharmaceutical articles as well as for consumer goods.\n\n\n\nACTEGA DS develops, produces and markets specialized TPE materials for highly regulated markets such as the medical and pharmaceutical sector and the consumer goods industry. ACTEGA DS is a world leader in the manufacture of sealing components for plastic and metal closures in the food and drinks industries, supplying innovative, application-oriented TPE solutions. Since the company was founded, ACTEGA DS has been constantly presenting the latest technologies, which they develop and market hand in hand with their customers, manufacturers of closure machines and other decision-makers in the industry. When developing materials for sealing applications involving direct contact with foods, the company makes good use of its in-depth knowledge and expertise around thermoplastic elastomers. It has thus been able to develop for example SOFT EST.® TPE and PROVALIN® - innovative TPE materials and closure compounds with most minimal migration. The focus on TPEs for sensitive application areas and highly regulated markets was a major factor, enabling the company to become successfully established within the market and provide broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, ACTEGA DS has the solution ready.\nThe focus on TPE for sensitive applications and highly regulated markets has consistently contributed to the company's successful establishment in the market and its mature, broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, SOFT EST.® has the ACTEGA DS solution ready.\nACTEGA DS has 150 employees working with state-of-the-art production equipment at its location in Bremen, Germany. The company is among the market leaders, having secured significant market share in the sector and achieving constant top performance with strategies like systematic specialization. ACTEGA DS's global structure enables it to make use of synergies to create superior products. It invests continually in R & D and the newest machine technologies in order to push forward the introduction of new, patented TPE technologies.\n\n\n\nBookmark\nShare profile\nCompany data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com\nMy notes\n0/400\nSave",
+          "classes": "modal-window-manager",
+          "id": "",
+          "innerHTML": "<div class=\"overlay overlay--fixed\"></div><div data-v-39d796cf=\"\" class=\"modal-window-wrap\" window-id=\"modalWindow0\" style=\"--transition-time: 0.2s; --modal-window-max-width: 1080px; --modal-window-max-height: 788px;\"><div class=\"modal-window-wrap__inner\"><div class=\"modal-window modal-window--fixed-width modal-window--fixed-height\"><!----><div data-v-24976ef3=\"\" data-v-3d66416a=\"\" class=\"modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize\" style=\"--transition-time: 0.1s;\"><div data-v-24976ef3=\"\" class=\"modal-page-layout__title\"><div data-v-19ff5720=\"\" data-v-3d66416a=\"\" data-v-24976ef3-s=\"\" class=\"content-modal-title-bar\"><div data-v-6eaf94fd=\"\" data-v-19ff5720=\"\" class=\"content-modal-width-wrapper content-modal-width-wrapper--grid-mode\"><div data-v-6eaf94fd=\"\" class=\"content-modal-width-wrapper__inner\"><div data-v-19ff5720=\"\" data-v-6eaf94fd-s=\"\" class=\"title-bar-content title-bar-content--show-close-btn\"><div data-v-3d66416a=\"\" da"
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing compounds for food closures and packaging, TPE materials for medical and pharmaceutical articles as well as for consumer goods.\n\n\n\nACTEGA DS develops, produces and markets specialized TPE materials for highly regulated markets such as the medical and pharmaceutical sector and the consumer goods industry. ACTEGA DS is a world leader in the manufacture of sealing components for plastic and metal closures in the food and drinks industries, supplying innovative, application-oriented TPE solutions. Since the company was founded, ACTEGA DS has been constantly presenting the latest technologies, which they develop and market hand in hand with their customers, manufacturers of closure machines and other decision-makers in the industry. When developing materials for sealing applications involving direct contact with foods, the company makes good use of its in-depth knowledge and expertise around thermoplastic elastomers. It has thus been able to develop for example SOFT EST.® TPE and PROVALIN® - innovative TPE materials and closure compounds with most minimal migration. The focus on TPEs for sensitive application areas and highly regulated markets was a major factor, enabling the company to become successfully established within the market and provide broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, ACTEGA DS has the solution ready.\nThe focus on TPE for sensitive applications and highly regulated markets has consistently contributed to the company's successful establishment in the market and its mature, broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, SOFT EST.® has the ACTEGA DS solution ready.\nACTEGA DS has 150 employees working with state-of-the-art production equipment at its location in Bremen, Germany. The company is among the market leaders, having secured significant market share in the sector and achieving constant top performance with strategies like systematic specialization. ACTEGA DS's global structure enables it to make use of synergies to create superior products. It invests continually in R & D and the newest machine technologies in order to push forward the introduction of new, patented TPE technologies.\n\n\n\nBookmark\nShare profile\nCompany data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com\nMy notes\n0/400\nSave",
+          "classes": "modal-window-wrap",
+          "id": "",
+          "innerHTML": "<div class=\"modal-window-wrap__inner\"><div class=\"modal-window modal-window--fixed-width modal-window--fixed-height\"><!----><div data-v-24976ef3=\"\" data-v-3d66416a=\"\" class=\"modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize\" style=\"--transition-time: 0.1s;\"><div data-v-24976ef3=\"\" class=\"modal-page-layout__title\"><div data-v-19ff5720=\"\" data-v-3d66416a=\"\" data-v-24976ef3-s=\"\" class=\"content-modal-title-bar\"><div data-v-6eaf94fd=\"\" data-v-19ff5720=\"\" class=\"content-modal-width-wrapper content-modal-width-wrapper--grid-mode\"><div data-v-6eaf94fd=\"\" class=\"content-modal-width-wrapper__inner\"><div data-v-19ff5720=\"\" data-v-6eaf94fd-s=\"\" class=\"title-bar-content title-bar-content--show-close-btn\"><div data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"content-modal-page__title-bar-wrapper\"><div data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"content-modal-page__tab-navigation\"><div data-v-d2e84b90=\"\""
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing compounds for food closures and packaging, TPE materials for medical and pharmaceutical articles as well as for consumer goods.\n\n\n\nACTEGA DS develops, produces and markets specialized TPE materials for highly regulated markets such as the medical and pharmaceutical sector and the consumer goods industry. ACTEGA DS is a world leader in the manufacture of sealing components for plastic and metal closures in the food and drinks industries, supplying innovative, application-oriented TPE solutions. Since the company was founded, ACTEGA DS has been constantly presenting the latest technologies, which they develop and market hand in hand with their customers, manufacturers of closure machines and other decision-makers in the industry. When developing materials for sealing applications involving direct contact with foods, the company makes good use of its in-depth knowledge and expertise around thermoplastic elastomers. It has thus been able to develop for example SOFT EST.® TPE and PROVALIN® - innovative TPE materials and closure compounds with most minimal migration. The focus on TPEs for sensitive application areas and highly regulated markets was a major factor, enabling the company to become successfully established within the market and provide broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, ACTEGA DS has the solution ready.\nThe focus on TPE for sensitive applications and highly regulated markets has consistently contributed to the company's successful establishment in the market and its mature, broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, SOFT EST.® has the ACTEGA DS solution ready.\nACTEGA DS has 150 employees working with state-of-the-art production equipment at its location in Bremen, Germany. The company is among the market leaders, having secured significant market share in the sector and achieving constant top performance with strategies like systematic specialization. ACTEGA DS's global structure enables it to make use of synergies to create superior products. It invests continually in R & D and the newest machine technologies in order to push forward the introduction of new, patented TPE technologies.\n\n\n\nBookmark\nShare profile\nCompany data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com\nMy notes\n0/400\nSave",
+          "classes": "modal-window-wrap__inner",
+          "id": "",
+          "innerHTML": "<div class=\"modal-window modal-window--fixed-width modal-window--fixed-height\"><!----><div data-v-24976ef3=\"\" data-v-3d66416a=\"\" class=\"modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize\" style=\"--transition-time: 0.1s;\"><div data-v-24976ef3=\"\" class=\"modal-page-layout__title\"><div data-v-19ff5720=\"\" data-v-3d66416a=\"\" data-v-24976ef3-s=\"\" class=\"content-modal-title-bar\"><div data-v-6eaf94fd=\"\" data-v-19ff5720=\"\" class=\"content-modal-width-wrapper content-modal-width-wrapper--grid-mode\"><div data-v-6eaf94fd=\"\" class=\"content-modal-width-wrapper__inner\"><div data-v-19ff5720=\"\" data-v-6eaf94fd-s=\"\" class=\"title-bar-content title-bar-content--show-close-btn\"><div data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"content-modal-page__title-bar-wrapper\"><div data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"content-modal-page__tab-navigation\"><div data-v-d2e84b90=\"\" data-v-3d66416a=\"\" data-v-6eaf94fd-s="
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing compounds for food closures and packaging, TPE materials for medical and pharmaceutical articles as well as for consumer goods.\n\n\n\nACTEGA DS develops, produces and markets specialized TPE materials for highly regulated markets such as the medical and pharmaceutical sector and the consumer goods industry. ACTEGA DS is a world leader in the manufacture of sealing components for plastic and metal closures in the food and drinks industries, supplying innovative, application-oriented TPE solutions. Since the company was founded, ACTEGA DS has been constantly presenting the latest technologies, which they develop and market hand in hand with their customers, manufacturers of closure machines and other decision-makers in the industry. When developing materials for sealing applications involving direct contact with foods, the company makes good use of its in-depth knowledge and expertise around thermoplastic elastomers. It has thus been able to develop for example SOFT EST.® TPE and PROVALIN® - innovative TPE materials and closure compounds with most minimal migration. The focus on TPEs for sensitive application areas and highly regulated markets was a major factor, enabling the company to become successfully established within the market and provide broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, ACTEGA DS has the solution ready.\nThe focus on TPE for sensitive applications and highly regulated markets has consistently contributed to the company's successful establishment in the market and its mature, broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, SOFT EST.® has the ACTEGA DS solution ready.\nACTEGA DS has 150 employees working with state-of-the-art production equipment at its location in Bremen, Germany. The company is among the market leaders, having secured significant market share in the sector and achieving constant top performance with strategies like systematic specialization. ACTEGA DS's global structure enables it to make use of synergies to create superior products. It invests continually in R & D and the newest machine technologies in order to push forward the introduction of new, patented TPE technologies.\n\n\n\nBookmark\nShare profile\nCompany data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com\nMy notes\n0/400\nSave",
+          "classes": "modal-window modal-window--fixed-width modal-window--fixed-height",
+          "id": "",
+          "innerHTML": "<!----><div data-v-24976ef3=\"\" data-v-3d66416a=\"\" class=\"modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize\" style=\"--transition-time: 0.1s;\"><div data-v-24976ef3=\"\" class=\"modal-page-layout__title\"><div data-v-19ff5720=\"\" data-v-3d66416a=\"\" data-v-24976ef3-s=\"\" class=\"content-modal-title-bar\"><div data-v-6eaf94fd=\"\" data-v-19ff5720=\"\" class=\"content-modal-width-wrapper content-modal-width-wrapper--grid-mode\"><div data-v-6eaf94fd=\"\" class=\"content-modal-width-wrapper__inner\"><div data-v-19ff5720=\"\" data-v-6eaf94fd-s=\"\" class=\"title-bar-content title-bar-content--show-close-btn\"><div data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"content-modal-page__title-bar-wrapper\"><div data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"content-modal-page__tab-navigation\"><div data-v-d2e84b90=\"\" data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"section-anchor-navigation section-anchor-navigat"
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose\nACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing compounds for food closures and packaging, TPE materials for medical and pharmaceutical articles as well as for consumer goods.\n\n\n\nACTEGA DS develops, produces and markets specialized TPE materials for highly regulated markets such as the medical and pharmaceutical sector and the consumer goods industry. ACTEGA DS is a world leader in the manufacture of sealing components for plastic and metal closures in the food and drinks industries, supplying innovative, application-oriented TPE solutions. Since the company was founded, ACTEGA DS has been constantly presenting the latest technologies, which they develop and market hand in hand with their customers, manufacturers of closure machines and other decision-makers in the industry. When developing materials for sealing applications involving direct contact with foods, the company makes good use of its in-depth knowledge and expertise around thermoplastic elastomers. It has thus been able to develop for example SOFT EST.® TPE and PROVALIN® - innovative TPE materials and closure compounds with most minimal migration. The focus on TPEs for sensitive application areas and highly regulated markets was a major factor, enabling the company to become successfully established within the market and provide broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, ACTEGA DS has the solution ready.\nThe focus on TPE for sensitive applications and highly regulated markets has consistently contributed to the company's successful establishment in the market and its mature, broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, SOFT EST.® has the ACTEGA DS solution ready.\nACTEGA DS has 150 employees working with state-of-the-art production equipment at its location in Bremen, Germany. The company is among the market leaders, having secured significant market share in the sector and achieving constant top performance with strategies like systematic specialization. ACTEGA DS's global structure enables it to make use of synergies to create superior products. It invests continually in R & D and the newest machine technologies in order to push forward the introduction of new, patented TPE technologies.\n\n\n\nBookmark\nShare profile\nCompany data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com\nMy notes\n0/400\nSave",
+          "classes": "modal-page-layout modal-page-layout--skip-transition-in modal-page-layout--fixed-height finder-normalize",
+          "id": "",
+          "innerHTML": "<div data-v-24976ef3=\"\" class=\"modal-page-layout__title\"><div data-v-19ff5720=\"\" data-v-3d66416a=\"\" data-v-24976ef3-s=\"\" class=\"content-modal-title-bar\"><div data-v-6eaf94fd=\"\" data-v-19ff5720=\"\" class=\"content-modal-width-wrapper content-modal-width-wrapper--grid-mode\"><div data-v-6eaf94fd=\"\" class=\"content-modal-width-wrapper__inner\"><div data-v-19ff5720=\"\" data-v-6eaf94fd-s=\"\" class=\"title-bar-content title-bar-content--show-close-btn\"><div data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"content-modal-page__title-bar-wrapper\"><div data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"content-modal-page__tab-navigation\"><div data-v-d2e84b90=\"\" data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"section-anchor-navigation section-anchor-navigation--fade-out\"><nav data-v-d2e84b90=\"\" class=\"section-anchor-navigation-primary\"><ul data-v-d2e84b90=\"\"><li data-v-d2e84b90=\"\"><button data-v-1c74cef2=\"\" data-v-d2e84b90=\"\" class=\"tab-button tab-b"
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "modal-page-layout__title",
+          "id": "",
+          "innerHTML": "<div data-v-19ff5720=\"\" data-v-3d66416a=\"\" data-v-24976ef3-s=\"\" class=\"content-modal-title-bar\"><div data-v-6eaf94fd=\"\" data-v-19ff5720=\"\" class=\"content-modal-width-wrapper content-modal-width-wrapper--grid-mode\"><div data-v-6eaf94fd=\"\" class=\"content-modal-width-wrapper__inner\"><div data-v-19ff5720=\"\" data-v-6eaf94fd-s=\"\" class=\"title-bar-content title-bar-content--show-close-btn\"><div data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"content-modal-page__title-bar-wrapper\"><div data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"content-modal-page__tab-navigation\"><div data-v-d2e84b90=\"\" data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"section-anchor-navigation section-anchor-navigation--fade-out\"><nav data-v-d2e84b90=\"\" class=\"section-anchor-navigation-primary\"><ul data-v-d2e84b90=\"\"><li data-v-d2e84b90=\"\"><button data-v-1c74cef2=\"\" data-v-d2e84b90=\"\" class=\"tab-button tab-button--selected section-anchor-navigation-primary__option"
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile\nClose",
+          "classes": "content-modal-title-bar",
+          "id": "",
+          "innerHTML": "<div data-v-6eaf94fd=\"\" data-v-19ff5720=\"\" class=\"content-modal-width-wrapper content-modal-width-wrapper--grid-mode\"><div data-v-6eaf94fd=\"\" class=\"content-modal-width-wrapper__inner\"><div data-v-19ff5720=\"\" data-v-6eaf94fd-s=\"\" class=\"title-bar-content title-bar-content--show-close-btn\"><div data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"content-modal-page__title-bar-wrapper\"><div data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"content-modal-page__tab-navigation\"><div data-v-d2e84b90=\"\" data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"section-anchor-navigation section-anchor-navigation--fade-out\"><nav data-v-d2e84b90=\"\" class=\"section-anchor-navigation-primary\"><ul data-v-d2e84b90=\"\"><li data-v-d2e84b90=\"\"><button data-v-1c74cef2=\"\" data-v-d2e84b90=\"\" class=\"tab-button tab-button--selected section-anchor-navigation-primary__option-btn\" type=\"button\" aria-selected=\"true\"><span data-v-1c74cef2=\"\" class=\"tab-button__label\">Info"
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": "",
+          "innerHTML": "<div data-v-6eaf94fd=\"\" class=\"content-modal-width-wrapper__inner\"><div data-v-19ff5720=\"\" data-v-6eaf94fd-s=\"\" class=\"title-bar-content title-bar-content--show-close-btn\"><div data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"content-modal-page__title-bar-wrapper\"><div data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"content-modal-page__tab-navigation\"><div data-v-d2e84b90=\"\" data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"section-anchor-navigation section-anchor-navigation--fade-out\"><nav data-v-d2e84b90=\"\" class=\"section-anchor-navigation-primary\"><ul data-v-d2e84b90=\"\"><li data-v-d2e84b90=\"\"><button data-v-1c74cef2=\"\" data-v-d2e84b90=\"\" class=\"tab-button tab-button--selected section-anchor-navigation-primary__option-btn\" type=\"button\" aria-selected=\"true\"><span data-v-1c74cef2=\"\" class=\"tab-button__label\">Info</span><span data-v-1c74cef2=\"\" aria-hidden=\"true\" class=\"tab-button__dummy-label\">Info</span></button></li><li data-v"
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": "",
+          "innerHTML": "<div data-v-19ff5720=\"\" data-v-6eaf94fd-s=\"\" class=\"title-bar-content title-bar-content--show-close-btn\"><div data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"content-modal-page__title-bar-wrapper\"><div data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"content-modal-page__tab-navigation\"><div data-v-d2e84b90=\"\" data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"section-anchor-navigation section-anchor-navigation--fade-out\"><nav data-v-d2e84b90=\"\" class=\"section-anchor-navigation-primary\"><ul data-v-d2e84b90=\"\"><li data-v-d2e84b90=\"\"><button data-v-1c74cef2=\"\" data-v-d2e84b90=\"\" class=\"tab-button tab-button--selected section-anchor-navigation-primary__option-btn\" type=\"button\" aria-selected=\"true\"><span data-v-1c74cef2=\"\" class=\"tab-button__label\">Info</span><span data-v-1c74cef2=\"\" aria-hidden=\"true\" class=\"tab-button__dummy-label\">Info</span></button></li><li data-v-d2e84b90=\"\"><button data-v-1c74cef2=\"\" data-v-d2e84b90=\"\" class=\"t"
+        },
+        {
+          "text": "Info\nCompany data\nNotes\nGo to Exhibitor Profile",
+          "classes": "content-modal-page__title-bar-wrapper",
+          "id": "",
+          "innerHTML": "<div data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"content-modal-page__tab-navigation\"><div data-v-d2e84b90=\"\" data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"section-anchor-navigation section-anchor-navigation--fade-out\"><nav data-v-d2e84b90=\"\" class=\"section-anchor-navigation-primary\"><ul data-v-d2e84b90=\"\"><li data-v-d2e84b90=\"\"><button data-v-1c74cef2=\"\" data-v-d2e84b90=\"\" class=\"tab-button tab-button--selected section-anchor-navigation-primary__option-btn\" type=\"button\" aria-selected=\"true\"><span data-v-1c74cef2=\"\" class=\"tab-button__label\">Info</span><span data-v-1c74cef2=\"\" aria-hidden=\"true\" class=\"tab-button__dummy-label\">Info</span></button></li><li data-v-d2e84b90=\"\"><button data-v-1c74cef2=\"\" data-v-d2e84b90=\"\" class=\"tab-button section-anchor-navigation-primary__option-btn\" type=\"button\" aria-selected=\"false\"><span data-v-1c74cef2=\"\" class=\"tab-button__label\">Company data</span><span data-v-1c74cef2=\"\" aria-hidden=\"true\" class=\"tab"
+        },
+        {
+          "text": "Info\nCompany data\nNotes",
+          "classes": "content-modal-page__tab-navigation",
+          "id": "",
+          "innerHTML": "<div data-v-d2e84b90=\"\" data-v-3d66416a=\"\" data-v-6eaf94fd-s=\"\" data-v-19ff5720-s=\"\" class=\"section-anchor-navigation section-anchor-navigation--fade-out\"><nav data-v-d2e84b90=\"\" class=\"section-anchor-navigation-primary\"><ul data-v-d2e84b90=\"\"><li data-v-d2e84b90=\"\"><button data-v-1c74cef2=\"\" data-v-d2e84b90=\"\" class=\"tab-button tab-button--selected section-anchor-navigation-primary__option-btn\" type=\"button\" aria-selected=\"true\"><span data-v-1c74cef2=\"\" class=\"tab-button__label\">Info</span><span data-v-1c74cef2=\"\" aria-hidden=\"true\" class=\"tab-button__dummy-label\">Info</span></button></li><li data-v-d2e84b90=\"\"><button data-v-1c74cef2=\"\" data-v-d2e84b90=\"\" class=\"tab-button section-anchor-navigation-primary__option-btn\" type=\"button\" aria-selected=\"false\"><span data-v-1c74cef2=\"\" class=\"tab-button__label\">Company data</span><span data-v-1c74cef2=\"\" aria-hidden=\"true\" class=\"tab-button__dummy-label\">Company data</span></button></li><li data-v-d2e84b90=\"\"><button data-v-1c74cef2=\"\" data"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing compounds for food closures and packaging, TPE materials for medical and pharmaceutical articles as well as for consumer goods.\n\n\n\nACTEGA DS develops, produces and markets specialized TPE materials for highly regulated markets such as the medical and pharmaceutical sector and the consumer goods industry. ACTEGA DS is a world leader in the manufacture of sealing components for plastic and metal closures in the food and drinks industries, supplying innovative, application-oriented TPE solutions. Since the company was founded, ACTEGA DS has been constantly presenting the latest technologies, which they develop and market hand in hand with their customers, manufacturers of closure machines and other decision-makers in the industry. When developing materials for sealing applications involving direct contact with foods, the company makes good use of its in-depth knowledge and expertise around thermoplastic elastomers. It has thus been able to develop for example SOFT EST.® TPE and PROVALIN® - innovative TPE materials and closure compounds with most minimal migration. The focus on TPEs for sensitive application areas and highly regulated markets was a major factor, enabling the company to become successfully established within the market and provide broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, ACTEGA DS has the solution ready.\nThe focus on TPE for sensitive applications and highly regulated markets has consistently contributed to the company's successful establishment in the market and its mature, broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, SOFT EST.® has the ACTEGA DS solution ready.\nACTEGA DS has 150 employees working with state-of-the-art production equipment at its location in Bremen, Germany. The company is among the market leaders, having secured significant market share in the sector and achieving constant top performance with strategies like systematic specialization. ACTEGA DS's global structure enables it to make use of synergies to create superior products. It invests continually in R & D and the newest machine technologies in order to push forward the introduction of new, patented TPE technologies.\n\n\n\nBookmark\nShare profile\nCompany data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com\nMy notes\n0/400\nSave",
+          "classes": "modal-page-layout__content",
+          "id": "",
+          "innerHTML": "<div data-v-4837f9d0=\"\" data-v-3d66416a=\"\" data-v-24976ef3-s=\"\" class=\"scroll-area scroll-area--scroll-y content-modal-page__scrollable-content\"><div data-v-6eaf94fd=\"\" data-v-3d66416a=\"\" data-v-4837f9d0-s=\"\" class=\"content-modal-width-wrapper content-modal-width-wrapper--grid-mode\"><div data-v-6eaf94fd=\"\" class=\"content-modal-width-wrapper__inner\"><section data-v-456000a6=\"\" data-v-7ab9d792=\"\" data-v-18e59f04=\"\" data-v-6eaf94fd-s=\"\" data-v-3d66416a-s=\"\" id=\"finder-modal__content-modal-details\" class=\"modal-section content-modal-details profile-details\" data-tracking-context=\"search-profileDetails\" data-tracking-id=\"k2025.3006733\" data-tracking-exhid=\"k2025.3006733\"><!----><!----><div data-v-7ab9d792=\"\" class=\"content-modal-details__content\"><section data-v-456000a6=\"\" data-v-18e59f04=\"\" data-v-7ab9d792-s=\"\" class=\"modal-section\"><!----><div data-v-2e5c945c=\"\" data-v-18e59f04=\"\" class=\"profile-head\"><h1 data-v-2e5c945c=\"\" class=\"profile-head__name\">ACTEGA GmbH</h1><!----></div><div dat"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing compounds for food closures and packaging, TPE materials for medical and pharmaceutical articles as well as for consumer goods.\n\n\n\nACTEGA DS develops, produces and markets specialized TPE materials for highly regulated markets such as the medical and pharmaceutical sector and the consumer goods industry. ACTEGA DS is a world leader in the manufacture of sealing components for plastic and metal closures in the food and drinks industries, supplying innovative, application-oriented TPE solutions. Since the company was founded, ACTEGA DS has been constantly presenting the latest technologies, which they develop and market hand in hand with their customers, manufacturers of closure machines and other decision-makers in the industry. When developing materials for sealing applications involving direct contact with foods, the company makes good use of its in-depth knowledge and expertise around thermoplastic elastomers. It has thus been able to develop for example SOFT EST.® TPE and PROVALIN® - innovative TPE materials and closure compounds with most minimal migration. The focus on TPEs for sensitive application areas and highly regulated markets was a major factor, enabling the company to become successfully established within the market and provide broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, ACTEGA DS has the solution ready.\nThe focus on TPE for sensitive applications and highly regulated markets has consistently contributed to the company's successful establishment in the market and its mature, broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, SOFT EST.® has the ACTEGA DS solution ready.\nACTEGA DS has 150 employees working with state-of-the-art production equipment at its location in Bremen, Germany. The company is among the market leaders, having secured significant market share in the sector and achieving constant top performance with strategies like systematic specialization. ACTEGA DS's global structure enables it to make use of synergies to create superior products. It invests continually in R & D and the newest machine technologies in order to push forward the introduction of new, patented TPE technologies.\n\n\n\nBookmark\nShare profile\nCompany data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com\nMy notes\n0/400\nSave",
+          "classes": "scroll-area scroll-area--scroll-y content-modal-page__scrollable-content",
+          "id": "",
+          "innerHTML": "<div data-v-6eaf94fd=\"\" data-v-3d66416a=\"\" data-v-4837f9d0-s=\"\" class=\"content-modal-width-wrapper content-modal-width-wrapper--grid-mode\"><div data-v-6eaf94fd=\"\" class=\"content-modal-width-wrapper__inner\"><section data-v-456000a6=\"\" data-v-7ab9d792=\"\" data-v-18e59f04=\"\" data-v-6eaf94fd-s=\"\" data-v-3d66416a-s=\"\" id=\"finder-modal__content-modal-details\" class=\"modal-section content-modal-details profile-details\" data-tracking-context=\"search-profileDetails\" data-tracking-id=\"k2025.3006733\" data-tracking-exhid=\"k2025.3006733\"><!----><!----><div data-v-7ab9d792=\"\" class=\"content-modal-details__content\"><section data-v-456000a6=\"\" data-v-18e59f04=\"\" data-v-7ab9d792-s=\"\" class=\"modal-section\"><!----><div data-v-2e5c945c=\"\" data-v-18e59f04=\"\" class=\"profile-head\"><h1 data-v-2e5c945c=\"\" class=\"profile-head__name\">ACTEGA GmbH</h1><!----></div><div data-v-18e59f04=\"\" class=\"profile-details__text\"><p>ACTEGA DS GmbH was founded in 1920 under the name of Diersch &amp; Schröder. The company special"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing compounds for food closures and packaging, TPE materials for medical and pharmaceutical articles as well as for consumer goods.\n\n\n\nACTEGA DS develops, produces and markets specialized TPE materials for highly regulated markets such as the medical and pharmaceutical sector and the consumer goods industry. ACTEGA DS is a world leader in the manufacture of sealing components for plastic and metal closures in the food and drinks industries, supplying innovative, application-oriented TPE solutions. Since the company was founded, ACTEGA DS has been constantly presenting the latest technologies, which they develop and market hand in hand with their customers, manufacturers of closure machines and other decision-makers in the industry. When developing materials for sealing applications involving direct contact with foods, the company makes good use of its in-depth knowledge and expertise around thermoplastic elastomers. It has thus been able to develop for example SOFT EST.® TPE and PROVALIN® - innovative TPE materials and closure compounds with most minimal migration. The focus on TPEs for sensitive application areas and highly regulated markets was a major factor, enabling the company to become successfully established within the market and provide broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, ACTEGA DS has the solution ready.\nThe focus on TPE for sensitive applications and highly regulated markets has consistently contributed to the company's successful establishment in the market and its mature, broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, SOFT EST.® has the ACTEGA DS solution ready.\nACTEGA DS has 150 employees working with state-of-the-art production equipment at its location in Bremen, Germany. The company is among the market leaders, having secured significant market share in the sector and achieving constant top performance with strategies like systematic specialization. ACTEGA DS's global structure enables it to make use of synergies to create superior products. It invests continually in R & D and the newest machine technologies in order to push forward the introduction of new, patented TPE technologies.\n\n\n\nBookmark\nShare profile\nCompany data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com\nMy notes\n0/400\nSave",
+          "classes": "content-modal-width-wrapper content-modal-width-wrapper--grid-mode",
+          "id": "",
+          "innerHTML": "<div data-v-6eaf94fd=\"\" class=\"content-modal-width-wrapper__inner\"><section data-v-456000a6=\"\" data-v-7ab9d792=\"\" data-v-18e59f04=\"\" data-v-6eaf94fd-s=\"\" data-v-3d66416a-s=\"\" id=\"finder-modal__content-modal-details\" class=\"modal-section content-modal-details profile-details\" data-tracking-context=\"search-profileDetails\" data-tracking-id=\"k2025.3006733\" data-tracking-exhid=\"k2025.3006733\"><!----><!----><div data-v-7ab9d792=\"\" class=\"content-modal-details__content\"><section data-v-456000a6=\"\" data-v-18e59f04=\"\" data-v-7ab9d792-s=\"\" class=\"modal-section\"><!----><div data-v-2e5c945c=\"\" data-v-18e59f04=\"\" class=\"profile-head\"><h1 data-v-2e5c945c=\"\" class=\"profile-head__name\">ACTEGA GmbH</h1><!----></div><div data-v-18e59f04=\"\" class=\"profile-details__text\"><p>ACTEGA DS GmbH was founded in 1920 under the name of Diersch &amp; Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing compounds for food closures and packaging, T"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing compounds for food closures and packaging, TPE materials for medical and pharmaceutical articles as well as for consumer goods.\n\n\n\nACTEGA DS develops, produces and markets specialized TPE materials for highly regulated markets such as the medical and pharmaceutical sector and the consumer goods industry. ACTEGA DS is a world leader in the manufacture of sealing components for plastic and metal closures in the food and drinks industries, supplying innovative, application-oriented TPE solutions. Since the company was founded, ACTEGA DS has been constantly presenting the latest technologies, which they develop and market hand in hand with their customers, manufacturers of closure machines and other decision-makers in the industry. When developing materials for sealing applications involving direct contact with foods, the company makes good use of its in-depth knowledge and expertise around thermoplastic elastomers. It has thus been able to develop for example SOFT EST.® TPE and PROVALIN® - innovative TPE materials and closure compounds with most minimal migration. The focus on TPEs for sensitive application areas and highly regulated markets was a major factor, enabling the company to become successfully established within the market and provide broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, ACTEGA DS has the solution ready.\nThe focus on TPE for sensitive applications and highly regulated markets has consistently contributed to the company's successful establishment in the market and its mature, broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, SOFT EST.® has the ACTEGA DS solution ready.\nACTEGA DS has 150 employees working with state-of-the-art production equipment at its location in Bremen, Germany. The company is among the market leaders, having secured significant market share in the sector and achieving constant top performance with strategies like systematic specialization. ACTEGA DS's global structure enables it to make use of synergies to create superior products. It invests continually in R & D and the newest machine technologies in order to push forward the introduction of new, patented TPE technologies.\n\n\n\nBookmark\nShare profile\nCompany data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com\nMy notes\n0/400\nSave",
+          "classes": "content-modal-width-wrapper__inner",
+          "id": "",
+          "innerHTML": "<section data-v-456000a6=\"\" data-v-7ab9d792=\"\" data-v-18e59f04=\"\" data-v-6eaf94fd-s=\"\" data-v-3d66416a-s=\"\" id=\"finder-modal__content-modal-details\" class=\"modal-section content-modal-details profile-details\" data-tracking-context=\"search-profileDetails\" data-tracking-id=\"k2025.3006733\" data-tracking-exhid=\"k2025.3006733\"><!----><!----><div data-v-7ab9d792=\"\" class=\"content-modal-details__content\"><section data-v-456000a6=\"\" data-v-18e59f04=\"\" data-v-7ab9d792-s=\"\" class=\"modal-section\"><!----><div data-v-2e5c945c=\"\" data-v-18e59f04=\"\" class=\"profile-head\"><h1 data-v-2e5c945c=\"\" class=\"profile-head__name\">ACTEGA GmbH</h1><!----></div><div data-v-18e59f04=\"\" class=\"profile-details__text\"><p>ACTEGA DS GmbH was founded in 1920 under the name of Diersch &amp; Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing compounds for food closures and packaging, TPE materials for medical and pharmaceutical articles as well as for"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing compounds for food closures and packaging, TPE materials for medical and pharmaceutical articles as well as for consumer goods.\n\n\n\nACTEGA DS develops, produces and markets specialized TPE materials for highly regulated markets such as the medical and pharmaceutical sector and the consumer goods industry. ACTEGA DS is a world leader in the manufacture of sealing components for plastic and metal closures in the food and drinks industries, supplying innovative, application-oriented TPE solutions. Since the company was founded, ACTEGA DS has been constantly presenting the latest technologies, which they develop and market hand in hand with their customers, manufacturers of closure machines and other decision-makers in the industry. When developing materials for sealing applications involving direct contact with foods, the company makes good use of its in-depth knowledge and expertise around thermoplastic elastomers. It has thus been able to develop for example SOFT EST.® TPE and PROVALIN® - innovative TPE materials and closure compounds with most minimal migration. The focus on TPEs for sensitive application areas and highly regulated markets was a major factor, enabling the company to become successfully established within the market and provide broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, ACTEGA DS has the solution ready.\nThe focus on TPE for sensitive applications and highly regulated markets has consistently contributed to the company's successful establishment in the market and its mature, broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, SOFT EST.® has the ACTEGA DS solution ready.\nACTEGA DS has 150 employees working with state-of-the-art production equipment at its location in Bremen, Germany. The company is among the market leaders, having secured significant market share in the sector and achieving constant top performance with strategies like systematic specialization. ACTEGA DS's global structure enables it to make use of synergies to create superior products. It invests continually in R & D and the newest machine technologies in order to push forward the introduction of new, patented TPE technologies.\n\n\n\nBookmark\nShare profile\nCompany data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com\nMy notes\n0/400\nSave",
+          "classes": "modal-section content-modal-details profile-details",
+          "id": "finder-modal__content-modal-details",
+          "innerHTML": "<!----><!----><div data-v-7ab9d792=\"\" class=\"content-modal-details__content\"><section data-v-456000a6=\"\" data-v-18e59f04=\"\" data-v-7ab9d792-s=\"\" class=\"modal-section\"><!----><div data-v-2e5c945c=\"\" data-v-18e59f04=\"\" class=\"profile-head\"><h1 data-v-2e5c945c=\"\" class=\"profile-head__name\">ACTEGA GmbH</h1><!----></div><div data-v-18e59f04=\"\" class=\"profile-details__text\"><p>ACTEGA DS GmbH was founded in 1920 under the name of Diersch &amp; Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing compounds for food closures and packaging, TPE materials for medical and pharmaceutical articles as well as for consumer goods.<br><br><br><br>ACTEGA DS develops, produces and markets specialized TPE materials for highly regulated markets such as the medical and pharmaceutical sector and the consumer goods industry. ACTEGA DS is a world leader in the manufacture of sealing components for plastic and metal closures in the food and d"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing compounds for food closures and packaging, TPE materials for medical and pharmaceutical articles as well as for consumer goods.\n\n\n\nACTEGA DS develops, produces and markets specialized TPE materials for highly regulated markets such as the medical and pharmaceutical sector and the consumer goods industry. ACTEGA DS is a world leader in the manufacture of sealing components for plastic and metal closures in the food and drinks industries, supplying innovative, application-oriented TPE solutions. Since the company was founded, ACTEGA DS has been constantly presenting the latest technologies, which they develop and market hand in hand with their customers, manufacturers of closure machines and other decision-makers in the industry. When developing materials for sealing applications involving direct contact with foods, the company makes good use of its in-depth knowledge and expertise around thermoplastic elastomers. It has thus been able to develop for example SOFT EST.® TPE and PROVALIN® - innovative TPE materials and closure compounds with most minimal migration. The focus on TPEs for sensitive application areas and highly regulated markets was a major factor, enabling the company to become successfully established within the market and provide broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, ACTEGA DS has the solution ready.\nThe focus on TPE for sensitive applications and highly regulated markets has consistently contributed to the company's successful establishment in the market and its mature, broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, SOFT EST.® has the ACTEGA DS solution ready.\nACTEGA DS has 150 employees working with state-of-the-art production equipment at its location in Bremen, Germany. The company is among the market leaders, having secured significant market share in the sector and achieving constant top performance with strategies like systematic specialization. ACTEGA DS's global structure enables it to make use of synergies to create superior products. It invests continually in R & D and the newest machine technologies in order to push forward the introduction of new, patented TPE technologies.\n\n\n\nBookmark\nShare profile\nCompany data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com\nMy notes\n0/400\nSave",
+          "classes": "content-modal-details__content",
+          "id": "",
+          "innerHTML": "<section data-v-456000a6=\"\" data-v-18e59f04=\"\" data-v-7ab9d792-s=\"\" class=\"modal-section\"><!----><div data-v-2e5c945c=\"\" data-v-18e59f04=\"\" class=\"profile-head\"><h1 data-v-2e5c945c=\"\" class=\"profile-head__name\">ACTEGA GmbH</h1><!----></div><div data-v-18e59f04=\"\" class=\"profile-details__text\"><p>ACTEGA DS GmbH was founded in 1920 under the name of Diersch &amp; Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing compounds for food closures and packaging, TPE materials for medical and pharmaceutical articles as well as for consumer goods.<br><br><br><br>ACTEGA DS develops, produces and markets specialized TPE materials for highly regulated markets such as the medical and pharmaceutical sector and the consumer goods industry. ACTEGA DS is a world leader in the manufacture of sealing components for plastic and metal closures in the food and drinks industries, supplying innovative, application-oriented TPE solutions. S"
+        },
+        {
+          "text": "ACTEGA GmbH\nACTEGA DS GmbH was founded in 1920 under the name of Diersch & Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing compounds for food closures and packaging, TPE materials for medical and pharmaceutical articles as well as for consumer goods.\n\n\n\nACTEGA DS develops, produces and markets specialized TPE materials for highly regulated markets such as the medical and pharmaceutical sector and the consumer goods industry. ACTEGA DS is a world leader in the manufacture of sealing components for plastic and metal closures in the food and drinks industries, supplying innovative, application-oriented TPE solutions. Since the company was founded, ACTEGA DS has been constantly presenting the latest technologies, which they develop and market hand in hand with their customers, manufacturers of closure machines and other decision-makers in the industry. When developing materials for sealing applications involving direct contact with foods, the company makes good use of its in-depth knowledge and expertise around thermoplastic elastomers. It has thus been able to develop for example SOFT EST.® TPE and PROVALIN® - innovative TPE materials and closure compounds with most minimal migration. The focus on TPEs for sensitive application areas and highly regulated markets was a major factor, enabling the company to become successfully established within the market and provide broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, ACTEGA DS has the solution ready.\nThe focus on TPE for sensitive applications and highly regulated markets has consistently contributed to the company's successful establishment in the market and its mature, broad portfolio of materials for applications in the beverage and food industries, the consumer goods industry and medical technology. Whether TPE plastic granulates for toys, TPE seals, PVC plastisols for closures, thermoplastic elastomers for children's toys, household articles or TPE for kitchen applications or even medical technology articles, SOFT EST.® has the ACTEGA DS solution ready.\nACTEGA DS has 150 employees working with state-of-the-art production equipment at its location in Bremen, Germany. The company is among the market leaders, having secured significant market share in the sector and achieving constant top performance with strategies like systematic specialization. ACTEGA DS's global structure enables it to make use of synergies to create superior products. It invests continually in R & D and the newest machine technologies in order to push forward the introduction of new, patented TPE technologies.\n\n\n\nBookmark\nShare profile",
+          "classes": "modal-section",
+          "id": "",
+          "innerHTML": "<!----><div data-v-2e5c945c=\"\" data-v-18e59f04=\"\" class=\"profile-head\"><h1 data-v-2e5c945c=\"\" class=\"profile-head__name\">ACTEGA GmbH</h1><!----></div><div data-v-18e59f04=\"\" class=\"profile-details__text\"><p>ACTEGA DS GmbH was founded in 1920 under the name of Diersch &amp; Schröder. The company specializes in the manufacture and development of soft elastic plastics in granulate form and sealing compounds for food closures and packaging, TPE materials for medical and pharmaceutical articles as well as for consumer goods.<br><br><br><br>ACTEGA DS develops, produces and markets specialized TPE materials for highly regulated markets such as the medical and pharmaceutical sector and the consumer goods industry. ACTEGA DS is a world leader in the manufacture of sealing components for plastic and metal closures in the food and drinks industries, supplying innovative, application-oriented TPE solutions. Since the company was founded, ACTEGA DS has been constantly presenting the latest technolo"
+        },
+        {
+          "text": "Company data\nAbelstraße 43\n46483Wesel\nGermany\nWeb:\nhttps://www.actega.com",
+          "classes": "modal-section",
+          "id": "finder-modal__profile-business-data",
+          "innerHTML": "<h2 data-v-456000a6=\"\" class=\"modal-section__headline\">Company data</h2><div data-v-18e59f04=\"\" class=\"profile-details__business-data\"><div data-v-18e59f04=\"\" class=\"profile-details__business-exh-address\"><div data-v-76c92128=\"\" data-v-18e59f04=\"\" class=\"exh-address\"><!----><div data-v-76c92128=\"\" class=\"street-address\"><div data-v-76c92128=\"\" class=\"address-street\">Abelstraße 43</div><div data-v-76c92128=\"\"><span data-v-76c92128=\"\" class=\"address-zip\">46483</span><span data-v-76c92128=\"\" class=\"address-city\">Wesel</span></div></div><div data-v-76c92128=\"\" class=\"address-country\">Germany</div></div></div><div data-v-18e59f04=\"\" class=\"profile-details__business-exh-contact\"><div data-v-1b3ac2c0=\"\" data-v-18e59f04=\"\" class=\"exh-contact\"><!----><!----><div data-v-1b3ac2c0=\"\" class=\"exh-contact__links\"><div data-v-1b3ac2c0=\"\" class=\"exh-contact__link-lbl\">Web:</div><div data-v-8fb6a4de=\"\" data-v-1b3ac2c0=\"\" class=\"link-list link-list--slim\"><ul data-v-8fb6a4de=\"\"><li data-v-8fb6a4de=\"\"><a "
+        },
+        {
+          "text": "Company data",
+          "classes": "modal-section__headline",
+          "id": "",
+          "innerHTML": "Company data"
+        },
+        {
+          "text": "My notes\n0/400\nSave",
+          "classes": "modal-section",
+          "id": "finder-modal__my-notes",
+          "innerHTML": "<h2 data-v-456000a6=\"\" class=\"modal-section__headline\">My notes</h2><div data-v-1e2df834=\"\" data-v-18e59f04=\"\" class=\"fav-note\"><!----><!----><textarea data-v-1e2df834=\"\" placeholder=\"Please log in to leave your note here....\" disabled=\"\"></textarea><div data-v-1e2df834=\"\" class=\"fav-note__footer\"><svg data-v-1e2df834=\"\" class=\"svg-icon svg-icon--loading svg-icon--spin fav-note__busy-indicator\" xmlns=\"http://www.w3.org/2000/svg\"><!----><use xlink:href=\"/static/all/finder-frontend/img/icons.042dad52.svg#loading\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"></use></svg><!----><div data-v-1e2df834=\"\" class=\"fav-note__char-counter\">0/400</div><button data-v-2a7435eb=\"\" data-v-1e2df834=\"\" type=\"button\" disabled=\"\" aria-disabled=\"true\" class=\"cta-button cta-button--icon-pos-left cta-button--small cta-button--small-on-mobile cta-button--primary cta-button--disabled\"><div data-v-2a7435eb=\"\" class=\"cta-button__inner\"><!----><span data-v-2a7435eb=\"\" class=\"cta-button__label\">Save</span></div></but"
+        },
+        {
+          "text": "My notes",
+          "classes": "modal-section__headline",
+          "id": "",
+          "innerHTML": "My notes"
+        }
+      ],
+      "links": [
+        {
+          "text": "Skip to main content",
+          "href": "https://www.k-online.com/vis/v1/en/search?_query=ACTEGA+GmbH#main"
+        }
+      ],
+      "page_text_length": 3374,
+      "scroll_position": 690
+    }
+  }
+]

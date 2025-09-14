@@ -205,6 +205,7 @@ export default function Home() {
 
   const handleQuickAddActions = {
     addCompany: () => {
+      setShowQuickAddModal(false)
       setShowDiscoveryPage(true)
       setActiveView('discovery')
     },

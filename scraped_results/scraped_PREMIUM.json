@@ -1,0 +1,22 @@
+{
+  "company": "PREMIUM",
+  "hall": "8a",
+  "stand": "B33",
+  "address": "Germany",
+  "email": null,
+  "phone": "+49 211 4560-01",
+  "website": null,
+  "contact_person": null,
+  "products": null,
+  "description": "Skip to main content\nSupport\nSearch\nENGLISH\nTicket shop\nHome\nExhibit\nVisit\nExhibitors & Products\nProgramme\nMedia & News\nK-Alliance\nProfile\nProducts\nStand\nBookmark\nShare profile\nExhibitor may contact me\nLanguage\nBIEGLO GmbH\nHall 8a / B33\nGermany, Hamburg\nJohn Biesterfeld\nGeneral Manager\nThe BIEGLO GmbH is a Hamburg-based distribution company specialized in high-performance polymers.",
+  "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/qK6p0M53Sp2TRQvVXZkWTg",
+  "contacts": [
+    {
+      "name": "John Biesterfeld",
+      "title": "General Manager",
+      "email": "j.biesterfeld@BIEGLO.com",
+      "phone": "+49 40 401130003",
+      "department": null
+    }
+  ]
+}
