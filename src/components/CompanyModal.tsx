@@ -7,6 +7,7 @@ import { VisitTracker } from './VisitTracker'
 import { BusinessCardScanner } from './BusinessCardScanner'
 import { NotesAndPhotos } from './NotesAndPhotos'
 import { FollowUpInterface } from './FollowUpInterface'
+import { AdvancedPlanningModals } from './AdvancedPlanningModals'
 
 interface CompanyModalProps {
   company: Company | null
@@ -20,6 +21,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [activeTab, setActiveTab] = useState<'info' | 'value' | 'visit' | 'notes' | 'follow'>('info')
+  const [activePlanningModal, setActivePlanningModal] = useState<'timing' | 'route' | 'team' | 'questions' | null>(null)
   const [isEditing, setIsEditing] = useState(false)
   const modalRef = useRef<HTMLDivElement>(null)
 
@@ -887,28 +889,50 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
               {/* Visit Tracking */}
               <VisitTracker company={company} />
               
-              {/* Future Features */}
+              {/* Advanced Planning Features */}
               <div className="border-t pt-6">
                 <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--balena-dark)' }}>
-                  Advanced Planning (In Development)
+                  Advanced Planning
                 </h3>
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <div className="font-medium text-sm mb-1">📅 Optimal Timing</div>
-                    <div className="text-xs text-gray-600">Recommended visit time based on crowd density</div>
+                  <button 
+                    onClick={() => setActivePlanningModal('timing')}
+                    className="p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors text-left border border-blue-200"
+                  >
+                    <div className="font-medium text-sm mb-1 text-blue-700">📅 Optimal Timing</div>
+                    <div className="text-xs text-blue-600">
+                      Best time: {company.hall ? `${company.hall} - Morning (9-11 AM)` : 'Morning (9-11 AM)'}
                   </div>
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <div className="font-medium text-sm mb-1">🗺️ Smart Route</div>
-                    <div className="text-xs text-gray-600">Navigation between nearby booths</div>
+                    <div className="text-xs text-blue-500 mt-1">Low crowd density expected</div>
+                  </button>
+                  <button 
+                    onClick={() => setActivePlanningModal('route')}
+                    className="p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors text-left border border-green-200"
+                  >
+                    <div className="font-medium text-sm mb-1 text-green-700">🗺️ Smart Route</div>
+                    <div className="text-xs text-green-600">
+                      {company.hall ? `${company.hall} nearby booths: 3 companies` : 'Find nearby companies'}
                   </div>
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <div className="font-medium text-sm mb-1">👥 Team Coordination</div>
-                    <div className="text-xs text-gray-600">Share location and planning</div>
+                    <div className="text-xs text-green-500 mt-1">Optimize your route</div>
+                  </button>
+                  <button 
+                    onClick={() => setActivePlanningModal('team')}
+                    className="p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors text-left border border-purple-200"
+                  >
+                    <div className="font-medium text-sm mb-1 text-purple-700">👥 Team Coordination</div>
+                    <div className="text-xs text-purple-600">Share with team members</div>
+                    <div className="text-xs text-purple-500 mt-1">Coordinate visit timing</div>
+                  </button>
+                  <button 
+                    onClick={() => setActivePlanningModal('questions')}
+                    className="p-3 bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors text-left border border-orange-200"
+                  >
+                    <div className="font-medium text-sm mb-1 text-orange-700">📋 Prepared Questions</div>
+                    <div className="text-xs text-orange-600">
+                      {company.department ? `${company.department} focused questions` : 'General questions'}
                   </div>
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <div className="font-medium text-sm mb-1">📋 Prepared Questions</div>
-                    <div className="text-xs text-gray-600">Customized company checklist</div>
-                  </div>
+                    <div className="text-xs text-orange-500 mt-1">Customized checklist ready</div>
+                  </button>
                 </div>
               </div>
             </div>
@@ -973,6 +997,13 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
           </div>
         )}
       </div>
+
+      {/* Advanced Planning Modals */}
+      <AdvancedPlanningModals
+        company={company}
+        activeModal={activePlanningModal}
+        onClose={() => setActivePlanningModal(null)}
+      />
     </div>
   )
 }

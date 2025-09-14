@@ -14,6 +14,7 @@ import { CompanyDiscoveryPage } from '@/components/CompanyDiscoveryPage'
 import { BottomNavigation } from '@/components/BottomNavigation'
 import { VisitsDashboard } from '@/components/VisitsDashboard'
 import { QuickAddModal } from '@/components/QuickAddModal'
+import { AddCompanyModal } from '@/components/AddCompanyModal'
 import { usePullToRefresh } from '@/hooks/usePullToRefresh'
 import { PullToRefreshIndicator } from '@/components/PullToRefreshIndicator'
 
@@ -41,6 +42,7 @@ export default function Home() {
   const [deptFilter, setDeptFilter] = useState<string>('')
   const [activeView, setActiveView] = useState<'dashboard' | 'discovery' | 'visits' | 'settings'>('dashboard')
   const [showQuickAddModal, setShowQuickAddModal] = useState(false)
+  const [showAddCompanyModal, setShowAddCompanyModal] = useState(false)
 
   // Browser history management for mobile back button
   useEffect(() => {
@@ -206,8 +208,7 @@ export default function Home() {
   const handleQuickAddActions = {
     addCompany: () => {
       setShowQuickAddModal(false)
-      setShowDiscoveryPage(true)
-      setActiveView('discovery')
+      setShowAddCompanyModal(true)
     },
     scanCard: () => {
       // TODO: Implement business card scanning
@@ -718,6 +719,16 @@ export default function Home() {
         onScanCard={handleQuickAddActions.scanCard}
         onAddNote={handleQuickAddActions.addNote}
         onScheduleVisit={handleQuickAddActions.scheduleVisit}
+      />
+
+      {/* Add Company Modal */}
+      <AddCompanyModal
+        isOpen={showAddCompanyModal}
+        onClose={() => setShowAddCompanyModal(false)}
+        onCompanyAdded={() => {
+          fetchDashboardData()
+          setMessage('Company added successfully!')
+        }}
       />
 
       {/* Bottom Navigation */}

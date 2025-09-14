@@ -335,12 +335,22 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
     URL.revokeObjectURL(url)
   }
 
+  const totalPages = Math.ceil(filteredCompanies.length / companiesPerPage)
+  
+  // Ensure page is within valid range
+  const validPage = Math.max(1, Math.min(page, totalPages || 1))
+  
   const paginatedCompanies = filteredCompanies.slice(
-    (page - 1) * companiesPerPage,
-    page * companiesPerPage
+    (validPage - 1) * companiesPerPage,
+    validPage * companiesPerPage
   )
 
-  const totalPages = Math.ceil(filteredCompanies.length / companiesPerPage)
+  // Update page if it's out of range
+  useEffect(() => {
+    if (page !== validPage) {
+      setPage(validPage)
+    }
+  }, [page, validPage])
 
   return (
     <div className="fixed inset-0 bg-white z-50 flex flex-col">
@@ -717,35 +727,83 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2 p-4 border-t bg-gray-50">
           <button
-            onClick={() => setPage(Math.max(1, page - 1))}
-            disabled={page === 1}
-            className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50"
+            onClick={() => {
+              const newPage = Math.max(1, validPage - 1)
+              setPage(newPage)
+            }}
+            disabled={validPage === 1}
+            className="px-4 py-2 border rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             Previous
           </button>
           
           <div className="flex items-center gap-1">
+            {/* Show first page if not in range */}
+            {validPage > 3 && (
+              <>
+                <button
+                  onClick={() => setPage(1)}
+                  className="px-3 py-2 border rounded-lg hover:bg-gray-100"
+                >
+                  1
+                </button>
+                {validPage > 4 && <span className="px-2">...</span>}
+              </>
+            )}
+            
+            {/* Show pages around current page */}
             {[...Array(Math.min(5, totalPages))].map((_, i) => {
-              const pageNum = Math.max(1, Math.min(totalPages - 4, page - 2)) + i
+              const startPage = Math.max(1, Math.min(totalPages - 4, validPage - 2))
+              const pageNum = startPage + i
+              
+              if (pageNum > totalPages) return null
+              
               return (
                 <button
                   key={pageNum}
                   onClick={() => setPage(pageNum)}
-                  className={`px-3 py-1 border rounded ${page === pageNum ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}`}
+                  className={`px-3 py-2 border rounded-lg transition-colors ${
+                    validPage === pageNum 
+                      ? 'bg-blue-600 text-white border-blue-600' 
+                      : 'hover:bg-gray-100'
+                  }`}
                 >
                   {pageNum}
                 </button>
               )
             })}
+            
+            {/* Show last page if not in range */}
+            {validPage < totalPages - 2 && (
+              <>
+                {validPage < totalPages - 3 && <span className="px-2">...</span>}
+                <button
+                  onClick={() => setPage(totalPages)}
+                  className="px-3 py-2 border rounded-lg hover:bg-gray-100"
+                >
+                  {totalPages}
+                </button>
+              </>
+            )}
           </div>
 
           <button
-            onClick={() => setPage(Math.min(totalPages, page + 1))}
-            disabled={page === totalPages}
-            className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50"
+            onClick={() => {
+              const newPage = Math.min(totalPages, validPage + 1)
+              setPage(newPage)
+            }}
+            disabled={validPage === totalPages}
+            className="px-4 py-2 border rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             Next
           </button>
+        </div>
+      )}
+      
+      {/* Page Info */}
+      {totalPages > 1 && (
+        <div className="text-center py-2 text-sm text-gray-600 bg-gray-50">
+          Page {validPage} of {totalPages} • Showing {paginatedCompanies.length} of {filteredCompanies.length} companies
         </div>
       )}
     </div>

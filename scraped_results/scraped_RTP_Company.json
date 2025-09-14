@@ -1,0 +1,22 @@
+{
+  "company": "RTP Company",
+  "hall": "8a",
+  "stand": "H18",
+  "address": "France",
+  "email": null,
+  "phone": "+49 211 4560-01",
+  "website": null,
+  "contact_person": null,
+  "products": null,
+  "description": null,
+  "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/jlGcP1PJRqGLwZH7gWwS8A",
+  "contacts": [
+    {
+      "name": "Tom Cordes",
+      "title": "Directo",
+      "email": "tcordes@rtpcompany.com",
+      "phone": "+15074746290",
+      "department": null
+    }
+  ]
+}

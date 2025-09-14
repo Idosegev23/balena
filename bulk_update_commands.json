@@ -1,0 +1,1516 @@
+[
+  {
+    "company": "Ascom Carbonate and Chemicals Manufacturing (ACCM)",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Ascom Carbonate and Chemicals Manufacturing (ACCM)' LIMIT 1;",
+    "update_template": [
+      "hall = '7'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/zpGuvFW7QduiCZSmYqyy8Q'",
+      "contact_persons = '[{\"name\": \"Ascom Carbonate\", \"email\": \"ahmed.niazy@accm.com.eg\", \"phone\": \"+2 012 80822311\\n48\", \"title\": \"ACCM Managing Directo\"}, {\"name\": \"Chemicals Manufacturing\", \"email\": \"ahmed.niazy@accm.com.eg\", \"phone\": \"+2 012 80822311\\n48\", \"title\": \"ACCM Managing Directo\"}]'::jsonb",
+      "contact_person = 'Ascom Carbonate'",
+      "email = 'ahmed.niazy@accm.com.eg'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Ascom Carbonate and Chemicals Manufacturing (ACCM)",
+      "hall": "7",
+      "stand": null,
+      "address": null,
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/zpGuvFW7QduiCZSmYqyy8Q",
+      "contacts": [
+        {
+          "name": "Ascom Carbonate",
+          "title": "ACCM Managing Directo",
+          "email": "ahmed.niazy@accm.com.eg",
+          "phone": "+2 012 80822311\n48",
+          "department": null
+        },
+        {
+          "name": "Chemicals Manufacturing",
+          "title": "ACCM Managing Directo",
+          "email": "ahmed.niazy@accm.com.eg",
+          "phone": "+2 012 80822311\n48",
+          "department": null
+        }
+      ]
+    }
+  },
+  {
+    "company": "IKS Schön GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'IKS Schön GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '6'",
+      "stand = 'D76'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/nGMpkfFFRBa6seXmaJVzAg'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "IKS Schön GmbH",
+      "hall": "6",
+      "stand": "D76",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/nGMpkfFFRBa6seXmaJVzAg",
+      "contacts": []
+    }
+  },
+  {
+    "company": "PREMIUM",
+    "find_sql": "SELECT id FROM companies WHERE company = 'PREMIUM' LIMIT 1;",
+    "update_template": [
+      "hall = '8a'",
+      "stand = 'B33'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/qK6p0M53Sp2TRQvVXZkWTg'",
+      "description = 'Skip to main content Support Search ENGLISH Ticket shop Home Exhibit Visit Exhibitors & Products Programme Media & News K-Alliance Profile Products Stand Bookmark Share profile Exhibitor may contact me Language BIEGLO GmbH Hall 8a / B33 Germany, Hamburg John Biesterfeld General Manager The BIEGLO GmbH is a Hamburg-based distribution company specialized in high-performance polymers.'",
+      "contact_persons = '[{\"name\": \"John Biesterfeld\", \"email\": \"j.biesterfeld@BIEGLO.com\", \"phone\": \"+49 40 401130003\", \"title\": \"General Manager\"}]'::jsonb",
+      "contact_person = 'John Biesterfeld'",
+      "email = 'j.biesterfeld@BIEGLO.com'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "PREMIUM",
+      "hall": "8a",
+      "stand": "B33",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": "Skip to main content\nSupport\nSearch\nENGLISH\nTicket shop\nHome\nExhibit\nVisit\nExhibitors & Products\nProgramme\nMedia & News\nK-Alliance\nProfile\nProducts\nStand\nBookmark\nShare profile\nExhibitor may contact me\nLanguage\nBIEGLO GmbH\nHall 8a / B33\nGermany, Hamburg\nJohn Biesterfeld\nGeneral Manager\nThe BIEGLO GmbH is a Hamburg-based distribution company specialized in high-performance polymers.",
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/qK6p0M53Sp2TRQvVXZkWTg",
+      "contacts": [
+        {
+          "name": "John Biesterfeld",
+          "title": "General Manager",
+          "email": "j.biesterfeld@BIEGLO.com",
+          "phone": "+49 40 401130003",
+          "department": null
+        }
+      ]
+    }
+  },
+  {
+    "company": "Fraunhofer-Institut für Umwelt-, Sicherheits- und Energietechnik UMSICHT",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Fraunhofer-Institut für Umwelt-, Sicherheits- und Energietechnik UMSICHT' LIMIT 1;",
+    "update_template": [
+      "hall = '7'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/wHRq4f4xR1q4cMmvCbMMzg'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Fraunhofer-Institut für Umwelt-, Sicherheits- und Energietechnik UMSICHT",
+      "hall": "7",
+      "stand": null,
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/wHRq4f4xR1q4cMmvCbMMzg",
+      "contacts": []
+    }
+  },
+  {
+    "company": "BARLOG Plastics GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'BARLOG Plastics GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '6'",
+      "stand = 'D76'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/970nIZdETuOv7lwXBcqOKg'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "BARLOG Plastics GmbH",
+      "hall": "6",
+      "stand": "D76",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/970nIZdETuOv7lwXBcqOKg",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Kyowa Industrial Co., Ltd.",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Kyowa Industrial Co., Ltd.' LIMIT 1;",
+    "update_template": [
+      "hall = 'plan'",
+      "stand = 'Enter'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/search?_query=Kyowa+Industrial+Co.%2C+Ltd.'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Kyowa Industrial Co., Ltd.",
+      "hall": "plan",
+      "stand": "Enter",
+      "address": null,
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/search?_query=Kyowa+Industrial+Co.%2C+Ltd.",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Lehmann & Voss & Co. KG",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Lehmann & Voss & Co. KG' LIMIT 1;",
+    "update_template": [
+      "hall = '8a'",
+      "stand = 'G33'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/rkWQF3mqT46BWVyUnqubow'",
+      "description = 'Skip to main content Support Search ENGLISH Ticket shop Home Exhibit Visit Exhibitors & Products Programme Media & News K-Alliance Profile Products Stand Bookmark Share profile Exhibitor may contact me Language Lehmann & Voss & Co. KG Hall 8a / G33 Germany, Hamburg The LEHVOSS Group under the management of Lehmann&Voss&Co. is a group of companies in the chemicals sector that develops, produces and markets chemical and mineral specialities for various industrial clients.'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Lehmann & Voss & Co. KG",
+      "hall": "8a",
+      "stand": "G33",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": "Skip to main content\nSupport\nSearch\nENGLISH\nTicket shop\nHome\nExhibit\nVisit\nExhibitors & Products\nProgramme\nMedia & News\nK-Alliance\nProfile\nProducts\nStand\nBookmark\nShare profile\nExhibitor may contact me\nLanguage\nLehmann & Voss & Co. KG\nHall 8a / G33\nGermany, Hamburg\nThe LEHVOSS Group under the management of Lehmann&Voss&Co. is a group of companies in the chemicals sector that develops, produces and markets chemical and mineral specialities for various industrial clients.",
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/rkWQF3mqT46BWVyUnqubow",
+      "contacts": []
+    }
+  },
+  {
+    "company": "ALBIS Distribution GmbH & Co. KG",
+    "find_sql": "SELECT id FROM companies WHERE company = 'ALBIS Distribution GmbH & Co. KG' LIMIT 1;",
+    "update_template": [
+      "hall = '6'",
+      "stand = 'A62'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/YDL7hJ49S8SYVwHhuAroOw'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "ALBIS Distribution GmbH & Co. KG",
+      "hall": "6",
+      "stand": "A62",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/YDL7hJ49S8SYVwHhuAroOw",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Biesterfeld Plastic GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Biesterfeld Plastic GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '5'",
+      "stand = 'B18'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/OXThPXvESwuJYyVxcHcRcg'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Biesterfeld Plastic GmbH",
+      "hall": "5",
+      "stand": "B18",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/OXThPXvESwuJYyVxcHcRcg",
+      "contacts": []
+    }
+  },
+  {
+    "company": "MOCOM Compounds GmbH & Co. KG",
+    "find_sql": "SELECT id FROM companies WHERE company = 'MOCOM Compounds GmbH & Co. KG' LIMIT 1;",
+    "update_template": [
+      "hall = '6'",
+      "stand = 'A62'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/OS3xVAF1RGu3jEbOiCR0aA'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "MOCOM Compounds GmbH & Co. KG",
+      "hall": "6",
+      "stand": "A62",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/OS3xVAF1RGu3jEbOiCR0aA",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Unknown Company",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Unknown Company' LIMIT 1;",
+    "update_template": [
+      "hall = 'plan'",
+      "stand = 'Enter'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/search?_query=Unknown+Company'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Unknown Company",
+      "hall": "plan",
+      "stand": "Enter",
+      "address": null,
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/search?_query=Unknown+Company",
+      "contacts": []
+    }
+  },
+  {
+    "company": "VEKA AG Ein Unternehmen der Laumann Gruppe",
+    "find_sql": "SELECT id FROM companies WHERE company = 'VEKA AG Ein Unternehmen der Laumann Gruppe' LIMIT 1;",
+    "update_template": [
+      "hall = '8b'",
+      "stand = 'E76'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/tjwK6vNVSHOt1HxuUKr1NQ'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "VEKA AG Ein Unternehmen der Laumann Gruppe",
+      "hall": "8b",
+      "stand": "E76",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/tjwK6vNVSHOt1HxuUKr1NQ",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Dow",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Dow' LIMIT 1;",
+    "update_template": [
+      "hall = '4'",
+      "stand = 'G04'",
+      "phone = '+49 211 4560-01'",
+      "website = 'https://www.dow.com'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/DXl0H7TnR46OetDVnqZwaQ'",
+      "description = 'Skip to main content Support Search ENGLISH Ticket shop Home Exhibit Visit Exhibitors & Products Programme Media & News K-Alliance Profile Products Stand Company news Bookmark Share profile Exhibitor may contact me Language Dow OA Hall 4 / G04.'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Dow",
+      "hall": "4",
+      "stand": "G04",
+      "address": "Germany",
+      "email": "jfelber@dow.com",
+      "phone": "+49 211 4560-01",
+      "website": "https://www.dow.com",
+      "contact_person": null,
+      "products": null,
+      "description": "Skip to main content\nSupport\nSearch\nENGLISH\nTicket shop\nHome\nExhibit\nVisit\nExhibitors & Products\nProgramme\nMedia & News\nK-Alliance\nProfile\nProducts\nStand\nCompany news\nBookmark\nShare profile\nExhibitor may contact me\nLanguage\nDow\nOA Hall 4 / G04.",
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/DXl0H7TnR46OetDVnqZwaQ",
+      "contacts": []
+    }
+  },
+  {
+    "company": "SANGIR PLASTICS PVT LTD",
+    "find_sql": "SELECT id FROM companies WHERE company = 'SANGIR PLASTICS PVT LTD' LIMIT 1;",
+    "update_template": [
+      "hall = '5'",
+      "stand = 'B03-01'",
+      "phone = '9001-2015'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/YCdWJS7hRJy3Ayz031FJTg'",
+      "description = 'Skip to main content Support Search ENGLISH Ticket shop Home Exhibit Visit Exhibitors & Products Programme Media & News K-Alliance Profile Products Stand Company news Bookmark Share profile Exhibitor may contact me Language SANGIR PLASTICS PVT LTD Hall 5 / B03-01 India, Gujarat Yash Mandhana International Sales Head We are Sangir, a major producer of specialty thermoplastic solutions and a major supplier to diverse industries and projects.'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "SANGIR PLASTICS PVT LTD",
+      "hall": "5",
+      "stand": "B03-01",
+      "address": null,
+      "email": null,
+      "phone": "9001-2015",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": "Skip to main content\nSupport\nSearch\nENGLISH\nTicket shop\nHome\nExhibit\nVisit\nExhibitors & Products\nProgramme\nMedia & News\nK-Alliance\nProfile\nProducts\nStand\nCompany news\nBookmark\nShare profile\nExhibitor may contact me\nLanguage\nSANGIR PLASTICS PVT LTD\nHall 5 / B03-01\nIndia, Gujarat\nYash Mandhana\nInternational Sales Head\nWe are Sangir, a major producer of specialty thermoplastic solutions and a major supplier to diverse industries and projects.",
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/YCdWJS7hRJy3Ayz031FJTg",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Kaneka Belgium N.V.",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Kaneka Belgium N.V.' LIMIT 1;",
+    "update_template": [
+      "hall = '6'",
+      "stand = 'A20'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/j2TSYUICTo6VYV3k2ZnVCQ'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Kaneka Belgium N.V.",
+      "hall": "6",
+      "stand": "A20",
+      "address": null,
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/j2TSYUICTo6VYV3k2ZnVCQ",
+      "contacts": []
+    }
+  },
+  {
+    "company": "RICO Elastomere Projecting GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'RICO Elastomere Projecting GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '13'",
+      "stand = 'A06'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/pvNUzAJqSeaYQxwMV0lhWg'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "RICO Elastomere Projecting GmbH",
+      "hall": "13",
+      "stand": "A06",
+      "address": null,
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/pvNUzAJqSeaYQxwMV0lhWg",
+      "contacts": []
+    }
+  },
+  {
+    "company": "ELASTRON KIMYA SAN. VE TIC. A.Ş. Elastron TPE",
+    "find_sql": "SELECT id FROM companies WHERE company = 'ELASTRON KIMYA SAN. VE TIC. A.Ş. Elastron TPE' LIMIT 1;",
+    "update_template": [
+      "hall = '6'",
+      "stand = 'C10'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/5hNyz0q1RHqq4mvx4Hpm4g'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "ELASTRON KIMYA SAN. VE TIC. A.Ş. Elastron TPE",
+      "hall": "6",
+      "stand": "C10",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/5hNyz0q1RHqq4mvx4Hpm4g",
+      "contacts": []
+    }
+  },
+  {
+    "company": "BENVIC SAS",
+    "find_sql": "SELECT id FROM companies WHERE company = 'BENVIC SAS' LIMIT 1;",
+    "update_template": [
+      "hall = '8a'",
+      "stand = 'F12'",
+      "phone = '+49 211 4560-01'",
+      "website = 'https://www.benvic.com'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/WrWzq4jNRQS1HJgmzb0CBg'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "BENVIC SAS",
+      "hall": "8a",
+      "stand": "F12",
+      "address": "France",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": "https://www.benvic.com",
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/WrWzq4jNRQS1HJgmzb0CBg",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Beologic NV",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Beologic NV' LIMIT 1;",
+    "update_template": [
+      "hall = '8a'",
+      "stand = 'E35'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/Lws8t7rWTTSYQqT9WoRsXw'",
+      "contact_persons = '[{\"name\": \"Jens Vancoppenolle\", \"email\": \"sales@beologic.com\", \"phone\": \"+32 496 83 68 23\", \"title\": \"Sales Manager\"}]'::jsonb",
+      "contact_person = 'Jens Vancoppenolle'",
+      "email = 'sales@beologic.com'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Beologic NV",
+      "hall": "8a",
+      "stand": "E35",
+      "address": null,
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/Lws8t7rWTTSYQqT9WoRsXw",
+      "contacts": [
+        {
+          "name": "Jens Vancoppenolle",
+          "title": "Sales Manager",
+          "email": "sales@beologic.com",
+          "phone": "+32 496 83 68 23",
+          "department": null
+        }
+      ]
+    }
+  },
+  {
+    "company": "SIMONA AG",
+    "find_sql": "SELECT id FROM companies WHERE company = 'SIMONA AG' LIMIT 1;",
+    "update_template": [
+      "hall = '8a'",
+      "stand = 'F32'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/dnfKw04tSdSEfwisijKM7Q'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "SIMONA AG",
+      "hall": "8a",
+      "stand": "F32",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/dnfKw04tSdSEfwisijKM7Q",
+      "contacts": []
+    }
+  },
+  {
+    "company": "K.D. Feddersen GmbH & Co. KG",
+    "find_sql": "SELECT id FROM companies WHERE company = 'K.D. Feddersen GmbH & Co. KG' LIMIT 1;",
+    "update_template": [
+      "hall = '6'",
+      "stand = 'C76'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/8cq3xKiJT6iy16Jsdh1kGg'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "K.D. Feddersen GmbH & Co. KG",
+      "hall": "6",
+      "stand": "C76",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/8cq3xKiJT6iy16Jsdh1kGg",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Marubeni International (Europe) GmbH Chemical Group",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Marubeni International (Europe) GmbH Chemical Group' LIMIT 1;",
+    "update_template": [
+      "hall = '7a'",
+      "stand = 'D25'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/kUtaCRUjQ6GfcA0dgDVYgA'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Marubeni International (Europe) GmbH Chemical Group",
+      "hall": "7a",
+      "stand": "D25",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/kUtaCRUjQ6GfcA0dgDVYgA",
+      "contacts": []
+    }
+  },
+  {
+    "company": "AGRANA Stärke GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'AGRANA Stärke GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '5'",
+      "stand = 'F30-04'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/nbToGxLZQ4qDF4VCwfv4fA'",
+      "description = 'Skip to main content Support Search ENGLISH Ticket shop Home Exhibit Visit Exhibitors & Products Programme Media & News K-Alliance Profile Products Stand Bookmark Share profile Exhibitor may contact me Language AGRANA Stärke GmbH Hall 5 / F30-04 Austria, Wien Nadine Barna Key Account Manager Tobias Pöcheim Sales Director  AGRANA is an international Austrian industrial company that refines agricultural raw materials into high-quality products for the processing industry.'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "AGRANA Stärke GmbH",
+      "hall": "5",
+      "stand": "F30-04",
+      "address": null,
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": "Skip to main content\nSupport\nSearch\nENGLISH\nTicket shop\nHome\nExhibit\nVisit\nExhibitors & Products\nProgramme\nMedia & News\nK-Alliance\nProfile\nProducts\nStand\nBookmark\nShare profile\nExhibitor may contact me\nLanguage\nAGRANA Stärke GmbH\nHall 5 / F30-04\nAustria, Wien\nNadine Barna\nKey Account Manager\nTobias Pöcheim\nSales Director\n AGRANA is an international Austrian industrial company that refines agricultural raw materials into high-quality products for the processing industry.",
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/nbToGxLZQ4qDF4VCwfv4fA",
+      "contacts": []
+    }
+  },
+  {
+    "company": "KRAIBURG TPE GmbH & Co. KG",
+    "find_sql": "SELECT id FROM companies WHERE company = 'KRAIBURG TPE GmbH & Co. KG' LIMIT 1;",
+    "update_template": [
+      "hall = '6'",
+      "stand = 'C58-03'",
+      "phone = '+49 211 4560-01'",
+      "website = 'https://www.kraiburg-tpe.com)'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/7qjFCtSzQFmxHmRHVvSkiQ'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "KRAIBURG TPE GmbH & Co. KG",
+      "hall": "6",
+      "stand": "C58-03",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": "https://www.kraiburg-tpe.com)",
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/7qjFCtSzQFmxHmRHVvSkiQ",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Terbrack Kunststoff GmbH & Co. KG",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Terbrack Kunststoff GmbH & Co. KG' LIMIT 1;",
+    "update_template": [
+      "hall = '7a'",
+      "stand = 'B40'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/CxWxqrqfT6C846bBpUIPZA'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Terbrack Kunststoff GmbH & Co. KG",
+      "hall": "7a",
+      "stand": "B40",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/CxWxqrqfT6C846bBpUIPZA",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Nordmann, Rassmann GmbH - Nordmann",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Nordmann, Rassmann GmbH - Nordmann' LIMIT 1;",
+    "update_template": [
+      "hall = '6'",
+      "stand = 'E75'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/g4bT1WiWTWyvN187PvlhkQ'",
+      "description = 'Skip to main content Support Search ENGLISH Ticket shop Home Exhibit Visit Exhibitors & Products Programme Media & News K-Alliance Profile Products Stand Bookmark Share profile Exhibitor may contact me Language Nordmann, Rassmann GmbH - Nordmann Hall 6 / E75 Germany, Hamburg Play The company is one of the leading multinational companies in chemical distribution.'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Nordmann, Rassmann GmbH - Nordmann",
+      "hall": "6",
+      "stand": "E75",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": "Skip to main content\nSupport\nSearch\nENGLISH\nTicket shop\nHome\nExhibit\nVisit\nExhibitors & Products\nProgramme\nMedia & News\nK-Alliance\nProfile\nProducts\nStand\nBookmark\nShare profile\nExhibitor may contact me\nLanguage\nNordmann, Rassmann GmbH - Nordmann\nHall 6 / E75\nGermany, Hamburg\nPlay\nThe company is one of the leading multinational companies in chemical distribution.",
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/g4bT1WiWTWyvN187PvlhkQ",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Covestro Deutschland AG",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Covestro Deutschland AG' LIMIT 1;",
+    "update_template": [
+      "hall = '6'",
+      "stand = 'A75'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/izNyT3fZQmSjiKPPlbEwdw'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Covestro Deutschland AG",
+      "hall": "6",
+      "stand": "A75",
+      "address": "Deutschland",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/izNyT3fZQmSjiKPPlbEwdw",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Pöppelmann Kunststoff-Technik GmbH & Co. KG",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Pöppelmann Kunststoff-Technik GmbH & Co. KG' LIMIT 1;",
+    "update_template": [
+      "hall = '5'",
+      "stand = 'B40'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/1DFMY9zvRlu2DwgBp0MbwQ'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Pöppelmann Kunststoff-Technik GmbH & Co. KG",
+      "hall": "5",
+      "stand": "B40",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/1DFMY9zvRlu2DwgBp0MbwQ",
+      "contacts": []
+    }
+  },
+  {
+    "company": "TEKU GmbH Fluorkunststoffe",
+    "find_sql": "SELECT id FROM companies WHERE company = 'TEKU GmbH Fluorkunststoffe' LIMIT 1;",
+    "update_template": [
+      "hall = '7'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/aN3tHf2ITzOlT6pBz5Bi5w'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "TEKU GmbH Fluorkunststoffe",
+      "hall": "7",
+      "stand": null,
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/aN3tHf2ITzOlT6pBz5Bi5w",
+      "contacts": []
+    }
+  },
+  {
+    "company": "ADVANCED & FUNCTIONAL TECHNOLOGIES FOR BIOCOMPOSITES S.L.",
+    "find_sql": "SELECT id FROM companies WHERE company = 'ADVANCED & FUNCTIONAL TECHNOLOGIES FOR BIOCOMPOSITES S.L.' LIMIT 1;",
+    "update_template": [
+      "hall = '8a'",
+      "stand = 'C34'",
+      "phone = '+49 211 4560-01'",
+      "website = 'https://www.europapress.es/'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/F7albQgvRZW3FxZORbDYyA'",
+      "description = 'Skip to main content Support Search ENGLISH Ticket shop Home Exhibit Visit Exhibitors & Products Programme Media & News K-Alliance Profile Products Stand Company news Bookmark Share profile Exhibitor may contact me Language ADVANCED & FUNCTIONAL TECHNOLOGIES FOR BIOCOMPOSITES S.'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "ADVANCED & FUNCTIONAL TECHNOLOGIES FOR BIOCOMPOSITES S.L.",
+      "hall": "8a",
+      "stand": "C34",
+      "address": "Spain",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": "https://www.europapress.es/",
+      "contact_person": null,
+      "products": null,
+      "description": "Skip to main content\nSupport\nSearch\nENGLISH\nTicket shop\nHome\nExhibit\nVisit\nExhibitors & Products\nProgramme\nMedia & News\nK-Alliance\nProfile\nProducts\nStand\nCompany news\nBookmark\nShare profile\nExhibitor may contact me\nLanguage\nADVANCED & FUNCTIONAL TECHNOLOGIES FOR BIOCOMPOSITES S.",
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/F7albQgvRZW3FxZORbDYyA",
+      "contacts": []
+    }
+  },
+  {
+    "company": "EMS-CHEMIE (Deutschland) Vertriebs GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'EMS-CHEMIE (Deutschland) Vertriebs GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '6'",
+      "stand = 'E61'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/8C2uC2JkQCKRfG3BTJiZ3Q'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "EMS-CHEMIE (Deutschland) Vertriebs GmbH",
+      "hall": "6",
+      "stand": "E61",
+      "address": "Deutschland",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/8C2uC2JkQCKRfG3BTJiZ3Q",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Erhard Hippe KG",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Erhard Hippe KG' LIMIT 1;",
+    "update_template": [
+      "hall = '8a'",
+      "stand = 'F10'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/Ao6WC2UeSOa85C34iaFuow'",
+      "description = 'Skip to main content Support Search ENGLISH Ticket shop Home Exhibit Visit Exhibitors & Products Programme Media & News K-Alliance Profile Products Stand Bookmark Share profile Exhibitor may contact me Language Erhard Hippe KG PREMIUM Hall 8a / F10 Germany, Hildesheim Since HIPPE was founded by Erhard Hippe in Dresden in 1935 and subsequently moved to Hanover, the company has constantly evolved.'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Erhard Hippe KG",
+      "hall": "8a",
+      "stand": "F10",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": "Skip to main content\nSupport\nSearch\nENGLISH\nTicket shop\nHome\nExhibit\nVisit\nExhibitors & Products\nProgramme\nMedia & News\nK-Alliance\nProfile\nProducts\nStand\nBookmark\nShare profile\nExhibitor may contact me\nLanguage\nErhard Hippe KG\nPREMIUM\nHall 8a / F10\nGermany, Hildesheim\nSince HIPPE was founded by Erhard Hippe in Dresden in 1935 and subsequently moved to Hanover, the company has constantly evolved.",
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/Ao6WC2UeSOa85C34iaFuow",
+      "contacts": []
+    }
+  },
+  {
+    "company": "UBE Europe GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'UBE Europe GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '6'",
+      "stand = 'E08'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/Vg57mDEmQYaSUXDSpACEYw'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "UBE Europe GmbH",
+      "hall": "6",
+      "stand": "E08",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/Vg57mDEmQYaSUXDSpACEYw",
+      "contacts": []
+    }
+  },
+  {
+    "company": "BASF SE",
+    "find_sql": "SELECT id FROM companies WHERE company = 'BASF SE' LIMIT 1;",
+    "update_template": [
+      "hall = '5'",
+      "stand = 'C21'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/onNNEERFQv2PgFGOp4EstQ'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "BASF SE",
+      "hall": "5",
+      "stand": "C21",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/onNNEERFQv2PgFGOp4EstQ",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Plastek UK Ltd",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Plastek UK Ltd' LIMIT 1;",
+    "update_template": [
+      "hall = '5'",
+      "stand = 'A28'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/NxzEcW6cR9mf6BxqsXYngg'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Plastek UK Ltd",
+      "hall": "5",
+      "stand": "A28",
+      "address": null,
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/NxzEcW6cR9mf6BxqsXYngg",
+      "contacts": []
+    }
+  },
+  {
+    "company": "MURTFELDT GmbH & Co. KG",
+    "find_sql": "SELECT id FROM companies WHERE company = 'MURTFELDT GmbH & Co. KG' LIMIT 1;",
+    "update_template": [
+      "hall = '5'",
+      "stand = 'F21'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/IEPCnQtiSRaBE8KJ4uXxGA'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "MURTFELDT GmbH & Co. KG",
+      "hall": "5",
+      "stand": "F21",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/IEPCnQtiSRaBE8KJ4uXxGA",
+      "contacts": []
+    }
+  },
+  {
+    "company": "ISO-TECH Kunststoff GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'ISO-TECH Kunststoff GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '8a'",
+      "stand = 'E40'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/lNBiIw9bROy2FdcV1YwlNg'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "ISO-TECH Kunststoff GmbH",
+      "hall": "8a",
+      "stand": "E40",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/lNBiIw9bROy2FdcV1YwlNg",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Mitsubishi Chemical Europe GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Mitsubishi Chemical Europe GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '6'",
+      "stand = 'B60'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/EWgzXFRdThez5XLHxFhlWw'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Mitsubishi Chemical Europe GmbH",
+      "hall": "6",
+      "stand": "B60",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/EWgzXFRdThez5XLHxFhlWw",
+      "contacts": []
+    }
+  },
+  {
+    "company": "KRD Coatings GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'KRD Coatings GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '5'",
+      "stand = 'D44'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/o18fKOyeRZO6oIB9G2xPJA'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "KRD Coatings GmbH",
+      "hall": "5",
+      "stand": "D44",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/o18fKOyeRZO6oIB9G2xPJA",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Solinatra UK Limited",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Solinatra UK Limited' LIMIT 1;",
+    "update_template": [
+      "hall = '14'",
+      "stand = 'A50'",
+      "phone = '100 2024'",
+      "website = 'https://www.solinatra.com'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/z9xYuGXmQc6cRvakP7fUpA'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Solinatra UK Limited",
+      "hall": "14",
+      "stand": "A50",
+      "address": "Netherlands",
+      "email": null,
+      "phone": "100 2024",
+      "website": "https://www.solinatra.com",
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/z9xYuGXmQc6cRvakP7fUpA",
+      "contacts": []
+    }
+  },
+  {
+    "company": "BEN Kunststoffe Vertriebs- GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'BEN Kunststoffe Vertriebs- GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '8a'",
+      "stand = 'E09'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/WsSlfsTrQ1ymOWSbwqBXjg'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "BEN Kunststoffe Vertriebs- GmbH",
+      "hall": "8a",
+      "stand": "E09",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/WsSlfsTrQ1ymOWSbwqBXjg",
+      "contacts": []
+    }
+  },
+  {
+    "company": "B4Plastics BVBA",
+    "find_sql": "SELECT id FROM companies WHERE company = 'B4Plastics BVBA' LIMIT 1;",
+    "update_template": [
+      "hall = '8b'",
+      "stand = 'H24'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/5mwbEUKySkuJ1FlrZ2Q3gg'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "B4Plastics BVBA",
+      "hall": "8b",
+      "stand": "H24",
+      "address": null,
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/5mwbEUKySkuJ1FlrZ2Q3gg",
+      "contacts": []
+    }
+  },
+  {
+    "company": "DURPLASTICS, S.A.",
+    "find_sql": "SELECT id FROM companies WHERE company = 'DURPLASTICS, S.A.' LIMIT 1;",
+    "update_template": [
+      "hall = '8a'",
+      "stand = 'E12-05'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/uZ6tJE5rT7SfluPFd8mnYA'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "DURPLASTICS, S.A.",
+      "hall": "8a",
+      "stand": "E12-05",
+      "address": "Spain",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/uZ6tJE5rT7SfluPFd8mnYA",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Exolon Group NV",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Exolon Group NV' LIMIT 1;",
+    "update_template": [
+      "hall = '8b'",
+      "stand = 'F30'",
+      "phone = '+49 211 4560-01'",
+      "website = 'https://www.exolongroup.com'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/p4wjSmdaSCyZY87OG4JAiw'",
+      "description = 'Skip to main content Support Search ENGLISH Ticket shop Home Exhibit Visit Exhibitors & Products Programme Media & News K-Alliance Profile Products Stand Company news Bookmark Share profile Exhibitor may contact me Language Exolon Group NV PREMIUM Hall 8b / F30 Belgium, Tielt Nicole Meyer-Kurczyk Marketing Communications Manager Exolon Group: Passionate about plastic sheets  Exolon Group is a leading supplier of solid and multiwall sheets for various innovative applications.'",
+      "contact_persons = '[{\"name\": \"Exolon Group\"}]'::jsonb",
+      "contact_person = 'Exolon Group'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Exolon Group NV",
+      "hall": "8b",
+      "stand": "F30",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": "https://www.exolongroup.com",
+      "contact_person": null,
+      "products": null,
+      "description": "Skip to main content\nSupport\nSearch\nENGLISH\nTicket shop\nHome\nExhibit\nVisit\nExhibitors & Products\nProgramme\nMedia & News\nK-Alliance\nProfile\nProducts\nStand\nCompany news\nBookmark\nShare profile\nExhibitor may contact me\nLanguage\nExolon Group NV\nPREMIUM\nHall 8b / F30\nBelgium, Tielt\nNicole Meyer-Kurczyk\nMarketing Communications Manager\nExolon Group: Passionate about plastic sheets\n\nExolon Group is a leading supplier of solid and multiwall sheets for various innovative applications.",
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/p4wjSmdaSCyZY87OG4JAiw",
+      "contacts": [
+        {
+          "name": "Exolon Group",
+          "title": null,
+          "email": null,
+          "phone": null,
+          "department": null
+        }
+      ]
+    }
+  },
+  {
+    "company": "ASAHI KASEI EUROPE GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'ASAHI KASEI EUROPE GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '8a'",
+      "stand = 'E23'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/0Wt5r7qLTWi9PN6L9FI5NA'",
+      "description = 'Skip to main content Support Search ENGLISH Ticket shop Home Exhibit Visit Exhibitors & Products Programme Media & News K-Alliance Profile Products Stand Company news Bookmark Share profile Exhibitor may contact me Language ASAHI KASEI EUROPE GmbH Hall 8a / E23 Germany, Düsseldorf Play Johannes YU Asahi Kasei Europe Ralf KEMSIES Hauke WITTING Sr.'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "ASAHI KASEI EUROPE GmbH",
+      "hall": "8a",
+      "stand": "E23",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": "Skip to main content\nSupport\nSearch\nENGLISH\nTicket shop\nHome\nExhibit\nVisit\nExhibitors & Products\nProgramme\nMedia & News\nK-Alliance\nProfile\nProducts\nStand\nCompany news\nBookmark\nShare profile\nExhibitor may contact me\nLanguage\nASAHI KASEI EUROPE GmbH\nHall 8a / E23\nGermany, Düsseldorf\nPlay\nJohannes YU\nAsahi Kasei Europe\nRalf KEMSIES\nHauke WITTING\nSr.",
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/0Wt5r7qLTWi9PN6L9FI5NA",
+      "contacts": []
+    }
+  },
+  {
+    "company": "TITK - Thüringisches Institut für Textil- und Kunststoff-Forschung e.V.",
+    "find_sql": "SELECT id FROM companies WHERE company = 'TITK - Thüringisches Institut für Textil- und Kunststoff-Forschung e.V.' LIMIT 1;",
+    "update_template": [
+      "hall = '7'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/dqCVdl1XTZmvJFzCTGE7vw'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "TITK - Thüringisches Institut für Textil- und Kunststoff-Forschung e.V.",
+      "hall": "7",
+      "stand": null,
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/dqCVdl1XTZmvJFzCTGE7vw",
+      "contacts": []
+    }
+  },
+  {
+    "company": "DK Kunststoff-Service GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'DK Kunststoff-Service GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '6'",
+      "stand = 'D76'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/1nGX6ItjSEuLzmorpjkb4g'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "DK Kunststoff-Service GmbH",
+      "hall": "6",
+      "stand": "D76",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/1nGX6ItjSEuLzmorpjkb4g",
+      "contacts": []
+    }
+  },
+  {
+    "company": "LORENZ Kunststofftechnik GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'LORENZ Kunststofftechnik GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '7a'",
+      "stand = 'C35'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/oUh6CpdPRAebCALY9Vc0jA'",
+      "description = 'Skip to main content Support Search ENGLISH Ticket shop Home Exhibit Visit Exhibitors & Products Programme Media & News K-Alliance Profile Products Stand Bookmark Share profile Exhibitor may contact me Language LORENZ Kunststofftechnik GmbH Hall 7a / C35 Germany, Wallenhorst Play Previous 1/2 Next Thomas Lorenz General manager As a medium-sized company, we have been your partner in the development and manufacture of customer-specific plastic products for more than 50 years.'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "LORENZ Kunststofftechnik GmbH",
+      "hall": "7a",
+      "stand": "C35",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": "Skip to main content\nSupport\nSearch\nENGLISH\nTicket shop\nHome\nExhibit\nVisit\nExhibitors & Products\nProgramme\nMedia & News\nK-Alliance\nProfile\nProducts\nStand\nBookmark\nShare profile\nExhibitor may contact me\nLanguage\nLORENZ Kunststofftechnik GmbH\nHall 7a / C35\nGermany, Wallenhorst\nPlay\nPrevious\n1/2\nNext\nThomas Lorenz\nGeneral manager\nAs a medium-sized company, we have been your partner in the development and manufacture of customer-specific plastic products for more than 50 years.",
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/oUh6CpdPRAebCALY9Vc0jA",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Pleiger Kunststoff GmbH & Co. KG",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Pleiger Kunststoff GmbH & Co. KG' LIMIT 1;",
+    "update_template": [
+      "hall = '5'",
+      "stand = 'A22'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/Shu3y1k7Rj6Jzrb04vaOJw'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Pleiger Kunststoff GmbH & Co. KG",
+      "hall": "5",
+      "stand": "A22",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/Shu3y1k7Rj6Jzrb04vaOJw",
+      "contacts": []
+    }
+  },
+  {
+    "company": "FKuR Kunststoff GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'FKuR Kunststoff GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '6'",
+      "stand = 'E48'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/djZ4KzYzTB2AqNrIYtvozA'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "FKuR Kunststoff GmbH",
+      "hall": "6",
+      "stand": "E48",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/djZ4KzYzTB2AqNrIYtvozA",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Omya Performance Polymer Distribution AG",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Omya Performance Polymer Distribution AG' LIMIT 1;",
+    "update_template": [
+      "hall = '6'",
+      "stand = 'D75'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/RnGfDeQ7QCCWQitETIksYQ'",
+      "description = 'Skip to main content Support Search ENGLISH Ticket shop Home Exhibit Visit Exhibitors & Products Programme Media & News K-Alliance Profile Products Stand Company news Bookmark Share profile Exhibitor may contact me Language Omya Performance Polymer Distribution AG Hall 6 / D75 Switzerland, Oftringen OPPD is a global leader with more than 60 years of experience, innovation and expertise in the distribution and application development of thermoplastic polymers and elastomers.'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Omya Performance Polymer Distribution AG",
+      "hall": "6",
+      "stand": "D75",
+      "address": null,
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": "Skip to main content\nSupport\nSearch\nENGLISH\nTicket shop\nHome\nExhibit\nVisit\nExhibitors & Products\nProgramme\nMedia & News\nK-Alliance\nProfile\nProducts\nStand\nCompany news\nBookmark\nShare profile\nExhibitor may contact me\nLanguage\nOmya Performance Polymer Distribution AG\nHall 6 / D75\nSwitzerland, Oftringen\nOPPD is a global leader with more than 60 years of experience, innovation and expertise in the distribution and application development of thermoplastic polymers and elastomers.",
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/RnGfDeQ7QCCWQitETIksYQ",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Isik Plastik A.S.",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Isik Plastik A.S.' LIMIT 1;",
+    "update_template": [
+      "hall = '8a'",
+      "stand = 'K16'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/F14s2fafQ9aTTJ8gWu993Q'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Isik Plastik A.S.",
+      "hall": "8a",
+      "stand": "K16",
+      "address": null,
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/F14s2fafQ9aTTJ8gWu993Q",
+      "contacts": []
+    }
+  },
+  {
+    "company": "T. Michel Formenbau GmbH & Co. KG",
+    "find_sql": "SELECT id FROM companies WHERE company = 'T. Michel Formenbau GmbH & Co. KG' LIMIT 1;",
+    "update_template": [
+      "hall = '13'",
+      "stand = 'D93'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/iBD4DwG7TQyInhDMjeprqQ'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "T. Michel Formenbau GmbH & Co. KG",
+      "hall": "13",
+      "stand": "D93",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/iBD4DwG7TQyInhDMjeprqQ",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Licharz GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Licharz GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = 'plan'",
+      "stand = 'Enter'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/search?_query=Licharz+GmbH'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Licharz GmbH",
+      "hall": "plan",
+      "stand": "Enter",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/search?_query=Licharz+GmbH",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Celanese Sales Germany GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Celanese Sales Germany GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '6'",
+      "stand = 'D02'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/lTi78Dk5RdSqaiJzD6aLnQ'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Celanese Sales Germany GmbH",
+      "hall": "6",
+      "stand": "D02",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/lTi78Dk5RdSqaiJzD6aLnQ",
+      "contacts": []
+    }
+  },
+  {
+    "company": "MP3 S.R.L.",
+    "find_sql": "SELECT id FROM companies WHERE company = 'MP3 S.R.L.' LIMIT 1;",
+    "update_template": [
+      "hall = '8a'",
+      "stand = 'C31'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/LO92HvAtRpGYvVSZUI3qvw'",
+      "description = 'Skip to main content Support Search ENGLISH Ticket shop Home Exhibit Visit Exhibitors & Products Programme Media & News K-Alliance Profile Products Stand Bookmark Share profile Exhibitor may contact me Language MP3 S.R.L. Hall 8a / C31 Italy, Valsamoggia Frazione Bazzano MP3 was founded in Italy in 1978.'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "MP3 S.R.L.",
+      "hall": "8a",
+      "stand": "C31",
+      "address": "Italy",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": "Skip to main content\nSupport\nSearch\nENGLISH\nTicket shop\nHome\nExhibit\nVisit\nExhibitors & Products\nProgramme\nMedia & News\nK-Alliance\nProfile\nProducts\nStand\nBookmark\nShare profile\nExhibitor may contact me\nLanguage\nMP3 S.R.L.\nHall 8a / C31\nItaly, Valsamoggia Frazione Bazzano\nMP3 was founded in Italy in 1978.",
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/LO92HvAtRpGYvVSZUI3qvw",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Daikin Chemical Europe GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Daikin Chemical Europe GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '7'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/JIOO8B34S42NvCd7VhUvFw'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Daikin Chemical Europe GmbH",
+      "hall": "7",
+      "stand": null,
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/JIOO8B34S42NvCd7VhUvFw",
+      "contacts": []
+    }
+  },
+  {
+    "company": "Mitras Materials GmbH",
+    "find_sql": "SELECT id FROM companies WHERE company = 'Mitras Materials GmbH' LIMIT 1;",
+    "update_template": [
+      "hall = '8a'",
+      "stand = 'G11'",
+      "phone = '+49 211 4560-01'",
+      "profile_url = 'https://www.k-online.com/vis/v1/en/exhprofiles/4CR51CvESs6KYfqQ7Y3upw'",
+      "updated_at = NOW()"
+    ],
+    "data": {
+      "company": "Mitras Materials GmbH",
+      "hall": "8a",
+      "stand": "G11",
+      "address": "Germany",
+      "email": null,
+      "phone": "+49 211 4560-01",
+      "website": null,
+      "contact_person": null,
+      "products": null,
+      "description": null,
+      "profile_url": "https://www.k-online.com/vis/v1/en/exhprofiles/4CR51CvESs6KYfqQ7Y3upw",
+      "contacts": []
+    }
+  }
+]

@@ -33,8 +33,50 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
     if (user) {
       fetchVisits()
       fetchLikedCompanies()
+      setupRealtimeSubscription()
     }
   }, [user])
+
+  const setupRealtimeSubscription = () => {
+    if (!user) return
+
+    // Subscribe to rating changes to update liked companies in real-time
+    const ratingsChannel = supabase
+      .channel('company_ratings_changes')
+      .on('postgres_changes', 
+        {
+          event: '*',
+          schema: 'public',
+          table: 'company_ratings',
+          filter: `user_id=eq.${user.id}`
+        },
+        () => {
+          fetchLikedCompanies() // Refresh liked companies when ratings change
+        }
+      )
+      .subscribe()
+
+    // Subscribe to visit changes
+    const visitsChannel = supabase
+      .channel('visits_changes')
+      .on('postgres_changes', 
+        {
+          event: '*',
+          schema: 'public',
+          table: 'visits',
+          filter: `user_id=eq.${user.id}`
+        },
+        () => {
+          fetchVisits() // Refresh visits when they change
+        }
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(ratingsChannel)
+      supabase.removeChannel(visitsChannel)
+    }
+  }
 
   const fetchVisits = async () => {
     setLoading(true)

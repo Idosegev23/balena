@@ -108,31 +108,76 @@ export function RealtimeRating({ companyId, size = 'medium', showTeamRatings = t
     try {
       const newRating = userRating === rating ? 0 : rating // Toggle off if clicking same rating
       
-      const { error } = await supabase
+      // First, try to update existing rating
+      const { data: existingRating } = await supabase
         .from('company_ratings')
-        .upsert({
-          company_id: companyId,
-          user_id: user.id,
-          rating: newRating,
-          updated_at: new Date().toISOString()
-        })
+        .select('id')
+        .eq('company_id', companyId)
+        .eq('user_id', user.id)
+        .single()
+
+      let error = null
+
+      if (existingRating) {
+        // Update existing rating
+        if (newRating === 0) {
+          // Delete if rating is 0 (neutral/removed)
+          const result = await supabase
+            .from('company_ratings')
+            .delete()
+            .eq('company_id', companyId)
+            .eq('user_id', user.id)
+          error = result.error
+        } else {
+          // Update existing rating
+          const result = await supabase
+            .from('company_ratings')
+            .update({
+              rating: newRating,
+              updated_at: new Date().toISOString()
+            })
+            .eq('company_id', companyId)
+            .eq('user_id', user.id)
+          error = result.error
+        }
+      } else if (newRating !== 0) {
+        // Insert new rating (only if not 0)
+        const result = await supabase
+          .from('company_ratings')
+          .insert({
+            company_id: companyId,
+            user_id: user.id,
+            rating: newRating,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          })
+        error = result.error
+      }
 
       if (error) throw error
 
-      // Add to activity feed
-      await supabase
-        .from('activity_feed')
-        .insert({
-          user_id: user.id,
-          company_id: companyId,
-          action_type: 'rated',
-          action_data: {
-            rating: newRating,
-            previous_rating: userRating
-          }
-        })
+      // Add to activity feed (only if activity_feed table exists)
+      try {
+        await supabase
+          .from('activity_feed')
+          .insert({
+            user_id: user.id,
+            company_id: companyId,
+            action_type: 'rated',
+            action_data: {
+              rating: newRating,
+              previous_rating: userRating
+            }
+          })
+      } catch (activityError) {
+        // Ignore activity feed errors - it's not critical
+        console.log('Activity feed not available:', activityError)
+      }
 
       setUserRating(newRating === 0 ? null : newRating)
+      
+      // Refresh ratings to get updated stats
+      await fetchRatings()
       
     } catch (error) {
       console.error('Error saving rating:', error)
