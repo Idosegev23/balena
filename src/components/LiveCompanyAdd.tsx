@@ -268,7 +268,7 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
                         </div>
                         {result.description && (
                           <div className="text-xs text-gray-500 mt-1">
-                            {result.description.slice(0, 100)}...
+                            {result.description.length > 100 ? result.description.slice(0, 100) + '...' : result.description}
                           </div>
                         )}
                       </button>

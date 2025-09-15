@@ -5,6 +5,7 @@ import { supabase, Company } from '@/lib/supabase'
 import { useAuth } from '@/components/AuthProvider'
 import { Search, Filter, Download, Eye, Star, MapPin, Building2, X, ChevronDown, ChevronUp } from 'lucide-react'
 import { RealtimeRating } from './RealtimeRating'
+import { LogoDisplay } from './LogoUploader'
 
 interface CompanyDiscoveryPageProps {
   onClose: () => void
@@ -619,22 +620,25 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                   className="border rounded-lg p-4 hover:shadow-md transition-shadow bg-white cursor-pointer"
                   onClick={() => onCompanyClick(company)}
                 >
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-bold text-sm flex-1" style={{ color: 'var(--balena-dark)' }}>
-                      {company.company}
-                    </h3>
-                    <div className="flex items-center gap-1 ml-2">
-                      {company.visit_priority && (
-                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium border ${getPriorityColor(company.visit_priority)}`}>
-                          {getPriorityText(company.visit_priority)}
-                        </span>
-                      )}
-                      {company.relevance_score && (
-                        <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full">
-                          ⭐ {company.relevance_score}
-                        </span>
-                      )}
+                  <div className="flex items-start gap-3 mb-2">
+                    <LogoDisplay company={company} size="sm" className="flex-shrink-0 mt-1" />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-bold text-sm truncate" style={{ color: 'var(--balena-dark)' }}>
+                        {company.company}
+                      </h3>
                     </div>
+                  </div>
+                  <div className="flex items-center gap-1 mb-2">
+                    {company.visit_priority && (
+                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium border ${getPriorityColor(company.visit_priority)}`}>
+                        {getPriorityText(company.visit_priority)}
+                      </span>
+                    )}
+                    {company.relevance_score && (
+                      <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full">
+                        ⭐ {company.relevance_score}
+                      </span>
+                    )}
                   </div>
 
                   <div className="space-y-1 text-xs text-gray-600 mb-3">

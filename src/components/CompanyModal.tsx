@@ -8,6 +8,7 @@ import { BusinessCardScanner } from './BusinessCardScanner'
 import { NotesAndPhotos } from './NotesAndPhotos'
 import { FollowUpInterface } from './FollowUpInterface'
 import { AdvancedPlanningModals } from './AdvancedPlanningModals'
+import { LogoUploader, LogoDisplay } from './LogoUploader'
 
 interface CompanyModalProps {
   company: Company | null
@@ -23,6 +24,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
   const [activeTab, setActiveTab] = useState<'info' | 'value' | 'visit' | 'notes' | 'follow'>('info')
   const [activePlanningModal, setActivePlanningModal] = useState<'timing' | 'route' | 'team' | 'questions' | null>(null)
   const [isEditing, setIsEditing] = useState(false)
+  const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({})
   const modalRef = useRef<HTMLDivElement>(null)
 
   const sanitizeText = (html: string) => {
@@ -49,6 +51,42 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
     const latinChars = text.match(/[a-zA-Z]/g) || []
     const hebrewChars = text.match(/[\u0590-\u05FF]/g) || []
     return latinChars.length > hebrewChars.length && latinChars.length > 10
+  }
+
+  const toggleExpanded = (sectionKey: string) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [sectionKey]: !prev[sectionKey]
+    }))
+  }
+
+  const renderExpandableText = (text: string, sectionKey: string, maxLength: number = 500) => {
+    if (!text) return null
+    
+    const isExpanded = expandedSections[sectionKey]
+    const shouldTruncate = text.length > maxLength
+    const displayText = shouldTruncate && !isExpanded ? text.substring(0, maxLength) : text
+    
+    return (
+      <div>
+        <div 
+          className={`leading-6 whitespace-pre-wrap ${
+            isEnglishText(text) ? 'text-left' : 'text-right'
+          }`} 
+          style={{ color: 'var(--balena-dark)' }}
+        >
+          {displayText}
+        </div>
+        {shouldTruncate && (
+          <button
+            onClick={() => toggleExpanded(sectionKey)}
+            className="mt-2 text-sm text-blue-600 hover:text-blue-800 font-medium"
+          >
+            {isExpanded ? 'הקטן טקסט' : 'הצג עוד...'}
+          </button>
+        )}
+      </div>
+    )
   }
 
   useEffect(() => {
@@ -184,7 +222,11 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
           {/* Top Row - Company Name & Close */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3 min-w-0 flex-1">
-              <Building2 className="w-6 h-6 text-white flex-shrink-0" />
+              {company.logo ? (
+                <LogoDisplay company={company} size="md" className="flex-shrink-0 border border-white/20" />
+              ) : (
+                <Building2 className="w-6 h-6 text-white flex-shrink-0" />
+              )}
               <div className="min-w-0 flex-1">
                 <h2 id="company-modal-title" className="text-lg font-bold text-white truncate">{company.company}</h2>
                 <p className="text-white/80 text-sm truncate">{company.location}</p>
@@ -641,9 +683,8 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                         <div className="text-sm font-bold text-blue-800 mb-2 flex items-center gap-2">
                           🤖 AI Analysis Summary
                         </div>
-                        <div className="text-sm text-gray-700 leading-relaxed">
-                          {company.why_relevant.substring(0, 200)}
-                          {company.why_relevant.length > 200 ? '...' : ''}
+                        <div className="text-sm text-gray-700">
+                          {renderExpandableText(company.why_relevant, 'why_relevant', 200)}
                         </div>
                         <div className="flex gap-2 mt-2">
                           {company.department && (
@@ -664,9 +705,8 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                     {(company.description || company.about_us) && (
                       <div className="p-3 bg-gray-50 rounded-lg">
                         <div className="text-xs font-medium text-gray-600 mb-1">Company Description</div>
-                        <div className="text-sm text-gray-700 leading-relaxed">
-                          {(company.description || company.about_us || '').substring(0, 300)}
-                          {(company.description || company.about_us || '').length > 300 ? '...' : ''}
+                        <div className="text-sm text-gray-700">
+                          {renderExpandableText(company.description || company.about_us || '', 'quick_description', 300)}
                         </div>
                       </div>
                     )}
@@ -774,9 +814,8 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                         <div className="text-xs font-semibold text-gray-600 mb-2 flex items-center gap-1">
                           📋 Contact Information
                         </div>
-                        <div className="text-sm text-gray-700 leading-relaxed">
-                          {company.contact_info.substring(0, 400)}
-                          {company.contact_info.length > 400 ? '...' : ''}
+                        <div className="text-sm text-gray-700">
+                          {renderExpandableText(company.contact_info, 'contact_info', 400)}
                         </div>
                       </div>
                     )}
@@ -857,13 +896,8 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
               {company.description && (
                 <div className="p-4 bg-gray-50 rounded-xl">
                   <h3 className="text-sm font-bold text-gray-700 mb-3">📋 Company Description</h3>
-                  <div 
-                    className={`text-base leading-7 whitespace-pre-wrap ${
-                      isEnglishText(company.description) ? 'text-left' : 'text-right'
-                    }`} 
-                    style={{ color: 'var(--balena-dark)' }}
-                  >
-                    {company.description}
+                  <div className="text-base">
+                    {renderExpandableText(company.description, 'description', 500)}
                   </div>
                 </div>
               )}
@@ -874,13 +908,8 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                   <h3 className="text-sm font-bold text-green-700 mb-3 flex items-center gap-2">
                     🌐 About Company (from website)
                   </h3>
-                  <div 
-                    className={`text-sm leading-6 whitespace-pre-wrap ${
-                      isEnglishText(company.about_us) ? 'text-left' : 'text-right'
-                    }`} 
-                    style={{ color: 'var(--balena-dark)' }}
-                  >
-                    {company.about_us.substring(0, 500)}{company.about_us.length > 500 ? '...' : ''}
+                  <div className="text-sm">
+                    {renderExpandableText(company.about_us, 'about_us', 500)}
                   </div>
                 </div>
               )}
@@ -891,14 +920,8 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                   <h3 className="text-sm font-bold text-orange-700 mb-3 flex items-center gap-2">
                     🛠️ Products & Services
                   </h3>
-                  <div 
-                    className={`text-sm leading-6 whitespace-pre-wrap ${
-                      isEnglishText(company.products || company.products_services || '') ? 'text-left' : 'text-right'
-                    }`} 
-                    style={{ color: 'var(--balena-dark)' }}
-                  >
-                    {(company.products_services || company.products || '').substring(0, 500)}
-                    {(company.products_services || company.products || '').length > 500 ? '...' : ''}
+                  <div className="text-sm">
+                    {renderExpandableText(company.products_services || company.products || '', 'products', 500)}
                   </div>
                 </div>
               )}
@@ -921,17 +944,25 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                   <h3 className="text-sm font-bold text-green-700 mb-3 flex items-center gap-2">
                     🌱 Sustainability
                   </h3>
-                  <div 
-                    className={`text-sm leading-6 whitespace-pre-wrap ${
-                      isEnglishText(company.sustainability_info) ? 'text-left' : 'text-right'
-                    }`} 
-                    style={{ color: 'var(--balena-dark)' }}
-                  >
-                    {company.sustainability_info.substring(0, 400)}
-                    {company.sustainability_info.length > 400 ? '...' : ''}
+                  <div className="text-sm">
+                    {renderExpandableText(company.sustainability_info, 'sustainability_info', 400)}
                   </div>
                 </div>
               )}
+
+              {/* Company Logo Management */}
+              <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
+                <h3 className="text-sm font-bold text-blue-700 mb-3 flex items-center gap-2">
+                  🖼️ Company Logo
+                </h3>
+                <LogoUploader 
+                  company={company} 
+                  onLogoUpdated={(logoUrl) => {
+                    setEditedCompany(prev => prev ? { ...prev, logo: logoUrl || undefined } : null)
+                    onUpdate() // Refresh parent component
+                  }}
+                />
+              </div>
 
               {/* Manual Balena Value */}
               <div className="p-4 bg-yellow-50 rounded-xl border border-yellow-200">
