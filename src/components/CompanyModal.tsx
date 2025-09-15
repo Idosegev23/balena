@@ -60,22 +60,31 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
     }))
   }
 
-  const renderExpandableText = (text: string, sectionKey: string, maxLength: number = 500) => {
-    if (!text) return null
+  // Helper function to check if data exists and is meaningful
+  const hasValidData = (value: string | undefined | null): boolean => {
+    return Boolean(value && value.trim() !== '' && value.trim() !== 'null' && value.trim() !== 'undefined' && value !== 'Skip to main content')
+  }
+
+  const renderExpandableText = (text: string | undefined | null, sectionKey: string, maxLength: number = 500) => {
+    if (!hasValidData(text)) {
+      return <div className="text-gray-400 italic text-sm">מידע לא זמין</div>
+    }
     
+    const cleanText = text!.trim()
     const isExpanded = expandedSections[sectionKey]
-    const shouldTruncate = text.length > maxLength
-    const displayText = shouldTruncate && !isExpanded ? text.substring(0, maxLength) : text
+    const shouldTruncate = cleanText.length > maxLength
+    const displayText = shouldTruncate && !isExpanded ? cleanText.substring(0, maxLength) : cleanText
     
     return (
       <div>
         <div 
           className={`leading-6 whitespace-pre-wrap ${
-            isEnglishText(text) ? 'text-left' : 'text-right'
+            isEnglishText(cleanText) ? 'text-left' : 'text-right'
           }`} 
           style={{ color: 'var(--balena-dark)' }}
         >
           {displayText}
+          {shouldTruncate && !isExpanded && '...'}
         </div>
         {shouldTruncate && (
           <button
@@ -225,7 +234,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
               {company.logo ? (
                 <LogoDisplay company={company} size="md" className="flex-shrink-0 border border-white/20" />
               ) : (
-                <Building2 className="w-6 h-6 text-white flex-shrink-0" />
+              <Building2 className="w-6 h-6 text-white flex-shrink-0" />
               )}
               <div className="min-w-0 flex-1">
                 <h2 id="company-modal-title" className="text-lg font-bold text-white truncate">{company.company}</h2>
@@ -241,27 +250,46 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
             </button>
           </div>
           
-          {/* Bottom Row - Priority & Score */}
-          <div className="flex items-center gap-2 justify-center">
+          {/* Bottom Row - Priority & Key Info */}
+          <div className="flex items-center gap-2 justify-center flex-wrap">
+            {/* Visit Priority */}
             <div className={`px-3 py-1 rounded-full text-xs font-medium ${priorityColors[company.visit_priority || 'LOW']}`}>
               {company.visit_priority === 'MUST_VISIT' ? 'Must Visit' : 
                company.visit_priority === 'HIGH' ? 'High Priority' :
                company.visit_priority === 'MEDIUM' ? 'Medium Priority' :
                company.visit_priority === 'LOW' ? 'Low Priority' : 'Monitor Only'}
             </div>
+            
+            {/* Relevance Score */}
             {company.relevance_score && (
               <div className="flex items-center gap-1 px-3 py-1 bg-white/20 rounded-full text-white">
                 <Star className="w-3 h-3" />
                 <span className="font-bold text-sm">{company.relevance_score}/100</span>
               </div>
             )}
-            {(company.hall || company.stand) && (
+            
+            {/* Hall & Stand Info */}
+            {(hasValidData(company?.hall) || hasValidData(company?.stand)) && (
               <div className="flex items-center gap-1 px-3 py-1 bg-white/20 rounded-full text-white">
                 <Building2 className="w-3 h-3" />
                 <span className="text-sm font-bold">
-                  {company.hall && company.stand ? `${company.hall}/${company.stand}` : 
-                   company.hall ? company.hall : 
-                   company.stand ? `Stand ${company.stand}` : ''}
+                  {hasValidData(company?.hall) && hasValidData(company?.stand) ? `Hall ${company.hall} / ${company.stand}` : 
+                   hasValidData(company?.hall) ? `Hall ${company.hall}` : 
+                   hasValidData(company?.stand) ? `Stand ${company.stand}` : ''}
+                </span>
+              </div>
+            )}
+            
+            {/* Connection Type */}
+            {hasValidData(company?.connection_type) && (
+              <div className="flex items-center gap-1 px-3 py-1 bg-white/20 rounded-full text-white">
+                <span className="text-xs font-medium">
+                  {company.connection_type === 'SUPPLIER' ? '🏭 Supplier' :
+                   company.connection_type === 'PARTNER' ? '🤝 Partner' :
+                   company.connection_type === 'COMPETITOR' ? '⚔️ Competitor' :
+                   company.connection_type === 'CUSTOMER' ? '🛒 Customer' :
+                   company.connection_type === 'SERVICE' ? '🔧 Service' :
+                   company.connection_type === 'STRATEGIC' ? '🎯 Strategic' : company.connection_type}
                 </span>
               </div>
             )}
@@ -371,7 +399,83 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
         {/* Content */}
         <div id="company-modal-content" className="flex-1 p-4 md:p-6 overflow-y-auto" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
           {activeTab === 'info' && (
-            <div className="space-y-4">
+            <div className="space-y-6">
+              {/* Quick Summary Card */}
+              <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200">
+                <div className="text-sm font-bold text-blue-800 mb-3 flex items-center gap-2">
+                  ⚡ Quick Overview
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  <div className="space-y-2">
+                    {hasValidData(company?.hall) || hasValidData(company?.stand) ? (
+                      <div className="flex items-center gap-2">
+                        <Building2 size={14} className="text-blue-600" />
+                        <span className="font-medium">Location:</span>
+                        <span>
+                          {hasValidData(company?.hall) && hasValidData(company?.stand) ? `Hall ${company.hall}, Stand ${company.stand}` : 
+                           hasValidData(company?.hall) ? `Hall ${company.hall}` : 
+                           hasValidData(company?.stand) ? `Stand ${company.stand}` : 'Not specified'}
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2 text-gray-500">
+                        <Building2 size={14} />
+                        <span>Location: Not specified</span>
+                      </div>
+                    )}
+                    
+                    {hasValidData(company?.website) ? (
+                      <div className="flex items-center gap-2">
+                        <Globe size={14} className="text-green-600" />
+                        <a 
+                          href={company?.website?.startsWith('http') ? company.website : `https://${company.website}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline truncate"
+                        >
+                          {company.website}
+                        </a>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2 text-gray-500">
+                        <Globe size={14} />
+                        <span>Website: Not available</span>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="space-y-2">
+                    {hasValidData(company?.email) ? (
+                      <div className="flex items-center gap-2">
+                        <Mail size={14} className="text-green-600" />
+                        <a href={`mailto:${company.email}`} className="text-blue-600 hover:underline truncate">
+                          {company.email}
+                        </a>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2 text-gray-500">
+                        <Mail size={14} />
+                        <span>Email: Not available</span>
+                      </div>
+                    )}
+                    
+                    {hasValidData(company?.phone) ? (
+                      <div className="flex items-center gap-2">
+                        <Phone size={14} className="text-purple-600" />
+                        <a href={`tel:${company.phone}`} className="text-blue-600 hover:underline">
+                          {company.phone}
+                        </a>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2 text-gray-500">
+                        <Phone size={14} />
+                        <span>Phone: Not available</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
               {/* Edit Button */}
               <div className="flex justify-between items-center">
                 <h3 className="text-lg font-bold" style={{ color: 'var(--balena-dark)' }}>
@@ -714,114 +818,96 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                 </div>
               )}
 
-              {/* Enhanced Contact Information from Scraper */}
-              {(company.website_emails || company.website_phones || company.contact_person || company.contact_info) && (
+              {/* Enhanced Contact Information */}
                 <div className="mt-6 pt-6 border-t">
                   <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--balena-dark)' }}>
-                    📞 Contact Details (from Company Data)
+                  📞 Contact Information
                   </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="p-4 bg-gray-50 rounded-xl border">
+                  {(() => {
+                    const hasEmail = hasValidData(company?.email)
+                    const hasPhone = hasValidData(company?.phone) 
+                    const hasWebsite = hasValidData(company?.website)
+                    const hasContactPerson = hasValidData(company?.contact_person)
+                    const hasWebsiteEmails = hasValidData(company?.website_emails)
+                    const hasWebsitePhones = hasValidData(company?.website_phones)
                     
-                    {/* Contact Person */}
-                    {company.contact_person && (
-                      <div className="p-4 border rounded-xl bg-blue-50 border-blue-200 shadow-sm">
-                        <div className="text-xs font-semibold text-blue-600 mb-2 flex items-center gap-1">
-                          👤 Key Contact
-                        </div>
-                        <div className="text-sm font-bold text-blue-800">
-                          {company.contact_person}
+                    if (!hasEmail && !hasPhone && !hasWebsite && !hasContactPerson && !hasWebsiteEmails && !hasWebsitePhones) {
+                      return <div className="text-gray-400 italic">פרטי התקשרות לא זמינים</div>
+                    }
+
+                    return (
+                      <div className="space-y-3">
+                        {hasContactPerson && (
+                          <div className="flex items-center gap-3 p-3 bg-white rounded-lg">
+                            <Users size={18} className="text-blue-600" />
+                            <div>
+                              <div className="text-xs text-gray-500 mb-1">איש קשר</div>
+                              <div className="font-medium">{company?.contact_person}</div>
                         </div>
                       </div>
                     )}
-
-                    {/* Primary Email (if different from website emails) */}
-                    {company.email && !company.website_emails?.includes(company.email) && (
-                      <div className="p-4 border rounded-xl bg-green-50 border-green-200 shadow-sm">
-                        <div className="text-xs font-semibold text-green-600 mb-2 flex items-center gap-1">
-                          📧 Primary Email
-                        </div>
-                        <div className="text-sm">
-                          <a href={`mailto:${company.email}`} className="text-green-700 hover:underline font-medium">
-                            {company.email}
-                          </a>
+                        {(hasEmail || hasWebsiteEmails) && (
+                          <div className="flex items-center gap-3 p-3 bg-white rounded-lg">
+                            <Mail size={18} className="text-green-600" />
+                            <div className="space-y-1">
+                              <div className="text-xs text-gray-500">אימייל</div>
+                              {hasEmail && (
+                                <a href={`mailto:${company?.email}`} className="text-green-700 hover:underline block">
+                                  {company?.email}
+                                </a>
+                              )}
+                              {hasWebsiteEmails && company?.website_emails !== company?.email && (
+                                <div className="text-sm text-gray-600">מהאתר: {company?.website_emails}</div>
+                              )}
                         </div>
                       </div>
                     )}
-
-                    {/* Website Emails */}
-                    {company.website_emails && (
-                      <div className="p-4 border rounded-xl bg-emerald-50 border-emerald-200 shadow-sm">
-                        <div className="text-xs font-semibold text-emerald-600 mb-2 flex items-center gap-1">
-                          📬 Additional Emails
+                        {(hasPhone || hasWebsitePhones) && (
+                          <div className="flex items-center gap-3 p-3 bg-white rounded-lg">
+                            <Phone size={18} className="text-purple-600" />
+                            <div className="space-y-1">
+                              <div className="text-xs text-gray-500">טלפון</div>
+                              {hasPhone && (
+                                <a href={`tel:${company?.phone}`} className="text-purple-700 hover:underline block">
+                                  {company?.phone}
+                                </a>
+                              )}
+                              {hasWebsitePhones && company?.website_phones !== company?.phone && (
+                                <div className="text-sm text-gray-600">מהאתר: {company?.website_phones}</div>
+                              )}
                         </div>
-                        <div className="text-sm space-y-1">
-                          {company.website_emails.split(',').slice(0, 3).map((email, idx) => (
-                            <div key={idx}>
-                              <a href={`mailto:${email.trim()}`} className="text-emerald-700 hover:underline text-sm">
-                                {email.trim()}
+                      </div>
+                    )}
+                        {hasWebsite && (
+                          <div className="flex items-center gap-3 p-3 bg-white rounded-lg">
+                            <Globe size={18} className="text-blue-600" />
+                            <div>
+                              <div className="text-xs text-gray-500 mb-1">אתר אינטרנט</div>
+                              <a 
+                                href={company?.website?.startsWith('http') ? company.website : `https://${company.website}`} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="text-blue-700 hover:underline"
+                              >
+                                {company?.website}
                               </a>
                             </div>
-                          ))}
-                          {company.website_emails.split(',').length > 3 && (
-                            <div className="text-xs text-emerald-600 italic">
-                              +{company.website_emails.split(',').length - 3} more emails
                             </div>
                           )}
+                        {hasValidData(company?.contact_info) && (
+                          <div className="p-3 bg-white rounded-lg">
+                            <div className="text-xs text-gray-500 mb-2">מידע נוסף</div>
+                            <div className="text-sm">
+                              {renderExpandableText(company.contact_info, 'contact_info', 200)}
                         </div>
                       </div>
                     )}
-
-                    {/* Primary Phone (if different from website phones) */}
-                    {company.phone && !company.website_phones?.includes(company.phone) && (
-                      <div className="p-4 border rounded-xl bg-purple-50 border-purple-200 shadow-sm">
-                        <div className="text-xs font-semibold text-purple-600 mb-2 flex items-center gap-1">
-                          📱 Primary Phone
                         </div>
-                        <div className="text-sm">
-                          <a href={`tel:${company.phone}`} className="text-purple-700 hover:underline font-medium">
-                            {company.phone}
-                          </a>
+                    )
+                  })()}
                         </div>
                       </div>
-                    )}
-
-                    {/* Website Phones */}
-                    {company.website_phones && (
-                      <div className="p-4 border rounded-xl bg-violet-50 border-violet-200 shadow-sm">
-                        <div className="text-xs font-semibold text-violet-600 mb-2 flex items-center gap-1">
-                          📞 Additional Phones
-                        </div>
-                        <div className="text-sm space-y-1">
-                          {company.website_phones.split(',').slice(0, 3).map((phone, idx) => (
-                            <div key={idx}>
-                              <a href={`tel:${phone.trim()}`} className="text-violet-700 hover:underline text-sm">
-                                {phone.trim()}
-                              </a>
-                            </div>
-                          ))}
-                          {company.website_phones.split(',').length > 3 && (
-                            <div className="text-xs text-violet-600 italic">
-                              +{company.website_phones.split(',').length - 3} more phones
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Website Contact Info */}
-                    {company.contact_info && (
-                      <div className="col-span-full p-4 border rounded-xl bg-gray-50 shadow-sm">
-                        <div className="text-xs font-semibold text-gray-600 mb-2 flex items-center gap-1">
-                          📋 Contact Information
-                        </div>
-                        <div className="text-sm text-gray-700">
-                          {renderExpandableText(company.contact_info, 'contact_info', 400)}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
 
               {/* Website Information */}
               {(company.website_title || company.meta_description) && (
@@ -892,63 +978,73 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                 </div>
               )}
 
-              {/* Company Description */}
-              {company.description && (
-                <div className="p-4 bg-gray-50 rounded-xl">
-                  <h3 className="text-sm font-bold text-gray-700 mb-3">📋 Company Description</h3>
-                  <div className="text-base">
-                    {renderExpandableText(company.description, 'description', 500)}
+              {/* Company Information Sections */}
+              <div className="space-y-4">
+                {/* Primary Description - Show the best available description */}
+                {(hasValidData(company?.about_us) || hasValidData(company?.description)) && (
+                  <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
+                    <h3 className="text-sm font-bold text-blue-700 mb-3 flex items-center gap-2">
+                      🏢 About the Company
+                    </h3>
+                    <div className="text-sm">
+                      {renderExpandableText(
+                        hasValidData(company?.about_us) ? company?.about_us : company?.description, 
+                        'main_description', 
+                        400
+                      )}
+                    </div>
+                    {hasValidData(company?.about_us) && hasValidData(company?.description) && company?.about_us !== company?.description && (
+                      <div className="mt-3 pt-3 border-t border-blue-200">
+                        <div className="text-xs text-blue-600 mb-2">מידע נוסף מהמערכת:</div>
+                        <div className="text-sm">
+                          {renderExpandableText(company.description, 'additional_description', 300)}
                   </div>
                 </div>
               )}
-
-              {/* About Us from Website */}
-              {company.about_us && (
-                <div className="p-4 bg-green-50 rounded-xl border border-green-200">
-                  <h3 className="text-sm font-bold text-green-700 mb-3 flex items-center gap-2">
-                    🌐 About Company (from website)
-                  </h3>
-                  <div className="text-sm">
-                    {renderExpandableText(company.about_us, 'about_us', 500)}
-                  </div>
                 </div>
               )}
 
               {/* Products & Services */}
-              {(company.products || company.products_services) && (
+                {(hasValidData(company?.products) || hasValidData(company?.products_services)) && (
                 <div className="p-4 bg-orange-50 rounded-xl border border-orange-200">
                   <h3 className="text-sm font-bold text-orange-700 mb-3 flex items-center gap-2">
                     🛠️ Products & Services
                   </h3>
-                  <div className="text-sm">
-                    {renderExpandableText(company.products_services || company.products || '', 'products', 500)}
+                    <div className="text-sm">
+                      {renderExpandableText(
+                        hasValidData(company?.products_services) ? company?.products_services : company?.products, 
+                        'products', 
+                        400
+                      )}
                   </div>
                 </div>
               )}
 
-              {/* Categories from K-Show */}
-              {company.where_they_present && (
+                {/* Exhibition Categories */}
+                {hasValidData(company?.where_they_present) && (
                 <div className="p-4 bg-indigo-50 rounded-xl border border-indigo-200">
                   <h3 className="text-sm font-bold text-indigo-700 mb-3 flex items-center gap-2">
                     🏷️ Exhibition Categories
                   </h3>
                   <div className="text-sm text-indigo-800 font-medium">
-                    {company.where_they_present}
+                      {company?.where_they_present}
                   </div>
                 </div>
               )}
 
               {/* Sustainability Info */}
-              {company.sustainability_info && (
+                {hasValidData(company?.sustainability_info) && (
                 <div className="p-4 bg-green-50 rounded-xl border border-green-200">
                   <h3 className="text-sm font-bold text-green-700 mb-3 flex items-center gap-2">
                     🌱 Sustainability
                   </h3>
-                  <div className="text-sm">
-                    {renderExpandableText(company.sustainability_info, 'sustainability_info', 400)}
+                    <div className="text-sm">
+                      {renderExpandableText(company.sustainability_info, 'sustainability_info', 300)}
                   </div>
                 </div>
               )}
+              </div>
+
 
               {/* Company Logo Management */}
               <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
