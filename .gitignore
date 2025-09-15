@@ -75,3 +75,14 @@ SCRAPER_README.md
 *.log
 debug_*.png
 screenshot_*.png
+
+# Scraped data and results
+scraped_results/
+enhanced_data/
+*.json
+scraped_*.json
+complete_scraper.log
+supabase_update.log
+batch_progress.json
+company_data_after_click.txt
+tepe_kimya_full_profile.txt

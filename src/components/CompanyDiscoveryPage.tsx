@@ -339,7 +339,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
   
   // Ensure page is within valid range
   const validPage = Math.max(1, Math.min(page, totalPages || 1))
-  
+
   const paginatedCompanies = filteredCompanies.slice(
     (validPage - 1) * companiesPerPage,
     validPage * companiesPerPage
@@ -675,6 +675,18 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                     {company.contact_person && (
                       <div className="flex items-center gap-1">
                         <span>👤 {company.contact_person}</span>
+                      </div>
+                    )}
+                    {(company.about_us || company.products_services) && (
+                      <div className="text-xs text-gray-600 mt-1">
+                        📋 {(company.about_us || company.products_services || '').substring(0, 100)}
+                        {(company.about_us || company.products_services || '').length > 100 ? '...' : ''}
+                      </div>
+                    )}
+                    {company.sustainability_info && (
+                      <div className="text-xs text-green-600 mt-1">
+                        🌱 Sustainability: {company.sustainability_info.substring(0, 80)}
+                        {company.sustainability_info.length > 80 ? '...' : ''}
                       </div>
                     )}
                   </div>

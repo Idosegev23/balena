@@ -213,10 +213,14 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                 <span className="font-bold text-sm">{company.relevance_score}/100</span>
               </div>
             )}
-            {company.hall && company.stand && (
+            {(company.hall || company.stand) && (
               <div className="flex items-center gap-1 px-3 py-1 bg-white/20 rounded-full text-white">
                 <Building2 className="w-3 h-3" />
-                <span className="text-sm font-bold">{company.hall}/{company.stand}</span>
+                <span className="text-sm font-bold">
+                  {company.hall && company.stand ? `${company.hall}/${company.stand}` : 
+                   company.hall ? company.hall : 
+                   company.stand ? `Stand ${company.stand}` : ''}
+                </span>
               </div>
             )}
           </div>
@@ -670,63 +674,109 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                 </div>
               )}
 
-              {/* Additional Contact Information from Scraper */}
+              {/* Enhanced Contact Information from Scraper */}
               {(company.website_emails || company.website_phones || company.contact_person || company.contact_info) && (
                 <div className="mt-6 pt-6 border-t">
                   <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--balena-dark)' }}>
-                    📞 Additional Contact Details (from website)
+                    📞 Contact Details (from Company Data)
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     
                     {/* Contact Person */}
                     {company.contact_person && (
-                      <div className="p-3 border rounded-lg bg-blue-50 border-blue-200">
-                        <div className="text-xs font-medium text-blue-600 mb-1">Contact Person</div>
-                        <div className="text-sm font-medium text-blue-800">
+                      <div className="p-4 border rounded-xl bg-blue-50 border-blue-200 shadow-sm">
+                        <div className="text-xs font-semibold text-blue-600 mb-2 flex items-center gap-1">
+                          👤 Key Contact
+                        </div>
+                        <div className="text-sm font-bold text-blue-800">
                           {company.contact_person}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Primary Email (if different from website emails) */}
+                    {company.email && !company.website_emails?.includes(company.email) && (
+                      <div className="p-4 border rounded-xl bg-green-50 border-green-200 shadow-sm">
+                        <div className="text-xs font-semibold text-green-600 mb-2 flex items-center gap-1">
+                          📧 Primary Email
+                        </div>
+                        <div className="text-sm">
+                          <a href={`mailto:${company.email}`} className="text-green-700 hover:underline font-medium">
+                            {company.email}
+                          </a>
                         </div>
                       </div>
                     )}
 
                     {/* Website Emails */}
                     {company.website_emails && (
-                      <div className="p-3 border rounded-lg bg-green-50 border-green-200">
-                        <div className="text-xs font-medium text-green-600 mb-1">Website Emails</div>
-                        <div className="text-sm">
-                          {company.website_emails.split(',').map((email, idx) => (
-                            <div key={idx} className="mb-1">
-                              <a href={`mailto:${email.trim()}`} className="text-green-700 hover:underline text-sm">
+                      <div className="p-4 border rounded-xl bg-emerald-50 border-emerald-200 shadow-sm">
+                        <div className="text-xs font-semibold text-emerald-600 mb-2 flex items-center gap-1">
+                          📬 Additional Emails
+                        </div>
+                        <div className="text-sm space-y-1">
+                          {company.website_emails.split(',').slice(0, 3).map((email, idx) => (
+                            <div key={idx}>
+                              <a href={`mailto:${email.trim()}`} className="text-emerald-700 hover:underline text-sm">
                                 {email.trim()}
                               </a>
                             </div>
                           ))}
+                          {company.website_emails.split(',').length > 3 && (
+                            <div className="text-xs text-emerald-600 italic">
+                              +{company.website_emails.split(',').length - 3} more emails
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Primary Phone (if different from website phones) */}
+                    {company.phone && !company.website_phones?.includes(company.phone) && (
+                      <div className="p-4 border rounded-xl bg-purple-50 border-purple-200 shadow-sm">
+                        <div className="text-xs font-semibold text-purple-600 mb-2 flex items-center gap-1">
+                          📱 Primary Phone
+                        </div>
+                        <div className="text-sm">
+                          <a href={`tel:${company.phone}`} className="text-purple-700 hover:underline font-medium">
+                            {company.phone}
+                          </a>
                         </div>
                       </div>
                     )}
 
                     {/* Website Phones */}
                     {company.website_phones && (
-                      <div className="p-3 border rounded-lg bg-purple-50 border-purple-200">
-                        <div className="text-xs font-medium text-purple-600 mb-1">Website Phones</div>
-                        <div className="text-sm">
-                          {company.website_phones.split(',').map((phone, idx) => (
-                            <div key={idx} className="mb-1">
-                              <a href={`tel:${phone.trim()}`} className="text-purple-700 hover:underline text-sm">
+                      <div className="p-4 border rounded-xl bg-violet-50 border-violet-200 shadow-sm">
+                        <div className="text-xs font-semibold text-violet-600 mb-2 flex items-center gap-1">
+                          📞 Additional Phones
+                        </div>
+                        <div className="text-sm space-y-1">
+                          {company.website_phones.split(',').slice(0, 3).map((phone, idx) => (
+                            <div key={idx}>
+                              <a href={`tel:${phone.trim()}`} className="text-violet-700 hover:underline text-sm">
                                 {phone.trim()}
                               </a>
                             </div>
                           ))}
+                          {company.website_phones.split(',').length > 3 && (
+                            <div className="text-xs text-violet-600 italic">
+                              +{company.website_phones.split(',').length - 3} more phones
+                            </div>
+                          )}
                         </div>
                       </div>
                     )}
 
                     {/* Website Contact Info */}
                     {company.contact_info && (
-                      <div className="col-span-full p-3 border rounded-lg bg-gray-50">
-                        <div className="text-xs font-medium text-gray-600 mb-1">Contact Information</div>
+                      <div className="col-span-full p-4 border rounded-xl bg-gray-50 shadow-sm">
+                        <div className="text-xs font-semibold text-gray-600 mb-2 flex items-center gap-1">
+                          📋 Contact Information
+                        </div>
                         <div className="text-sm text-gray-700 leading-relaxed">
-                          {company.contact_info.substring(0, 300)}
-                          {company.contact_info.length > 300 ? '...' : ''}
+                          {company.contact_info.substring(0, 400)}
+                          {company.contact_info.length > 400 ? '...' : ''}
                         </div>
                       </div>
                     )}
@@ -838,15 +888,29 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
               {/* Products & Services */}
               {(company.products || company.products_services) && (
                 <div className="p-4 bg-orange-50 rounded-xl border border-orange-200">
-                  <h3 className="text-sm font-bold text-orange-700 mb-3">🛠️ Products & Services</h3>
+                  <h3 className="text-sm font-bold text-orange-700 mb-3 flex items-center gap-2">
+                    🛠️ Products & Services
+                  </h3>
                   <div 
                     className={`text-sm leading-6 whitespace-pre-wrap ${
                       isEnglishText(company.products || company.products_services || '') ? 'text-left' : 'text-right'
                     }`} 
                     style={{ color: 'var(--balena-dark)' }}
                   >
-                    {(company.products_services || company.products || '').substring(0, 400)}
-                    {(company.products_services || company.products || '').length > 400 ? '...' : ''}
+                    {(company.products_services || company.products || '').substring(0, 500)}
+                    {(company.products_services || company.products || '').length > 500 ? '...' : ''}
+                  </div>
+                </div>
+              )}
+
+              {/* Categories from K-Show */}
+              {company.where_they_present && (
+                <div className="p-4 bg-indigo-50 rounded-xl border border-indigo-200">
+                  <h3 className="text-sm font-bold text-indigo-700 mb-3 flex items-center gap-2">
+                    🏷️ Exhibition Categories
+                  </h3>
+                  <div className="text-sm text-indigo-800 font-medium">
+                    {company.where_they_present}
                   </div>
                 </div>
               )}
