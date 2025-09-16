@@ -42,6 +42,20 @@ export interface Company {
   meta_description?: string
   contact_person?: string
   website_emails?: string
+  // Enhanced detailed data from profile scraping
+  detailed_address?: string
+  sales_volume?: string
+  export_content?: string
+  employees_count?: string
+  foundation_year?: string
+  target_groups?: string
+  company_description?: string
+  main_email?: string
+  main_phone?: string
+  main_website?: string
+  data_source?: string
+  last_detailed_scrape?: string
+  scraping_status?: 'pending' | 'completed' | 'failed' | 'skipped'
 }
 
 export interface User {

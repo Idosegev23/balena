@@ -171,6 +171,21 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
           balena_value: editedCompany.balena_value,
           connection_type: editedCompany.connection_type,
           where_they_present: editedCompany.where_they_present,
+          // Enhanced fields from scraping
+          detailed_address: editedCompany.detailed_address,
+          sales_volume: editedCompany.sales_volume,
+          export_content: editedCompany.export_content,
+          employees_count: editedCompany.employees_count,
+          foundation_year: editedCompany.foundation_year,
+          target_groups: editedCompany.target_groups,
+          company_description: editedCompany.company_description,
+          main_email: editedCompany.main_email,
+          main_phone: editedCompany.main_phone,
+          main_website: editedCompany.main_website,
+          contact_person: editedCompany.contact_person,
+          contact_info: editedCompany.contact_info,
+          website_emails: editedCompany.website_emails,
+          website_phones: editedCompany.website_phones,
           updated_at: new Date().toISOString()
         })
         .eq('id', company.id)
@@ -481,8 +496,25 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                 <h3 className="text-lg font-bold" style={{ color: 'var(--balena-dark)' }}>
                   Company Details
                 </h3>
+                <div className="flex gap-2">
+                  {isEditing && (
                 <button
-                  onClick={() => setIsEditing(!isEditing)}
+                      onClick={handleSave}
+                      disabled={loading}
+                      className="px-4 py-2 rounded-lg font-medium transition-colors bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
+                    >
+                      {loading ? '💾 Saving...' : '💾 Save'}
+                    </button>
+                  )}
+                  <button
+                    onClick={() => {
+                      if (isEditing) {
+                        setEditedCompany(company) // Reset changes
+                        setIsEditing(false)
+                      } else {
+                        setIsEditing(true)
+                      }
+                    }}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                     isEditing 
                       ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' 
@@ -491,6 +523,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                 >
                   {isEditing ? '❌ Cancel' : '✏️ Edit'}
                 </button>
+                </div>
               </div>
 
               {/* Company Info Grid - Mobile Optimized */}
@@ -820,94 +853,426 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
 
               {/* Enhanced Contact Information */}
                 <div className="mt-6 pt-6 border-t">
-                  <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--balena-dark)' }}>
-                  📞 Contact Information
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-lg font-bold" style={{ color: 'var(--balena-dark)' }}>
+                      📞 Contact Information
                   </h3>
+                    {!isEditing && (
+                      <button
+                        onClick={() => setIsEditing(true)}
+                        className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                      >
+                        ✏️ Edit
+                      </button>
+                    )}
+                  </div>
                 <div className="p-4 bg-gray-50 rounded-xl border">
                   {(() => {
                     const hasEmail = hasValidData(company?.email)
+                    const hasMainEmail = hasValidData(company?.main_email)
                     const hasPhone = hasValidData(company?.phone) 
+                    const hasMainPhone = hasValidData(company?.main_phone)
                     const hasWebsite = hasValidData(company?.website)
+                    const hasMainWebsite = hasValidData(company?.main_website)
                     const hasContactPerson = hasValidData(company?.contact_person)
                     const hasWebsiteEmails = hasValidData(company?.website_emails)
                     const hasWebsitePhones = hasValidData(company?.website_phones)
                     
-                    if (!hasEmail && !hasPhone && !hasWebsite && !hasContactPerson && !hasWebsiteEmails && !hasWebsitePhones) {
+                    const hasAnyContact = hasEmail || hasMainEmail || hasPhone || hasMainPhone || hasWebsite || hasMainWebsite || hasContactPerson || hasWebsiteEmails || hasWebsitePhones
+                    
+                    if (!hasAnyContact && !isEditing) {
                       return <div className="text-gray-400 italic">פרטי התקשרות לא זמינים</div>
                     }
 
                     return (
                       <div className="space-y-3">
-                        {hasContactPerson && (
+                    {/* Contact Person */}
+                        {(hasContactPerson || isEditing) && (
                           <div className="flex items-center gap-3 p-3 bg-white rounded-lg">
                             <Users size={18} className="text-blue-600" />
-                            <div>
+                            <div className="flex-1">
                               <div className="text-xs text-gray-500 mb-1">איש קשר</div>
-                              <div className="font-medium">{company?.contact_person}</div>
+                              {isEditing ? (
+                                <input
+                                  type="text"
+                                  value={editedCompany?.contact_person || ''}
+                                  onChange={(e) => handleInputChange('contact_person', e.target.value)}
+                                  className="w-full p-2 border rounded text-sm focus:outline-none focus:ring-1"
+                                  placeholder="שם איש קשר"
+                                />
+                              ) : (
+                                <div className="font-medium">{company?.contact_person || '—'}</div>
+                              )}
                         </div>
                       </div>
                     )}
-                        {(hasEmail || hasWebsiteEmails) && (
-                          <div className="flex items-center gap-3 p-3 bg-white rounded-lg">
-                            <Mail size={18} className="text-green-600" />
-                            <div className="space-y-1">
+
+                        {/* Email Section */}
+                        {(hasEmail || hasMainEmail || hasWebsiteEmails || isEditing) && (
+                          <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
+                            <Mail size={18} className="text-green-600 mt-1" />
+                            <div className="space-y-2 flex-1">
                               <div className="text-xs text-gray-500">אימייל</div>
-                              {hasEmail && (
-                                <a href={`mailto:${company?.email}`} className="text-green-700 hover:underline block">
-                                  {company?.email}
-                                </a>
+                              
+                              {/* Primary Email */}
+                              {(hasEmail || isEditing) && (
+                                <div>
+                                  <div className="text-xs text-gray-400 mb-1">עיקרי:</div>
+                                  {isEditing ? (
+                                    <input
+                                      type="email"
+                                      value={editedCompany?.email || ''}
+                                      onChange={(e) => handleInputChange('email', e.target.value)}
+                                      className="w-full p-2 border rounded text-sm focus:outline-none focus:ring-1"
+                                      placeholder="email@company.com"
+                                    />
+                                  ) : hasEmail ? (
+                                    <a href={`mailto:${company?.email}`} className="text-green-700 hover:underline block">
+                                      {company?.email}
+                                    </a>
+                                  ) : (
+                                    <div className="text-gray-400">—</div>
+                                  )}
+                        </div>
                               )}
-                              {hasWebsiteEmails && company?.website_emails !== company?.email && (
-                                <div className="text-sm text-gray-600">מהאתר: {company?.website_emails}</div>
+
+                              {/* Main Email (from scraping) */}
+                              {(hasMainEmail || isEditing) && (
+                                <div>
+                                  <div className="text-xs text-blue-400 mb-1">מהאתר:</div>
+                                  {isEditing ? (
+                                    <input
+                                      type="email"
+                                      value={editedCompany?.main_email || ''}
+                                      onChange={(e) => handleInputChange('main_email', e.target.value)}
+                                      className="w-full p-2 border rounded text-sm focus:outline-none focus:ring-1"
+                                      placeholder="main@company.com"
+                                    />
+                                  ) : hasMainEmail ? (
+                                    <a href={`mailto:${company?.main_email}`} className="text-green-700 hover:underline block">
+                                      {company?.main_email}
+                                    </a>
+                                  ) : (
+                                    <div className="text-gray-400">—</div>
+                                  )}
+                                </div>
+                              )}
+
+                              {/* Additional Emails */}
+                              {hasWebsiteEmails && company?.website_emails !== company?.email && company?.website_emails !== company?.main_email && (
+                                <div>
+                                  <div className="text-xs text-gray-400 mb-1">נוספים:</div>
+                                  <div className="text-sm text-gray-600">{company?.website_emails}</div>
+                                </div>
                               )}
                         </div>
                       </div>
                     )}
-                        {(hasPhone || hasWebsitePhones) && (
-                          <div className="flex items-center gap-3 p-3 bg-white rounded-lg">
-                            <Phone size={18} className="text-purple-600" />
-                            <div className="space-y-1">
+
+                        {/* Phone Section */}
+                        {(hasPhone || hasMainPhone || hasWebsitePhones || isEditing) && (
+                          <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
+                            <Phone size={18} className="text-purple-600 mt-1" />
+                            <div className="space-y-2 flex-1">
                               <div className="text-xs text-gray-500">טלפון</div>
-                              {hasPhone && (
-                                <a href={`tel:${company?.phone}`} className="text-purple-700 hover:underline block">
-                                  {company?.phone}
-                                </a>
-                              )}
-                              {hasWebsitePhones && company?.website_phones !== company?.phone && (
-                                <div className="text-sm text-gray-600">מהאתר: {company?.website_phones}</div>
-                              )}
+                              
+                              {/* Primary Phone */}
+                              {(hasPhone || isEditing) && (
+                                <div>
+                                  <div className="text-xs text-gray-400 mb-1">עיקרי:</div>
+                                  {isEditing ? (
+                                    <input
+                                      type="tel"
+                                      value={editedCompany?.phone || ''}
+                                      onChange={(e) => handleInputChange('phone', e.target.value)}
+                                      className="w-full p-2 border rounded text-sm focus:outline-none focus:ring-1"
+                                      placeholder="+1 234 567 8900"
+                                    />
+                                  ) : hasPhone ? (
+                                    <a href={`tel:${company?.phone}`} className="text-purple-700 hover:underline block">
+                                      {company?.phone}
+                                    </a>
+                                  ) : (
+                                    <div className="text-gray-400">—</div>
+                                  )}
                         </div>
-                      </div>
-                    )}
-                        {hasWebsite && (
-                          <div className="flex items-center gap-3 p-3 bg-white rounded-lg">
-                            <Globe size={18} className="text-blue-600" />
-                            <div>
-                              <div className="text-xs text-gray-500 mb-1">אתר אינטרנט</div>
-                              <a 
-                                href={company?.website?.startsWith('http') ? company.website : `https://${company.website}`} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="text-blue-700 hover:underline"
-                              >
-                                {company?.website}
-                              </a>
+                              )}
+
+                              {/* Main Phone (from scraping) */}
+                              {(hasMainPhone || isEditing) && (
+                                <div>
+                                  <div className="text-xs text-blue-400 mb-1">מהאתר:</div>
+                                  {isEditing ? (
+                                    <input
+                                      type="tel"
+                                      value={editedCompany?.main_phone || ''}
+                                      onChange={(e) => handleInputChange('main_phone', e.target.value)}
+                                      className="w-full p-2 border rounded text-sm focus:outline-none focus:ring-1"
+                                      placeholder="+1 234 567 8900"
+                                    />
+                                  ) : hasMainPhone ? (
+                                    <a href={`tel:${company?.main_phone}`} className="text-purple-700 hover:underline block">
+                                      {company?.main_phone}
+                                    </a>
+                                  ) : (
+                                    <div className="text-gray-400">—</div>
+                                  )}
                             </div>
+                              )}
+
+                              {/* Additional Phones */}
+                              {hasWebsitePhones && company?.website_phones !== company?.phone && company?.website_phones !== company?.main_phone && (
+                                <div>
+                                  <div className="text-xs text-gray-400 mb-1">נוספים:</div>
+                                  <div className="text-sm text-gray-600">{company?.website_phones}</div>
                             </div>
                           )}
-                        {hasValidData(company?.contact_info) && (
-                          <div className="p-3 bg-white rounded-lg">
-                            <div className="text-xs text-gray-500 mb-2">מידע נוסף</div>
-                            <div className="text-sm">
-                              {renderExpandableText(company.contact_info, 'contact_info', 200)}
                         </div>
                       </div>
                     )}
+
+                        {/* Website Section */}
+                        {(hasWebsite || hasMainWebsite || isEditing) && (
+                          <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
+                            <Globe size={18} className="text-blue-600 mt-1" />
+                            <div className="space-y-2 flex-1">
+                              <div className="text-xs text-gray-500">אתר אינטרנט</div>
+                              
+                              {/* Primary Website */}
+                              {(hasWebsite || isEditing) && (
+                                <div>
+                                  <div className="text-xs text-gray-400 mb-1">עיקרי:</div>
+                                  {isEditing ? (
+                                    <input
+                                      type="url"
+                                      value={editedCompany?.website || ''}
+                                      onChange={(e) => handleInputChange('website', e.target.value)}
+                                      className="w-full p-2 border rounded text-sm focus:outline-none focus:ring-1"
+                                      placeholder="https://company.com"
+                                    />
+                                  ) : hasWebsite ? (
+                                    <a 
+                                      href={company?.website?.startsWith('http') ? company.website : `https://${company.website}`} 
+                                      target="_blank" 
+                                      rel="noopener noreferrer"
+                                      className="text-blue-700 hover:underline block break-all"
+                                    >
+                                      {company?.website}
+                                    </a>
+                                  ) : (
+                                    <div className="text-gray-400">—</div>
+                                  )}
                         </div>
-                    )
-                  })()}
+                              )}
+
+                              {/* Main Website (from scraping) */}
+                              {(hasMainWebsite || isEditing) && (
+                                <div>
+                                  <div className="text-xs text-blue-400 mb-1">מהאתר:</div>
+                                  {isEditing ? (
+                                    <input
+                                      type="url"
+                                      value={editedCompany?.main_website || ''}
+                                      onChange={(e) => handleInputChange('main_website', e.target.value)}
+                                      className="w-full p-2 border rounded text-sm focus:outline-none focus:ring-1"
+                                      placeholder="https://main-site.com"
+                                    />
+                                  ) : hasMainWebsite ? (
+                                    <a 
+                                      href={company?.main_website?.startsWith('http') ? company.main_website : `https://${company.main_website}`} 
+                                      target="_blank" 
+                                      rel="noopener noreferrer"
+                                      className="text-blue-700 hover:underline block break-all"
+                                    >
+                                      {company?.main_website}
+                                    </a>
+                                  ) : (
+                                    <div className="text-gray-400">—</div>
+                                  )}
+                                </div>
+                              )}
                         </div>
                       </div>
+                    )}
+
+                        {/* Additional Contact Info */}
+                        {(hasValidData(company?.contact_info) || isEditing) && (
+                          <div className="p-3 bg-white rounded-lg">
+                            <div className="text-xs text-gray-500 mb-2">מידע נוסף</div>
+                            {isEditing ? (
+                              <textarea
+                                value={editedCompany?.contact_info || ''}
+                                onChange={(e) => handleInputChange('contact_info', e.target.value)}
+                                className="w-full p-3 border rounded text-sm focus:outline-none focus:ring-1"
+                                rows={3}
+                                placeholder="מידע נוסף על התקשרות..."
+                              />
+                            ) : (
+                              <div className="text-sm">
+                                {hasValidData(company?.contact_info) ? renderExpandableText(company.contact_info, 'contact_info', 200) : '—'}
+                        </div>
+                            )}
+                            </div>
+                        )}
+                      </div>
+                    )
+                  })()}
+                </div>
+              </div>
+
+              {/* Business Data - Enhanced from Scraping */}
+              {(hasValidData(company?.detailed_address) || hasValidData(company?.sales_volume) || hasValidData(company?.export_content) || hasValidData(company?.employees_count) || hasValidData(company?.foundation_year) || hasValidData(company?.target_groups) || isEditing) && (
+                <div className="mt-6 pt-6 border-t">
+                  <h3 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--balena-dark)' }}>
+                    🏢 Business Information
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    
+                    {/* Detailed Address */}
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <div className="text-xs font-medium text-gray-500 mb-1 flex items-center gap-1">
+                        <MapPin size={12} />
+                        Address
+                        </div>
+                      {isEditing ? (
+                        <textarea
+                          value={editedCompany?.detailed_address || ''}
+                          onChange={(e) => handleInputChange('detailed_address', e.target.value)}
+                          className="w-full p-2 border rounded text-sm focus:outline-none focus:ring-1"
+                          rows={2}
+                          placeholder="Company address..."
+                        />
+                      ) : (
+                        <div className="text-sm text-gray-700">
+                          {hasValidData(company?.detailed_address) ? company.detailed_address : '—'}
+                            </div>
+                          )}
+                        </div>
+
+                    {/* Foundation Year */}
+                    <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                      <div className="text-xs font-medium text-blue-600 mb-1 flex items-center gap-1">
+                        <Calendar size={12} />
+                        Founded
+                      </div>
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          value={editedCompany?.foundation_year || ''}
+                          onChange={(e) => handleInputChange('foundation_year', e.target.value)}
+                          className="w-full p-2 border rounded text-sm focus:outline-none focus:ring-1"
+                          placeholder="1995"
+                        />
+                      ) : (
+                        <div className="text-sm font-semibold text-blue-700">
+                          {hasValidData(company?.foundation_year) ? company.foundation_year : '—'}
+                      </div>
+                    )}
+                    </div>
+
+                    {/* Employees Count */}
+                    <div className="p-3 bg-green-50 rounded-lg border border-green-200">
+                      <div className="text-xs font-medium text-green-600 mb-1 flex items-center gap-1">
+                        <Users size={12} />
+                        Employees
+                        </div>
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          value={editedCompany?.employees_count || ''}
+                          onChange={(e) => handleInputChange('employees_count', e.target.value)}
+                          className="w-full p-2 border rounded text-sm focus:outline-none focus:ring-1"
+                          placeholder="101-500"
+                        />
+                      ) : (
+                        <div className="text-sm font-semibold text-green-700">
+                          {hasValidData(company?.employees_count) ? company.employees_count : '—'}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Sales Volume */}
+                    <div className="p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                      <div className="text-xs font-medium text-yellow-600 mb-1">💰 Sales Volume</div>
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          value={editedCompany?.sales_volume || ''}
+                          onChange={(e) => handleInputChange('sales_volume', e.target.value)}
+                          className="w-full p-2 border rounded text-sm focus:outline-none focus:ring-1"
+                          placeholder="5 - 20 Mill. US $"
+                        />
+                      ) : (
+                        <div className="text-sm font-semibold text-yellow-700">
+                          {hasValidData(company?.sales_volume) ? company.sales_volume : '—'}
+                      </div>
+                    )}
+                  </div>
+
+                    {/* Export Content */}
+                    <div className="p-3 bg-purple-50 rounded-lg border border-purple-200">
+                      <div className="text-xs font-medium text-purple-600 mb-1">🌍 Export %</div>
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          value={editedCompany?.export_content || ''}
+                          onChange={(e) => handleInputChange('export_content', e.target.value)}
+                          className="w-full p-2 border rounded text-sm focus:outline-none focus:ring-1"
+                          placeholder="max. 10%"
+                        />
+                      ) : (
+                        <div className="text-sm font-semibold text-purple-700">
+                          {hasValidData(company?.export_content) ? company.export_content : '—'}
+                      </div>
+                    )}
+                    </div>
+
+                    {/* Target Groups */}
+                    <div className="p-3 bg-gray-50 rounded-lg sm:col-span-2 lg:col-span-1">
+                      <div className="text-xs font-medium text-gray-500 mb-1 flex items-center gap-1">
+                        <Target size={12} />
+                        Target Groups
+                        </div>
+                      {isEditing ? (
+                        <textarea
+                          value={editedCompany?.target_groups || ''}
+                          onChange={(e) => handleInputChange('target_groups', e.target.value)}
+                          className="w-full p-2 border rounded text-sm focus:outline-none focus:ring-1"
+                          rows={2}
+                          placeholder="Target customer groups..."
+                        />
+                      ) : (
+                        <div className="text-sm text-gray-700">
+                          {hasValidData(company?.target_groups) ? renderExpandableText(company.target_groups, 'target_groups', 150) : '—'}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Company Description (from scraping) */}
+                    {(hasValidData(company?.company_description) || isEditing) && (
+                      <div className="p-3 bg-blue-50 rounded-lg sm:col-span-2 lg:col-span-3 border border-blue-200">
+                        <div className="text-xs font-medium text-blue-600 mb-2 flex items-center gap-1">
+                          <FileText size={12} />
+                          Company Description (Scraped)
+                        </div>
+                        {isEditing ? (
+                          <textarea
+                            value={editedCompany?.company_description || ''}
+                            onChange={(e) => handleInputChange('company_description', e.target.value)}
+                            className="w-full p-3 border rounded text-sm focus:outline-none focus:ring-1"
+                            rows={3}
+                            placeholder="Detailed company description..."
+                          />
+                        ) : (
+                          <div className="text-sm text-blue-800">
+                            {hasValidData(company?.company_description) ? renderExpandableText(company.company_description, 'company_description_scraped', 400) : '—'}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
 
               {/* Website Information */}
               {(company.website_title || company.meta_description) && (
