@@ -148,7 +148,7 @@ export function MobileSearchModal({
         ) : searchInput.length >= 2 ? (
           <div className="p-8 text-center">
             <Search className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500">No companies found matching "{searchInput}"</p>
+            <p className="text-gray-500">No companies found matching &quot;{searchInput}&quot;</p>
           </div>
         ) : (
           <div className="p-8 text-center">

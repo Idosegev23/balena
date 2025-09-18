@@ -77,6 +77,11 @@ CREATE TABLE IF NOT EXISTS public.companies (
     -- Tags for categorization
     tags TEXT[] DEFAULT '{}',
     
+    -- Visit tracking
+    visited BOOLEAN DEFAULT false,
+    visit_date TIMESTAMP WITH TIME ZONE NULL,
+    visited_by UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+    
     -- Timestamps
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -84,6 +89,10 @@ CREATE TABLE IF NOT EXISTS public.companies (
 
 -- Create index for tags search
 CREATE INDEX IF NOT EXISTS idx_companies_tags ON public.companies USING GIN (tags);
+
+-- Create indexes for visit tracking
+CREATE INDEX IF NOT EXISTS idx_companies_visited ON public.companies (visited);
+CREATE INDEX IF NOT EXISTS idx_companies_visit_date ON public.companies (visit_date);
 
 -- Users table (extended from auth.users)
 CREATE TABLE IF NOT EXISTS public.users (

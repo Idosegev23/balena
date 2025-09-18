@@ -25,6 +25,9 @@ export interface Company {
   why_relevant?: string
   claude_analysis?: any // JSONB object with analysis
   tags?: string[] // Array of tags like 'supplier', 'competitor', etc.
+  visited?: boolean // Whether we have visited this company
+  visit_date?: string // When we visited this company
+  visited_by?: string // Who visited this company
   
   // Contact Information (Latest from scraping)
   main_email?: string

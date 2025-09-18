@@ -12,6 +12,7 @@ import {
 import { BusinessCardScanner } from './BusinessCardScanner'
 import { NotesTab } from './NotesTab'
 import { TagManager } from './TagManager'
+import { VisitedStatus } from './VisitedStatus'
 import { ShimmerButton } from './ui/shimmer-button'
 
 interface EnhancedCompanyModalProps {
@@ -507,6 +508,19 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                     onUpdate()
                   }}
                   isEditing={isEditing}
+                />
+              </div>
+
+              {/* Visit Status */}
+              <div className="bg-white p-4 rounded-lg border-2 border-gray-200">
+                <VisitedStatus
+                  company={company}
+                  onUpdate={(updatedCompany) => {
+                    setEditedCompany(updatedCompany)
+                    onUpdate()
+                  }}
+                  size="large"
+                  showDetails={true}
                 />
               </div>
 

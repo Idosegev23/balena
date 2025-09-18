@@ -10,6 +10,7 @@ import { EnhancedRealtimeRating } from './EnhancedRealtimeRating'
 import { LogoDisplay } from './LogoUploader'
 import { EnhancedCompanyModal } from './EnhancedCompanyModal'
 import { MobileSearchModal } from './MobileSearchModal'
+import { VisitedStatus } from './VisitedStatus'
 import { ShimmerButton } from './ui/shimmer-button'
 
 interface CompanyDiscoveryPageProps {
@@ -28,6 +29,7 @@ interface FilterOptions {
   hasContact: boolean
   hasWebsite: boolean
   tags: string[]
+  visitedStatus: 'all' | 'visited' | 'not_visited'
 }
 
 export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscoveryPageProps) {
@@ -69,7 +71,8 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
     connectionType: '',
     hasContact: false,
     hasWebsite: false,
-    tags: []
+    tags: [],
+    visitedStatus: 'all'
   })
 
   const departments = ['Commercial', 'Operations', 'R&D', 'Marketing']
@@ -248,6 +251,18 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       filtered = filtered.filter(company => {
         const companyTags = company.tags || []
         return filters.tags.some(tag => companyTags.includes(tag))
+      })
+    }
+
+    // Visited Status
+    if (filters.visitedStatus !== 'all') {
+      filtered = filtered.filter(company => {
+        if (filters.visitedStatus === 'visited') {
+          return company.visited === true
+        } else if (filters.visitedStatus === 'not_visited') {
+          return company.visited !== true
+        }
+        return true
       })
     }
 
@@ -658,6 +673,20 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                 </button>
               )}
             </div>
+
+            {/* Visit Status Filter */}
+            <div>
+              <label className="block text-sm font-medium mb-2">Visit Status</label>
+              <select
+                value={filters.visitedStatus}
+                onChange={(e) => setFilters(prev => ({ ...prev, visitedStatus: e.target.value as 'all' | 'visited' | 'not_visited' }))}
+                className="w-full px-3 py-2 border rounded-lg"
+              >
+                <option value="all">All Companies</option>
+                <option value="visited">✅ Visited</option>
+                <option value="not_visited">⭕ Not Visited</option>
+              </select>
+            </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -846,6 +875,21 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                       </div>
                     </details>
                   )}
+
+                  {/* Visit Status */}
+                  <div onClick={(e) => e.stopPropagation()} className="mb-3">
+                    <VisitedStatus
+                      company={company}
+                      onUpdate={(updatedCompany) => {
+                        // Update the company in the list
+                        setCompanies(prev => 
+                          prev.map(c => c.id === updatedCompany.id ? updatedCompany : c)
+                        )
+                      }}
+                      size="small"
+                      showDetails={false}
+                    />
+                  </div>
 
                   <div onClick={(e) => e.stopPropagation()}>
                     <EnhancedRealtimeRating 
