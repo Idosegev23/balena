@@ -22,9 +22,10 @@ interface EnhancedCompanyModalProps {
   isOpen: boolean
   onClose: () => void
   onUpdate: () => void
+  onCompanyUpdate?: (company: Company) => void
 }
 
-export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: EnhancedCompanyModalProps) {
+export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCompanyUpdate }: EnhancedCompanyModalProps) {
   const [editedCompany, setEditedCompany] = useState<Company | null>(null)
   const [loading, setLoading] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
@@ -506,7 +507,12 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                   onTagsUpdate={(tags) => {
                     const updatedCompany = { ...company, tags }
                     setEditedCompany(updatedCompany)
+                    // Update the parent component's data
                     onUpdate()
+                    // Also trigger a re-fetch or state update in parent
+                    if (onCompanyUpdate) {
+                      onCompanyUpdate(updatedCompany)
+                    }
                   }}
                   size="medium"
                   showAddButton={true}

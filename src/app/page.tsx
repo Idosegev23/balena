@@ -771,6 +771,18 @@ export default function Home() {
         isOpen={showCompanyModal}
         onClose={handleCloseModal}
         onUpdate={handleUpdateCompany}
+        onCompanyUpdate={(updatedCompany) => {
+          console.log('page.tsx: Updating company in main list:', updatedCompany.id, 'tags:', updatedCompany.tags)
+          // Update the company in the companies list
+          setCompanies(prev => {
+            const newCompanies = prev.map(c => c.id === updatedCompany.id ? updatedCompany : c)
+            console.log('page.tsx: Companies list updated')
+            return newCompanies
+          })
+          // Update the selected company
+          setSelectedCompany(updatedCompany)
+          console.log('page.tsx: Selected company updated')
+        }}
       />
 
       {/* Company Discovery Page - Show even when modal is open so it stays in background */}
