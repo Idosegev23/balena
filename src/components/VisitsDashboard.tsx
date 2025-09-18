@@ -328,13 +328,13 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
               </div>
               <div className="bg-white rounded-lg p-4 text-center shadow-sm border-l-4 border-green-500">
                 <div className="text-2xl font-bold text-green-600">
-                  {likedCompanies.filter(c => isCompanyVisited(c.id)).length}
+                  {likedCompanies.filter(c => isCompanyVisited(c)).length}
                 </div>
                 <div className="text-xs text-green-600">Visited</div>
               </div>
               <div className="bg-white rounded-lg p-4 text-center shadow-sm border-l-4 border-blue-500">
                 <div className="text-2xl font-bold text-blue-600">
-                  {likedCompanies.filter(c => !isCompanyVisited(c.id)).length}
+                  {likedCompanies.filter(c => !isCompanyVisited(c)).length}
                 </div>
                 <div className="text-xs text-blue-600">To Visit</div>
               </div>
