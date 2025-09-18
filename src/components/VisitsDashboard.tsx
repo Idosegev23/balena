@@ -72,9 +72,28 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
       )
       .subscribe()
 
+    // Subscribe to companies table changes to catch visited status updates
+    const companiesChannel = supabase
+      .channel('companies_visited_changes')
+      .on('postgres_changes', 
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'companies'
+        },
+        (payload) => {
+          console.log('Company update detected:', payload)
+          // Refresh both visits and liked companies as visited status affects both
+          fetchVisits()
+          fetchLikedCompanies()
+        }
+      )
+      .subscribe()
+
     return () => {
       supabase.removeChannel(ratingsChannel)
       supabase.removeChannel(visitsChannel)
+      supabase.removeChannel(companiesChannel)
     }
   }
 
@@ -181,8 +200,9 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
   }
 
   // Check if a company has been visited
-  const isCompanyVisited = (companyId: number) => {
-    return visits.some(visit => visit.company_id === companyId.toString() && visit.status === 'completed')
+  const isCompanyVisited = (company: Company) => {
+    // Check both the company.visited field and the visits table
+    return company.visited || visits.some(visit => visit.company_id === company.id.toString() && visit.status === 'completed')
   }
 
   // Filter liked companies based on filter options
@@ -193,7 +213,7 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
     }
     
     // Visit status filter
-    const isVisited = isCompanyVisited(company.id)
+    const isVisited = isCompanyVisited(company)
     if (!filterOptions.showVisited && isVisited) {
       return false
     }
@@ -328,7 +348,7 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
               </h3>
               <div className="space-y-3">
                 {filteredLikedCompanies.map((company) => {
-                  const visited = isCompanyVisited(company.id)
+                  const visited = isCompanyVisited(company)
                   return (
                     <button
                       key={company.id}

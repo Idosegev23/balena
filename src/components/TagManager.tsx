@@ -16,13 +16,41 @@ const PREDEFINED_TAGS = [
   { value: 'competitor', label: 'Competitor', color: 'bg-red-100 text-red-800' },
   { value: 'partner', label: 'Partner', color: 'bg-green-100 text-green-800' },
   { value: 'customer', label: 'Customer', color: 'bg-purple-100 text-purple-800' },
-  { value: 'vendor', label: 'Vendor', color: 'bg-orange-100 text-orange-800' },
-  { value: 'distributor', label: 'Distributor', color: 'bg-yellow-100 text-yellow-800' },
+  { value: 'vendor', label: 'Vendor', color: 'bg-yellow-100 text-yellow-800' },
+  { value: 'distributor', label: 'Distributor', color: 'bg-orange-100 text-orange-800' },
   { value: 'manufacturer', label: 'Manufacturer', color: 'bg-indigo-100 text-indigo-800' },
   { value: 'service_provider', label: 'Service Provider', color: 'bg-pink-100 text-pink-800' },
   { value: 'technology', label: 'Technology', color: 'bg-cyan-100 text-cyan-800' },
   { value: 'innovation', label: 'Innovation', color: 'bg-teal-100 text-teal-800' },
+  { value: 'rd', label: 'R&D', color: 'bg-emerald-100 text-emerald-800' },
+  { value: 'commercial', label: 'Commercial', color: 'bg-sky-100 text-sky-800' },
+  { value: 'operations', label: 'Operations', color: 'bg-amber-100 text-amber-800' },
+  { value: 'marketing', label: 'Marketing', color: 'bg-rose-100 text-rose-800' },
+  { value: 'sustainability', label: 'Sustainability', color: 'bg-lime-100 text-lime-800' },
+  { value: 'machinery', label: 'Machinery', color: 'bg-slate-100 text-slate-800' }
 ]
+
+// Generate unique colors for custom tags
+const generateCustomTagColor = (tagValue: string): string => {
+  const colors = [
+    'bg-violet-100 text-violet-800',
+    'bg-fuchsia-100 text-fuchsia-800', 
+    'bg-emerald-100 text-emerald-800',
+    'bg-sky-100 text-sky-800',
+    'bg-amber-100 text-amber-800',
+    'bg-rose-100 text-rose-800',
+    'bg-lime-100 text-lime-800',
+    'bg-slate-100 text-slate-800',
+    'bg-zinc-100 text-zinc-800',
+    'bg-neutral-100 text-neutral-800'
+  ]
+  // Use a simple hash function to get consistent colors for the same tag
+  let hash = 0
+  for (let i = 0; i < tagValue.length; i++) {
+    hash = ((hash << 5) - hash + tagValue.charCodeAt(i)) & 0xffffffff
+  }
+  return colors[Math.abs(hash) % colors.length]
+}
 
 export function TagManager({ company, onUpdate, isEditing = false }: TagManagerProps) {
   const [isAddingTag, setIsAddingTag] = useState(false)
@@ -33,7 +61,7 @@ export function TagManager({ company, onUpdate, isEditing = false }: TagManagerP
 
   const getTagColor = (tag: string) => {
     const predefined = PREDEFINED_TAGS.find(t => t.value === tag)
-    return predefined ? predefined.color : 'bg-gray-100 text-gray-800'
+    return predefined ? predefined.color : generateCustomTagColor(tag)
   }
 
   const getTagLabel = (tag: string) => {

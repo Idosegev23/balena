@@ -21,8 +21,36 @@ const availableTags = [
   { id: 'manufacturer', label: 'Manufacturer', color: 'bg-indigo-100 text-indigo-800' },
   { id: 'service_provider', label: 'Service Provider', color: 'bg-pink-100 text-pink-800' },
   { id: 'technology', label: 'Technology', color: 'bg-cyan-100 text-cyan-800' },
-  { id: 'innovation', label: 'Innovation', color: 'bg-teal-100 text-teal-800' }
+  { id: 'innovation', label: 'Innovation', color: 'bg-teal-100 text-teal-800' },
+  { id: 'rd', label: 'R&D', color: 'bg-emerald-100 text-emerald-800' },
+  { id: 'commercial', label: 'Commercial', color: 'bg-sky-100 text-sky-800' },
+  { id: 'operations', label: 'Operations', color: 'bg-amber-100 text-amber-800' },
+  { id: 'marketing', label: 'Marketing', color: 'bg-rose-100 text-rose-800' },
+  { id: 'sustainability', label: 'Sustainability', color: 'bg-lime-100 text-lime-800' },
+  { id: 'machinery', label: 'Machinery', color: 'bg-slate-100 text-slate-800' }
 ]
+
+// Generate unique colors for custom tags
+const generateCustomTagColor = (tagId: string): string => {
+  const colors = [
+    'bg-violet-100 text-violet-800',
+    'bg-fuchsia-100 text-fuchsia-800', 
+    'bg-emerald-100 text-emerald-800',
+    'bg-sky-100 text-sky-800',
+    'bg-amber-100 text-amber-800',
+    'bg-rose-100 text-rose-800',
+    'bg-lime-100 text-lime-800',
+    'bg-slate-100 text-slate-800',
+    'bg-zinc-100 text-zinc-800',
+    'bg-neutral-100 text-neutral-800'
+  ]
+  // Use a simple hash function to get consistent colors for the same tag
+  let hash = 0
+  for (let i = 0; i < tagId.length; i++) {
+    hash = ((hash << 5) - hash + tagId.charCodeAt(i)) & 0xffffffff
+  }
+  return colors[Math.abs(hash) % colors.length]
+}
 
 export function CompanyTagging({ 
   company, 
@@ -34,6 +62,8 @@ export function CompanyTagging({
   const [showTagSelector, setShowTagSelector] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
+  const [customTagInput, setCustomTagInput] = useState('')
+  const [showCustomInput, setShowCustomInput] = useState(false)
 
   useEffect(() => {
     console.log('CompanyTagging: company.tags changed to:', company.tags)
@@ -44,7 +74,7 @@ export function CompanyTagging({
     return availableTags.find(tag => tag.id === tagId) || {
       id: tagId,
       label: tagId.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()),
-      color: 'bg-gray-100 text-gray-800'
+      color: generateCustomTagColor(tagId)
     }
   }
 
@@ -83,6 +113,18 @@ export function CompanyTagging({
     } finally {
       setIsUpdating(false)
     }
+  }
+
+  const handleAddCustomTag = async () => {
+    const customTag = customTagInput.trim().toLowerCase().replace(/\s+/g, '_')
+    if (!customTag || currentTags.includes(customTag)) {
+      setCustomTagInput('')
+      return
+    }
+    
+    await handleTagToggle(customTag)
+    setCustomTagInput('')
+    setShowCustomInput(false)
   }
 
   const sizeClasses = {
@@ -177,6 +219,40 @@ export function CompanyTagging({
                 </button>
               )
             })}
+          </div>
+
+          {/* Custom Tag Input */}
+          <div className="border-t pt-3">
+            <div className="flex items-center justify-between mb-2">
+              <h4 className="text-xs font-medium text-gray-700">Custom Tag</h4>
+              <button
+                onClick={() => setShowCustomInput(!showCustomInput)}
+                className="text-xs text-blue-600 hover:text-blue-700"
+              >
+                {showCustomInput ? 'Cancel' : 'Add Custom'}
+              </button>
+            </div>
+            
+            {showCustomInput && (
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={customTagInput}
+                  onChange={(e) => setCustomTagInput(e.target.value)}
+                  placeholder="Enter custom tag..."
+                  className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                  onKeyPress={(e) => e.key === 'Enter' && handleAddCustomTag()}
+                  disabled={isUpdating}
+                />
+                <button
+                  onClick={handleAddCustomTag}
+                  disabled={!customTagInput.trim() || isUpdating}
+                  className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Add
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Quick Actions */}

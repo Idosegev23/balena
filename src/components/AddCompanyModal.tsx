@@ -1,8 +1,28 @@
 'use client'
 
 import { useState } from 'react'
-import { X, Building2, MapPin, Phone, Mail, Globe, Save } from 'lucide-react'
+import { X, Building2, MapPin, Phone, Mail, Globe, Save, Tag, Check } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
+
+// Available tags for company categorization
+const availableTags = [
+  { id: 'supplier', label: 'Supplier', color: 'bg-blue-100 text-blue-800' },
+  { id: 'competitor', label: 'Competitor', color: 'bg-red-100 text-red-800' },
+  { id: 'partner', label: 'Partner', color: 'bg-green-100 text-green-800' },
+  { id: 'customer', label: 'Customer', color: 'bg-purple-100 text-purple-800' },
+  { id: 'vendor', label: 'Vendor', color: 'bg-yellow-100 text-yellow-800' },
+  { id: 'distributor', label: 'Distributor', color: 'bg-orange-100 text-orange-800' },
+  { id: 'manufacturer', label: 'Manufacturer', color: 'bg-indigo-100 text-indigo-800' },
+  { id: 'service_provider', label: 'Service Provider', color: 'bg-pink-100 text-pink-800' },
+  { id: 'technology', label: 'Technology', color: 'bg-cyan-100 text-cyan-800' },
+  { id: 'innovation', label: 'Innovation', color: 'bg-teal-100 text-teal-800' },
+  { id: 'rd', label: 'R&D', color: 'bg-emerald-100 text-emerald-800' },
+  { id: 'commercial', label: 'Commercial', color: 'bg-sky-100 text-sky-800' },
+  { id: 'operations', label: 'Operations', color: 'bg-amber-100 text-amber-800' },
+  { id: 'marketing', label: 'Marketing', color: 'bg-rose-100 text-rose-800' },
+  { id: 'sustainability', label: 'Sustainability', color: 'bg-lime-100 text-lime-800' },
+  { id: 'machinery', label: 'Machinery', color: 'bg-slate-100 text-slate-800' }
+]
 
 interface AddCompanyModalProps {
   isOpen: boolean
@@ -21,7 +41,9 @@ export function AddCompanyModal({ isOpen, onClose, onCompanyAdded }: AddCompanyM
     website: '',
     description: '',
     department: 'Commercial',
+    goal_category: 'R&D',
     visit_priority: 'MEDIUM' as 'MUST_VISIT' | 'HIGH' | 'MEDIUM' | 'LOW' | 'MONITOR_ONLY',
+    tags: [] as string[],
     logo_url: ''
   })
   const [isLoading, setIsLoading] = useState(false)
@@ -39,6 +61,7 @@ export function AddCompanyModal({ isOpen, onClose, onCompanyAdded }: AddCompanyM
         .from('companies')
         .insert([{
           ...formData,
+          department: formData.department, // Keep for backward compatibility
           relevance_score: 50, // Default score
           source_search_term: 'manual_entry',
           created_at: new Date().toISOString(),
@@ -72,7 +95,9 @@ export function AddCompanyModal({ isOpen, onClose, onCompanyAdded }: AddCompanyM
       website: '',
       description: '',
       department: 'Commercial',
+      goal_category: 'R&D',
       visit_priority: 'MEDIUM',
+      tags: [],
       logo_url: ''
     })
     setMessage('')
@@ -85,6 +110,15 @@ export function AddCompanyModal({ isOpen, onClose, onCompanyAdded }: AddCompanyM
     if (field === 'website' && value.trim()) {
       fetchWebsiteLogo(value.trim())
     }
+  }
+
+  const handleTagToggle = (tagId: string) => {
+    setFormData(prev => ({
+      ...prev,
+      tags: prev.tags.includes(tagId)
+        ? prev.tags.filter(t => t !== tagId)
+        : [...prev.tags, tagId]
+    }))
   }
 
   const fetchWebsiteLogo = async (website: string) => {
@@ -281,26 +315,27 @@ export function AddCompanyModal({ isOpen, onClose, onCompanyAdded }: AddCompanyM
             />
           </div>
 
-          {/* Department & Priority */}
+          {/* Goal Category & Priority */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-sm font-medium mb-2" style={{ color: 'var(--balena-dark)' }}>
-                Department
+                <span className="text-red-500">*</span> Goal Category
               </label>
               <select
-                value={formData.department}
-                onChange={(e) => handleInputChange('department', e.target.value)}
+                value={formData.goal_category}
+                onChange={(e) => handleInputChange('goal_category', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value="Commercial">Commercial</option>
-                <option value="Operations">Operations</option>
-                <option value="R&D">R&D</option>
-                <option value="Marketing">Marketing</option>
+                <option value="R&D">R&D - Research & Development</option>
+                <option value="Commercial">Commercial - Sales & Business</option>
+                <option value="Operations">Operations - Manufacturing</option>
+                <option value="Marketing">Marketing - Brand & Strategy</option>
+                <option value="Sustainability">Sustainability - Environment</option>
               </select>
             </div>
             <div>
               <label className="block text-sm font-medium mb-2" style={{ color: 'var(--balena-dark)' }}>
-                Priority
+                Visit Priority
               </label>
               <select
                 value={formData.visit_priority}
@@ -314,6 +349,37 @@ export function AddCompanyModal({ isOpen, onClose, onCompanyAdded }: AddCompanyM
                 <option value="MONITOR_ONLY">Monitor Only</option>
               </select>
             </div>
+          </div>
+
+          {/* Company Tags */}
+          <div>
+            <label className="block text-sm font-medium mb-3" style={{ color: 'var(--balena-dark)' }}>
+              <Tag className="w-4 h-4 inline mr-1" />
+              Company Tags
+            </label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {availableTags.map(tag => {
+                const isSelected = formData.tags.includes(tag.id)
+                return (
+                  <button
+                    key={tag.id}
+                    type="button"
+                    onClick={() => handleTagToggle(tag.id)}
+                    className={`p-2 border rounded-lg text-sm font-medium transition-all duration-200 flex items-center justify-between ${
+                      isSelected
+                        ? `${tag.color} border-current`
+                        : 'border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-50'
+                    }`}
+                  >
+                    <span className="truncate">{tag.label}</span>
+                    {isSelected && <Check className="w-3 h-3 ml-1 flex-shrink-0" />}
+                  </button>
+                )
+              })}
+            </div>
+            <p className="text-xs text-gray-500 mt-2">
+              Select relevant tags to help categorize this company
+            </p>
           </div>
 
 
