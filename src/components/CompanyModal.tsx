@@ -291,8 +291,8 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
           <div className="px-4 py-3 bg-gray-50 border-b flex items-center">
             <button
               onClick={() => {
-                // Use browser history for proper back navigation
-                window.history.back()
+                // Close modal and return to company list instead of dashboard
+                onClose()
               }}
               className="flex items-center gap-2 px-3 py-1 rounded-lg hover:bg-gray-200 transition-colors active:scale-95"
               style={{ color: 'var(--balena-dark)' }}

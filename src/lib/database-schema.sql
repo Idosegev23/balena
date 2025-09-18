@@ -1,5 +1,84 @@
 -- Enhanced database schema for K-Show 2025 management system
 
+-- Companies table (main data from K-Show scraping)
+CREATE TABLE IF NOT EXISTS public.companies (
+    id SERIAL PRIMARY KEY,
+    company VARCHAR(255) NOT NULL,
+    location VARCHAR(255),
+    hall VARCHAR(50),
+    stand VARCHAR(50),
+    email VARCHAR(255),
+    phone VARCHAR(255),
+    website VARCHAR(255),
+    description TEXT,
+    
+    -- Relevance & Priority
+    relevance_score INTEGER DEFAULT 50 CHECK (relevance_score >= 0 AND relevance_score <= 100),
+    visit_priority VARCHAR(20) DEFAULT 'MEDIUM' CHECK (visit_priority IN ('MUST_VISIT', 'HIGH', 'MEDIUM', 'LOW', 'MONITOR_ONLY')),
+    department VARCHAR(50),
+    goal_category VARCHAR(100),
+    why_relevant TEXT,
+    claude_analysis JSONB,
+    
+    -- Contact Information (Latest from scraping)
+    main_email VARCHAR(255),
+    main_phone VARCHAR(255),
+    main_website VARCHAR(255),
+    contact_person VARCHAR(255),
+    contact_info TEXT,
+    contact_persons JSONB,
+    website_emails TEXT,
+    website_phones TEXT,
+    
+    -- Company Details
+    about_us TEXT,
+    company_description TEXT,
+    products TEXT,
+    products_services TEXT,
+    sustainability_info TEXT,
+    meta_description TEXT,
+    website_title VARCHAR(500),
+    
+    -- Business Information
+    detailed_address TEXT,
+    sales_volume VARCHAR(100),
+    export_content TEXT,
+    employees_count VARCHAR(50),
+    foundation_year VARCHAR(10),
+    target_groups TEXT,
+    
+    -- Visual & Media
+    logo VARCHAR(255),
+    logo_url VARCHAR(255),
+    logo_file VARCHAR(255),
+    
+    -- Meeting & Visit Management
+    must_visit BOOLEAN DEFAULT false,
+    meeting_requested BOOLEAN DEFAULT false,
+    meeting_scheduled BOOLEAN DEFAULT false,
+    meeting_completed BOOLEAN DEFAULT false,
+    brochures_collected BOOLEAN DEFAULT false,
+    samples_requested BOOLEAN DEFAULT false,
+    samples_received BOOLEAN DEFAULT false,
+    quotes_requested BOOLEAN DEFAULT false,
+    priority_score INTEGER DEFAULT 0,
+    relevance_status VARCHAR(50),
+    
+    -- Scraping & Sources
+    source_search_term VARCHAR(255),
+    source_url VARCHAR(500),
+    profile_url VARCHAR(500),
+    data_source VARCHAR(100),
+    last_detailed_scrape TIMESTAMP WITH TIME ZONE,
+    scraping_status VARCHAR(20) DEFAULT 'pending' CHECK (scraping_status IN ('pending', 'completed', 'failed', 'skipped')),
+    scraping_timestamp TIMESTAMP WITH TIME ZONE,
+    success BOOLEAN DEFAULT false,
+    
+    -- Timestamps
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Users table (extended from auth.users)
 CREATE TABLE IF NOT EXISTS public.users (
     id UUID REFERENCES auth.users(id) PRIMARY KEY,
@@ -103,6 +182,7 @@ CREATE TABLE IF NOT EXISTS public.activity_feed (
 );
 
 -- Enable Row Level Security
+ALTER TABLE public.companies ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.company_ratings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.visits ENABLE ROW LEVEL SECURITY;
@@ -112,6 +192,9 @@ ALTER TABLE public.follow_ups ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.activity_feed ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policies (allow authenticated users from balena.science and triroars@gmail.com)
+CREATE POLICY "Team can view all companies" ON public.companies FOR SELECT USING (auth.role() = 'authenticated');
+CREATE POLICY "Team can manage companies" ON public.companies FOR ALL USING (auth.role() = 'authenticated');
+
 CREATE POLICY "Users can view all team members" ON public.users FOR SELECT USING (auth.role() = 'authenticated');
 CREATE POLICY "Users can update own profile" ON public.users FOR UPDATE USING (auth.uid() = id);
 
@@ -124,8 +207,11 @@ CREATE POLICY "Users can manage own visits" ON public.visits FOR ALL USING (auth
 CREATE POLICY "Team can view all business cards" ON public.business_cards FOR SELECT USING (auth.role() = 'authenticated');
 CREATE POLICY "Users can manage own business cards" ON public.business_cards FOR ALL USING (auth.uid() = user_id);
 
-CREATE POLICY "Team can view all notes" ON public.notes FOR SELECT USING (auth.role() = 'authenticated' AND (is_private = false OR user_id = auth.uid()));
-CREATE POLICY "Users can manage own notes" ON public.notes FOR ALL USING (auth.uid() = user_id);
+-- Notes policies - simple team access with private option
+CREATE POLICY "Team can view all public notes" ON public.notes FOR SELECT USING (auth.role() = 'authenticated' AND (is_private = false OR user_id = auth.uid()));
+CREATE POLICY "Team can create notes" ON public.notes FOR INSERT USING (auth.role() = 'authenticated');
+CREATE POLICY "Users can update own notes" ON public.notes FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "Users can delete own notes" ON public.notes FOR DELETE USING (auth.uid() = user_id);
 
 CREATE POLICY "Team can view all follow-ups" ON public.follow_ups FOR SELECT USING (auth.role() = 'authenticated');
 CREATE POLICY "Users can manage assigned follow-ups" ON public.follow_ups FOR ALL USING (auth.uid() = assigned_user_id OR auth.uid() = created_by_user_id);
@@ -134,6 +220,14 @@ CREATE POLICY "Team can view activity feed" ON public.activity_feed FOR SELECT U
 CREATE POLICY "Users can create activity" ON public.activity_feed FOR INSERT USING (auth.uid() = user_id);
 
 -- Indexes for performance
+CREATE INDEX IF NOT EXISTS idx_companies_company ON public.companies(company);
+CREATE INDEX IF NOT EXISTS idx_companies_location ON public.companies(location);
+CREATE INDEX IF NOT EXISTS idx_companies_hall ON public.companies(hall);
+CREATE INDEX IF NOT EXISTS idx_companies_department ON public.companies(department);
+CREATE INDEX IF NOT EXISTS idx_companies_visit_priority ON public.companies(visit_priority);
+CREATE INDEX IF NOT EXISTS idx_companies_relevance_score ON public.companies(relevance_score DESC);
+CREATE INDEX IF NOT EXISTS idx_companies_scraping_status ON public.companies(scraping_status);
+
 CREATE INDEX IF NOT EXISTS idx_company_ratings_company_id ON public.company_ratings(company_id);
 CREATE INDEX IF NOT EXISTS idx_company_ratings_user_id ON public.company_ratings(user_id);
 CREATE INDEX IF NOT EXISTS idx_visits_company_id ON public.visits(company_id);
@@ -151,3 +245,4 @@ ALTER PUBLICATION supabase_realtime ADD TABLE public.company_ratings;
 ALTER PUBLICATION supabase_realtime ADD TABLE public.visits;
 ALTER PUBLICATION supabase_realtime ADD TABLE public.activity_feed;
 ALTER PUBLICATION supabase_realtime ADD TABLE public.users;
+ALTER PUBLICATION supabase_realtime ADD TABLE public.notes;

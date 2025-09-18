@@ -10,6 +10,7 @@ import {
   ChevronUp, Eye, Heart, AlertCircle, CheckCircle2, CreditCard, Scan
 } from 'lucide-react'
 import { BusinessCardScanner } from './BusinessCardScanner'
+import { NotesTab } from './NotesTab'
 
 interface EnhancedCompanyModalProps {
   company: Company | null
@@ -22,7 +23,7 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
   const [editedCompany, setEditedCompany] = useState<Company | null>(null)
   const [loading, setLoading] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
-  const [activeTab, setActiveTab] = useState<'overview' | 'details' | 'contact' | 'business' | 'analysis' | 'actions'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'details' | 'contact' | 'business' | 'analysis' | 'actions' | 'notes'>('overview')
   const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({})
   const [message, setMessage] = useState('')
   const [showScanner, setShowScanner] = useState(false)
@@ -255,30 +256,31 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
   const TabButton = ({ id, label, icon: Icon, isActive }: { id: string, label: string, icon: any, isActive: boolean }) => (
     <button
       onClick={() => setActiveTab(id as any)}
-      className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+      className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium transition-colors whitespace-nowrap text-xs sm:text-sm ${
         isActive 
           ? 'bg-blue-100 text-blue-700 border-b-2 border-blue-500' 
           : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
       }`}
     >
-      <Icon className="h-4 w-4" />
-      {label}
+      <Icon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+      <span className="hidden sm:inline">{label}</span>
+      <span className="sm:hidden">{label.length > 8 ? label.substring(0, 6) + '..' : label}</span>
     </button>
   )
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl shadow-2xl max-w-6xl w-full max-h-[95vh] overflow-hidden">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50">
+      <div className="bg-white rounded-xl shadow-2xl max-w-6xl w-full max-h-[98vh] sm:max-h-[95vh] overflow-hidden">
+        {/* Mobile-Optimized Header */}
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-3 sm:p-6 text-white">
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex items-start gap-2 sm:gap-4 flex-1 min-w-0">
               <div className="flex-shrink-0">
                 {(company.logo_url || company.logo) ? (
                   <img 
                     src={company.logo_url || company.logo} 
                     alt={`${company.company} logo`}
-                    className="h-16 w-16 object-contain bg-white rounded-lg p-2 shadow-lg"
+                    className="h-12 w-12 sm:h-16 sm:w-16 object-contain bg-white rounded-lg p-1 sm:p-2 shadow-lg"
                     onError={(e) => {
                       const target = e.currentTarget;
                       target.style.display = 'none';
@@ -288,68 +290,73 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                     }}
                   />
                 ) : null}
-                <div className="h-16 w-16 bg-white bg-opacity-20 rounded-lg flex items-center justify-center" style={{ display: (company.logo_url || company.logo) ? 'none' : 'block' }}>
-                  <Building2 className="h-8 w-8 text-white" />
+                <div className="h-12 w-12 sm:h-16 sm:w-16 bg-white bg-opacity-20 rounded-lg flex items-center justify-center" style={{ display: (company.logo_url || company.logo) ? 'none' : 'block' }}>
+                  <Building2 className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                 </div>
               </div>
-              <div className="flex-1">
-                <h1 className="text-2xl font-bold mb-2">{company.company}</h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+              <div className="flex-1 min-w-0">
+                <h1 className="text-lg sm:text-2xl font-bold mb-1 sm:mb-2 leading-tight">{company.company}</h1>
+                <div className="flex flex-wrap gap-1 sm:gap-2 text-xs sm:text-sm">
                   {hasValidData(company.hall) && (
-                    <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full">
-                      🏢 {company.hall} / {company.stand}
+                    <span className="bg-white bg-opacity-20 px-2 sm:px-3 py-1 rounded-full">
+                      🏢 {company.hall}{company.stand && ` / ${company.stand}`}
                     </span>
                   )}
                   {company.relevance_score && (
-                    <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full">
-                      ⭐ Score: {company.relevance_score}
+                    <span className="bg-white bg-opacity-20 px-2 sm:px-3 py-1 rounded-full">
+                      ⭐ <span className="hidden sm:inline">Score: </span>{company.relevance_score}
                     </span>
                   )}
                   {company.visit_priority && (
-                    <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full">
-                      🎯 {company.visit_priority}
+                    <span className="bg-white bg-opacity-20 px-2 sm:px-3 py-1 rounded-full">
+                      🎯 <span className="hidden sm:inline">{company.visit_priority}</span>
+                      <span className="sm:hidden">{company.visit_priority.charAt(0)}</span>
                     </span>
                   )}
                   {hasValidData(company.employees_count) && (
-                    <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full">
-                      👥 {company.employees_count} employees
+                    <span className="bg-white bg-opacity-20 px-2 sm:px-3 py-1 rounded-full">
+                      👥 <span className="hidden sm:inline">{company.employees_count} employees</span>
+                      <span className="sm:hidden">{company.employees_count}</span>
                     </span>
                   )}
                 </div>
               </div>
             </div>
             
-            <div className="flex items-center gap-2">
+            <div className="flex items-start gap-1 sm:gap-2 flex-shrink-0">
               <button
                 onClick={() => setIsEditing(!isEditing)}
-                className="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-lg transition-colors"
+                className="bg-white bg-opacity-20 hover:bg-opacity-30 p-1.5 sm:p-2 rounded-lg transition-colors"
+                title="Edit company"
               >
-                <Edit3 className="h-5 w-5" />
+                <Edit3 className="h-4 w-4 sm:h-5 sm:w-5" />
               </button>
               <button
                 onClick={onClose}
-                className="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-lg transition-colors"
+                className="bg-white bg-opacity-20 hover:bg-opacity-30 p-1.5 sm:p-2 rounded-lg transition-colors"
+                title="Close"
               >
-                <X className="h-5 w-5" />
+                <X className="h-4 w-4 sm:h-5 sm:w-5" />
               </button>
             </div>
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="bg-gray-50 px-6 py-3 border-b">
-          <div className="flex gap-2 overflow-x-auto">
+        {/* Mobile-Optimized Tabs */}
+        <div className="bg-gray-50 px-2 sm:px-6 py-2 sm:py-3 border-b">
+          <div className="flex gap-1 sm:gap-2 overflow-x-auto scrollbar-hide">
             <TabButton id="overview" label="Overview" icon={Eye} isActive={activeTab === 'overview'} />
-            <TabButton id="details" label="Company Details" icon={Building2} isActive={activeTab === 'details'} />
+            <TabButton id="details" label="Details" icon={Building2} isActive={activeTab === 'details'} />
             <TabButton id="contact" label="Contact" icon={Phone} isActive={activeTab === 'contact'} />
-            <TabButton id="business" label="Business Info" icon={Briefcase} isActive={activeTab === 'business'} />
-            <TabButton id="analysis" label="AI Analysis" icon={Lightbulb} isActive={activeTab === 'analysis'} />
+            <TabButton id="business" label="Business" icon={Briefcase} isActive={activeTab === 'business'} />
+            <TabButton id="analysis" label="AI" icon={Lightbulb} isActive={activeTab === 'analysis'} />
+            <TabButton id="notes" label="Notes" icon={FileText} isActive={activeTab === 'notes'} />
             <TabButton id="actions" label="Actions" icon={CheckSquare} isActive={activeTab === 'actions'} />
           </div>
         </div>
 
-        {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[60vh]">
+        {/* Mobile-Optimized Content */}
+        <div className="p-3 sm:p-6 overflow-y-auto max-h-[70vh] sm:max-h-[60vh]">
           {message && (
             <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg">
               {message}
@@ -990,6 +997,11 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                 </div>
               )}
             </div>
+          )}
+
+          {/* Notes Tab */}
+          {activeTab === 'notes' && (
+            <NotesTab company={company} onUpdate={onUpdate} />
           )}
         </div>
 

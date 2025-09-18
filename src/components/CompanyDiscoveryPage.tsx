@@ -5,6 +5,7 @@ import { supabase, Company } from '@/lib/supabase'
 import { useAuth } from '@/components/AuthProvider'
 import { Search, Filter, Download, Eye, Star, MapPin, Building2, X, ChevronDown, ChevronUp } from 'lucide-react'
 import { RealtimeRating } from './RealtimeRating'
+import { EnhancedRealtimeRating } from './EnhancedRealtimeRating'
 import { LogoDisplay } from './LogoUploader'
 import { EnhancedCompanyModal } from './EnhancedCompanyModal'
 
@@ -375,7 +376,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
           </span>
         </div>
         <button
-          onClick={() => window.history.back()}
+          onClick={onClose}
           className="p-2 hover:bg-white/20 rounded-lg text-white"
         >
           <X className="w-6 h-6" />
@@ -774,10 +775,13 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                   )}
 
                   <div onClick={(e) => e.stopPropagation()}>
-                    <RealtimeRating 
+                    <EnhancedRealtimeRating 
                       companyId={company.id} 
+                      company={company}
                       size="small"
                       showTeamRatings={false}
+                      showSuggestions={true}
+                      onSuggestionClick={onCompanyClick}
                     />
                   </div>
                 </div>

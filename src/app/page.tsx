@@ -7,6 +7,8 @@ import { Building2, Star, CheckSquare, Calendar, MapPin, Lightbulb } from 'lucid
 import { EnhancedCompanyModal } from '@/components/EnhancedCompanyModal'
 import { RealtimeRating } from '@/components/RealtimeRating'
 import { SmartRecommendations } from '@/components/SmartRecommendations'
+import { ProactiveRecommendations } from '@/components/ProactiveRecommendations'
+import { EnhancedRealtimeRating } from '@/components/EnhancedRealtimeRating'
 import { RouteOptimizer } from '@/components/RouteOptimizer'
 import { LiveCompanyAdd } from '@/components/LiveCompanyAdd'
 import { DataExport } from '@/components/DataExport'
@@ -95,9 +97,17 @@ export default function Home() {
   // Update history when views change
   useEffect(() => {
     if (showQuickAddModal) {
-      window.history.pushState({ view: activeView, quickAddModal: true }, '')
+      window.history.pushState({ 
+        view: activeView, 
+        quickAddModal: true,
+        discoveryPage: showDiscoveryPage 
+      }, '')
     } else if (showCompanyModal && selectedCompany) {
-      window.history.pushState({ view: activeView, companyModal: true }, '')
+      window.history.pushState({ 
+        view: activeView, 
+        companyModal: true,
+        discoveryPage: showDiscoveryPage 
+      }, '')
     } else if (showDiscoveryPage) {
       window.history.pushState({ view: 'discovery', discoveryPage: true }, '')
     } else {
@@ -190,6 +200,13 @@ export default function Home() {
   const handleCloseModal = () => {
     setShowCompanyModal(false)
     setSelectedCompany(null)
+    
+    // If we were in discovery page before opening modal, return to it
+    const currentState = window.history.state
+    if (currentState && currentState.discoveryPage) {
+      setShowDiscoveryPage(true)
+      setActiveView('discovery')
+    }
   }
 
   const handleUpdateCompany = () => {
@@ -655,6 +672,15 @@ export default function Home() {
                 📅 Follow-up
               </div>
             </div>
+          </div>
+
+          {/* AI-Powered Smart Recommendations */}
+          <div className="bg-white rounded-lg shadow-sm p-4">
+            <ProactiveRecommendations 
+              currentCompany={selectedCompany || undefined}
+              onCompanyClick={handleCompanyClick}
+              trigger="manual"
+            />
           </div>
         </div>
         </div>
