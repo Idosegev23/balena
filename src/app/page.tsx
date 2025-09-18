@@ -201,11 +201,22 @@ export default function Home() {
     setShowCompanyModal(false)
     setSelectedCompany(null)
     
-    // If we were in discovery page before opening modal, return to it
+    // Return to the previous state based on history
     const currentState = window.history.state
-    if (currentState && currentState.discoveryPage) {
-      setShowDiscoveryPage(true)
-      setActiveView('discovery')
+    if (currentState) {
+      // If we were in discovery page, return to it
+      if (currentState.discoveryPage) {
+        setShowDiscoveryPage(true)
+        setActiveView('discovery')
+      } else {
+        // Otherwise, return to the view we were in
+        setActiveView(currentState.view || 'dashboard')
+        setShowDiscoveryPage(false)
+      }
+    } else {
+      // Fallback to dashboard if no history state
+      setActiveView('dashboard')
+      setShowDiscoveryPage(false)
     }
   }
 
