@@ -80,6 +80,25 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
   const connectionTypes = ['SUPPLIER', 'PARTNER', 'COMPETITOR', 'CUSTOMER', 'SERVICE', 'STRATEGIC']
   const availableTags = ['supplier', 'competitor', 'partner', 'customer', 'vendor', 'distributor', 'manufacturer', 'service_provider', 'technology', 'innovation']
 
+  // Count active filters
+  const getActiveFiltersCount = () => {
+    let count = 0
+    if (filters.searchTerm) count++
+    if (filters.department) count++
+    if (filters.visitPriority) count++
+    if (filters.relevanceScore[0] !== 0 || filters.relevanceScore[1] !== 100) count++
+    if (filters.location) count++
+    if (filters.hall) count++
+    if (filters.connectionType) count++
+    if (filters.hasContact) count++
+    if (filters.hasWebsite) count++
+    if (filters.tags.length > 0) count++
+    if (filters.visitedStatus !== 'all') count++
+    return count
+  }
+
+  const activeFiltersCount = getActiveFiltersCount()
+
   useEffect(() => {
     // Load persisted state
     const persistedState = sessionStorage.getItem('discovery_state')
@@ -395,7 +414,14 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
   }, [page, validPage])
 
   return (
-    <div className="fixed inset-0 bg-white z-50 flex flex-col">
+    <div 
+      className="fixed inset-0 bg-white z-50 flex flex-col pb-16"
+      style={{
+        overscrollBehavior: 'none',
+        touchAction: 'pan-x pan-y',
+        WebkitOverflowScrolling: 'touch'
+      }}
+    >
       {/* Header */}
       <div className="flex items-center justify-between p-6 border-b bg-gradient-to-r" style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}>
         <div className="flex items-center gap-3">
@@ -454,8 +480,23 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                 setTimeout(() => setShowAutocomplete(false), 200)
               }}
               placeholder="🔍 Search by company name, description, location, hall, products..."
-              className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-10 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            
+            {/* Clear Search Button */}
+            {searchInput && (
+              <button
+                onClick={() => {
+                  setSearchInput('')
+                  setFilters(prev => ({ ...prev, searchTerm: '' }))
+                  setShowAutocomplete(false)
+                }}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                title="Clear search"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            )}
             
             {/* Autocomplete Dropdown */}
             {showAutocomplete && autocompleteCompanies.length > 0 && (
@@ -486,18 +527,34 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
           {/* Mobile Search Button */}
           <button
             onClick={() => setShowMobileSearch(true)}
-            className="sm:hidden flex-1 flex items-center gap-3 px-4 py-3 border rounded-lg bg-white hover:bg-gray-50 transition-colors"
+            className={`sm:hidden p-3 border rounded-lg transition-colors relative ${
+              searchInput ? 'bg-blue-50 border-blue-300 text-blue-700' : 'bg-white hover:bg-gray-50 text-gray-600'
+            }`}
+            title={searchInput ? `Searching: "${searchInput}"` : "Search companies"}
           >
-            <Search className="w-5 h-5 text-gray-400" />
-            <span className="text-gray-500">Search companies...</span>
+            <Search className="w-5 h-5" />
+            {searchInput && (
+              <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                ●
+              </span>
+            )}
           </button>
 
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-2 px-4 py-3 border rounded-lg hover:bg-gray-100"
+            className={`flex items-center gap-2 px-4 py-3 border rounded-lg transition-colors relative ${
+              activeFiltersCount > 0 
+                ? 'bg-blue-50 border-blue-300 text-blue-700 hover:bg-blue-100' 
+                : 'hover:bg-gray-100'
+            }`}
           >
             <Filter className="w-5 h-5" />
             Filters
+            {activeFiltersCount > 0 && (
+              <span className="bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                {activeFiltersCount}
+              </span>
+            )}
             {showFilters ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </button>
           <ShimmerButton
@@ -520,7 +577,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 p-4 bg-white rounded-lg border shadow-md"
+              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 p-4 bg-white rounded-lg border shadow-md max-h-96 overflow-y-auto"
             >
             <div>
               <label className="block text-sm font-medium mb-2">Department</label>
@@ -687,6 +744,33 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                 <option value="not_visited">⭕ Not Visited</option>
               </select>
             </div>
+
+            {/* Clear All Filters Button */}
+            <div className="lg:col-span-4 pt-4 border-t">
+              <button
+                onClick={() => {
+                  setSearchInput('')
+                  setFilters({
+                    searchTerm: '',
+                    department: '',
+                    visitPriority: '',
+                    relevanceScore: [0, 100],
+                    location: '',
+                    hall: '',
+                    connectionType: '',
+                    hasContact: false,
+                    hasWebsite: false,
+                    tags: [],
+                    visitedStatus: 'all'
+                  })
+                  setShowAutocomplete(false)
+                }}
+                className="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors flex items-center justify-center gap-2"
+              >
+                <X className="w-4 h-4" />
+                Clear All Filters
+              </button>
+            </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -725,6 +809,11 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
           <div
             className="h-full overflow-y-auto"
             data-discovery-scroll
+            style={{
+              overscrollBehavior: 'none',
+              touchAction: 'pan-y',
+              WebkitOverflowScrolling: 'touch'
+            }}
           >
             <div className="grid gap-4 p-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {paginatedCompanies.map((company) => (
@@ -1001,18 +1090,19 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       )}
 
       {/* Mobile Search Modal */}
-      <MobileSearchModal
-        isOpen={showMobileSearch}
-        onClose={() => setShowMobileSearch(false)}
-        searchInput={searchInput}
-        onSearchChange={(value) => {
-          setSearchInput(value)
-          // Debounce filter update
-          window.clearTimeout((window as any).__searchTimer)
-          ;(window as any).__searchTimer = window.setTimeout(() => {
-            setFilters(prev => ({ ...prev, searchTerm: value }))
-          }, 250)
-        }}
+      {showMobileSearch && (
+        <MobileSearchModal
+          isOpen={showMobileSearch}
+          onClose={() => setShowMobileSearch(false)}
+          searchInput={searchInput}
+          onSearchChange={(value) => {
+            setSearchInput(value)
+            // Debounce filter update - this will update the background page
+            window.clearTimeout((window as any).__searchTimer)
+            ;(window as any).__searchTimer = window.setTimeout(() => {
+              setFilters(prev => ({ ...prev, searchTerm: value }))
+            }, 250)
+          }}
         companies={companies}
         autocompleteCompanies={autocompleteCompanies}
         showAutocomplete={showAutocomplete}
@@ -1032,7 +1122,8 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
           }
           setShowAutocomplete(show)
         }}
-      />
+        />
+      )}
     </div>
   )
 }

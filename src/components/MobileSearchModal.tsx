@@ -73,92 +73,129 @@ export function MobileSearchModal({
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex flex-col">
-      {/* Header */}
-      <div className="bg-white p-4 border-b shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              ref={searchInputRef}
-              type="text"
-              value={searchInput}
-              onChange={(e) => handleSearchChange(e.target.value)}
-              onFocus={() => {
-                if (searchInput.length >= 2) onAutocompleteToggle(true)
-              }}
-              placeholder="🔍 Search companies..."
-              className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
-            />
-          </div>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <X className="w-6 h-6 text-gray-600" />
-          </button>
-        </div>
-      </div>
-
-      {/* Search Results / Autocomplete */}
-      <div className="flex-1 bg-white overflow-y-auto">
-        {showAutocomplete && autocompleteCompanies.length > 0 ? (
-          <div className="p-4">
-            <h3 className="text-sm font-medium text-gray-500 mb-3 uppercase tracking-wide">
-              Company Suggestions
-            </h3>
-            <div className="space-y-2">
-              {autocompleteCompanies.map((company) => (
+    <div 
+      className="fixed inset-0 bg-black bg-opacity-30 z-50 flex flex-col"
+      style={{
+        overscrollBehavior: 'none',
+        touchAction: 'pan-x pan-y'
+      }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose()
+        }
+      }}
+    >
+      {/* Search Overlay - positioned at top */}
+      <div className="bg-white shadow-lg border-b max-h-96">
+        {/* Header */}
+        <div className="p-4 border-b">
+          <div className="flex items-center gap-3">
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                ref={searchInputRef}
+                type="text"
+                value={searchInput}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                onFocus={() => {
+                  if (searchInput.length >= 2) onAutocompleteToggle(true)
+                }}
+                placeholder="🔍 Search companies..."
+                className="w-full pl-10 pr-10 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+              />
+              
+              {/* Clear Search Button */}
+              {searchInput && (
                 <button
-                  key={company.id}
-                  onClick={() => handleAutocompleteSelect(company)}
-                  className="w-full p-3 text-left hover:bg-gray-50 rounded-lg border border-gray-200 transition-colors flex items-center gap-3"
+                  onClick={() => {
+                    onSearchChange('')
+                    onAutocompleteToggle(false)
+                  }}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  title="Clear search"
                 >
-                  <div className="flex-shrink-0">
-                    {company.logo_url ? (
-                      <img 
-                        src={company.logo_url} 
-                        alt={`${company.company} logo`}
-                        className="h-8 w-8 object-contain bg-white rounded border"
-                        onError={(e) => {
-                          const target = e.currentTarget;
-                          target.style.display = 'none';
-                        }}
-                      />
-                    ) : (
-                      <div className="h-8 w-8 bg-gray-200 rounded flex items-center justify-center">
-                        <Search className="h-4 w-4 text-gray-400" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium text-gray-900 truncate">
-                      {company.company}
-                    </div>
-                    {company.hall && company.stand && (
-                      <div className="text-sm text-gray-500">
-                        {company.hall}/{company.stand}
-                      </div>
-                    )}
-                  </div>
+                  <X className="w-5 h-5" />
                 </button>
-              ))}
+              )}
             </div>
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <X className="w-6 h-6 text-gray-600" />
+            </button>
           </div>
-        ) : searchInput.length >= 2 ? (
-          <div className="p-8 text-center">
-            <Search className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500">No companies found matching &quot;{searchInput}&quot;</p>
+        </div>
+
+        {/* Search Results / Autocomplete */}
+        {(showAutocomplete && autocompleteCompanies.length > 0) || searchInput.length >= 2 ? (
+          <div 
+            className="bg-white overflow-y-auto max-h-80"
+            style={{
+              overscrollBehavior: 'none',
+              touchAction: 'pan-y',
+              WebkitOverflowScrolling: 'touch'
+            }}
+          >
+            {showAutocomplete && autocompleteCompanies.length > 0 ? (
+              <div className="p-4">
+                <h3 className="text-sm font-medium text-gray-500 mb-3 uppercase tracking-wide">
+                  Company Suggestions
+                </h3>
+                <div className="space-y-2">
+                  {autocompleteCompanies.map((company) => (
+                    <button
+                      key={company.id}
+                      onClick={() => handleAutocompleteSelect(company)}
+                      className="w-full p-3 text-left hover:bg-gray-50 rounded-lg border border-gray-200 transition-colors flex items-center gap-3"
+                    >
+                      <div className="flex-shrink-0">
+                        {company.logo_url ? (
+                          <img 
+                            src={company.logo_url} 
+                            alt={`${company.company} logo`}
+                            className="h-8 w-8 object-contain bg-white rounded border"
+                            onError={(e) => {
+                              const target = e.currentTarget;
+                              target.style.display = 'none';
+                            }}
+                          />
+                        ) : (
+                          <div className="h-8 w-8 bg-gray-200 rounded flex items-center justify-center">
+                            <Search className="h-4 w-4 text-gray-400" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-gray-900 truncate">
+                          {company.company}
+                        </div>
+                        {company.hall && company.stand && (
+                          <div className="text-sm text-gray-500">
+                            {company.hall}/{company.stand}
+                          </div>
+                        )}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : searchInput.length >= 2 ? (
+              <div className="p-8 text-center">
+                <Search className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                <p className="text-gray-500">No companies found matching &quot;{searchInput}&quot;</p>
+              </div>
+            ) : (
+              <div className="p-8 text-center">
+                <Search className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                <p className="text-gray-500">Start typing to search companies...</p>
+                <p className="text-sm text-gray-400 mt-2">
+                  Search by name, location, hall, products, or description
+                </p>
+              </div>
+            )}
           </div>
-        ) : (
-          <div className="p-8 text-center">
-            <Search className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500">Start typing to search companies...</p>
-            <p className="text-sm text-gray-400 mt-2">
-              Search by name, location, hall, products, or description
-            </p>
-          </div>
-        )}
+        ) : null}
       </div>
     </div>
   )
