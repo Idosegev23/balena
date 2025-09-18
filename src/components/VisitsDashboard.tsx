@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { supabase, Company, CompanyRating } from '@/lib/supabase'
 import { useAuth } from '@/components/AuthProvider'
-import { Calendar, Clock, CheckCircle, AlertCircle, MapPin, Star, Filter } from 'lucide-react'
+import { Calendar, Clock, CheckCircle, AlertCircle, MapPin, Star, Filter, RefreshCw } from 'lucide-react'
 
 interface Visit {
   id: string
@@ -23,6 +23,14 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
   const [likedCompanies, setLikedCompanies] = useState<Company[]>([])
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'visits' | 'liked'>('liked')
+  
+  // Force refresh when tab changes
+  const handleTabChange = (tab: 'visits' | 'liked') => {
+    setActiveTab(tab)
+    // Refresh data when switching to ensure latest info
+    fetchVisits()
+    fetchLikedCompanies()
+  }
   const [filterOptions, setFilterOptions] = useState({
     department: '',
     showVisited: false,
@@ -34,6 +42,20 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
       fetchVisits()
       fetchLikedCompanies()
       setupRealtimeSubscription()
+    }
+
+    // Listen for custom events from VisitedStatus component
+    const handleVisitedStatusChange = (event: CustomEvent) => {
+      console.log('Received visited status change event:', event.detail)
+      // Force refresh both lists
+      fetchVisits()
+      fetchLikedCompanies()
+    }
+
+    window.addEventListener('companyVisitedStatusChanged', handleVisitedStatusChange as EventListener)
+
+    return () => {
+      window.removeEventListener('companyVisitedStatusChanged', handleVisitedStatusChange as EventListener)
     }
   }, [user])
 
@@ -83,9 +105,15 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
         },
         (payload) => {
           console.log('Company update detected:', payload)
-          // Refresh both visits and liked companies as visited status affects both
-          fetchVisits()
-          fetchLikedCompanies()
+          // Check if this is a visited status change
+          if (payload.new && (payload.new.visited !== payload.old?.visited)) {
+            console.log('Visited status changed for company:', payload.new.id, 'from', payload.old?.visited, 'to', payload.new.visited)
+            // Force refresh with a small delay to ensure database is updated
+            setTimeout(() => {
+              fetchVisits()
+              fetchLikedCompanies()
+            }, 100)
+          }
         }
       )
       .subscribe()
@@ -121,6 +149,7 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
 
   const fetchLikedCompanies = async () => {
     try {
+      console.log('Fetching liked companies for user:', user?.id)
       // Get companies that the current user rated positively
       const { data: ratings, error: ratingsError } = await supabase
         .from('company_ratings')
@@ -132,6 +161,7 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
 
       if (ratings && ratings.length > 0) {
         const companyIds = ratings.map(r => r.company_id)
+        console.log('Found liked company IDs:', companyIds)
         
         const { data: companies, error: companiesError } = await supabase
           .from('companies')
@@ -140,8 +170,11 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
           .order('company')
 
         if (companiesError) throw companiesError
+        
+        console.log('Fetched liked companies:', companies?.map(c => ({ id: c.id, name: c.company, visited: c.visited })))
         setLikedCompanies(companies || [])
       } else {
+        console.log('No liked companies found')
         setLikedCompanies([])
       }
     } catch (error) {
@@ -239,9 +272,21 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
       <div className="space-y-6">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-2" style={{ color: 'var(--balena-dark)' }}>
-            Visits & Favorites
-          </h1>
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <h1 className="text-2xl font-bold" style={{ color: 'var(--balena-dark)' }}>
+              Visits & Favorites
+            </h1>
+            <button
+              onClick={() => {
+                fetchVisits()
+                fetchLikedCompanies()
+              }}
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              title="Refresh data"
+            >
+              <RefreshCw className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
           <p className="text-sm" style={{ color: 'var(--balena-brown)' }}>
             Track your favorite companies and visits
           </p>
@@ -250,7 +295,7 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
         {/* Tabs */}
         <div className="flex bg-white rounded-lg p-1 shadow-sm">
           <button
-            onClick={() => setActiveTab('liked')}
+            onClick={() => handleTabChange('liked')}
             className={`flex-1 py-3 px-4 rounded-md text-sm font-medium transition-colors flex items-center justify-center gap-2 ${
               activeTab === 'liked'
                 ? 'bg-blue-600 text-white shadow-sm'
@@ -261,7 +306,7 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
             <span>Favorites ({likedCompanies.length})</span>
           </button>
           <button
-            onClick={() => setActiveTab('visits')}
+            onClick={() => handleTabChange('visits')}
             className={`flex-1 py-3 px-4 rounded-md text-sm font-medium transition-colors flex items-center justify-center gap-2 ${
               activeTab === 'visits'
                 ? 'bg-blue-600 text-white shadow-sm'

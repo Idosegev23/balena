@@ -37,7 +37,15 @@ export function VisitedStatus({ company, onUpdate, size = 'medium', showDetails 
 
       if (error) throw error
 
+      console.log('Visit status updated successfully:', data)
+      
+      // Update the local component state
       onUpdate({ ...company, ...updateData })
+      
+      // Force a global state refresh by triggering a custom event
+      window.dispatchEvent(new CustomEvent('companyVisitedStatusChanged', {
+        detail: { companyId: company.id, visited: newVisitedStatus, data }
+      }))
     } catch (error) {
       console.error('Error updating visit status:', error)
     }

@@ -124,10 +124,20 @@ export default function Home() {
       fetchDashboardData()
       setupRealtimeSubscription()
     }
+
+    // Listen for visited status changes
+    const handleVisitedStatusChange = (event: CustomEvent) => {
+      console.log('Dashboard received visited status change:', event.detail)
+      // Refresh companies data to update stats
+      fetchDashboardData()
+    }
+
+    window.addEventListener('companyVisitedStatusChanged', handleVisitedStatusChange as EventListener)
     
     return () => {
       // Cleanup subscription on unmount
       supabase.removeAllChannels()
+      window.removeEventListener('companyVisitedStatusChanged', handleVisitedStatusChange as EventListener)
     }
   }, [user])
 
@@ -164,7 +174,7 @@ export default function Home() {
 
     const totalCompanies = filteredCompanies.length
     const mustVisitCompanies = filteredCompanies.filter(c => c.visit_priority === 'MUST_VISIT').length
-    const visitedCompanies = 0 // TODO: Add visited tracking based on filtered companies
+    const visitedCompanies = filteredCompanies.filter(c => c.visited === true).length
     const followUpRequired = 0 // TODO: Add follow-up tracking based on filtered companies
 
     return {
