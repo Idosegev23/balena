@@ -120,6 +120,12 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       }
     }
     fetchCompanies()
+    setupRealtimeSubscription()
+    
+    return () => {
+      // Cleanup subscription on unmount
+      supabase.removeAllChannels()
+    }
   }, [])
 
   useEffect(() => {
@@ -162,6 +168,42 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
     return {
       hall: hallMatch ? `Hall ${hallMatch[1]}` : undefined,
       stand: standMatch ? standMatch[1] : undefined
+    }
+  }
+
+  const setupRealtimeSubscription = () => {
+    const channel = supabase
+      .channel('companies_changes')
+      .on('postgres_changes', 
+        { 
+          event: '*', 
+          schema: 'public', 
+          table: 'companies' 
+        }, 
+        (payload) => {
+          console.log('CompanyDiscoveryPage: Real-time update received:', payload)
+          
+          if (payload.eventType === 'UPDATE') {
+            const updatedCompany = payload.new as Company
+            console.log('CompanyDiscoveryPage: Updating company in real-time:', updatedCompany.id, 'tags:', updatedCompany.tags)
+            setCompanies(prev => {
+              const newCompanies = prev.map(c => c.id === updatedCompany.id ? updatedCompany : c)
+              console.log('CompanyDiscoveryPage: Real-time companies list updated')
+              return newCompanies
+            })
+          } else if (payload.eventType === 'INSERT') {
+            const newCompany = payload.new as Company
+            setCompanies(prev => [...prev, newCompany])
+          } else if (payload.eventType === 'DELETE') {
+            const deletedId = payload.old.id
+            setCompanies(prev => prev.filter(c => c.id !== deletedId))
+          }
+        }
+      )
+      .subscribe()
+      
+    return () => {
+      supabase.removeChannel(channel)
     }
   }
 

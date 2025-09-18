@@ -255,6 +255,7 @@ CREATE INDEX IF NOT EXISTS idx_activity_feed_user_id ON public.activity_feed(use
 CREATE INDEX IF NOT EXISTS idx_activity_feed_created_at ON public.activity_feed(created_at DESC);
 
 -- Real-time subscriptions for live updates
+ALTER PUBLICATION supabase_realtime ADD TABLE public.companies;
 ALTER PUBLICATION supabase_realtime ADD TABLE public.company_ratings;
 ALTER PUBLICATION supabase_realtime ADD TABLE public.visits;
 ALTER PUBLICATION supabase_realtime ADD TABLE public.activity_feed;

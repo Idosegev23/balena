@@ -118,10 +118,16 @@ export default function Home() {
     }
   }, [activeView, showCompanyModal, showDiscoveryPage, showQuickAddModal, selectedCompany])
 
-  // Fetch dashboard data
+  // Fetch dashboard data and setup real-time subscription
   useEffect(() => {
     if (user) {
       fetchDashboardData()
+      setupRealtimeSubscription()
+    }
+    
+    return () => {
+      // Cleanup subscription on unmount
+      supabase.removeAllChannels()
     }
   }, [user])
 
@@ -166,6 +172,55 @@ export default function Home() {
       mustVisitCompanies,
       visitedCompanies,
       followUpRequired
+    }
+  }
+
+  const setupRealtimeSubscription = () => {
+    const channel = supabase
+      .channel('companies_dashboard_changes')
+      .on('postgres_changes', 
+        { 
+          event: '*', 
+          schema: 'public', 
+          table: 'companies' 
+        }, 
+        (payload) => {
+          console.log('page.tsx: Real-time update received:', payload)
+          
+          if (payload.eventType === 'UPDATE') {
+            const updatedCompany = payload.new as Company
+            console.log('page.tsx: Updating company in real-time:', updatedCompany.id, 'tags:', updatedCompany.tags)
+            
+            // Update companies list
+            setCompanies(prev => {
+              const newCompanies = prev.map(c => c.id === updatedCompany.id ? updatedCompany : c)
+              console.log('page.tsx: Real-time dashboard companies updated')
+              return newCompanies
+            })
+            
+            // Update selected company if it's the same one
+            if (selectedCompany && selectedCompany.id === updatedCompany.id) {
+              setSelectedCompany(updatedCompany)
+              console.log('page.tsx: Real-time selected company updated')
+            }
+            
+            // Re-fetch stats to update dashboard numbers
+            fetchDashboardData()
+          } else if (payload.eventType === 'INSERT') {
+            const newCompany = payload.new as Company
+            setCompanies(prev => [...prev, newCompany])
+            fetchDashboardData() // Update stats
+          } else if (payload.eventType === 'DELETE') {
+            const deletedId = payload.old.id
+            setCompanies(prev => prev.filter(c => c.id !== deletedId))
+            fetchDashboardData() // Update stats
+          }
+        }
+      )
+      .subscribe()
+      
+    return () => {
+      supabase.removeChannel(channel)
     }
   }
 
