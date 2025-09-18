@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { Company, supabase } from '@/lib/supabase'
 import { useAuth } from '@/components/AuthProvider'
 import { FileText, Plus, Trash2, Edit3, Save, X, Calendar } from 'lucide-react'
+import { ShimmerButton } from './ui/shimmer-button'
 
 interface Note {
   id: number
@@ -63,27 +64,32 @@ export function NotesTab({ company, onUpdate }: NotesTabProps) {
   const fetchNotes = async () => {
     setLoading(true)
     try {
-      const { data, error } = await supabase
+      // First get the notes
+      const { data: notesData, error } = await supabase
         .from('notes')
-        .select(`
-          *,
-          users!notes_user_id_fkey (
-            email,
-            team_role
-          )
-        `)
+        .select('*')
         .eq('company_id', company.id)
         .order('created_at', { ascending: false })
 
       if (error) throw error
       
-      // Transform the data to include user info
-      const notesWithUserInfo = data?.map(note => ({
-        ...note,
-        user_email: note.users?.email,
-        user_department: note.users?.team_role
-      })) || []
-      
+      // Add user info to notes
+      const notesWithUserInfo = await Promise.all(
+        (notesData || []).map(async (note) => {
+          // Try to get user info from users table
+          const { data: userData } = await supabase
+            .from('users')
+            .select('email, team_role')
+            .eq('id', note.user_id)
+            .single()
+          
+          return {
+            ...note,
+            user_email: userData?.email || 'Unknown User',
+            user_department: userData?.team_role || 'Unknown Department'
+          }
+        })
+      )
       setNotes(notesWithUserInfo)
     } catch (error) {
       console.error('Error fetching notes:', error)
@@ -201,11 +207,11 @@ export function NotesTab({ company, onUpdate }: NotesTabProps) {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-2 mb-6 flex-wrap">
-        <FileText className="h-6 w-6 text-blue-600" />
-        <h2 className="text-xl font-bold text-gray-900">Company Notes</h2>
-        <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex items-center gap-2 mb-4 sm:mb-6 flex-wrap">
+        <FileText className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+        <h2 className="text-lg sm:text-xl font-bold text-gray-900">Company Notes</h2>
+        <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs sm:text-sm">
           {notes.length}
         </span>
         {user?.user_metadata?.team_role && (
@@ -214,19 +220,20 @@ export function NotesTab({ company, onUpdate }: NotesTabProps) {
           </span>
         )}
       </div>
+      
 
       {/* Add New Note */}
-      <div className="bg-gray-50 p-4 rounded-lg border-2 border-dashed border-gray-300">
+      <div className="bg-gray-50 p-3 sm:p-4 rounded-lg border-2 border-dashed border-gray-300">
         <div className="space-y-3">
           <textarea
             value={newNote}
             onChange={(e) => setNewNote(e.target.value)}
             placeholder="Write a new note about this company..."
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-            rows={4}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-sm sm:text-base"
+            rows={3}
           />
           
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
             <div className="flex items-center gap-2">
               <input
                 type="checkbox"
@@ -235,43 +242,46 @@ export function NotesTab({ company, onUpdate }: NotesTabProps) {
                 onChange={(e) => setIsPrivate(e.target.checked)}
                 className="h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
               />
-              <label htmlFor="private-note" className="text-sm text-gray-600">
+              <label htmlFor="private-note" className="text-xs sm:text-sm text-gray-600">
                 Private note (only I can see this)
               </label>
             </div>
             
-            <button
+            <ShimmerButton
               onClick={addNote}
               disabled={!newNote.trim() || saving}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto justify-center"
+              background="linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)"
+              shimmerColor="#ffffff"
+              shimmerDuration="1.5s"
             >
               <Plus className="h-4 w-4" />
               {saving ? 'Saving...' : 'Add Note'}
-            </button>
+            </ShimmerButton>
           </div>
         </div>
       </div>
 
-      {/* Notes List */}
-      <div className="space-y-4">
-        {notes.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">
-            <FileText className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-            <p className="text-lg font-medium mb-2">No notes yet</p>
-            <p className="text-sm">Add the first note about this company</p>
-          </div>
-        ) : (
+            {/* Notes List */}
+            <div className="space-y-3 sm:space-y-4">
+              {notes.length === 0 ? (
+                <div className="text-center py-6 sm:py-8 text-gray-500">
+                  <FileText className="h-10 w-10 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4 text-gray-300" />
+                  <p className="text-base sm:text-lg font-medium mb-1 sm:mb-2">No notes yet</p>
+                  <p className="text-xs sm:text-sm">Add the first note about this company</p>
+                </div>
+              ) : (
           notes.map((note) => (
             <div
               key={note.id}
-              className={`bg-white p-4 rounded-lg border-2 ${
+              className={`bg-white p-3 sm:p-4 rounded-lg border-2 ${
                 note.is_private ? 'border-yellow-200 bg-yellow-50' : 'border-gray-200'
               }`}
             >
-              <div className="flex items-start justify-between mb-3">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-2 sm:mb-3 gap-2 sm:gap-0">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <div className="flex items-center gap-1 text-sm text-gray-600">
-                    <Calendar className="h-4 w-4" />
+                  <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-600">
+                    <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
                     <span>{formatDate(note.created_at)}</span>
                   </div>
                   {note.user_department && (
@@ -287,42 +297,42 @@ export function NotesTab({ company, onUpdate }: NotesTabProps) {
                 </div>
                 
                 {canEditNote(note) && (
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1 flex-shrink-0">
                     {editingNoteId === note.id ? (
                       <>
                         <button
                           onClick={() => updateNote(note.id, editingContent)}
                           disabled={saving}
-                          className="p-1.5 text-green-600 hover:bg-green-100 rounded-lg transition-colors"
+                          className="p-1.5 sm:p-2 text-green-600 hover:bg-green-100 rounded-lg transition-colors"
                           title="Save"
                         >
-                          <Save className="h-4 w-4" />
+                          <Save className="h-3 w-3 sm:h-4 sm:w-4" />
                         </button>
                         <button
                           onClick={cancelEditing}
                           disabled={saving}
-                          className="p-1.5 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                          className="p-1.5 sm:p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
                           title="Cancel"
                         >
-                          <X className="h-4 w-4" />
+                          <X className="h-3 w-3 sm:h-4 sm:w-4" />
                         </button>
                       </>
                     ) : (
                       <>
                         <button
                           onClick={() => startEditing(note)}
-                          className="p-1.5 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
+                          className="p-1.5 sm:p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
                           title="Edit"
                         >
-                          <Edit3 className="h-4 w-4" />
+                          <Edit3 className="h-3 w-3 sm:h-4 sm:w-4" />
                         </button>
                         <button
                           onClick={() => deleteNote(note.id)}
                           disabled={saving}
-                          className="p-1.5 text-red-600 hover:bg-red-100 rounded-lg transition-colors"
+                          className="p-1.5 sm:p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors"
                           title="Delete"
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                         </button>
                       </>
                     )}

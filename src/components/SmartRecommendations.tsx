@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { supabase, Company } from '@/lib/supabase'
 import { useAuth } from '@/components/AuthProvider'
 import { Lightbulb, TrendingUp, Target, Users, ChevronRight } from 'lucide-react'
@@ -164,83 +165,193 @@ export function SmartRecommendations({ currentCompany, onCompanyClick }: SmartRe
 
   if (loading) {
     return (
-      <div className="space-y-4">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="space-y-4"
+      >
         <div className="flex items-center gap-2 mb-4">
-          <Lightbulb className="w-6 h-6" style={{ color: 'var(--balena-dark)' }} />
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          >
+            <Lightbulb className="w-6 h-6" style={{ color: 'var(--balena-dark)' }} />
+          </motion.div>
           <h2 className="text-xl font-bold" style={{ color: 'var(--balena-dark)' }}>
             Smart Recommendations
           </h2>
         </div>
         <div className="space-y-3">
           {[1, 2, 3].map(i => (
-            <div key={i} className="border rounded-lg p-4 animate-pulse">
-              <div className="h-4 bg-gray-200 rounded w-1/3 mb-2"></div>
-              <div className="h-3 bg-gray-200 rounded w-2/3 mb-3"></div>
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className="border rounded-lg p-4"
+            >
+              <motion.div
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+                className="h-4 bg-gray-200 rounded w-1/3 mb-2"
+              ></motion.div>
+              <motion.div
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
+                className="h-3 bg-gray-200 rounded w-2/3 mb-3"
+              ></motion.div>
               <div className="flex gap-2">
-                <div className="h-8 bg-gray-200 rounded w-20"></div>
-                <div className="h-8 bg-gray-200 rounded w-20"></div>
-                <div className="h-8 bg-gray-200 rounded w-20"></div>
+                {[1, 2, 3].map(j => (
+                  <motion.div
+                    key={j}
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 1.5, repeat: Infinity, delay: j * 0.1 }}
+                    className="h-8 bg-gray-200 rounded w-20"
+                  ></motion.div>
+                ))}
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
     )
   }
 
   if (recommendations.length === 0) {
     return (
-      <div className="text-center py-8">
-        <Lightbulb className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-        <h3 className="text-lg font-medium text-gray-600 mb-2">No recommendations available</h3>
-        <p className="text-sm text-gray-500">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="text-center py-8"
+      >
+        <motion.div
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <Lightbulb className="w-12 h-12 mx-auto mb-4 text-gray-400" />
+        </motion.div>
+        <motion.h3
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="text-lg font-medium text-gray-600 mb-2"
+        >
+          No recommendations available
+        </motion.h3>
+        <motion.p
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="text-sm text-gray-500"
+        >
           Start rating companies to receive personalized recommendations
-        </p>
-      </div>
+        </motion.p>
+      </motion.div>
     )
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-2 mb-4">
-        <Lightbulb className="w-6 h-6" style={{ color: 'var(--balena-dark)' }} />
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="space-y-6"
+    >
+      <motion.div
+        initial={{ x: -50, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ delay: 0.1 }}
+        className="flex items-center gap-2 mb-4"
+      >
+        <motion.div
+          animate={{ rotate: [0, 15, -15, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <Lightbulb className="w-6 h-6" style={{ color: 'var(--balena-dark)' }} />
+        </motion.div>
         <h2 className="text-xl font-bold" style={{ color: 'var(--balena-dark)' }}>
           Smart Recommendations
         </h2>
-      </div>
+      </motion.div>
 
-      {recommendations.map((group, groupIndex) => (
-        <div 
-          key={groupIndex} 
-          className={`border-2 rounded-xl p-4 ${getPriorityColor(group.priority)}`}
-        >
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-3">
-              {group.icon}
-              <div>
-                <h3 className="font-bold text-lg">{group.title}</h3>
-                <p className="text-sm text-gray-600">{group.description}</p>
-              </div>
-            </div>
-            <div className={`px-3 py-1 rounded-full text-xs font-medium ${getPriorityBadgeColor(group.priority)}`}>
-              {group.priority === 'high' ? 'High Priority' : 
-               group.priority === 'medium' ? 'Medium Priority' : 'Low Priority'}
-            </div>
-          </div>
-
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {group.companies.map((company) => (
-              <button
-                key={company.id}
-                onClick={() => onCompanyClick?.(company)}
-                className="text-left p-3 bg-white rounded-lg border hover:shadow-md transition-all group"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium text-sm group-hover:text-blue-600" style={{ color: 'var(--balena-dark)' }}>
-                    {company.company}
-                  </h4>
-                  <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600" />
+      <AnimatePresence>
+        {recommendations.map((group, groupIndex) => (
+          <motion.div
+            key={groupIndex}
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 50 }}
+            transition={{ delay: groupIndex * 0.1, duration: 0.5 }}
+            whileHover={{ scale: 1.02 }}
+            className={`border-2 rounded-xl p-4 ${getPriorityColor(group.priority)} shadow-lg hover:shadow-xl transition-shadow`}
+          >
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <motion.div
+                  whileHover={{ scale: 1.2, rotate: 10 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  {group.icon}
+                </motion.div>
+                <div>
+                  <motion.h3
+                    initial={{ y: 10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: groupIndex * 0.1 + 0.2 }}
+                    className="font-bold text-lg"
+                  >
+                    {group.title}
+                  </motion.h3>
+                  <motion.p
+                    initial={{ y: 10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: groupIndex * 0.1 + 0.3 }}
+                    className="text-sm text-gray-600"
+                  >
+                    {group.description}
+                  </motion.p>
                 </div>
+              </div>
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: groupIndex * 0.1 + 0.4, type: "spring", bounce: 0.5 }}
+                className={`px-3 py-1 rounded-full text-xs font-medium ${getPriorityBadgeColor(group.priority)}`}
+              >
+                {group.priority === 'high' ? 'High Priority' :
+                 group.priority === 'medium' ? 'Medium Priority' : 'Low Priority'}
+              </motion.div>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {group.companies.map((company, companyIndex) => (
+                <motion.button
+                  key={company.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: groupIndex * 0.1 + companyIndex * 0.05 + 0.5 }}
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+                    borderColor: "#3b82f6"
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => onCompanyClick?.(company)}
+                  className="text-left p-3 bg-white rounded-lg border hover:shadow-md transition-all group"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="font-medium text-sm group-hover:text-blue-600" style={{ color: 'var(--balena-dark)' }}>
+                      {company.company}
+                    </h4>
+                    <motion.div
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="group-hover:text-blue-600"
+                    >
+                      <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600" />
+                    </motion.div>
+                  </div>
                 <p className="text-xs mb-1" style={{ color: 'var(--balena-brown)' }}>
                   📍 {company.location}
                 </p>
@@ -251,8 +362,8 @@ export function SmartRecommendations({ currentCompany, onCompanyClick }: SmartRe
                     </span>
                   </div>
                 )}
-              </button>
-            ))}
+                </motion.button>
+              ))}
           </div>
 
           {group.companies.length === 0 && (
@@ -260,8 +371,9 @@ export function SmartRecommendations({ currentCompany, onCompanyClick }: SmartRe
               No companies available in this category
             </p>
           )}
-        </div>
-      ))}
-    </div>
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    </motion.div>
   )
 }

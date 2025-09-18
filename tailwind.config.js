@@ -37,6 +37,29 @@ module.exports = {
       animation: {
         'spin-slow': 'spin 3s linear infinite',
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'shimmer-slide': 'shimmer-slide var(--speed, 3s) ease-in-out infinite alternate',
+        'spin-around': 'spin-around calc(var(--speed, 3s) * 2) infinite linear',
+      },
+      keyframes: {
+        'shimmer-slide': {
+          to: {
+            transform: 'translate(calc(100cqw - 100%), calc(100cqh - 100%))',
+          },
+        },
+        'spin-around': {
+          '0%': {
+            transform: 'translateZ(0) rotate(0)',
+          },
+          '15%, 35%': {
+            transform: 'translateZ(0) rotate(90deg)',
+          },
+          '65%, 85%': {
+            transform: 'translateZ(0) rotate(270deg)',
+          },
+          '100%': {
+            transform: 'translateZ(0) rotate(360deg)',
+          },
+        },
       },
     },
   },

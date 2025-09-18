@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { supabase, Company } from '@/lib/supabase'
 import { useAuth } from '@/components/AuthProvider'
 import { Search, Filter, Download, Eye, Star, MapPin, Building2, X, ChevronDown, ChevronUp } from 'lucide-react'
@@ -8,6 +9,7 @@ import { RealtimeRating } from './RealtimeRating'
 import { EnhancedRealtimeRating } from './EnhancedRealtimeRating'
 import { LogoDisplay } from './LogoUploader'
 import { EnhancedCompanyModal } from './EnhancedCompanyModal'
+import { ShimmerButton } from './ui/shimmer-button'
 
 interface CompanyDiscoveryPageProps {
   onClose: () => void
@@ -459,18 +461,28 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
             Filters
             {showFilters ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </button>
-          <button
+          <ShimmerButton
             onClick={exportToCSV}
-            className="flex items-center gap-2 px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700"
+            className="flex items-center gap-2"
+            background="linear-gradient(135deg, #059669 0%, #047857 100%)"
+            shimmerColor="#ffffff"
+            shimmerDuration="2s"
           >
             <Download className="w-5 h-5" />
             Export CSV
-          </button>
+          </ShimmerButton>
         </div>
 
         {/* Advanced Filters */}
-        {showFilters && (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 p-4 bg-white rounded-lg border">
+        <AnimatePresence>
+          {showFilters && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 p-4 bg-white rounded-lg border shadow-md"
+            >
             <div>
               <label className="block text-sm font-medium mb-2">Department</label>
               <select
@@ -589,8 +601,9 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                 <span className="text-sm">Has Website</span>
               </label>
             </div>
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Sorting */}
         <div className="flex items-center gap-4 mt-4">
@@ -623,7 +636,10 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
           </div>
         ) : (
-          <div className="h-full overflow-y-auto">
+          <div
+            className="h-full overflow-y-auto"
+            data-discovery-scroll
+          >
             <div className="grid gap-4 p-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {paginatedCompanies.map((company) => (
                 <div

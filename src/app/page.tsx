@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '@/components/AuthProvider'
 import { supabase, Company } from '@/lib/supabase'
 import { Building2, Star, CheckSquare, Calendar, MapPin, Lightbulb } from 'lucide-react'
@@ -19,6 +20,7 @@ import { QuickAddModal } from '@/components/QuickAddModal'
 import { AddCompanyModal } from '@/components/AddCompanyModal'
 import { usePullToRefresh } from '@/hooks/usePullToRefresh'
 import { PullToRefreshIndicator } from '@/components/PullToRefreshIndicator'
+import { ShimmerButton } from '@/components/ui/shimmer-button'
 
 interface DashboardStats {
   totalCompanies: number
@@ -193,6 +195,20 @@ export default function Home() {
   })
 
   const handleCompanyClick = (company: Company) => {
+    // Store current scroll position before opening modal
+    const currentScrollY = window.scrollY
+    const discoveryScrollElement = document.querySelector('[data-discovery-scroll]')
+    const discoveryScrollY = discoveryScrollElement ? discoveryScrollElement.scrollTop : 0
+
+    // Store the current state in sessionStorage for reliable restoration
+    sessionStorage.setItem('preModalState', JSON.stringify({
+      activeView,
+      showDiscoveryPage,
+      scrollY: currentScrollY,
+      discoveryScrollY,
+      timestamp: Date.now()
+    }))
+
     setSelectedCompany(company)
     setShowCompanyModal(true)
   }
@@ -200,8 +216,40 @@ export default function Home() {
   const handleCloseModal = () => {
     setShowCompanyModal(false)
     setSelectedCompany(null)
-    
-    // Return to the previous state based on history
+
+    // Restore the exact previous state
+    try {
+      const preModalStateStr = sessionStorage.getItem('preModalState')
+      if (preModalStateStr) {
+        const preModalState = JSON.parse(preModalStateStr)
+
+        // Only restore if the state is recent (within last 5 minutes)
+        if (Date.now() - preModalState.timestamp < 300000) {
+          setActiveView(preModalState.activeView)
+          setShowDiscoveryPage(preModalState.showDiscoveryPage)
+
+          // Restore scroll position after a brief delay to ensure DOM is ready
+          setTimeout(() => {
+            if (preModalState.showDiscoveryPage && preModalState.discoveryScrollY > 0) {
+              const discoveryScrollElement = document.querySelector('[data-discovery-scroll]')
+              if (discoveryScrollElement) {
+                discoveryScrollElement.scrollTo({ top: preModalState.discoveryScrollY, behavior: 'instant' })
+              }
+            } else if (preModalState.scrollY > 0) {
+              window.scrollTo({ top: preModalState.scrollY, behavior: 'instant' })
+            }
+          }, 100)
+
+          // Clean up stored state
+          sessionStorage.removeItem('preModalState')
+          return
+        }
+      }
+    } catch (error) {
+      console.error('Error restoring pre-modal state:', error)
+    }
+
+    // Fallback: Return to the previous state based on history
     const currentState = window.history.state
     if (currentState) {
       // If we were in discovery page, return to it
@@ -214,7 +262,7 @@ export default function Home() {
         setShowDiscoveryPage(false)
       }
     } else {
-      // Fallback to dashboard if no history state
+      // Final fallback to dashboard
       setActiveView('dashboard')
       setShowDiscoveryPage(false)
     }
@@ -484,14 +532,16 @@ export default function Home() {
                 </div>
               )}
               
-              <button
+              <ShimmerButton
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 rounded-lg text-white font-medium text-lg transition-all hover:shadow-lg disabled:opacity-50"
-                style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}
+                className="w-full py-3 font-medium text-lg disabled:opacity-50"
+                background="linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)"
+                shimmerColor="#ffffff"
+                shimmerDuration="2.5s"
               >
                 {loading ? '⏳ Processing...' : (isSignUp ? 'Sign Up' : 'Login')}
-              </button>
+              </ShimmerButton>
             </form>
             
             <div className="mt-6 text-center">
@@ -638,21 +688,31 @@ export default function Home() {
 
           {/* Mobile-First Stats */}
           <div className="grid gap-2 grid-cols-2 lg:grid-cols-4">
-            <button 
+            <motion.button
+              whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(59, 130, 246, 0.3)" }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
               onClick={() => {
                 setActiveView('discovery')
                 setShowDiscoveryPage(true)
               }}
-              className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 shadow-lg text-center hover:shadow-xl transition-all active:scale-95 flex flex-col items-center gap-2 text-white"
+              className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 shadow-lg text-center hover:shadow-xl transition-all flex flex-col items-center gap-2 text-white"
             >
-              <Building2 className="w-6 h-6 mb-1" />
+              <motion.div
+                animate={{ rotate: [0, 10, -10, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <Building2 className="w-6 h-6 mb-1" />
+              </motion.div>
               <div className="text-2xl font-bold">
                 {stats?.totalCompanies || 0}
               </div>
               <div className="text-xs font-medium opacity-90">
                 🏢 Discover
               </div>
-            </button>
+            </motion.button>
             <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-xl p-4 shadow-lg text-center flex flex-col items-center gap-2 text-white">
               <Star className="w-6 h-6 mb-1" />
               <div className="text-2xl font-bold">
@@ -740,7 +800,10 @@ export default function Home() {
       {/* Company Discovery Page - Show even when modal is open so it stays in background */}
       {showDiscoveryPage && (
         <CompanyDiscoveryPage
-          onClose={() => setShowDiscoveryPage(false)}
+          onClose={() => {
+            setShowDiscoveryPage(false)
+            setActiveView('dashboard')
+          }}
           onCompanyClick={handleCompanyClick}
         />
       )}

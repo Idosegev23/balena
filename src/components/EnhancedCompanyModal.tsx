@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 import { BusinessCardScanner } from './BusinessCardScanner'
 import { NotesTab } from './NotesTab'
+import { ShimmerButton } from './ui/shimmer-button'
 
 interface EnhancedCompanyModalProps {
   company: Company | null
@@ -26,6 +27,40 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
   const [activeTab, setActiveTab] = useState<'overview' | 'details' | 'contact' | 'business' | 'analysis' | 'actions' | 'notes'>('overview')
   const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({})
   const [message, setMessage] = useState('')
+
+  // Prevent background scrolling when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+      document.body.style.paddingRight = '0px' // Prevent layout shift
+    } else {
+      document.body.style.overflow = 'unset'
+      document.body.style.paddingRight = '0px'
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'unset'
+      document.body.style.paddingRight = '0px'
+    }
+  }, [isOpen])
+
+  // Handle ESC key to close modal
+  useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isOpen) {
+        onClose()
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscKey)
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscKey)
+    }
+  }, [isOpen, onClose])
   const [showScanner, setShowScanner] = useState(false)
 
   useEffect(() => {
@@ -256,21 +291,31 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
   const TabButton = ({ id, label, icon: Icon, isActive }: { id: string, label: string, icon: any, isActive: boolean }) => (
     <button
       onClick={() => setActiveTab(id as any)}
-      className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium transition-colors whitespace-nowrap text-xs sm:text-sm ${
+      className={`flex flex-col sm:flex-row items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-2 rounded-lg font-medium transition-colors whitespace-nowrap text-xs sm:text-sm min-w-0 flex-shrink-0 ${
         isActive 
           ? 'bg-blue-100 text-blue-700 border-b-2 border-blue-500' 
           : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
       }`}
     >
-      <Icon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-      <span className="hidden sm:inline">{label}</span>
-      <span className="sm:hidden">{label.length > 8 ? label.substring(0, 6) + '..' : label}</span>
+      <Icon className="h-4 w-4 sm:h-4 sm:w-4 flex-shrink-0" />
+      <span className="text-xs sm:text-sm leading-tight">{id === 'analysis' ? 'AI' : label}</span>
     </button>
   )
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-[60]">
-      <div className="bg-white rounded-xl shadow-2xl max-w-6xl w-full max-h-[98vh] sm:max-h-[95vh] overflow-hidden">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-[60]"
+      onClick={(e) => {
+        // Close modal if clicking on backdrop (not on modal content)
+        if (e.target === e.currentTarget) {
+          onClose()
+        }
+      }}
+    >
+      <div
+        className="bg-white rounded-xl shadow-2xl max-w-6xl w-full max-h-[98vh] sm:max-h-[95vh] overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Mobile-Optimized Header */}
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-3 sm:p-6 text-white">
           <div className="flex items-start justify-between gap-2">
@@ -343,8 +388,8 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
         </div>
 
         {/* Mobile-Optimized Tabs */}
-        <div className="bg-gray-50 px-2 sm:px-6 py-2 sm:py-3 border-b">
-          <div className="flex gap-1 sm:gap-2 overflow-x-auto scrollbar-hide">
+        <div className="bg-gray-50 px-1 sm:px-6 py-2 sm:py-3 border-b">
+          <div className="grid grid-cols-7 sm:flex sm:gap-2 gap-1 overflow-x-auto scrollbar-hide scroll-smooth">
             <TabButton id="overview" label="Overview" icon={Eye} isActive={activeTab === 'overview'} />
             <TabButton id="details" label="Details" icon={Building2} isActive={activeTab === 'details'} />
             <TabButton id="contact" label="Contact" icon={Phone} isActive={activeTab === 'contact'} />
@@ -1014,14 +1059,17 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
             >
               Cancel
             </button>
-            <button
+            <ShimmerButton
               onClick={() => handleSave()}
               disabled={loading}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
+              className="px-4 py-2 disabled:opacity-50 flex items-center gap-2"
+              background="linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)"
+              shimmerColor="#ffffff"
+              shimmerDuration="2s"
             >
               <Save className="h-4 w-4" />
               {loading ? 'Saving...' : 'Save'}
-            </button>
+            </ShimmerButton>
           </div>
         )}
       </div>
