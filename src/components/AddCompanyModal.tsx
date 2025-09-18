@@ -22,7 +22,7 @@ export function AddCompanyModal({ isOpen, onClose, onCompanyAdded }: AddCompanyM
     description: '',
     department: 'Commercial',
     visit_priority: 'MEDIUM' as 'MUST_VISIT' | 'HIGH' | 'MEDIUM' | 'LOW' | 'MONITOR_ONLY',
-    connection_type: 'SUPPLIER' as 'SUPPLIER' | 'PARTNER' | 'COMPETITOR' | 'CUSTOMER' | 'SERVICE' | 'STRATEGIC'
+    logo_url: ''
   })
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState('')
@@ -73,13 +73,55 @@ export function AddCompanyModal({ isOpen, onClose, onCompanyAdded }: AddCompanyM
       description: '',
       department: 'Commercial',
       visit_priority: 'MEDIUM',
-      connection_type: 'SUPPLIER'
+      logo_url: ''
     })
     setMessage('')
   }
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
+    
+    // If website field is changed, try to get logo
+    if (field === 'website' && value.trim()) {
+      fetchWebsiteLogo(value.trim())
+    }
+  }
+
+  const fetchWebsiteLogo = async (website: string) => {
+    try {
+      // Normalize website URL
+      let url = website
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        url = `https://${url}`
+      }
+      
+      // Extract domain
+      const domain = new URL(url).hostname
+      
+      // Try multiple favicon sources
+      const logoSources = [
+        `https://${domain}/favicon.ico`,
+        `https://${domain}/favicon.png`,
+        `https://${domain}/apple-touch-icon.png`,
+        `https://www.google.com/s2/favicons?domain=${domain}&sz=64`,
+        `https://logo.clearbit.com/${domain}`
+      ]
+      
+      // Try the first available logo
+      for (const logoUrl of logoSources) {
+        try {
+          const response = await fetch(logoUrl, { method: 'HEAD' })
+          if (response.ok) {
+            setFormData(prev => ({ ...prev, logo_url: logoUrl }))
+            break
+          }
+        } catch (e) {
+          continue
+        }
+      }
+    } catch (error) {
+      console.log('Could not fetch logo for website:', website)
+    }
   }
 
   return (
@@ -201,13 +243,28 @@ export function AddCompanyModal({ isOpen, onClose, onCompanyAdded }: AddCompanyM
               <Globe className="w-4 h-4 inline mr-1" />
               Website
             </label>
-            <input
-              type="url"
-              value={formData.website}
-              onChange={(e) => handleInputChange('website', e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="https://company.com"
-            />
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={formData.website}
+                onChange={(e) => handleInputChange('website', e.target.value)}
+                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="company.com"
+              />
+              {formData.logo_url && (
+                <div className="flex items-center">
+                  <img 
+                    src={formData.logo_url} 
+                    alt="Company logo" 
+                    className="w-10 h-10 object-contain border rounded-lg"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Description */}
@@ -259,24 +316,6 @@ export function AddCompanyModal({ isOpen, onClose, onCompanyAdded }: AddCompanyM
             </div>
           </div>
 
-          {/* Connection Type */}
-          <div>
-            <label className="block text-sm font-medium mb-2" style={{ color: 'var(--balena-dark)' }}>
-              Connection Type
-            </label>
-            <select
-              value={formData.connection_type}
-              onChange={(e) => handleInputChange('connection_type', e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="SUPPLIER">Supplier</option>
-              <option value="PARTNER">Partner</option>
-              <option value="COMPETITOR">Competitor</option>
-              <option value="CUSTOMER">Customer</option>
-              <option value="SERVICE">Service</option>
-              <option value="STRATEGIC">Strategic</option>
-            </select>
-          </div>
 
           {/* Message */}
           {message && (
