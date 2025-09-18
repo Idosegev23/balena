@@ -7,12 +7,14 @@ import {
   FileText, Camera, Bookmark, Info, Lightbulb, Target, CheckSquare,
   Edit3, Save, ExternalLink, User, Building, DollarSign, Briefcase,
   Award, Factory, TrendingUp, Clock, MessageCircle, ChevronDown,
-  ChevronUp, Eye, Heart, AlertCircle, CheckCircle2, CreditCard, Scan
+  ChevronUp, Eye, Heart, AlertCircle, CheckCircle2, CreditCard, Scan, Tag
 } from 'lucide-react'
 import { BusinessCardScanner } from './BusinessCardScanner'
 import { NotesTab } from './NotesTab'
 import { TagManager } from './TagManager'
 import { VisitedStatus } from './VisitedStatus'
+import { CompanyTagging } from './CompanyTagging'
+import { LogoDisplayWithUpload } from './LogoDisplayWithUpload'
 import { ShimmerButton } from './ui/shimmer-button'
 
 interface EnhancedCompanyModalProps {
@@ -333,23 +335,17 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
           <div className="flex items-start justify-between gap-2">
             <div className="flex items-start gap-2 sm:gap-4 flex-1 min-w-0">
               <div className="flex-shrink-0">
-                {(company.logo_url || company.logo) ? (
-                  <img 
-                    src={company.logo_url || company.logo} 
-                    alt={`${company.company} logo`}
-                    className="h-12 w-12 sm:h-16 sm:w-16 object-contain bg-white rounded-lg p-1 sm:p-2 shadow-lg"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      target.style.display = 'none';
-                      // Show fallback icon
-                      const fallback = target.nextElementSibling as HTMLElement;
-                      if (fallback) fallback.style.display = 'block';
-                    }}
-                  />
-                ) : null}
-                <div className="h-12 w-12 sm:h-16 sm:w-16 bg-white bg-opacity-20 rounded-lg flex items-center justify-center" style={{ display: (company.logo_url || company.logo) ? 'none' : 'block' }}>
-                  <Building2 className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
-                </div>
+                <LogoDisplayWithUpload 
+                  company={company} 
+                  size="lg" 
+                  className="h-12 w-12 sm:h-16 sm:w-16"
+                  showUploadButton={true}
+                  onLogoUpdate={(logoUrl) => {
+                    const updatedCompany = { ...company, logo_url: logoUrl }
+                    setEditedCompany(updatedCompany)
+                    onUpdate()
+                  }}
+                />
               </div>
               <div className="flex-1 min-w-0">
                 <h1 className="text-lg sm:text-2xl font-bold mb-1 sm:mb-2 leading-tight">{company.company}</h1>
@@ -501,13 +497,19 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
 
               {/* Company Tags */}
               <div className="bg-white p-4 rounded-lg border-2 border-gray-200">
-                <TagManager 
+                <div className="flex items-center gap-2 mb-3">
+                  <Tag className="w-5 h-5 text-gray-600" />
+                  <h3 className="text-lg font-semibold text-gray-900">Company Tags</h3>
+                </div>
+                <CompanyTagging 
                   company={company} 
-                  onUpdate={(updatedCompany) => {
+                  onTagsUpdate={(tags) => {
+                    const updatedCompany = { ...company, tags }
                     setEditedCompany(updatedCompany)
                     onUpdate()
                   }}
-                  isEditing={isEditing}
+                  size="medium"
+                  showAddButton={true}
                 />
               </div>
 

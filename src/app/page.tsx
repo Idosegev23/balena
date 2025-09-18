@@ -14,7 +14,8 @@ import { RouteOptimizer } from '@/components/RouteOptimizer'
 import { LiveCompanyAdd } from '@/components/LiveCompanyAdd'
 import { DataExport } from '@/components/DataExport'
 import { CompanyDiscoveryPage } from '@/components/CompanyDiscoveryPage'
-import { BottomNavigation } from '@/components/BottomNavigation'
+import { Header } from '@/components/Header'
+import { Footer } from '@/components/Footer'
 import { VisitsDashboard } from '@/components/VisitsDashboard'
 import { QuickAddModal } from '@/components/QuickAddModal'
 import { AddCompanyModal } from '@/components/AddCompanyModal'
@@ -576,37 +577,12 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Top Bar */}
-      <div className="bg-white shadow-sm border-b px-4 py-4">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
-          <div className="flex items-center">
-            <img
-              src="https://balena.science/cdn/shop/files/logo_2x_1102b1b4-e239-4c62-aa43-69f45080c3b1.png?v=1653928291&width=280"
-              alt="Balena"
-              className="h-8 ml-3"
-            />
-            <div className="text-left">
-              <h1 className="text-xl font-bold" style={{ color: 'var(--balena-dark)' }}>
-                K-Show 2025
-              </h1>
-              <p className="text-sm" style={{ color: 'var(--balena-brown)' }}>
-                Company Management
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-sm" style={{ color: 'var(--balena-brown)' }}>
-              {user.user_metadata?.full_name || user.email}
-            </span>
-            <button
-              onClick={signOut}
-              className="px-4 py-2 text-sm border rounded-lg hover:bg-gray-50"
-              style={{ borderColor: 'var(--balena-brown)', color: 'var(--balena-brown)' }}
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </div>
+      {/* Header */}
+      <Header 
+        title="K-Show 2025"
+        showNotifications={true}
+        notificationCount={stats?.followUpRequired || 0}
+      />
 
       {/* Pull to Refresh Indicator */}
       <PullToRefreshIndicator 
@@ -828,8 +804,8 @@ export default function Home() {
         }}
       />
 
-      {/* Bottom Navigation */}
-      <BottomNavigation
+      {/* Footer */}
+      <Footer
         activeTab={activeView}
         onTabChange={handleViewChange}
         onQuickAdd={() => setShowQuickAddModal(true)}

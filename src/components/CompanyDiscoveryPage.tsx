@@ -7,7 +7,8 @@ import { useAuth } from '@/components/AuthProvider'
 import { Search, Filter, Download, Eye, Star, MapPin, Building2, X, ChevronDown, ChevronUp } from 'lucide-react'
 import { RealtimeRating } from './RealtimeRating'
 import { EnhancedRealtimeRating } from './EnhancedRealtimeRating'
-import { LogoDisplay } from './LogoUploader'
+import { CompanyTagging } from './CompanyTagging'
+import { LogoDisplayWithUpload } from './LogoDisplayWithUpload'
 import { EnhancedCompanyModal } from './EnhancedCompanyModal'
 import { MobileSearchModal } from './MobileSearchModal'
 import { VisitedStatus } from './VisitedStatus'
@@ -823,7 +824,18 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                   onClick={() => onCompanyClick(company)}
                 >
                   <div className="flex items-start gap-3 mb-3">
-                    <LogoDisplay company={company} size="md" className="flex-shrink-0 mt-1" />
+                    <LogoDisplayWithUpload 
+                      company={company} 
+                      size="md" 
+                      className="flex-shrink-0 mt-1"
+                      showUploadButton={true}
+                      onLogoUpdate={(logoUrl) => {
+                        // Update the company in the list
+                        setCompanies(prev => 
+                          prev.map(c => c.id === company.id ? { ...c, logo_url: logoUrl } : c)
+                        )
+                      }}
+                    />
                     <div className="flex-1 min-w-0">
                       <h3 className="font-bold text-base mb-1" style={{ color: 'var(--balena-dark)' }}>
                         {company.company}
@@ -977,6 +989,22 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                       }}
                       size="small"
                       showDetails={false}
+                    />
+                  </div>
+
+                  {/* Company Tagging */}
+                  <div onClick={(e) => e.stopPropagation()} className="mb-3">
+                    <CompanyTagging
+                      company={company}
+                      onTagsUpdate={(tags) => {
+                        // Update the company in the list
+                        const updatedCompany = { ...company, tags }
+                        setCompanies(prev => 
+                          prev.map(c => c.id === updatedCompany.id ? updatedCompany : c)
+                        )
+                      }}
+                      size="small"
+                      showAddButton={true}
                     />
                   </div>
 
