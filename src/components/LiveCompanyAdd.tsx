@@ -284,7 +284,7 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
                   Manual Entry
                 </h4>
                 <p className="text-sm text-gray-600 mb-4">
-                  If you didn't find the company in search, you can add it manually
+                  If you didn&apos;t find the company in search, you can add it manually
                 </p>
                 <button
                   onClick={() => setManualEntry(true)}

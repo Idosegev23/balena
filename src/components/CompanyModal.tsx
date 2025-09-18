@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from 'react'
 import { Company, supabase } from '@/lib/supabase'
 import { X, Star, MapPin, Phone, Mail, Globe, Building2, Users, Calendar, FileText, Camera, Bookmark, ArrowLeft, Info, Lightbulb, Target, CheckSquare } from 'lucide-react'
 import { VisitTracker } from './VisitTracker'
-import { BusinessCardScanner } from './BusinessCardScanner'
 import { NotesAndPhotos } from './NotesAndPhotos'
 import { FollowUpInterface } from './FollowUpInterface'
 import { AdvancedPlanningModals } from './AdvancedPlanningModals'
@@ -117,8 +116,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
         ...company,
         hall,
         stand,
-        description: sanitizeText(company.description || ''),
-        balena_value: sanitizeText(company.balena_value || '')
+        description: sanitizeText(company.description || '')
       })
     }
   }, [company])
@@ -168,9 +166,6 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
           website: editedCompany.website,
           visit_priority: editedCompany.visit_priority,
           department: editedCompany.department,
-          balena_value: editedCompany.balena_value,
-          connection_type: editedCompany.connection_type,
-          where_they_present: editedCompany.where_they_present,
           // Enhanced fields from scraping
           detailed_address: editedCompany.detailed_address,
           sales_volume: editedCompany.sales_volume,
@@ -207,7 +202,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
   }
 
   const handleInputChange = (field: keyof Company, value: string) => {
-    const nextValue = (field === 'description' || field === 'balena_value') ? sanitizeText(value) : value
+    const nextValue = (field === 'description') ? sanitizeText(value) : value
     setEditedCompany(prev => prev ? { ...prev, [field]: nextValue as any } : null)
   }
 
@@ -219,14 +214,6 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
     'MONITOR_ONLY': 'bg-blue-100 text-blue-800 border-blue-200'
   }
 
-  const connectionColors = {
-    'SUPPLIER': 'bg-green-100 text-green-800',
-    'PARTNER': 'bg-purple-100 text-purple-800',
-    'COMPETITOR': 'bg-red-100 text-red-800',
-    'CUSTOMER': 'bg-blue-100 text-blue-800',
-    'SERVICE': 'bg-yellow-100 text-yellow-800',
-    'STRATEGIC': 'bg-pink-100 text-pink-800'
-  }
 
   return (
     <div
@@ -295,19 +282,6 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
               </div>
             )}
             
-            {/* Connection Type */}
-            {hasValidData(company?.connection_type) && (
-              <div className="flex items-center gap-1 px-3 py-1 bg-white/20 rounded-full text-white">
-                <span className="text-xs font-medium">
-                  {company.connection_type === 'SUPPLIER' ? '🏭 Supplier' :
-                   company.connection_type === 'PARTNER' ? '🤝 Partner' :
-                   company.connection_type === 'COMPETITOR' ? '⚔️ Competitor' :
-                   company.connection_type === 'CUSTOMER' ? '🛒 Customer' :
-                   company.connection_type === 'SERVICE' ? '🔧 Service' :
-                   company.connection_type === 'STRATEGIC' ? '🎯 Strategic' : company.connection_type}
-                </span>
-              </div>
-            )}
           </div>
         </div>
 
@@ -739,33 +713,6 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                   )}
                 </div>
 
-                {/* Connection Type */}
-                <div className="p-3 border rounded-lg bg-white">
-                  <div className="text-xs font-medium text-gray-500 mb-1">Connection Type</div>
-                  {isEditing ? (
-                    <select
-                      value={editedCompany.connection_type || 'SUPPLIER'}
-                      onChange={(e) => handleInputChange('connection_type', e.target.value)}
-                      className="w-full p-2 border rounded text-sm text-left focus:outline-none focus:ring-1"
-                      style={{ borderColor: 'var(--balena-brown)' }}
-                    >
-                      <option value="SUPPLIER">Supplier</option>
-                      <option value="PARTNER">Partner</option>
-                      <option value="COMPETITOR">Competitor</option>
-                      <option value="CUSTOMER">Customer</option>
-                      <option value="SERVICE">Service</option>
-                      <option value="STRATEGIC">Strategic</option>
-                    </select>
-                  ) : (
-                    <div className={`inline-block px-2 py-1 rounded text-xs font-medium ${connectionColors[editedCompany.connection_type || 'SUPPLIER']}`}>
-                      {editedCompany.connection_type === 'SUPPLIER' ? 'Supplier' :
-                       editedCompany.connection_type === 'PARTNER' ? 'Partner' :
-                       editedCompany.connection_type === 'COMPETITOR' ? 'Competitor' :
-                       editedCompany.connection_type === 'CUSTOMER' ? 'Customer' :
-                       editedCompany.connection_type === 'SERVICE' ? 'Service' : 'Strategic'}
-                    </div>
-                  )}
-                </div>
 
                 {/* Department */}
                 <div className="p-3 border rounded-lg bg-white">
@@ -789,21 +736,6 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                   )}
                 </div>
 
-                {/* Where they present */}
-                <div className="p-3 border rounded-lg bg-white">
-                  <div className="text-xs font-medium text-gray-500 mb-1">Where They Present</div>
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      value={editedCompany.where_they_present || ''}
-                      onChange={(e) => handleInputChange('where_they_present', e.target.value)}
-                      className="w-full p-2 border rounded text-sm text-left focus:outline-none focus:ring-1"
-                      style={{ borderColor: 'var(--balena-brown)' }}
-                    />
-                  ) : (
-                    <div className="text-sm text-left">{editedCompany.where_they_present || '—'}</div>
-                  )}
-                </div>
               </div>
 
               {/* Company Quick Summary from Scraped Data */}
@@ -1385,17 +1317,6 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                 </div>
               )}
 
-                {/* Exhibition Categories */}
-                {hasValidData(company?.where_they_present) && (
-                <div className="p-4 bg-indigo-50 rounded-xl border border-indigo-200">
-                  <h3 className="text-sm font-bold text-indigo-700 mb-3 flex items-center gap-2">
-                    🏷️ Exhibition Categories
-                  </h3>
-                  <div className="text-sm text-indigo-800 font-medium">
-                      {company?.where_they_present}
-                  </div>
-                </div>
-              )}
 
               {/* Sustainability Info */}
                 {hasValidData(company?.sustainability_info) && (
@@ -1423,20 +1344,8 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                     onUpdate() // Refresh parent component
                   }}
                 />
-              </div>
-
-              {/* Manual Balena Value */}
-              <div className="p-4 bg-yellow-50 rounded-xl border border-yellow-200">
-                <h3 className="text-sm font-bold text-yellow-700 mb-3">✏️ Manual Assessment</h3>
-                <div 
-                  className={`text-base leading-7 whitespace-pre-wrap ${
-                  isEnglishText(editedCompany.balena_value || '') ? 'text-left' : 'text-left'
-                }`} 
-                style={{ color: 'var(--balena-dark)' }}
-              >
-                  {editedCompany.balena_value || 'No manual assessment yet - add your insights about value for Balena'}
                 </div>
-              </div>
+
             </div>
           )}
 
@@ -1497,18 +1406,6 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
           {activeTab === 'notes' && (
             <div className="space-y-6">
               {/* Business Card Scanner */}
-              <div className="border-b pb-6">
-                <h3 className="font-bold mb-4 flex items-center gap-2">
-                  <Camera className="w-5 h-5" />
-                  Business Cards
-                </h3>
-                <BusinessCardScanner 
-                  companyId={company.id}
-                  onCardAdded={() => {
-                    // Refresh or show success message
-                  }}
-                />
-              </div>
 
               {/* Notes and Photos */}
               <NotesAndPhotos companyId={company.id} />

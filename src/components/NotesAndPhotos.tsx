@@ -139,7 +139,7 @@ export function NotesAndPhotos({ companyId, visitId }: NotesAndPhotosProps) {
             user_name: user.user_metadata?.full_name || user.email,
             action_type: 'note_added',
             company_id: companyId,
-            description: `Added note${selectedImages.length > 0 ? ` with ${selectedImages.length} images` : ''}`,`
+            description: `Added note${selectedImages.length > 0 ? ` with ${selectedImages.length} images` : ''}`,
             metadata: {
               note_preview: newNote.slice(0, 50),
               attachments_count: selectedImages.length,

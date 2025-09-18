@@ -1,124 +1,73 @@
 'use client'
 
-import { useState, useRef } from 'react'
-import { supabase, BusinessCard } from '@/lib/supabase'
-import { useAuth } from '@/components/AuthProvider'
-import { Camera, Upload, FileText, User, Mail, Phone, Building2, X, Check } from 'lucide-react'
+import React, { useState, useRef, useCallback } from 'react'
+import { Camera, Upload, X, Check, Loader2, CreditCard } from 'lucide-react'
+import { createWorker } from 'tesseract.js'
 
-interface BusinessCardScannerProps {
-  companyId?: number
-  onCardAdded?: (card: BusinessCard) => void
+interface ScannedData {
+  name?: string
+  title?: string
+  company?: string
+  email?: string
+  phone?: string
+  website?: string
+  address?: string
+  rawText?: string
 }
 
-export function BusinessCardScanner({ companyId, onCardAdded }: BusinessCardScannerProps) {
-  const { user } = useAuth()
-  const [isOpen, setIsOpen] = useState(false)
-  const [uploading, setUploading] = useState(false)
-  const [processing, setProcessing] = useState(false)
-  const [imageUrl, setImageUrl] = useState<string | null>(null)
-  const [extractedData, setExtractedData] = useState<Partial<BusinessCard>>({})
-  const [isEditing, setIsEditing] = useState(false)
-  const fileInputRef = useRef<HTMLInputElement>(null)
+interface BusinessCardScannerProps {
+  onScanComplete: (data: ScannedData) => void
+  onClose: () => void
+  companyName?: string
+}
+
+export function BusinessCardScanner({ onScanComplete, onClose, companyName }: BusinessCardScannerProps) {
+  const [isScanning, setIsScanning] = useState(false)
+  const [scannedImage, setScannedImage] = useState<string | null>(null)
+  const [extractedData, setExtractedData] = useState<ScannedData | null>(null)
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [showCamera, setShowCamera] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const streamRef = useRef<MediaStream | null>(null)
 
-  const handleFileUpload = async (file: File) => {
-    if (!user) return
-    
-    setUploading(true)
-    
+  const startCamera = useCallback(async () => {
     try {
-      // Upload image to Supabase storage
-      const fileExt = file.name.split('.').pop()
-      const fileName = `business-card-${Date.now()}.${fileExt}`
-      
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('business-cards')
-        .upload(fileName, file)
-
-      if (uploadError) throw uploadError
-
-      // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('business-cards')
-        .getPublicUrl(fileName)
-
-      setImageUrl(publicUrl)
-      
-      // Extract text using OCR (mock implementation - in real app would use Tesseract.js or cloud OCR)
-      await extractTextFromImage(file, publicUrl)
-      
-    } catch (error) {
-      console.error('Error uploading file:', error)
-      alert('Error uploading image')
-    }
-    
-    setUploading(false)
-  }
-
-  const extractTextFromImage = async (file: File, imageUrl: string) => {
-    setProcessing(true)
-    
-    try {
-      // Mock OCR extraction - in real implementation would use:
-      // - Tesseract.js for client-side OCR
-      // - Google Vision API, Azure Computer Vision, or AWS Textract
-      // - Custom AI model for business card parsing
-      
-      // For now, we'll simulate extraction
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      // Mock extracted data
-      const mockData: Partial<BusinessCard> = {
-        contact_name: 'John Smith',
-        contact_title: 'Sales Manager',
-        contact_email: 'john.smith@company.com',
-        contact_phone: '+49 211 123 4567',
-        company_name: 'Advanced Materials GmbH',
-        card_image_url: imageUrl,
-        extracted_text: `John Smith
-Sales Manager
-Advanced Materials GmbH
-Phone: +49 211 123 4567
-Email: john.smith@company.com
-Website: www.advancedmaterials.de`,
-        user_id: user?.id || '',
-        company_id: companyId
-      }
-      
-      setExtractedData(mockData)
-      setIsEditing(true)
-      
-    } catch (error) {
-      console.error('Error extracting text:', error)
-      alert('Error extracting text')
-    }
-    
-    setProcessing(false)
-  }
-
-  const startCamera = async () => {
-    try {
+      setError(null)
       const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'environment' } // Prefer back camera
+        video: { 
+          facingMode: 'environment',
+          width: { ideal: 1920 },
+          height: { ideal: 1080 }
+        } 
       })
       
       if (videoRef.current) {
         videoRef.current.srcObject = stream
-        setShowCamera(true)
+        streamRef.current = stream
+        setIsScanning(true)
       }
-    } catch (error) {
-      console.error('Error accessing camera:', error)
-      alert('Cannot access camera')
+    } catch (err) {
+      console.error('Camera access error:', err)
+      setError('Unable to access camera. Please check permissions or try uploading an image.')
     }
-  }
+  }, [])
 
-  const capturePhoto = () => {
+  const stopCamera = useCallback(() => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop())
+      streamRef.current = null
+    }
+    setIsScanning(false)
+  }, [])
+
+  const captureImage = useCallback(() => {
     if (!videoRef.current || !canvasRef.current) return
     
-    const video = videoRef.current
     const canvas = canvasRef.current
+    const video = videoRef.current
     const context = canvas.getContext('2d')
     
     if (!context) return
@@ -127,179 +76,209 @@ Website: www.advancedmaterials.de`,
     canvas.height = video.videoHeight
     context.drawImage(video, 0, 0)
     
-    canvas.toBlob(async (blob) => {
-      if (blob) {
-        const file = new File([blob], 'business-card-photo.jpg', { type: 'image/jpeg' })
-        await handleFileUpload(file)
+    const imageData = canvas.toDataURL('image/jpeg', 0.8)
+    setScannedImage(imageData)
         stopCamera()
+  }, [stopCamera])
+
+  const handleFileUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const result = e.target?.result as string
+      setScannedImage(result)
+    }
+    reader.readAsDataURL(file)
+  }, [])
+
+  const parseBusinessCard = (text: string): ScannedData => {
+    const lines = text.split('\n').filter(line => line.trim())
+    const data: ScannedData = { rawText: text }
+
+    // Email extraction
+    const emailMatch = text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g)
+    if (emailMatch) {
+      data.email = emailMatch[0]
+    }
+
+    // Phone extraction (various formats)
+    const phoneMatch = text.match(/[\+]?[\d\s\-\(\)\.]{10,}/g)
+    if (phoneMatch) {
+      data.phone = phoneMatch[0].replace(/[^\d\+]/g, '').replace(/^(\d)/, '+$1')
+    }
+
+    // Website extraction
+    const websiteMatch = text.match(/(www\.|https?:\/\/)[^\s]+/gi)
+    if (websiteMatch) {
+      data.website = websiteMatch[0].replace(/^www\./, 'https://www.')
+    }
+
+    // Company name - if we have the expected company name, try to find it
+    if (companyName) {
+      const companyWords = companyName.toLowerCase().split(/\s+/)
+      const foundCompany = lines.find(line => 
+        companyWords.some(word => line.toLowerCase().includes(word))
+      )
+      if (foundCompany) {
+        data.company = foundCompany.trim()
       }
-    }, 'image/jpeg', 0.8)
-  }
-
-  const stopCamera = () => {
-    if (videoRef.current?.srcObject) {
-      const stream = videoRef.current.srcObject as MediaStream
-      stream.getTracks().forEach(track => track.stop())
-      videoRef.current.srcObject = null
     }
-    setShowCamera(false)
+
+    // Name extraction (usually first line or line before title)
+    const titleKeywords = ['ceo', 'cto', 'manager', 'director', 'president', 'vice', 'head', 'chief', 'founder']
+    const nameLines = lines.filter(line => {
+      const lower = line.toLowerCase()
+      return !lower.includes('@') && 
+             !lower.match(/[\d\+\-\(\)]{5,}/) && 
+             !titleKeywords.some(keyword => lower.includes(keyword)) &&
+             line.length > 2 && line.length < 50
+    })
+    
+    if (nameLines.length > 0) {
+      data.name = nameLines[0].trim()
+    }
+
+    // Title extraction
+    const titleLine = lines.find(line => {
+      const lower = line.toLowerCase()
+      return titleKeywords.some(keyword => lower.includes(keyword))
+    })
+    if (titleLine) {
+      data.title = titleLine.trim()
+    }
+
+    return data
   }
 
-  const saveBusinessCard = async () => {
-    if (!user) return
-    
-    setUploading(true)
-    
+  const processImage = useCallback(async () => {
+    if (!scannedImage) return
+
+    setIsProcessing(true)
+    setError(null)
+
     try {
-      const { data, error } = await supabase
-        .from('business_cards')
-        .insert({
-          ...extractedData,
-          user_id: user?.id || '',
-          is_processed: true,
-          created_at: new Date().toISOString()
-        })
-        .select()
-        .single()
-
-      if (error) throw error
-
-      // Add to activity feed
-      await supabase
-        .from('activity_feed')
-        .insert({
-          user_name: user.user_metadata?.full_name || user.email,
-          action_type: 'business_card_scanned',
-          company_id: companyId,
-          description: `Scanned business card of ${extractedData.contact_name}`,
-          metadata: {
-            contact_name: extractedData.contact_name,
-            company_name: extractedData.company_name
-          }
-        })
-
-      onCardAdded?.(data)
-      setIsOpen(false)
-      resetState()
+      const worker = await createWorker('eng')
       
-    } catch (error) {
-      console.error('Error saving business card:', error)
-      alert('Error saving business card')
+      const { data: { text } } = await worker.recognize(scannedImage)
+      await worker.terminate()
+
+      const parsedData = parseBusinessCard(text)
+      setExtractedData(parsedData)
+    } catch (err) {
+      console.error('OCR processing error:', err)
+      setError('Failed to process the image. Please try again or upload a clearer image.')
+    } finally {
+      setIsProcessing(false)
     }
-    
-    setUploading(false)
-  }
+  }, [scannedImage, companyName, parseBusinessCard])
 
-  const resetState = () => {
-    setImageUrl(null)
-    setExtractedData({})
-    setIsEditing(false)
-    setShowCamera(false)
-    stopCamera()
-  }
+  const handleConfirm = useCallback(() => {
+    if (extractedData) {
+      onScanComplete(extractedData)
+      onClose()
+    }
+  }, [extractedData, onScanComplete, onClose])
 
-  const handleClose = () => {
-    setIsOpen(false)
-    resetState()
-  }
-
-  if (!isOpen) {
-    return (
-      <button
-        onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50"
-        style={{ borderColor: 'var(--balena-brown)', color: 'var(--balena-brown)' }}
-      >
-        <Camera className="w-5 h-5" />
-        Scan Business Card
-      </button>
-    )
-  }
+  const retakePhoto = useCallback(() => {
+    setScannedImage(null)
+    setExtractedData(null)
+    setError(null)
+  }, [])
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b" style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <Camera className="w-6 h-6 text-white" />
-            <h2 className="text-xl font-bold text-white">Business Card Scanning</h2>
+              <CreditCard className="h-6 w-6 text-blue-600" />
+              <h2 className="text-xl font-semibold text-gray-900">
+                Scan Business Card
+              </h2>
           </div>
           <button
-            onClick={handleClose}
-            className="p-2 hover:bg-white/20 rounded-lg text-white"
+              onClick={onClose}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
           >
-            <X className="w-6 h-6" />
+              <X className="h-5 w-5 text-gray-500" />
           </button>
         </div>
 
-        <div className="p-6">
-          {!imageUrl && !showCamera && (
-            <div className="space-y-6">
-              <div className="text-center">
-                <p className="text-gray-600 mb-6">Choose a way to photograph or upload a business card</p>
-                
-                <div className="grid gap-4 sm:grid-cols-2">
+          {error && (
+            <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-red-700 text-sm">{error}</p>
+            </div>
+          )}
+
+          {!scannedImage && !isScanning && (
+            <div className="text-center space-y-6">
+              <div className="space-y-4">
                   <button
                     onClick={startCamera}
-                    className="flex flex-col items-center gap-3 p-6 border-2 border-dashed rounded-xl hover:bg-blue-50 hover:border-blue-300"
-                  >
-                    <Camera className="w-12 h-12 text-blue-600" />
-                    <div>
-                      <div className="font-medium">Take Photo Now</div>
-                      <div className="text-sm text-gray-500">Use camera</div>
-                    </div>
+                  className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  <Camera className="h-5 w-5" />
+                  Take Photo
                   </button>
                   
-                  <button
-                    onClick={() => fileInputRef.current?.click()}
-                    className="flex flex-col items-center gap-3 p-6 border-2 border-dashed rounded-xl hover:bg-green-50 hover:border-green-300"
-                  >
-                    <Upload className="w-12 h-12 text-green-600" />
-                    <div>
-                      <div className="font-medium">Upload Image</div>
-                      <div className="text-sm text-gray-500">From gallery</div>
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-gray-300" />
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-white text-gray-500">or</span>
                     </div>
-                  </button>
                 </div>
+
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-full flex items-center justify-center gap-3 px-6 py-4 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors"
+                >
+                  <Upload className="h-5 w-5 text-gray-400" />
+                  <span className="text-gray-600">Upload Image</span>
+                </button>
               </div>
 
               <input
                 ref={fileInputRef}
                 type="file"
                 accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files?.[0]
-                  if (file) handleFileUpload(file)
-                }}
+                onChange={handleFileUpload}
                 className="hidden"
               />
             </div>
           )}
 
-          {showCamera && (
+          {isScanning && (
             <div className="space-y-4">
-              <div className="relative">
+              <div className="relative rounded-lg overflow-hidden bg-black">
                 <video
                   ref={videoRef}
                   autoPlay
                   playsInline
-                  className="w-full rounded-lg"
+                  className="w-full h-64 object-cover"
                 />
-                <div className="absolute inset-0 border-4 border-white/50 rounded-lg pointer-events-none">
-                  <div className="absolute inset-4 border-2 border-yellow-400 rounded-lg"></div>
+                <div className="absolute inset-4 border-2 border-white border-dashed rounded-lg pointer-events-none">
+                  <div className="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-white"></div>
+                  <div className="absolute top-0 right-0 w-6 h-6 border-t-4 border-r-4 border-white"></div>
+                  <div className="absolute bottom-0 left-0 w-6 h-6 border-b-4 border-l-4 border-white"></div>
+                  <div className="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-white"></div>
                 </div>
               </div>
+              
               <div className="flex gap-3">
                 <button
-                  onClick={capturePhoto}
-                  className="flex-1 py-3 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  onClick={captureImage}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  📸 Take Photo
+                  <Camera className="h-4 w-4" />
+                  Capture
                 </button>
                 <button
                   onClick={stopCamera}
-                  className="px-4 py-3 border rounded-lg hover:bg-gray-50"
+                  className="px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   Cancel
                 </button>
@@ -307,102 +286,117 @@ Website: www.advancedmaterials.de`,
             </div>
           )}
 
-          {imageUrl && (
-            <div className="space-y-6">
-              <div className="text-center">
-                <img src={imageUrl} alt="Business Card" className="max-w-full h-64 object-contain mx-auto rounded-lg border" />
+          {scannedImage && !extractedData && !isProcessing && (
+            <div className="space-y-4">
+              <div className="rounded-lg overflow-hidden">
+                <img
+                  src={scannedImage || ''}
+                  alt="Scanned business card"
+                  className="w-full h-64 object-contain bg-gray-100"
+                />
               </div>
 
-              {processing && (
-                <div className="text-center py-6">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-3"></div>
-                  <p>Extracting text from image...</p>
+              <div className="flex gap-3">
+                <button
+                  onClick={processImage}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  <Check className="h-4 w-4" />
+                  Process Card
+                </button>
+                <button
+                  onClick={retakePhoto}
+                  className="px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Retake
+                </button>
+              </div>
                 </div>
               )}
 
-              {isEditing && (
-                <div className="space-y-4">
-                  <h3 className="font-bold text-lg">Extracted Details - Verify and Edit:</h3>
-                  
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Contact Name</label>
-                      <input
-                        type="text"
-                        value={extractedData.contact_name || ''}
-                        onChange={(e) => setExtractedData(prev => ({ ...prev, contact_name: e.target.value }))}
-                        className="w-full px-3 py-2 border rounded-lg"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Position</label>
-                      <input
-                        type="text"
-                        value={extractedData.contact_title || ''}
-                        onChange={(e) => setExtractedData(prev => ({ ...prev, contact_title: e.target.value }))}
-                        className="w-full px-3 py-2 border rounded-lg"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Email</label>
-                      <input
-                        type="email"
-                        value={extractedData.contact_email || ''}
-                        onChange={(e) => setExtractedData(prev => ({ ...prev, contact_email: e.target.value }))}
-                        className="w-full px-3 py-2 border rounded-lg"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Phone</label>
-                      <input
-                        type="tel"
-                        value={extractedData.contact_phone || ''}
-                        onChange={(e) => setExtractedData(prev => ({ ...prev, contact_phone: e.target.value }))}
-                        className="w-full px-3 py-2 border rounded-lg"
-                      />
-                    </div>
-                    
-                    <div className="sm:col-span-2">
-                      <label className="block text-sm font-medium mb-2">Company Name</label>
-                      <input
-                        type="text"
-                        value={extractedData.company_name || ''}
-                        onChange={(e) => setExtractedData(prev => ({ ...prev, company_name: e.target.value }))}
-                        className="w-full px-3 py-2 border rounded-lg"
-                      />
-                    </div>
-                  </div>
+          {isProcessing && (
+            <div className="text-center py-8">
+              <Loader2 className="h-8 w-8 animate-spin text-blue-600 mx-auto mb-4" />
+              <p className="text-gray-600">Processing business card...</p>
+              <p className="text-sm text-gray-500 mt-2">This may take a few seconds</p>
+            </div>
+          )}
 
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Extracted Text (Raw)</label>
-                    <textarea
-                      value={extractedData.extracted_text || ''}
-                      onChange={(e) => setExtractedData(prev => ({ ...prev, extracted_text: e.target.value }))}
-                      rows={4}
-                      className="w-full px-3 py-2 border rounded-lg text-sm"
-                    />
+          {extractedData && (
+            <div className="space-y-6">
+              <div className="rounded-lg overflow-hidden">
+                <img
+                  src={scannedImage || ''}
+                  alt="Scanned business card"
+                  className="w-full h-32 object-contain bg-gray-100"
+                      />
+                    </div>
+                    
+                    <div>
+                <h3 className="text-lg font-medium text-gray-900 mb-4">
+                  Extracted Information
+                </h3>
+                
+                <div className="space-y-3">
+                  {extractedData.name && (
+                    <div className="flex items-center gap-3">
+                      <span className="w-20 text-sm font-medium text-gray-500">Name:</span>
+                      <span className="text-gray-900">{extractedData.name}</span>
+                    </div>
+                  )}
+                  
+                  {extractedData.title && (
+                    <div className="flex items-center gap-3">
+                      <span className="w-20 text-sm font-medium text-gray-500">Title:</span>
+                      <span className="text-gray-900">{extractedData.title}</span>
+                    </div>
+                  )}
+                  
+                  {extractedData.company && (
+                    <div className="flex items-center gap-3">
+                      <span className="w-20 text-sm font-medium text-gray-500">Company:</span>
+                      <span className="text-gray-900">{extractedData.company}</span>
+                    </div>
+                  )}
+                  
+                  {extractedData.email && (
+                    <div className="flex items-center gap-3">
+                      <span className="w-20 text-sm font-medium text-gray-500">Email:</span>
+                      <span className="text-gray-900">{extractedData.email}</span>
+                    </div>
+                  )}
+                  
+                  {extractedData.phone && (
+                    <div className="flex items-center gap-3">
+                      <span className="w-20 text-sm font-medium text-gray-500">Phone:</span>
+                      <span className="text-gray-900">{extractedData.phone}</span>
+                  </div>
+                  )}
+                  
+                  {extractedData.website && (
+                    <div className="flex items-center gap-3">
+                      <span className="w-20 text-sm font-medium text-gray-500">Website:</span>
+                      <span className="text-gray-900">{extractedData.website}</span>
+                    </div>
+                  )}
+                </div>
                   </div>
 
                   <div className="flex gap-3">
                     <button
-                      onClick={saveBusinessCard}
-                      disabled={uploading}
-                      className="flex-1 py-3 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
+                  onClick={handleConfirm}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                     >
-                      {uploading ? '⏳ Saving...' : '💾 Save Business Card'}
+                  <Check className="h-4 w-4" />
+                  Save Contact
                     </button>
                     <button
-                      onClick={resetState}
-                      className="px-4 py-3 border rounded-lg hover:bg-gray-50"
+                  onClick={retakePhoto}
+                  className="px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                     >
-                      Take Photo Again
+                  Try Again
                     </button>
                   </div>
-                </div>
-              )}
             </div>
           )}
         </div>

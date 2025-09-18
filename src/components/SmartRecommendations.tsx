@@ -83,12 +83,11 @@ export function SmartRecommendations({ currentCompany, onCompanyClick }: SmartRe
         const similarCompanies = companies?.filter(company => {
           if (company.id === currentCompany.id) return false
           
-          // Check similarity by department, connection_type, or keywords
+          // Check similarity by department or keywords
           const sameDepartment = company.department === currentCompany.department
-          const sameConnectionType = company.connection_type === currentCompany.connection_type
           const similarLocation = company.location?.includes(currentCompany.location?.split(' ')[0] || '') || false
           
-          return sameDepartment || sameConnectionType || similarLocation
+          return sameDepartment || similarLocation
         }) || []
 
         if (similarCompanies.length > 0) {

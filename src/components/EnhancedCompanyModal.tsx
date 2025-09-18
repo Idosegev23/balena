@@ -7,8 +7,9 @@ import {
   FileText, Camera, Bookmark, Info, Lightbulb, Target, CheckSquare,
   Edit3, Save, ExternalLink, User, Building, DollarSign, Briefcase,
   Award, Factory, TrendingUp, Clock, MessageCircle, ChevronDown,
-  ChevronUp, Eye, Heart, AlertCircle, CheckCircle2
+  ChevronUp, Eye, Heart, AlertCircle, CheckCircle2, CreditCard, Scan
 } from 'lucide-react'
+import { BusinessCardScanner } from './BusinessCardScanner'
 
 interface EnhancedCompanyModalProps {
   company: Company | null
@@ -24,6 +25,7 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
   const [activeTab, setActiveTab] = useState<'overview' | 'details' | 'contact' | 'business' | 'analysis' | 'actions'>('overview')
   const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({})
   const [message, setMessage] = useState('')
+  const [showScanner, setShowScanner] = useState(false)
 
   useEffect(() => {
     if (company) {
@@ -45,6 +47,55 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
 
   const toggleExpanded = (section: string) => {
     setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }))
+  }
+
+  const handleScannedData = async (scannedData: any) => {
+    if (!editedCompany) return
+
+    // Auto-fill contact information from scanned business card
+    const updatedCompany = { ...editedCompany }
+    
+    if (scannedData.name && !updatedCompany.contact_person) {
+      updatedCompany.contact_person = scannedData.name
+    }
+    
+    if (scannedData.email && !updatedCompany.main_email) {
+      updatedCompany.main_email = scannedData.email
+    }
+    
+    if (scannedData.phone && !updatedCompany.main_phone) {
+      updatedCompany.main_phone = scannedData.phone
+    }
+    
+    if (scannedData.website && !updatedCompany.main_website) {
+      updatedCompany.main_website = scannedData.website
+    }
+
+    // Add to contact_persons array if it exists
+    if (scannedData.name || scannedData.email || scannedData.phone) {
+      const newContact = {
+        name: scannedData.name || '',
+        title: scannedData.title || '',
+        email: scannedData.email || '',
+        phone: scannedData.phone || '',
+        scanned_from_card: true,
+        scanned_at: new Date().toISOString()
+      }
+      
+      const existingContacts = updatedCompany.contact_persons || []
+      updatedCompany.contact_persons = [...existingContacts, newContact]
+    }
+
+    setEditedCompany(updatedCompany)
+    setMessage('Business card scanned successfully! Contact information has been added.')
+    
+    // Auto-save the scanned data
+    try {
+      await handleSave(updatedCompany)
+    } catch (error) {
+      console.error('Error saving scanned data:', error)
+      setMessage('Business card scanned but failed to save. Please save manually.')
+    }
   }
 
   const renderExpandableText = (text: string, section: string, maxLength: number = 200) => {
@@ -81,29 +132,31 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
     )
   }
 
-  const handleSave = async () => {
-    if (!editedCompany) return
+  const handleSave = async (companyToSave?: Company) => {
+    const targetCompany = companyToSave || editedCompany
+    if (!targetCompany) return
     
     setLoading(true)
     try {
       const { error } = await supabase
         .from('companies')
         .update({
-          main_email: editedCompany.main_email,
-          main_phone: editedCompany.main_phone,
-          main_website: editedCompany.main_website,
-          contact_person: editedCompany.contact_person,
-          company_description: editedCompany.company_description,
-          about_us: editedCompany.about_us,
-          detailed_address: editedCompany.detailed_address,
-          visit_priority: editedCompany.visit_priority,
-          must_visit: editedCompany.must_visit,
-          meeting_requested: editedCompany.meeting_requested,
-          meeting_scheduled: editedCompany.meeting_scheduled,
-          meeting_completed: editedCompany.meeting_completed,
+          main_email: targetCompany.main_email,
+          main_phone: targetCompany.main_phone,
+          main_website: targetCompany.main_website,
+          contact_person: targetCompany.contact_person,
+          company_description: targetCompany.company_description,
+          about_us: targetCompany.about_us,
+          detailed_address: targetCompany.detailed_address,
+          visit_priority: targetCompany.visit_priority,
+          contact_persons: targetCompany.contact_persons,
+          must_visit: targetCompany.must_visit,
+          meeting_requested: targetCompany.meeting_requested,
+          meeting_scheduled: targetCompany.meeting_scheduled,
+          meeting_completed: targetCompany.meeting_completed,
           updated_at: new Date().toISOString()
         })
-        .eq('id', editedCompany.id)
+        .eq('id', targetCompany.id)
 
       if (error) throw error
       
@@ -898,6 +951,24 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                     </div>
                   </div>
                 </div>
+
+                {/* Business Card Scanner */}
+                <div className="bg-purple-50 p-6 rounded-lg">
+                  <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                    <CreditCard className="h-5 w-5 text-purple-600" />
+                    Business Card Scanner
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Scan business cards from contacts at this company to automatically add their information.
+                  </p>
+                  <button
+                    onClick={() => setShowScanner(true)}
+                    className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                  >
+                    <Scan className="h-4 w-4" />
+                    Scan Business Card
+                  </button>
+                </div>
               </div>
 
               {/* Priority Selection */}
@@ -932,7 +1003,7 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
               Cancel
             </button>
             <button
-              onClick={handleSave}
+              onClick={() => handleSave()}
               disabled={loading}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
             >
@@ -942,6 +1013,15 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
           </div>
         )}
       </div>
+
+      {/* Business Card Scanner Modal */}
+      {showScanner && (
+        <BusinessCardScanner
+          onScanComplete={handleScannedData}
+          onClose={() => setShowScanner(false)}
+          companyName={company.company}
+        />
+      )}
     </div>
   )
 }
