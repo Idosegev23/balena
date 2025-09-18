@@ -998,10 +998,13 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                       company={company}
                       onTagsUpdate={(tags) => {
                         // Update the company in the list
+                        console.log('CompanyDiscoveryPage: Updating tags for company', company.id, 'to:', tags)
                         const updatedCompany = { ...company, tags }
-                        setCompanies(prev => 
-                          prev.map(c => c.id === updatedCompany.id ? updatedCompany : c)
-                        )
+                        setCompanies(prev => {
+                          const newCompanies = prev.map(c => c.id === updatedCompany.id ? updatedCompany : c)
+                          console.log('CompanyDiscoveryPage: Updated companies array')
+                          return newCompanies
+                        })
                       }}
                       size="small"
                       showAddButton={true}

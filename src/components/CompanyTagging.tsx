@@ -33,10 +33,12 @@ export function CompanyTagging({
   const [currentTags, setCurrentTags] = useState<string[]>(company.tags || [])
   const [showTagSelector, setShowTagSelector] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
 
   useEffect(() => {
+    console.log('CompanyTagging: company.tags changed to:', company.tags)
     setCurrentTags(company.tags || [])
-  }, [company.tags])
+  }, [company.tags, company.id])
 
   const getTagConfig = (tagId: string) => {
     return availableTags.find(tag => tag.id === tagId) || {
@@ -53,18 +55,31 @@ export function CompanyTagging({
       ? currentTags.filter(t => t !== tagId)
       : [...currentTags, tagId]
 
+    console.log('Updating tags for company:', company.id, 'from:', currentTags, 'to:', newTags)
+
     try {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('companies')
         .update({ tags: newTags })
         .eq('id', company.id)
+        .select()
 
-      if (error) throw error
+      if (error) {
+        console.error('Database error:', error)
+        throw error
+      }
 
+      console.log('Tags updated successfully:', data)
       setCurrentTags(newTags)
       onTagsUpdate?.(newTags)
+      
+      // Show success feedback
+      setShowSuccess(true)
+      setTimeout(() => setShowSuccess(false), 2000)
     } catch (error) {
       console.error('Error updating tags:', error)
+      // Revert the UI state on error
+      setCurrentTags(company.tags || [])
     } finally {
       setIsUpdating(false)
     }
@@ -197,6 +212,16 @@ export function CompanyTagging({
         <div className="flex items-center gap-2 text-sm text-gray-500">
           <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-600 border-t-transparent"></div>
           <span>Updating tags...</span>
+        </div>
+      )}
+
+      {/* Success State */}
+      {showSuccess && (
+        <div className="flex items-center gap-2 text-sm text-green-600">
+          <div className="rounded-full h-4 w-4 bg-green-600 flex items-center justify-center">
+            <Check className="w-3 h-3 text-white" />
+          </div>
+          <span>Tags saved successfully!</span>
         </div>
       )}
     </div>
