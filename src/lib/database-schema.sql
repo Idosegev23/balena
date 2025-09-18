@@ -192,8 +192,7 @@ ALTER TABLE public.follow_ups ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.activity_feed ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policies (allow authenticated users from balena.science and triroars@gmail.com)
-CREATE POLICY "Team can view all companies" ON public.companies FOR SELECT USING (auth.role() = 'authenticated');
-CREATE POLICY "Team can manage companies" ON public.companies FOR ALL USING (auth.role() = 'authenticated');
+CREATE POLICY "Allow all authenticated users full access to companies" ON public.companies FOR ALL TO authenticated USING (true) WITH CHECK (true);
 
 CREATE POLICY "Users can view all team members" ON public.users FOR SELECT USING (auth.role() = 'authenticated');
 CREATE POLICY "Users can update own profile" ON public.users FOR UPDATE USING (auth.uid() = id);
