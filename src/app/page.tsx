@@ -618,7 +618,7 @@ export default function Home() {
 
       {/* Mobile-First Content */}
       {activeView === 'dashboard' && (
-        <div ref={elementRef} className="max-w-7xl mx-auto p-3 sm:p-4 lg:p-6 pb-24 overflow-y-auto">
+        <div ref={elementRef} className="max-w-7xl mx-auto p-3 sm:p-4 lg:p-6 pb-32 overflow-y-auto">
           <div className="space-y-4">
           {/* Mobile-First Welcome */}
           <div className="text-center py-4 bg-white rounded-lg shadow-sm">
@@ -764,7 +764,7 @@ export default function Home() {
 
       {/* Settings View */}
       {activeView === 'settings' && (
-        <div className="p-6 pb-24">
+        <div className="p-6 pb-32">
           <div className="max-w-md mx-auto">
             <h1 className="text-2xl font-bold mb-6 text-center" style={{ color: 'var(--balena-dark)' }}>Settings</h1>
             <div className="bg-white rounded-lg p-6 shadow-sm space-y-4">

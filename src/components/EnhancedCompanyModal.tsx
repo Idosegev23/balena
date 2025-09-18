@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 import { BusinessCardScanner } from './BusinessCardScanner'
 import { NotesTab } from './NotesTab'
+import { TagManager } from './TagManager'
 import { ShimmerButton } from './ui/shimmer-button'
 
 interface EnhancedCompanyModalProps {
@@ -27,6 +28,16 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
   const [activeTab, setActiveTab] = useState<'overview' | 'details' | 'contact' | 'business' | 'analysis' | 'actions' | 'notes'>('overview')
   const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({})
   const [message, setMessage] = useState('')
+
+  // Helper function to ensure URL has proper protocol
+  const formatUrl = (url: string | undefined | null): string => {
+    if (!url) return ''
+    const cleanUrl = url.trim()
+    if (cleanUrl.startsWith('http://') || cleanUrl.startsWith('https://')) {
+      return cleanUrl
+    }
+    return `https://${cleanUrl}`
+  }
 
   // Prevent background scrolling when modal is open
   useEffect(() => {
@@ -431,30 +442,72 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                     )}
                   </div>
                   <div className="flex-1">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-3">{company.company}</h2>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        value={editedCompany?.company || ''}
+                        onChange={(e) => setEditedCompany(prev => prev ? {...prev, company: e.target.value} : null)}
+                        className="text-2xl font-bold text-gray-900 mb-3 w-full border border-gray-300 rounded-lg px-3 py-2"
+                        placeholder="Company Name"
+                      />
+                    ) : (
+                      <h2 className="text-2xl font-bold text-gray-900 mb-3">{company.company}</h2>
+                    )}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {hasValidData(company.detailed_address) && (
+                      {(hasValidData(company.detailed_address) || isEditing) && (
                         <div className="flex items-center gap-2">
                           <MapPin className="h-4 w-4 text-gray-500" />
-                          <span className="text-gray-700">{company.detailed_address}</span>
+                          {isEditing ? (
+                            <input
+                              type="text"
+                              value={editedCompany?.detailed_address || ''}
+                              onChange={(e) => setEditedCompany(prev => prev ? {...prev, detailed_address: e.target.value} : null)}
+                              className="flex-1 border border-gray-300 rounded px-2 py-1 text-sm"
+                              placeholder="Company Address"
+                            />
+                          ) : (
+                            <span className="text-gray-700">{company.detailed_address}</span>
+                          )}
                         </div>
                       )}
-                      {hasValidData(company.main_website || company.website) && (
+                      {(hasValidData(company.main_website || company.website) || isEditing) && (
                         <div className="flex items-center gap-2">
                           <Globe className="h-4 w-4 text-blue-500" />
-                          <a 
-                            href={company.main_website || company.website} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline"
-                          >
-                            Company Website
-                          </a>
+                          {isEditing ? (
+                            <input
+                              type="text"
+                              value={editedCompany?.main_website || editedCompany?.website || ''}
+                              onChange={(e) => setEditedCompany(prev => prev ? {...prev, main_website: e.target.value} : null)}
+                              className="flex-1 border border-gray-300 rounded px-2 py-1 text-sm"
+                              placeholder="Company Website"
+                            />
+                          ) : (
+                            <a 
+                              href={formatUrl(company.main_website || company.website)} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:underline"
+                            >
+                              Company Website
+                            </a>
+                          )}
                         </div>
                       )}
                     </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Company Tags */}
+              <div className="bg-white p-4 rounded-lg border-2 border-gray-200">
+                <TagManager 
+                  company={company} 
+                  onUpdate={(updatedCompany) => {
+                    setEditedCompany(updatedCompany)
+                    onUpdate()
+                  }}
+                  isEditing={isEditing}
+                />
               </div>
 
               {/* Quick Stats */}
@@ -472,9 +525,29 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                     <Building className="h-5 w-5 text-green-600" />
                     <span className="text-sm font-medium text-green-800">Location</span>
                   </div>
-                  <p className="text-lg font-semibold text-green-900">
-                    {hasValidData(company.hall) ? `${company.hall}/${company.stand}` : 'TBD'}
-                  </p>
+                  {isEditing ? (
+                    <div className="flex gap-1 justify-center">
+                      <input
+                        type="text"
+                        value={editedCompany?.hall || ''}
+                        onChange={(e) => setEditedCompany(prev => prev ? {...prev, hall: e.target.value} : null)}
+                        className="w-16 px-2 py-1 text-sm border border-gray-300 rounded text-center"
+                        placeholder="Hall"
+                      />
+                      <span className="self-center text-gray-500">/</span>
+                      <input
+                        type="text"
+                        value={editedCompany?.stand || ''}
+                        onChange={(e) => setEditedCompany(prev => prev ? {...prev, stand: e.target.value} : null)}
+                        className="w-16 px-2 py-1 text-sm border border-gray-300 rounded text-center"
+                        placeholder="Stand"
+                      />
+                    </div>
+                  ) : (
+                    <p className="text-lg font-semibold text-green-900">
+                      {hasValidData(company.hall) ? `${company.hall}/${company.stand}` : 'TBD'}
+                    </p>
+                  )}
                 </div>
                 
                 <div className="bg-purple-50 p-4 rounded-lg text-center">
@@ -482,9 +555,19 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                     <Users className="h-5 w-5 text-purple-600" />
                     <span className="text-sm font-medium text-purple-800">Employees</span>
                   </div>
-                  <p className="text-lg font-semibold text-purple-900">
-                    {company.employees_count || 'Unknown'}
-                  </p>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={editedCompany?.employees_count || ''}
+                      onChange={(e) => setEditedCompany(prev => prev ? {...prev, employees_count: e.target.value} : null)}
+                      className="w-full px-2 py-1 text-sm border border-gray-300 rounded text-center"
+                      placeholder="Number of employees"
+                    />
+                  ) : (
+                    <p className="text-lg font-semibold text-purple-900">
+                      {company.employees_count || 'Unknown'}
+                    </p>
+                  )}
                 </div>
                 
                 <div className="bg-orange-50 p-4 rounded-lg text-center">
@@ -492,9 +575,19 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                     <Calendar className="h-5 w-5 text-orange-600" />
                     <span className="text-sm font-medium text-orange-800">Founded</span>
                   </div>
-                  <p className="text-lg font-semibold text-orange-900">
-                    {company.foundation_year || 'Unknown'}
-                  </p>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={editedCompany?.foundation_year || ''}
+                      onChange={(e) => setEditedCompany(prev => prev ? {...prev, foundation_year: e.target.value} : null)}
+                      className="w-full px-2 py-1 text-sm border border-gray-300 rounded text-center"
+                      placeholder="Year founded"
+                    />
+                  ) : (
+                    <p className="text-lg font-semibold text-orange-900">
+                      {company.foundation_year || 'Unknown'}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -502,15 +595,25 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
               {renderClaudeAnalysis()}
 
               {/* Company Description */}
-              {hasValidData(company.company_description || company.about_us || company.description) && (
+              {(hasValidData(company.company_description || company.about_us || company.description) || isEditing) && (
                 <div className="bg-gray-50 p-6 rounded-lg">
                   <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                     <Info className="h-5 w-5 text-blue-600" />
                     Company Description
                   </h3>
-                  {renderExpandableText(
-                    company.company_description || company.about_us || company.description || '',
-                    'company_description'
+                  {isEditing ? (
+                    <textarea
+                      value={editedCompany?.company_description || editedCompany?.about_us || editedCompany?.description || ''}
+                      onChange={(e) => setEditedCompany(prev => prev ? {...prev, company_description: e.target.value} : null)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                      rows={4}
+                      placeholder="Enter company description..."
+                    />
+                  ) : (
+                    renderExpandableText(
+                      company.company_description || company.about_us || company.description || '',
+                      'company_description'
+                    )
                   )}
                 </div>
               )}
@@ -565,7 +668,7 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                   {/* Website */}
                   {hasValidData(company.main_website) && (
                     <a 
-                      href={company.main_website}
+                      href={formatUrl(company.main_website)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-3 p-4 bg-white rounded-lg hover:shadow-md transition-all border-l-4 border-purple-500"
@@ -749,7 +852,7 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                           <div>
                             <label className="block text-sm font-medium text-gray-700">Website</label>
                             <a 
-                              href={company.main_website} 
+                              href={formatUrl(company.main_website)} 
                               target="_blank" 
                               rel="noopener noreferrer"
                               className="text-blue-600 hover:underline flex items-center gap-1"
@@ -912,7 +1015,6 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                         checked={editedCompany?.must_visit || false}
                         onChange={(e) => setEditedCompany(prev => prev ? {...prev, must_visit: e.target.checked} : null)}
                         className="h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
-                        disabled={!isEditing}
                       />
                     </div>
                     
@@ -923,7 +1025,6 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                         checked={editedCompany?.meeting_requested || false}
                         onChange={(e) => setEditedCompany(prev => prev ? {...prev, meeting_requested: e.target.checked} : null)}
                         className="h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
-                        disabled={!isEditing}
                       />
                     </div>
                     
@@ -934,7 +1035,6 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                         checked={editedCompany?.meeting_scheduled || false}
                         onChange={(e) => setEditedCompany(prev => prev ? {...prev, meeting_scheduled: e.target.checked} : null)}
                         className="h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
-                        disabled={!isEditing}
                       />
                     </div>
                     
@@ -945,7 +1045,6 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                         checked={editedCompany?.meeting_completed || false}
                         onChange={(e) => setEditedCompany(prev => prev ? {...prev, meeting_completed: e.target.checked} : null)}
                         className="h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
-                        disabled={!isEditing}
                       />
                     </div>
                   </div>
@@ -965,7 +1064,6 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                         checked={editedCompany?.brochures_collected || false}
                         onChange={(e) => setEditedCompany(prev => prev ? {...prev, brochures_collected: e.target.checked} : null)}
                         className="h-4 w-4 text-green-600 rounded focus:ring-green-500"
-                        disabled={!isEditing}
                       />
                     </div>
                     
@@ -976,7 +1074,6 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                         checked={editedCompany?.samples_requested || false}
                         onChange={(e) => setEditedCompany(prev => prev ? {...prev, samples_requested: e.target.checked} : null)}
                         className="h-4 w-4 text-green-600 rounded focus:ring-green-500"
-                        disabled={!isEditing}
                       />
                     </div>
                     
@@ -987,7 +1084,6 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                         checked={editedCompany?.samples_received || false}
                         onChange={(e) => setEditedCompany(prev => prev ? {...prev, samples_received: e.target.checked} : null)}
                         className="h-4 w-4 text-green-600 rounded focus:ring-green-500"
-                        disabled={!isEditing}
                       />
                     </div>
                     
@@ -998,7 +1094,6 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
                         checked={editedCompany?.quotes_requested || false}
                         onChange={(e) => setEditedCompany(prev => prev ? {...prev, quotes_requested: e.target.checked} : null)}
                         className="h-4 w-4 text-green-600 rounded focus:ring-green-500"
-                        disabled={!isEditing}
                       />
                     </div>
                   </div>

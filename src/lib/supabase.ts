@@ -24,6 +24,7 @@ export interface Company {
   goal_category?: string
   why_relevant?: string
   claude_analysis?: any // JSONB object with analysis
+  tags?: string[] // Array of tags like 'supplier', 'competitor', etc.
   
   // Contact Information (Latest from scraping)
   main_email?: string

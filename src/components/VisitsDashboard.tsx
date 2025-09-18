@@ -215,7 +215,7 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
   }
 
   return (
-    <div className="p-4 pb-24">
+    <div className="p-4 pb-32">
       <div className="space-y-6">
         {/* Header */}
         <div className="text-center">

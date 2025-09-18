@@ -15,7 +15,7 @@ export function BottomNavigation({ activeTab, onTabChange, onQuickAdd }: BottomN
       {/* Floating Action Button */}
       <button
         onClick={onQuickAdd}
-        className="fixed bottom-20 left-4 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all z-50 flex items-center justify-center active:scale-95"
+        className="fixed bottom-24 left-4 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all z-50 flex items-center justify-center active:scale-95"
         aria-label="Add New Company"
       >
         <Plus className="w-6 h-6" />

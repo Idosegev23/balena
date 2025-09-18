@@ -74,10 +74,16 @@ CREATE TABLE IF NOT EXISTS public.companies (
     scraping_timestamp TIMESTAMP WITH TIME ZONE,
     success BOOLEAN DEFAULT false,
     
+    -- Tags for categorization
+    tags TEXT[] DEFAULT '{}',
+    
     -- Timestamps
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- Create index for tags search
+CREATE INDEX IF NOT EXISTS idx_companies_tags ON public.companies USING GIN (tags);
 
 -- Users table (extended from auth.users)
 CREATE TABLE IF NOT EXISTS public.users (

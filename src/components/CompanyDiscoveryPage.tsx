@@ -9,6 +9,7 @@ import { RealtimeRating } from './RealtimeRating'
 import { EnhancedRealtimeRating } from './EnhancedRealtimeRating'
 import { LogoDisplay } from './LogoUploader'
 import { EnhancedCompanyModal } from './EnhancedCompanyModal'
+import { MobileSearchModal } from './MobileSearchModal'
 import { ShimmerButton } from './ui/shimmer-button'
 
 interface CompanyDiscoveryPageProps {
@@ -26,6 +27,7 @@ interface FilterOptions {
   connectionType: string
   hasContact: boolean
   hasWebsite: boolean
+  tags: string[]
 }
 
 export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscoveryPageProps) {
@@ -52,6 +54,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
   const [searchInput, setSearchInput] = useState('')
   const [showAutocomplete, setShowAutocomplete] = useState(false)
   const [autocompleteCompanies, setAutocompleteCompanies] = useState<Company[]>([])
+  const [showMobileSearch, setShowMobileSearch] = useState(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
   
   const companiesPerPage = 20
@@ -65,12 +68,14 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
     hall: '',
     connectionType: '',
     hasContact: false,
-    hasWebsite: false
+    hasWebsite: false,
+    tags: []
   })
 
   const departments = ['Commercial', 'Operations', 'R&D', 'Marketing']
   const visitPriorities = ['MUST_VISIT', 'HIGH', 'MEDIUM', 'LOW', 'MONITOR_ONLY']
   const connectionTypes = ['SUPPLIER', 'PARTNER', 'COMPETITOR', 'CUSTOMER', 'SERVICE', 'STRATEGIC']
+  const availableTags = ['supplier', 'competitor', 'partner', 'customer', 'vendor', 'distributor', 'manufacturer', 'service_provider', 'technology', 'innovation']
 
   useEffect(() => {
     // Load persisted state
@@ -238,6 +243,14 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       filtered = filtered.filter(company => company.main_website || company.website)
     }
 
+    // Tags
+    if (filters.tags.length > 0) {
+      filtered = filtered.filter(company => {
+        const companyTags = company.tags || []
+        return filters.tags.some(tag => companyTags.includes(tag))
+      })
+    }
+
     // Sorting
     filtered.sort((a, b) => {
       let aValue: any, bValue: any
@@ -388,7 +401,8 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       {/* Search & Filters Bar */}
       <div className="p-6 border-b bg-gray-50">
         <div className="flex gap-4 mb-4">
-          <div className="flex-1 relative">
+          {/* Desktop Search */}
+          <div className="hidden sm:flex flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               ref={searchInputRef}
@@ -453,6 +467,16 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
               </div>
             )}
           </div>
+
+          {/* Mobile Search Button */}
+          <button
+            onClick={() => setShowMobileSearch(true)}
+            className="sm:hidden flex-1 flex items-center gap-3 px-4 py-3 border rounded-lg bg-white hover:bg-gray-50 transition-colors"
+          >
+            <Search className="w-5 h-5 text-gray-400" />
+            <span className="text-gray-500">Search companies...</span>
+          </button>
+
           <button
             onClick={() => setShowFilters(!showFilters)}
             className="flex items-center gap-2 px-4 py-3 border rounded-lg hover:bg-gray-100"
@@ -600,6 +624,39 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                 />
                 <span className="text-sm">Has Website</span>
               </label>
+            </div>
+
+            {/* Tags Filter */}
+            <div className="lg:col-span-4">
+              <label className="block text-sm font-medium mb-2">Filter by Tags</label>
+              <div className="flex flex-wrap gap-2">
+                {availableTags.map(tag => (
+                  <button
+                    key={tag}
+                    onClick={() => {
+                      const newTags = filters.tags.includes(tag)
+                        ? filters.tags.filter(t => t !== tag)
+                        : [...filters.tags, tag]
+                      setFilters(prev => ({ ...prev, tags: newTags }))
+                    }}
+                    className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                      filters.tags.includes(tag)
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    {tag.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                  </button>
+                ))}
+              </div>
+              {filters.tags.length > 0 && (
+                <button
+                  onClick={() => setFilters(prev => ({ ...prev, tags: [] }))}
+                  className="mt-2 text-xs text-blue-600 hover:text-blue-800"
+                >
+                  Clear all tags
+                </button>
+              )}
             </div>
             </motion.div>
           )}
@@ -898,6 +955,40 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
           Page {validPage} of {totalPages} • Showing {paginatedCompanies.length} of {filteredCompanies.length} companies
         </div>
       )}
+
+      {/* Mobile Search Modal */}
+      <MobileSearchModal
+        isOpen={showMobileSearch}
+        onClose={() => setShowMobileSearch(false)}
+        searchInput={searchInput}
+        onSearchChange={(value) => {
+          setSearchInput(value)
+          // Debounce filter update
+          window.clearTimeout((window as any).__searchTimer)
+          ;(window as any).__searchTimer = window.setTimeout(() => {
+            setFilters(prev => ({ ...prev, searchTerm: value }))
+          }, 250)
+        }}
+        companies={companies}
+        autocompleteCompanies={autocompleteCompanies}
+        showAutocomplete={showAutocomplete}
+        onAutocompleteSelect={(company) => {
+          setSearchInput(company.company || '')
+          setFilters(prev => ({ ...prev, searchTerm: company.company || '' }))
+          setShowMobileSearch(false)
+        }}
+        onAutocompleteToggle={(show) => {
+          if (show) {
+            const suggestions = companies
+              .filter(company => 
+                company.company?.toLowerCase().includes(searchInput.toLowerCase())
+              )
+              .slice(0, 8)
+            setAutocompleteCompanies(suggestions)
+          }
+          setShowAutocomplete(show)
+        }}
+      />
     </div>
   )
 }
