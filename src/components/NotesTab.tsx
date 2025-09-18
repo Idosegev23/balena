@@ -14,6 +14,7 @@ interface Note {
   created_at: string
   updated_at: string
   user_email?: string
+  user_department?: string
 }
 
 interface NotesTabProps {
@@ -64,12 +65,26 @@ export function NotesTab({ company, onUpdate }: NotesTabProps) {
     try {
       const { data, error } = await supabase
         .from('notes')
-        .select('*')
+        .select(`
+          *,
+          users!notes_user_id_fkey (
+            email,
+            team_role
+          )
+        `)
         .eq('company_id', company.id)
         .order('created_at', { ascending: false })
 
       if (error) throw error
-      setNotes(data || [])
+      
+      // Transform the data to include user info
+      const notesWithUserInfo = data?.map(note => ({
+        ...note,
+        user_email: note.users?.email,
+        user_department: note.users?.team_role
+      })) || []
+      
+      setNotes(notesWithUserInfo)
     } catch (error) {
       console.error('Error fetching notes:', error)
     }
@@ -187,12 +202,17 @@ export function NotesTab({ company, onUpdate }: NotesTabProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2 mb-6">
+      <div className="flex items-center gap-2 mb-6 flex-wrap">
         <FileText className="h-6 w-6 text-blue-600" />
         <h2 className="text-xl font-bold text-gray-900">Company Notes</h2>
         <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
           {notes.length}
         </span>
+        {user?.user_metadata?.team_role && (
+          <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">
+            {user.user_metadata.team_role} Team
+          </span>
+        )}
       </div>
 
       {/* Add New Note */}
@@ -249,11 +269,16 @@ export function NotesTab({ company, onUpdate }: NotesTabProps) {
               }`}
             >
               <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <div className="flex items-center gap-1 text-sm text-gray-600">
                     <Calendar className="h-4 w-4" />
                     <span>{formatDate(note.created_at)}</span>
                   </div>
+                  {note.user_department && (
+                    <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
+                      {note.user_department}
+                    </span>
+                  )}
                   {note.is_private && (
                     <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">
                       Private

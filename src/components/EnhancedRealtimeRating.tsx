@@ -292,9 +292,9 @@ export function EnhancedRealtimeRating({
   const getTrendIcon = () => {
     switch (ratingTrend) {
       case 'improving':
-        return <TrendingUp className="w-3 h-3 text-green-600" title="Ratings improving" />
+        return <TrendingUp className="w-3 h-3 text-green-600" />
       case 'declining':
-        return <AlertCircle className="w-3 h-3 text-red-600" title="Ratings declining" />
+        return <AlertCircle className="w-3 h-3 text-red-600" />
       default:
         return null
     }
