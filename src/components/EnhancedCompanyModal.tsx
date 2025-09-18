@@ -269,7 +269,7 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate }: Enh
   )
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-[60]">
       <div className="bg-white rounded-xl shadow-2xl max-w-6xl w-full max-h-[98vh] sm:max-h-[95vh] overflow-hidden">
         {/* Mobile-Optimized Header */}
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-3 sm:p-6 text-white">

@@ -737,14 +737,11 @@ export default function Home() {
         onUpdate={handleUpdateCompany}
       />
 
-      {/* Company Discovery Page */}
+      {/* Company Discovery Page - Show even when modal is open so it stays in background */}
       {showDiscoveryPage && (
         <CompanyDiscoveryPage
           onClose={() => setShowDiscoveryPage(false)}
-          onCompanyClick={(company) => {
-            setShowDiscoveryPage(false)
-            handleCompanyClick(company)
-          }}
+          onCompanyClick={handleCompanyClick}
         />
       )}
 
