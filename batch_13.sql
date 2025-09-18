@@ -1,0 +1,15 @@
+UPDATE companies SET logo_url = '/logos/logo_Siegfried_Hofmann_GmbH_Hofmann_-_Ihr_Impulsgeber.svg' WHERE id = 1234;
+UPDATE companies SET logo_url = '/logos/logo_Leader_Extrusion_Machinery_Ind_Co_Ltd.svg' WHERE id = 1261;
+UPDATE companies SET logo_url = '/logos/logo_ORLEN_Unipetrol_RPA_sro.jpg' WHERE id = 1340;
+UPDATE companies SET logo_url = '/logos/logo_INTELLIGENT_EXTRUSION_SYSTEMS_SL.png' WHERE id = 1259;
+UPDATE companies SET logo_url = '/logos/logo_eprotec_extrusion_technology_AG.jpg' WHERE id = 1255;
+UPDATE companies SET logo_url = '/logos/logo_KEBO_AG_Injection_Mould_Technology.svg' WHERE id = 1229;
+UPDATE companies SET logo_url = '/logos/logo_ALOXE_FRANCE_SAS.svg' WHERE id = 1113;
+UPDATE companies SET logo_url = '/logos/logo_WELSET_PLAST_EXTRUSIONS_PVT_LTD.png' WHERE id = 1223;
+UPDATE companies SET logo_url = '/logos/logo_FAINPLAST_Srl.svg' WHERE id = 1082;
+UPDATE companies SET logo_url = '/logos/logo_DEVIKRUPA_EXTRUSION_Proprietor_Company.png' WHERE id = 1254;
+UPDATE companies SET logo_url = '/logos/logo_Reifenhäuser_Extrusion_Systems_GmbH.jpg' WHERE id = 1264;
+UPDATE companies SET logo_url = '/logos/logo_PTi_Processing_Technologies_International_LLC.svg' WHERE id = 1273;
+UPDATE companies SET logo_url = '/logos/logo_SANGIR_PLASTICS_PVT_LTD.png' WHERE id = 1020;
+UPDATE companies SET logo_url = '/logos/logo_AISA_Automation_Industrielle_SA.jpg' WHERE id = 1112;
+UPDATE companies SET logo_url = '/logos/logo_UAB_Terekas.svg' WHERE id = 1303;

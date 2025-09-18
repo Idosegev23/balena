@@ -327,7 +327,9 @@ export function LogoDisplay({
     lg: 'h-16 w-16'
   }
 
-  if (!company.logo) {
+  const logoSrc = company.logo_url || company.logo
+  
+  if (!logoSrc) {
     return (
       <div className={`${sizeClasses[size]} ${className} bg-gray-100 rounded flex items-center justify-center`}>
         <ImageIcon size={size === 'xs' ? 12 : size === 'sm' ? 16 : 20} className="text-gray-400" />
@@ -337,7 +339,7 @@ export function LogoDisplay({
 
   return (
     <img
-      src={company.logo}
+      src={logoSrc}
       alt={`${company.company} logo`}
       className={`${sizeClasses[size]} ${className} object-contain bg-gray-50 rounded`}
       onError={(e) => {

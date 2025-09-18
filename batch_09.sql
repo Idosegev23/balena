@@ -1,0 +1,15 @@
+UPDATE companies SET logo_url = '/logos/logo_NG_Nordic_Finland_Oy.svg' WHERE id = 1276;
+UPDATE companies SET logo_url = '/logos/logo_ELASTEVER_SAS.jpg' WHERE id = 1083;
+UPDATE companies SET logo_url = '/logos/logo_Gianeco_srl.svg' WHERE id = 1069;
+UPDATE companies SET logo_url = '/logos/logo_Terbrack_Kunststoff_GmbH__Co_KG.png' WHERE id = 1025;
+UPDATE companies SET logo_url = '/logos/logo_EMS-CHEMIE_Deutschland_Vertriebs_GmbH.png' WHERE id = 1171;
+UPDATE companies SET logo_url = '/logos/logo_Nordson_Extrusion_Dies_Industries_LLC.jpg' WHERE id = 1263;
+UPDATE companies SET logo_url = '/logos/logo_KBM_Plastic_Machinery_LLP.png' WHERE id = 1311;
+UPDATE companies SET logo_url = '/logos/logo_Peerless_Plastics__Coatings_ltd.png' WHERE id = 1169;
+UPDATE companies SET logo_url = '/logos/logo_Futerro_SA.png' WHERE id = 1359;
+UPDATE companies SET logo_url = '/logos/logo_LyondellBasell_Industries_Holdings_BV.jpg' WHERE id = 1374;
+UPDATE companies SET logo_url = '/logos/logo_Symphony_Environmental_Ltd.svg' WHERE id = 1222;
+UPDATE companies SET logo_url = '/logos/logo_Rokyplast_SAL.jpg' WHERE id = 1277;
+UPDATE companies SET logo_url = '/logos/logo_ERE_Kunststoff_RAM-Extrusion_GmbH__Co_KG_Kelberg.svg' WHERE id = 1256;
+UPDATE companies SET logo_url = '/logos/logo_BIOTEC_Biologische_Naturverpackungen_GmbH__Co_KG.png' WHERE id = 1126;
+UPDATE companies SET logo_url = '/logos/logo_Delta_Kunststoffe_AG.png' WHERE id = 1368;

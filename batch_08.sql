@@ -1,0 +1,15 @@
+UPDATE companies SET logo_url = '/logos/logo_MULTIPLAST_Kunststoffverarbeitung_GmbH.png' WHERE id = 1272;
+UPDATE companies SET logo_url = '/logos/logo_Nordmann_Rassmann_GmbH_-_Nordmann.svg' WHERE id = 1065;
+UPDATE companies SET logo_url = '/logos/logo_Delta_Engineering_bv.png' WHERE id = 1370;
+UPDATE companies SET logo_url = '/logos/logo_MJ_Additive_GmbH.png' WHERE id = 1157;
+UPDATE companies SET logo_url = '/logos/logo_DDL_srl.png' WHERE id = 1294;
+UPDATE companies SET logo_url = '/logos/logo_BRIGHT_COLORS_SA.png' WHERE id = 1209;
+UPDATE companies SET logo_url = '/logos/logo_Torimex_Group_Sp_z_oo.png' WHERE id = 1173;
+UPDATE companies SET logo_url = '/logos/logo_GKG_Goldmann_Kunststoffe_GmbH__Co_KG.png' WHERE id = 1174;
+UPDATE companies SET logo_url = '/logos/logo_Pleiger_Kunststoff_GmbH__Co_KG.png' WHERE id = 1016;
+UPDATE companies SET logo_url = '/logos/logo_Plastiblow_Srl.png' WHERE id = 1101;
+UPDATE companies SET logo_url = '/logos/logo_Plastek_UK_Ltd.png' WHERE id = 1034;
+UPDATE companies SET logo_url = '/logos/logo_Büchler_Reinli__Spitzli_AG.png' WHERE id = 1129;
+UPDATE companies SET logo_url = '/logos/logo_Rollepaal_Pipe_Extrusion_Technology_BV.svg' WHERE id = 1265;
+UPDATE companies SET logo_url = '/logos/logo_Battaggion_SpA.png' WHERE id = 1278;
+UPDATE companies SET logo_url = '/logos/logo_Panwrite_Plastic_Industries_Sdn_Bhd.png' WHERE id = 1319;

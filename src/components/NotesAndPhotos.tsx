@@ -93,7 +93,7 @@ export function NotesAndPhotos({ companyId, visitId }: NotesAndPhotosProps) {
       setSelectedImages(prev => [...prev, ...uploadedUrls])
     } catch (error) {
       console.error('Error uploading images:', error)
-      alert('שגיאה בהעלאת התמונות')
+      alert('Error uploading images')
     }
 
     setUploading(false)
@@ -139,7 +139,7 @@ export function NotesAndPhotos({ companyId, visitId }: NotesAndPhotosProps) {
             user_name: user.user_metadata?.full_name || user.email,
             action_type: 'note_added',
             company_id: companyId,
-            description: `הוסיף הערה${selectedImages.length > 0 ? ` עם ${selectedImages.length} תמונות` : ''}`,
+            description: `Added note${selectedImages.length > 0 ? ` with ${selectedImages.length} images` : ''}`,`
             metadata: {
               note_preview: newNote.slice(0, 50),
               attachments_count: selectedImages.length,
@@ -157,7 +157,7 @@ export function NotesAndPhotos({ companyId, visitId }: NotesAndPhotosProps) {
 
     } catch (error) {
       console.error('Error saving note:', error)
-      alert('שגיאה בשמירת ההערה')
+      alert('Error saving note')
     }
   }
 
@@ -169,7 +169,7 @@ export function NotesAndPhotos({ companyId, visitId }: NotesAndPhotosProps) {
   }
 
   const handleDeleteNote = async (noteId: number) => {
-    if (!confirm('האם אתה בטוח שברצונך למחוק את ההערה?')) return
+    if (!confirm('Are you sure you want to delete this note?')) return
 
     try {
       const { error } = await supabase
@@ -181,7 +181,7 @@ export function NotesAndPhotos({ companyId, visitId }: NotesAndPhotosProps) {
       fetchNotes()
     } catch (error) {
       console.error('Error deleting note:', error)
-      alert('שגיאה במחיקת ההערה')
+      alert('Error deleting note')
     }
   }
 
@@ -191,7 +191,7 @@ export function NotesAndPhotos({ companyId, visitId }: NotesAndPhotosProps) {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
-    return date.toLocaleDateString('he-IL') + ' ' + date.toLocaleTimeString('he-IL', { 
+    return date.toLocaleDateString('en-US') + ' ' + date.toLocaleTimeString('en-US', { 
       hour: '2-digit', 
       minute: '2-digit' 
     })
@@ -203,14 +203,14 @@ export function NotesAndPhotos({ companyId, visitId }: NotesAndPhotosProps) {
       <div className="border rounded-lg p-4 bg-gray-50">
         <h3 className="font-bold mb-4 flex items-center gap-2">
           <FileText className="w-5 h-5" />
-          {editingNote ? 'ערוך הערה' : 'הוסף הערה חדשה'}
+          {editingNote ? 'Edit Note' : 'Add New Note'}
         </h3>
 
         <div className="space-y-4">
           <textarea
             value={newNote}
             onChange={(e) => setNewNote(e.target.value)}
-            placeholder="כתוב הערה, רשימה או תצפיות..."
+            placeholder="Write note, list or observations..."
             rows={3}
             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -245,7 +245,7 @@ export function NotesAndPhotos({ companyId, visitId }: NotesAndPhotosProps) {
                 className="flex items-center gap-2 px-3 py-2 border rounded-lg hover:bg-gray-50 disabled:opacity-50"
               >
                 <Camera className="w-4 h-4" />
-                {uploading ? 'מעלה...' : 'הוסף תמונות'}
+                {uploading ? 'Uploading...' : 'Add Images'}
               </button>
 
               <label className="flex items-center gap-2 text-sm">
@@ -255,7 +255,7 @@ export function NotesAndPhotos({ companyId, visitId }: NotesAndPhotosProps) {
                   onChange={(e) => setIsPrivate(e.target.checked)}
                   className="rounded"
                 />
-                הערה פרטית
+                Private Note
               </label>
             </div>
 
@@ -270,7 +270,7 @@ export function NotesAndPhotos({ companyId, visitId }: NotesAndPhotosProps) {
                   }}
                   className="px-4 py-2 border rounded-lg hover:bg-gray-50"
                 >
-                  ביטול
+                  Cancel
                 </button>
               )}
               <button
@@ -279,7 +279,7 @@ export function NotesAndPhotos({ companyId, visitId }: NotesAndPhotosProps) {
                 className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
               >
                 <Send className="w-4 h-4" />
-                {editingNote ? 'עדכן' : 'שלח'}
+                {editingNote ? 'Update' : 'Send'}
               </button>
             </div>
           </div>
@@ -301,14 +301,14 @@ export function NotesAndPhotos({ companyId, visitId }: NotesAndPhotosProps) {
       <div className="space-y-4">
         <h3 className="font-bold flex items-center gap-2">
           <FileText className="w-5 h-5" />
-          הערות ({notes.length})
+          Notes ({notes.length})
         </h3>
 
         {notes.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
             <FileText className="w-12 h-12 mx-auto mb-2 text-gray-300" />
-            <p>אין הערות עדיין</p>
-            <p className="text-sm">הוסף את ההערה הראשונה</p>
+            <p>No notes yet</p>
+            <p className="text-sm">Add the first note</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -321,11 +321,11 @@ export function NotesAndPhotos({ companyId, visitId }: NotesAndPhotosProps) {
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="font-medium text-sm">
-                        חבר צוות
+                        Team member
                       </span>
                       {note.is_private && (
                         <span className="px-2 py-0.5 bg-yellow-200 text-yellow-800 text-xs rounded-full">
-                          פרטי
+                          Private
                         </span>
                       )}
                       <span className="text-xs text-gray-500">

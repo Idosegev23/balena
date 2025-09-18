@@ -1,0 +1,15 @@
+UPDATE companies SET logo_url = '/logos/logo_FVR_MASTERBATCH_KIMYA_SAN_VE_TIC_LTD.png' WHERE id = 1193;
+UPDATE companies SET logo_url = '/logos/logo_Fraunhofer_Cluster_Circular_Plastics_Economy_CCPE.svg' WHERE id = 1334;
+UPDATE companies SET logo_url = '/logos/logo_Mitras_Materials_GmbH.svg' WHERE id = 1027;
+UPDATE companies SET logo_url = '/logos/logo_Sukano_AG.svg' WHERE id = 1133;
+UPDATE companies SET logo_url = '/logos/logo_Notpla_Limited.png' WHERE id = 1355;
+UPDATE companies SET logo_url = '/logos/logo_ROLF_SCHLICHT_GmbH.png' WHERE id = 1342;
+UPDATE companies SET logo_url = '/logos/logo_PLASTORE_SRL.png' WHERE id = 1071;
+UPDATE companies SET logo_url = '/logos/logo_Chr_Olesen_Polymers_GmbH.png' WHERE id = 1147;
+UPDATE companies SET logo_url = '/logos/logo_Cumapol_Emmen_BV.svg' WHERE id = 1346;
+UPDATE companies SET logo_url = '/logos/logo_KD_Feddersen_GmbH__Co_KG.svg' WHERE id = 1047;
+UPDATE companies SET logo_url = '/logos/logo_ROWA_Lack_GmbH.svg' WHERE id = 1172;
+UPDATE companies SET logo_url = '/logos/logo_ASAHI_KASEI_EUROPE_GmbH.svg' WHERE id = 1061;
+UPDATE companies SET logo_url = '/logos/logo_BADGER_COLOR_CONCENTRATES_INC.jpg' WHERE id = 1211;
+UPDATE companies SET logo_url = '/logos/logo_ALBIS_Distribution_GmbH__Co_KG.png' WHERE id = 1030;
+UPDATE companies SET logo_url = '/logos/logo_AMIK_ITALIA_SPA.png' WHERE id = 1181;

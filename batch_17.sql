@@ -1,0 +1,15 @@
+UPDATE companies SET logo_url = '/logos/logo_Ravago_SA.svg' WHERE id = 1378;
+UPDATE companies SET logo_url = '/logos/logo_Gummiwerk_KRAIBURG_GmbH__Co_KG.svg' WHERE id = 1364;
+UPDATE companies SET logo_url = '/logos/logo_Chrostiki_SA.jpg' WHERE id = 1210;
+UPDATE companies SET logo_url = '/logos/logo_Costruzioni_Meccaniche_TECOM_srl.jpg' WHERE id = 1353;
+UPDATE companies SET logo_url = '/logos/logo_Teubert_Maschinenbau_GmbH.png' WHERE id = 1290;
+UPDATE companies SET logo_url = '/logos/logo_METRAVIB_MATERIAL_TESTING_SAS.svg' WHERE id = 1372;
+UPDATE companies SET logo_url = '/logos/logo_Jinming_Machinery_Guangdong_Co_Ltd.svg' WHERE id = 1373;
+UPDATE companies SET logo_url = '/logos/logo_Axia_Plastics_LLC.png' WHERE id = 1089;
+UPDATE companies SET logo_url = '/logos/logo_ELIXANCE_SAS.png' WHERE id = 1108;
+UPDATE companies SET logo_url = '/logos/logo_HAMOS_GmbH_Recycling-_und_Separationstechnik.svg' WHERE id = 1316;
+UPDATE companies SET logo_url = '/logos/logo_EKOTREND_Ludky_sro.jpg' WHERE id = 1328;
+UPDATE companies SET logo_url = '/logos/logo_ASPEN_GLOBAL_SOLUTIONS_SAS.png' WHERE id = 1094;
+UPDATE companies SET logo_url = '/logos/logo_MURTFELDT_GmbH__Co_KG.jpg' WHERE id = 1038;
+UPDATE companies SET logo_url = '/logos/logo_Kuraray_Europe_GmbH.png' WHERE id = 1077;
+UPDATE companies SET logo_url = '/logos/logo_VEKA_AG_Ein_Unternehmen_der_Laumann_Gruppe.png' WHERE id = 1029;

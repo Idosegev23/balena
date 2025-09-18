@@ -82,7 +82,7 @@ export function VisitTracker({ company }: VisitTrackerProps) {
       )
 
       if (activeVisits.length > 0) {
-        alert(`⚠️ חבר צוות אחר כבר ביוקר את החברה הזו!`)
+        alert(`⚠️ Another team member is already visiting this company!`)
         return
       }
 
@@ -105,7 +105,7 @@ export function VisitTracker({ company }: VisitTrackerProps) {
           user_name: user.user_metadata?.full_name || user.email,
           action_type: 'visit_started',
           company_id: company.id,
-          description: `התחיל ביקור ב-${company.company}`,
+          description: `Started visit at ${company.company}`,
           metadata: {
             hall: company.hall,
             stand: company.stand,
@@ -150,7 +150,7 @@ export function VisitTracker({ company }: VisitTrackerProps) {
           user_name: user.user_metadata?.full_name || user.email,
           action_type: 'visit_completed',
           company_id: company.id,
-          description: `סיים ביקור ב-${company.company} (${visitDuration} דקות)`,
+          description: `Finished visit at ${company.company} (${visitDuration} minutes)`,
           metadata: {
             duration: visitDuration,
             hall: company.hall,
@@ -188,10 +188,10 @@ export function VisitTracker({ company }: VisitTrackerProps) {
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'in_progress': return 'בביקור כעת'
-      case 'completed': return 'ביקור הושלם'
-      case 'planned': return 'מתוכנן'
-      case 'skipped': return 'דולג'
+      case 'in_progress': return 'Currently visiting'
+      case 'completed': return 'Visit completed'
+      case 'planned': return 'Planned'
+      case 'skipped': return 'Skipped'
       default: return status
     }
   }
@@ -210,13 +210,13 @@ export function VisitTracker({ company }: VisitTrackerProps) {
             <AlertTriangle className="w-5 h-5 text-yellow-600" />
             <div className="flex-1">
               <div className="font-medium text-yellow-800">
-                {isUserVisiting ? 'אתה ביוקר כעת' : 'חבר צוות אחר ביוקר כעת'}
+                {isUserVisiting ? 'You are currently visiting' : 'Another team member is currently visiting'}
               </div>
               <div className="text-sm text-yellow-600">
                 {activeVisits.map(visit => (
                   <span key={visit.id}>
-                    חבר צוות • 
-                    {new Date(visit.visit_date).toLocaleTimeString('he-IL', { 
+                    Team member •
+                    {new Date(visit.visit_date).toLocaleTimeString('en-US', { 
                       hour: '2-digit', 
                       minute: '2-digit' 
                     })}
@@ -237,7 +237,7 @@ export function VisitTracker({ company }: VisitTrackerProps) {
               style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}
             >
               <Eye className="w-5 h-5" />
-              התחל ביקור
+              Start Visit
             </button>
           )}
 
@@ -248,7 +248,7 @@ export function VisitTracker({ company }: VisitTrackerProps) {
               className="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
             >
               <CheckCircle className="w-5 h-5" />
-              סיים ביקור
+              End Visit
             </button>
           )}
 
@@ -269,7 +269,7 @@ export function VisitTracker({ company }: VisitTrackerProps) {
         <div className="border rounded-lg p-4">
           <h4 className="font-medium mb-3 flex items-center gap-2">
             <Users className="w-4 h-4" />
-            היסטוריית ביקורים ({visits.length})
+            Visit History ({visits.length})
           </h4>
           <div className="space-y-2 max-h-48 overflow-y-auto">
             {visits.map((visit) => (
@@ -282,19 +282,19 @@ export function VisitTracker({ company }: VisitTrackerProps) {
                     </div>
                   </div>
                   <span className="text-sm font-medium">
-                    חבר צוות
+                    Team member
                   </span>
                 </div>
-                <div className="text-xs text-gray-600 text-right">
+                <div className="text-xs text-gray-600 text-left">
                   <div>
-                    {new Date(visit.visit_date).toLocaleDateString('he-IL')} • 
-                    {new Date(visit.visit_date).toLocaleTimeString('he-IL', { 
+                    {new Date(visit.visit_date).toLocaleDateString('en-US')} • 
+                    {new Date(visit.visit_date).toLocaleTimeString('en-US', { 
                       hour: '2-digit', 
                       minute: '2-digit' 
                     })}
                   </div>
                   {visit.duration_minutes && (
-                    <div>{visit.duration_minutes} דקות</div>
+                    <div>{visit.duration_minutes} minutes</div>
                   )}
                 </div>
               </div>

@@ -243,7 +243,7 @@ export function FollowUpInterface({ companyId, showAllCompanies = false }: Follo
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('he-IL')
+    return new Date(dateString).toLocaleDateString('en-US')
   }
 
   const isOverdue = (dueDateString: string) => {

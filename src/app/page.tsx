@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAuth } from '@/components/AuthProvider'
 import { supabase, Company } from '@/lib/supabase'
 import { Building2, Star, CheckSquare, Calendar, MapPin, Lightbulb } from 'lucide-react'
-import { CompanyModal } from '@/components/CompanyModal'
+import { EnhancedCompanyModal } from '@/components/EnhancedCompanyModal'
 import { RealtimeRating } from '@/components/RealtimeRating'
 import { SmartRecommendations } from '@/components/SmartRecommendations'
 import { RouteOptimizer } from '@/components/RouteOptimizer'
@@ -428,7 +428,7 @@ export default function Home() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                  className="w-full px-4 py-3 border rounded-lg text-left focus:outline-none focus:ring-2"
                   style={{ borderColor: 'var(--balena-brown)' }}
                   placeholder={isSignUp ? "name@balena.science or triroars@gmail.com" : "name@balena.science"}
                   autoComplete="email"
@@ -442,7 +442,7 @@ export default function Home() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 border rounded-lg text-right focus:outline-none focus:ring-2"
+                  className="w-full px-4 py-3 border rounded-lg text-left focus:outline-none focus:ring-2"
                   style={{ borderColor: 'var(--balena-brown)' }}
                   placeholder="••••••••"
                   autoComplete="current-password"
@@ -506,7 +506,7 @@ export default function Home() {
               alt="Balena"
               className="h-8 ml-3"
             />
-            <div className="text-right">
+            <div className="text-left">
               <h1 className="text-xl font-bold" style={{ color: 'var(--balena-dark)' }}>
                 K-Show 2025
               </h1>
@@ -692,8 +692,8 @@ export default function Home() {
         </div>
       )}
 
-      {/* Company Modal */}
-      <CompanyModal
+      {/* Enhanced Company Modal */}
+      <EnhancedCompanyModal
         company={selectedCompany}
         isOpen={showCompanyModal}
         onClose={handleCloseModal}

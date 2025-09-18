@@ -60,14 +60,14 @@ export function RouteOptimizer({ companies, onCompanyClick }: RouteOptimizerProp
   }
 
   const showDays = [
-    'יום רביעי 8/10',
-    'יום חמישי 9/10', 
-    'יום שישי 10/10',
-    'יום שבת 11/10',
-    'יום ראשון 12/10',
-    'יום שני 13/10',
-    'יום שלישי 14/10',
-    'יום רביעי 15/10'
+    'Wednesday 8/10',
+    'Thursday 9/10', 
+    'Friday 10/10',
+    'Saturday 11/10',
+    'Sunday 12/10',
+    'Monday 13/10',
+    'Tuesday 14/10',
+    'Wednesday 15/10'
   ]
 
   useEffect(() => {
@@ -140,7 +140,7 @@ export function RouteOptimizer({ companies, onCompanyClick }: RouteOptimizerProp
         if (routeCompanies.length > 0) {
           const route: OptimizedRoute = {
             id: `route-${dayIndex + 1}`,
-            name: `מסלול ${routeHalls.join(' + ')}`,
+            name: `Route ${routeHalls.join(' + ')}`,
             day: showDays[dayIndex % showDays.length],
             companies: routeCompanies,
             estimatedDuration: Math.max(routeCompanies.length * 20, 120), // 20 min per company, min 2 hours
@@ -231,12 +231,12 @@ export function RouteOptimizer({ companies, onCompanyClick }: RouteOptimizerProp
         <div className="flex items-center gap-2 mb-4">
           <Map className="w-6 h-6" style={{ color: 'var(--balena-dark)' }} />
           <h2 className="text-xl font-bold" style={{ color: 'var(--balena-dark)' }}>
-            מסלולי ביקור אופטימליים
+            Optimal Visit Routes
           </h2>
         </div>
         <div className="text-center py-8">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4" style={{ borderColor: 'var(--balena-dark)' }}></div>
-          <p>מחשב מסלולים אופטימליים...</p>
+          <p>Calculating optimal routes...</p>
         </div>
       </div>
     )
@@ -248,7 +248,7 @@ export function RouteOptimizer({ companies, onCompanyClick }: RouteOptimizerProp
         <div className="flex items-center gap-2">
           <Map className="w-6 h-6" style={{ color: 'var(--balena-dark)' }} />
           <h2 className="text-xl font-bold" style={{ color: 'var(--balena-dark)' }}>
-            מסלולי ביקור אופטימליים
+            Optimal Visit Routes
           </h2>
         </div>
         
@@ -259,7 +259,7 @@ export function RouteOptimizer({ companies, onCompanyClick }: RouteOptimizerProp
             className="px-3 py-2 border rounded-lg text-sm"
             style={{ borderColor: 'var(--balena-brown)' }}
           >
-            <option value="all">כל הימים</option>
+            <option value="all">All Days</option>
             {showDays.map(day => (
               <option key={day} value={day}>{day}</option>
             ))}
@@ -271,9 +271,9 @@ export function RouteOptimizer({ companies, onCompanyClick }: RouteOptimizerProp
             className="px-3 py-2 border rounded-lg text-sm"
             style={{ borderColor: 'var(--balena-brown)' }}
           >
-            <option value="proximity">לפי קרבה</option>
-            <option value="priority">לפי עדיפות</option>
-            <option value="time">לפי זמן</option>
+            <option value="proximity">By Proximity</option>
+            <option value="priority">By Priority</option>
+            <option value="time">By Time</option>
           </select>
         </div>
       </div>
@@ -296,14 +296,14 @@ export function RouteOptimizer({ companies, onCompanyClick }: RouteOptimizerProp
                   {route.day}
                 </p>
               </div>
-              <div className="text-right">
+              <div className="text-left">
                 <div className="flex items-center gap-1 text-sm text-gray-600 mb-1">
                   <Clock className="w-4 h-4" />
                   <span>{route.startTime} - {route.endTime}</span>
                 </div>
                 <div className="flex items-center gap-1 text-sm text-gray-600">
                   <Navigation className="w-4 h-4" />
-                  <span>{route.walkingDistance}m הליכה</span>
+                  <span>{route.walkingDistance}m walking</span>
                 </div>
               </div>
             </div>
@@ -312,29 +312,29 @@ export function RouteOptimizer({ companies, onCompanyClick }: RouteOptimizerProp
             <div className="grid grid-cols-3 gap-3 mb-4">
               <div className="text-center p-2 bg-blue-50 rounded-lg">
                 <div className="text-lg font-bold text-blue-600">{route.companies.length}</div>
-                <div className="text-xs text-blue-600">חברות</div>
+                <div className="text-xs text-blue-600">Companies</div>
               </div>
               <div className="text-center p-2 bg-green-50 rounded-lg">
                 <div className="text-lg font-bold text-green-600">{route.hallsVisited.length}</div>
-                <div className="text-xs text-green-600">אולמים</div>
+                <div className="text-xs text-green-600">Halls</div>
               </div>
               <div className="text-center p-2 bg-orange-50 rounded-lg">
                 <div className="text-lg font-bold text-orange-600">{Math.round(route.estimatedDuration / 60)}h</div>
-                <div className="text-xs text-orange-600">זמן</div>
+                <div className="text-xs text-orange-600">Time</div>
               </div>
             </div>
 
             {/* Companies List */}
             <div className="space-y-2">
               <h4 className="font-medium text-sm" style={{ color: 'var(--balena-dark)' }}>
-                חברות במסלול:
+                Companies in route:
               </h4>
               <div className="space-y-2 max-h-48 overflow-y-auto">
                 {route.companies.map((company, index) => (
                   <button
                     key={company.id}
                     onClick={() => onCompanyClick?.(company)}
-                    className="w-full flex items-center justify-between p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-right"
+                    className="w-full flex items-center justify-between p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left"
                   >
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
@@ -347,7 +347,7 @@ export function RouteOptimizer({ companies, onCompanyClick }: RouteOptimizerProp
                         </span>
                         {company.visit_priority && (
                           <span className={`text-xs px-2 py-0.5 rounded-full ${getPriorityColor(company.visit_priority)}`}>
-                            {company.visit_priority === 'MUST_VISIT' ? 'חובה' : company.visit_priority}
+                            {company.visit_priority === 'MUST_VISIT' ? 'Must Visit' : company.visit_priority}
                           </span>
                         )}
                         {company.relevance_score && (
@@ -368,13 +368,13 @@ export function RouteOptimizer({ companies, onCompanyClick }: RouteOptimizerProp
                 className="flex-1 py-2 px-4 border rounded-lg hover:bg-gray-50 text-sm"
                 style={{ borderColor: 'var(--balena-brown)', color: 'var(--balena-brown)' }}
               >
-                📱 שלח למכשיר
+                📱 Send to Device
               </button>
               <button 
                 className="flex-1 py-2 px-4 text-white rounded-lg hover:shadow-lg text-sm"
                 style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}
               >
-                📅 תזמן ביקור
+                📅 Schedule Visit
               </button>
             </div>
           </div>
@@ -384,9 +384,9 @@ export function RouteOptimizer({ companies, onCompanyClick }: RouteOptimizerProp
       {filteredRoutes.length === 0 && (
         <div className="text-center py-8">
           <Map className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-          <h3 className="text-lg font-medium text-gray-600 mb-2">אין מסלולים זמינים</h3>
+          <h3 className="text-lg font-medium text-gray-600 mb-2">No Routes Available</h3>
           <p className="text-sm text-gray-500">
-            נסה לשנות את הקריטריונים או הוסף עוד חברות בעדיפות גבוהה
+            Try changing the criteria or add more high-priority companies
           </p>
         </div>
       )}

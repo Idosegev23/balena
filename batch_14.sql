@@ -1,0 +1,15 @@
+UPDATE companies SET logo_url = '/logos/logo_Jomar_Corporation.png' WHERE id = 1233;
+UPDATE companies SET logo_url = '/logos/logo_Chi-Chang_Machinery_Enterprise_Co_Ltd.png' WHERE id = 1283;
+UPDATE companies SET logo_url = '/logos/logo_Zeppelin_Systems_GmbH.svg' WHERE id = 1332;
+UPDATE companies SET logo_url = '/logos/logo_MAMATA_MACHINERY_LTD.svg' WHERE id = 1354;
+UPDATE companies SET logo_url = '/logos/logo_Shubham_Extrusion_Technik_Pvt_Ltd.png' WHERE id = 1266;
+UPDATE companies SET logo_url = '/logos/logo_Maillefer_SA.png' WHERE id = 1271;
+UPDATE companies SET logo_url = '/logos/logo_Comerio_Ercole_SpA.png' WHERE id = 1361;
+UPDATE companies SET logo_url = '/logos/logo_Qingdao_Tongsanhegu_Plastic_Machinery_Manufacturing_Co_Ltd.svg' WHERE id = 1285;
+UPDATE companies SET logo_url = '/logos/logo_Merit_Plastik_Kaucuk_Ins_San_ve_Tic_AS.png' WHERE id = 1080;
+UPDATE companies SET logo_url = '/logos/logo_Daikin_Chemical_Europe_GmbH.svg' WHERE id = 1050;
+UPDATE companies SET logo_url = '/logos/logo_Euro_Machinery_APS.png' WHERE id = 1326;
+UPDATE companies SET logo_url = '/logos/logo_RTP_Company.png' WHERE id = 1085;
+UPDATE companies SET logo_url = '/logos/logo_KABKOM_KIMYA_SANAYI_VE_TICARET_AS.png' WHERE id = 1366;
+UPDATE companies SET logo_url = '/logos/logo_Marubeni_International_Europe_GmbH_Chemical_Group.png' WHERE id = 1053;
+UPDATE companies SET logo_url = '/logos/logo_TotalEnergies_Petrochemicals__Refining_SANV.svg' WHERE id = 1344;

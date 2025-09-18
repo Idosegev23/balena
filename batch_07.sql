@@ -1,0 +1,15 @@
+UPDATE companies SET logo_url = '/logos/logo_Coperion_GmbH.jpg' WHERE id = 1345;
+UPDATE companies SET logo_url = '/logos/logo_TRAMACO_GmbH.svg' WHERE id = 1161;
+UPDATE companies SET logo_url = '/logos/logo_CAS_A_division_of_the_American_Chemical_Society.svg' WHERE id = 1132;
+UPDATE companies SET logo_url = '/logos/logo_GEMINI_CORPORATION_NV.png' WHERE id = 1349;
+UPDATE companies SET logo_url = '/logos/logo_Fych_Technologies_SL.png' WHERE id = 1347;
+UPDATE companies SET logo_url = '/logos/logo_Dongguan_EKG_Industrial_CoLtd.png' WHERE id = 1090;
+UPDATE companies SET logo_url = '/logos/logo_AF-COLOR_Zweigniederlassung_der_AKRO-PLASTIC_GmbH.svg' WHERE id = 1213;
+UPDATE companies SET logo_url = '/logos/logo_Kaneka_Belgium_NV.svg' WHERE id = 1026;
+UPDATE companies SET logo_url = '/logos/logo_Poly_Edge_Sdn_Bhd.png' WHERE id = 1357;
+UPDATE companies SET logo_url = '/logos/logo_PiovanGroup.svg' WHERE id = 1356;
+UPDATE companies SET logo_url = '/logos/logo_IKS_Schön_GmbH.png' WHERE id = 1014;
+UPDATE companies SET logo_url = '/logos/logo_ROWA_Masterbatch_GmbH.svg' WHERE id = 1194;
+UPDATE companies SET logo_url = '/logos/logo_Rajoo_Engineers_Ltd.png' WHERE id = 1297;
+UPDATE companies SET logo_url = '/logos/logo_Omya_Performance_Polymer_Distribution_AG.jpg' WHERE id = 1040;
+UPDATE companies SET logo_url = '/logos/logo_Plastika_Kritis_SA_Global_Colors_Group.png' WHERE id = 1095;

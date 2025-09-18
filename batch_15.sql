@@ -1,0 +1,15 @@
+UPDATE companies SET logo_url = '/logos/logo_Envalior_BV.png' WHERE id = 1093;
+UPDATE companies SET logo_url = '/logos/logo_BDI-BioEnergy_International_GmbH.svg' WHERE id = 1360;
+UPDATE companies SET logo_url = '/logos/logo_WF_Recycle-Tech_Ltd.png' WHERE id = 1363;
+UPDATE companies SET logo_url = '/logos/logo_DK_Kunststoff-Service_GmbH.svg' WHERE id = 1045;
+UPDATE companies SET logo_url = '/logos/logo_TEKU_GmbH_Fluorkunststoffe.png' WHERE id = 1024;
+UPDATE companies SET logo_url = '/logos/logo_Stearinerie_Dubois_SA.jpg' WHERE id = 1138;
+UPDATE companies SET logo_url = '/logos/logo_THOR_GmbH.jpg' WHERE id = 1220;
+UPDATE companies SET logo_url = '/logos/logo_FINCO_Srl.png' WHERE id = 1190;
+UPDATE companies SET logo_url = '/logos/logo_MUEHSAM_Rozwiązania_Dla_Przemysłu_Spj.svg' WHERE id = 1306;
+UPDATE companies SET logo_url = '/logos/logo_Everkem_Srl.png' WHERE id = 1183;
+UPDATE companies SET logo_url = '/logos/logo_IMERYS_SA.jpg' WHERE id = 1163;
+UPDATE companies SET logo_url = '/logos/logo_Beologic_NV.svg' WHERE id = 1055;
+UPDATE companies SET logo_url = '/logos/logo_Thermoware_Particle_Foam_Machinery_BV.svg' WHERE id = 1279;
+UPDATE companies SET logo_url = '/logos/logo_Repi_Srl.png' WHERE id = 1180;
+UPDATE companies SET logo_url = '/logos/logo_Omya_GmbH.jpg' WHERE id = 1070;

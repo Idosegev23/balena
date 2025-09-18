@@ -1,0 +1,15 @@
+UPDATE companies SET logo_url = '/logos/logo_AGRANA_Stärke_GmbH.png' WHERE id = 1060;
+UPDATE companies SET logo_url = '/logos/logo_ROWA_Inc.svg' WHERE id = 1184;
+UPDATE companies SET logo_url = '/logos/logo_WTH_Walter_Thieme_Handel_GmbH.png' WHERE id = 1152;
+UPDATE companies SET logo_url = '/logos/logo_iPB_Printing_BV.png' WHERE id = 1104;
+UPDATE companies SET logo_url = '/logos/logo_HAPLAST_JSC.png' WHERE id = 1352;
+UPDATE companies SET logo_url = '/logos/logo_IMI_FABI_SpA.png' WHERE id = 1155;
+UPDATE companies SET logo_url = '/logos/logo_Billion_SAS.png' WHERE id = 1236;
+UPDATE companies SET logo_url = '/logos/logo_Krahn_Chemie_Deutschland_GmbH.svg' WHERE id = 1178;
+UPDATE companies SET logo_url = '/logos/logo_T_Michel_Formenbau_GmbH__Co_KG.png' WHERE id = 1023;
+UPDATE companies SET logo_url = '/logos/logo_ACTEGA_GmbH.jpg' WHERE id = 1067;
+UPDATE companies SET logo_url = '/logos/logo_BARLOG_Plastics_GmbH.svg' WHERE id = 1009;
+UPDATE companies SET logo_url = '/logos/logo_Sirmax_SpA.jpg' WHERE id = 1358;
+UPDATE companies SET logo_url = '/logos/logo_Licharz_GmbH.jpg' WHERE id = 1015;
+UPDATE companies SET logo_url = '/logos/logo_Polymer-Service_PSG_GmbH.svg' WHERE id = 1084;
+UPDATE companies SET logo_url = '/logos/logo_Kurtz_GmbH__Co_KG.svg' WHERE id = 1286;

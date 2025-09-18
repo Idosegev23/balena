@@ -1,0 +1,15 @@
+UPDATE companies SET logo_url = '/logos/logo_Process_Control_GmbH.svg' WHERE id = 1341;
+UPDATE companies SET logo_url = '/logos/logo_RUTALIA_MASTERBATCHES__ADDITIVES_EKOGRANULAT_C_BURCHERT_-_EHM_AE.png' WHERE id = 1206;
+UPDATE companies SET logo_url = '/logos/logo_bauku_extrusion_technology_UG.jpg' WHERE id = 1251;
+UPDATE companies SET logo_url = '/logos/logo_Maskom_Plastik_Sanayi_ve_Ticaret_AŞ.png' WHERE id = 1216;
+UPDATE companies SET logo_url = '/logos/logo_GREAT_EASTERN_RESINS_INDUSTRIAL_CO_LTD.png' WHERE id = 1091;
+UPDATE companies SET logo_url = '/logos/logo_POLYTECHS_SAS.png' WHERE id = 1179;
+UPDATE companies SET logo_url = '/logos/logo_Lehmann__Voss__Co_KG.svg' WHERE id = 1052;
+UPDATE companies SET logo_url = '/logos/logo_traceless_materials_GmbH.png' WHERE id = 1144;
+UPDATE companies SET logo_url = '/logos/logo_Thees_Kunststoffverarbeitung_GmbH.png' WHERE id = 1330;
+UPDATE companies SET logo_url = '/logos/logo_BEN_Kunststoffe_Vertriebs-_GmbH.svg' WHERE id = 1012;
+UPDATE companies SET logo_url = '/logos/logo_AVANZARE_Innovacion_Tecnologica_SL.png' WHERE id = 1186;
+UPDATE companies SET logo_url = '/logos/logo_Weber__Schaer_GmbH__Co_KG.png' WHERE id = 1087;
+UPDATE companies SET logo_url = '/logos/logo_Özgülmak_Plastic_Machinery_Ltd.png' WHERE id = 1313;
+UPDATE companies SET logo_url = '/logos/logo_ISO-TECH_Kunststoff_GmbH.svg' WHERE id = 1031;
+UPDATE companies SET logo_url = '/logos/logo_ROWA_GROUP_Holding_GmbH.svg' WHERE id = 1184;

@@ -1,0 +1,15 @@
+UPDATE companies SET logo_url = '/logos/logo_JJ_Plastalloy_Pvt_Ltd.png' WHERE id = 1214;
+UPDATE companies SET logo_url = '/logos/logo_ADEKA_Polymer_Additives_Europe_SAS.png' WHERE id = 1159;
+UPDATE companies SET logo_url = '/logos/logo_BEGRA_Granulate_GmbH__Co_KG.png' WHERE id = 1092;
+UPDATE companies SET logo_url = '/logos/logo_Interzero_Plastics_Recycling_GmbH.jpg' WHERE id = 1310;
+UPDATE companies SET logo_url = '/logos/logo_EKATO_Rühr-_und_Mischtechnik_GmbH.png' WHERE id = 1335;
+UPDATE companies SET logo_url = '/logos/logo_DURPLASTICS_SA.jpg' WHERE id = 1011;
+UPDATE companies SET logo_url = '/logos/logo_M_J_PIGMENT_AND_ADDITIVES_PVT_LTD.png' WHERE id = 1219;
+UPDATE companies SET logo_url = '/logos/logo_CORAL_AE_OIL__CHEMICALS_COMPANY_SA.svg' WHERE id = 1337;
+UPDATE companies SET logo_url = '/logos/logo_Soltex_Petroproducts_Ltd.png' WHERE id = 1202;
+UPDATE companies SET logo_url = '/logos/logo_Astra_Polymer_Compounding_Co_Ltd.png' WHERE id = 1274;
+UPDATE companies SET logo_url = '/logos/logo_Kyowa_Industrial_Co_Ltd.png' WHERE id = 1035;
+UPDATE companies SET logo_url = '/logos/logo_Schwarz_Plastic_Solutions_GmbH_Externer_Support_Duroplast__Marketing.png' WHERE id = 1247;
+UPDATE companies SET logo_url = '/logos/logo_UBE_Europe_GmbH.png' WHERE id = 1054;
+UPDATE companies SET logo_url = '/logos/logo_Marfran_Srl.png' WHERE id = 1079;
+UPDATE companies SET logo_url = '/logos/logo_Bruker_Optics_GmbH__Co_KG.svg' WHERE id = 1128;

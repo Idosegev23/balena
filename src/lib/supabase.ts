@@ -9,53 +9,79 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 export interface Company {
   id: number
   company: string
-  location: string
+  location?: string
   hall?: string
   stand?: string
   email?: string
   phone?: string
   website?: string
   description?: string
+  
+  // Relevance & Priority
   relevance_score?: number
   visit_priority?: 'MUST_VISIT' | 'HIGH' | 'MEDIUM' | 'LOW' | 'MONITOR_ONLY'
   department?: string
-  balena_value?: string
-  connection_type?: 'SUPPLIER' | 'PARTNER' | 'COMPETITOR' | 'CUSTOMER' | 'SERVICE' | 'STRATEGIC'
-  where_they_present?: string
-  logo?: string
-  created_at?: string
-  updated_at?: string
-  // New columns from scraper
-  source_search_term?: string
-  source_url?: string
-  profile_url?: string
-  why_relevant?: string
   goal_category?: string
-  claude_analysis?: string
-  website_title?: string
-  about_us?: string
-  products_services?: string
-  products?: string
-  sustainability_info?: string
-  contact_info?: string
-  website_phones?: string
-  meta_description?: string
+  why_relevant?: string
+  claude_analysis?: any // JSONB object with analysis
+  
+  // Contact Information (Latest from scraping)
+  main_email?: string
+  main_phone?: string
+  main_website?: string
   contact_person?: string
+  contact_info?: string
+  contact_persons?: any // JSONB array with contact details
   website_emails?: string
-  // Enhanced detailed data from profile scraping
+  website_phones?: string
+  
+  // Company Details
+  about_us?: string
+  company_description?: string
+  products?: string
+  products_services?: string
+  sustainability_info?: string
+  meta_description?: string
+  website_title?: string
+  
+  // Business Information
   detailed_address?: string
   sales_volume?: string
   export_content?: string
   employees_count?: string
   foundation_year?: string
   target_groups?: string
-  company_description?: string
-  main_email?: string
-  main_phone?: string
-  main_website?: string
+  
+  // Visual & Media
+  logo?: string
+  logo_url?: string
+  logo_file?: string
+  
+  // Meeting & Visit Management
+  must_visit?: boolean
+  meeting_requested?: boolean
+  meeting_scheduled?: boolean
+  meeting_completed?: boolean
+  brochures_collected?: boolean
+  samples_requested?: boolean
+  samples_received?: boolean
+  quotes_requested?: boolean
+  priority_score?: number
+  relevance_status?: string
+  
+  // Scraping & Sources
+  source_search_term?: string
+  source_url?: string
+  profile_url?: string
   data_source?: string
   last_detailed_scrape?: string
   scraping_status?: 'pending' | 'completed' | 'failed' | 'skipped'
+  scraping_timestamp?: string
+  success?: boolean
+  
+  // Timestamps
+  created_at?: string
+  updated_at?: string
 }
 
 export interface User {

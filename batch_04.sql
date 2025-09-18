@@ -1,0 +1,15 @@
+UPDATE companies SET logo_url = '/logos/logo_Calcit_doo.svg' WHERE id = 1131;
+UPDATE companies SET logo_url = '/logos/logo_RTC_TEC_Baglanti_Elemanlari_San_Tic_A_S.svg' WHERE id = 1348;
+UPDATE companies SET logo_url = '/logos/logo_Marangon_Danilo__C_Srl.png' WHERE id = 1168;
+UPDATE companies SET logo_url = '/logos/logo_Hangzhou_Fangyuan_Plastics_Machinery_CoLtd.png' WHERE id = 1280;
+UPDATE companies SET logo_url = '/logos/logo_Horng_En_Co_Ltd.png' WHERE id = 1305;
+UPDATE companies SET logo_url = '/logos/logo_Blend_Colours_Pvt_Ltd.png' WHERE id = 1207;
+UPDATE companies SET logo_url = '/logos/logo_Process_Control_GmbH.jpg' WHERE id = 1341;
+UPDATE companies SET logo_url = '/logos/logo_BARACCO_SRL_unipersonale.png' WHERE id = 1009;
+UPDATE companies SET logo_url = '/logos/logo_CONSTAB_Polyolefin_Additives_GmbH.png' WHERE id = 1177;
+UPDATE companies SET logo_url = '/logos/logo_LK_Injection_Moulding_Machine_International_Limited.png' WHERE id = 1228;
+UPDATE companies SET logo_url = '/logos/logo_TEPE_KIMYA_SAN_VE_TIC_AS.svg' WHERE id = 1105;
+UPDATE companies SET logo_url = '/logos/logo_Bruker_BioSpin_GmbH__Co_KG.svg' WHERE id = 1127;
+UPDATE companies SET logo_url = '/logos/logo_BANDERA_LUIGI_COSTRUZIONI_MECCANICHE_SPA.jpg' WHERE id = 1119;
+UPDATE companies SET logo_url = '/logos/logo_Carboliq_GmbH.svg' WHERE id = 1338;
+UPDATE companies SET logo_url = '/logos/logo_Dynasol_Group.png' WHERE id = 1073;

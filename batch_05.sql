@@ -1,0 +1,15 @@
+UPDATE companies SET logo_url = '/logos/logo_RICO_Elastomere_Projecting_GmbH.png' WHERE id = 1017;
+UPDATE companies SET logo_url = '/logos/logo_Intertek_BV.svg' WHERE id = 1139;
+UPDATE companies SET logo_url = '/logos/logo_LIFELINE_TECHNOLOGIES.png' WHERE id = 1218;
+UPDATE companies SET logo_url = '/logos/logo_CANNON.svg' WHERE id = 1287;
+UPDATE companies SET logo_url = '/logos/logo_Bekum_Maschinenfabriken_GmbH.svg' WHERE id = 1124;
+UPDATE companies SET logo_url = '/logos/logo_Altero_Recycling_Machinery_SL.png' WHERE id = 1282;
+UPDATE companies SET logo_url = '/logos/logo_ELASTRON_KIMYA_SAN_VE_TIC_AŞ_Elastron_TPE.svg' WHERE id = 1086;
+UPDATE companies SET logo_url = '/logos/logo_Epaflex_Polyurethanes_Spa.png' WHERE id = 1382;
+UPDATE companies SET logo_url = '/logos/logo_diamat_Maschinenbau_GmbH.png' WHERE id = 1268;
+UPDATE companies SET logo_url = '/logos/logo_Sipchem_Innovent_SA.png' WHERE id = 1343;
+UPDATE companies SET logo_url = '/logos/logo_MP3_SRL.png' WHERE id = 1037;
+UPDATE companies SET logo_url = '/logos/logo_Mitsubishi_Chemical_Europe_GmbH.svg' WHERE id = 1013;
+UPDATE companies SET logo_url = '/logos/logo_Farrel_Pomini.svg' WHERE id = 1225;
+UPDATE companies SET logo_url = '/logos/logo_Hans_Weber_Maschinenfabrik_GmbH.png' WHERE id = 1270;
+UPDATE companies SET logo_url = '/logos/logo_Guangzhou_Meihe_Chemical_Limited.png' WHERE id = 1162;

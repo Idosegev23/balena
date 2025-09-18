@@ -1,0 +1,15 @@
+UPDATE companies SET logo_url = '/logos/logo_Bernhard_Ide_GmbH__Co_KG_Werkzeug-_und_Maschinenbau_für_die_Kunststoffverarbeitung.png' WHERE id = 1331;
+UPDATE companies SET logo_url = '/logos/logo_BBA_Innova_AG.png' WHERE id = 1122;
+UPDATE companies SET logo_url = '/logos/logo_TITK_-_Thüringisches_Institut_für_Textil-_und_Kunststoff-Forschung_eV.png' WHERE id = 1044;
+UPDATE companies SET logo_url = '/logos/logo_Albrecht_Bäumer_GmbH__Co_KG.svg' WHERE id = 1302;
+UPDATE companies SET logo_url = '/logos/logo_SIKOPLAST_Recycling_Technology_GmbH.svg' WHERE id = 1321;
+UPDATE companies SET logo_url = '/logos/logo_Us_Masterbatch_Joint_Stock_Company.png' WHERE id = 1196;
+UPDATE companies SET logo_url = '/logos/logo_Axens_SA.svg' WHERE id = 1167;
+UPDATE companies SET logo_url = '/logos/logo_POLYFIL_USA.png' WHERE id = 1369;
+UPDATE companies SET logo_url = '/logos/logo_Synventive_Molding_Solutions_GmbH.png' WHERE id = 1231;
+UPDATE companies SET logo_url = '/logos/logo_Bollegraaf_Recycling_Solutions_BV_9900AH.svg' WHERE id = 1315;
+UPDATE companies SET logo_url = '/logos/logo_PLASTIC_METAL_SpA.png' WHERE id = 1241;
+UPDATE companies SET logo_url = '/logos/logo_EDILTECO_SpA.png' WHERE id = 1295;
+UPDATE companies SET logo_url = '/logos/logo_MD_Plast_SpA.svg' WHERE id = 1224;
+UPDATE companies SET logo_url = '/logos/logo_Celanese_Sales_Germany_GmbH.jpg' WHERE id = 1048;
+UPDATE companies SET logo_url = '/logos/logo_EFLAYA_SRL.png' WHERE id = 1074;

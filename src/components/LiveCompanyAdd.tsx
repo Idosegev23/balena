@@ -69,7 +69,7 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
       
     } catch (error) {
       console.error('Error searching K-Show:', error)
-      alert('שגיאה בחיפוש. נסה שוב.')
+      alert('Search error. Please try again.')
     }
     
     setSearching(false)
@@ -108,7 +108,7 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
       }
 
       if (existingCompany) {
-        alert('החברה כבר קיימת במערכת')
+        alert('Company already exists in the system')
         setSaving(false)
         return
       }
@@ -145,7 +145,7 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
           user_name: user.user_metadata?.full_name || user.email,
           action_type: 'company_added_live',
           company_id: newCompany.id,
-          description: `הוסיף חברה חדשה: ${formData.company}`,
+          description: `Added new company: ${formData.company}`,
           metadata: {
             source: selectedCompany ? 'k_show_search' : 'manual_entry',
             hall: formData.hall,
@@ -162,7 +162,7 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
       
     } catch (error) {
       console.error('Error saving company:', error)
-      alert('שגיאה בשמירת החברה')
+      alert('Error saving company')
     }
     
     setSaving(false)
@@ -198,7 +198,7 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
         className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
       >
         <Plus className="w-5 h-5" />
-        הוסף חברה חדשה
+        Add New Company
       </button>
     )
   }
@@ -210,7 +210,7 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
         <div className="flex items-center justify-between p-6 border-b" style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}>
           <div className="flex items-center gap-3">
             <Plus className="w-6 h-6 text-white" />
-            <h2 className="text-xl font-bold text-white">הוסף חברה חדשה</h2>
+            <h2 className="text-xl font-bold text-white">Add New Company</h2>
           </div>
           <button
             onClick={handleClose}
@@ -224,15 +224,15 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
           {!selectedCompany && !manualEntry && (
             <div className="space-y-6">
               <div className="text-center">
-                <h3 className="text-lg font-bold mb-2">איך תרצה להוסיף את החברה?</h3>
-                <p className="text-gray-600 mb-6">חפש באתר K-Show או הוסף ידנית</p>
+                <h3 className="text-lg font-bold mb-2">How would you like to add the company?</h3>
+                <p className="text-gray-600 mb-6">Search K-Show website or add manually</p>
               </div>
 
               {/* K-Show Search */}
               <div className="border rounded-lg p-6">
                 <h4 className="font-medium mb-4 flex items-center gap-2">
                   <Search className="w-5 h-5" />
-                  חיפוש באתר K-Show
+                  Search K-Show Website
                 </h4>
                 
                 <div className="flex gap-3">
@@ -240,7 +240,7 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="שם החברה..."
+                    placeholder="Company name..."
                     className="flex-1 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     onKeyPress={(e) => e.key === 'Enter' && searchKShow()}
                   />
@@ -249,18 +249,18 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
                     disabled={searching || !searchTerm.trim()}
                     className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
                   >
-                    {searching ? '🔍 מחפש...' : 'חפש'}
+                    {searching ? '🔍 Searching...' : 'Search'}
                   </button>
                 </div>
 
                 {searchResults.length > 0 && (
                   <div className="mt-4 space-y-3">
-                    <h5 className="font-medium">תוצאות חיפוש:</h5>
+                    <h5 className="font-medium">Search Results:</h5>
                     {searchResults.map((result, index) => (
                       <button
                         key={index}
                         onClick={() => selectCompanyFromSearch(result)}
-                        className="w-full text-right p-4 border rounded-lg hover:bg-blue-50 hover:border-blue-300"
+                        className="w-full text-left p-4 border rounded-lg hover:bg-blue-50 hover:border-blue-300"
                       >
                         <div className="font-medium">{result.company}</div>
                         <div className="text-sm text-gray-600 mt-1">
@@ -281,16 +281,16 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
               <div className="border rounded-lg p-6">
                 <h4 className="font-medium mb-4 flex items-center gap-2">
                   <Building2 className="w-5 h-5" />
-                  הזנה ידנית
+                  Manual Entry
                 </h4>
                 <p className="text-sm text-gray-600 mb-4">
-                  אם לא מצאת את החברה בחיפוש, תוכל להוסיף אותה ידנית
+                  If you didn't find the company in search, you can add it manually
                 </p>
                 <button
                   onClick={() => setManualEntry(true)}
                   className="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 hover:bg-gray-50"
                 >
-                  📝 הוסף ידנית
+                  📝 Add Manually
                 </button>
               </div>
             </div>
@@ -300,19 +300,19 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-bold">
-                  {selectedCompany ? 'פרטי החברה מK-Show' : 'הזנה ידנית'}
+                  {selectedCompany ? 'Company Details from K-Show' : 'Manual Entry'}
                 </h3>
                 <button
                   onClick={resetForm}
                   className="text-sm text-blue-600 hover:text-blue-800"
                 >
-                  חזור לחיפוש
+                  Back to Search
                 </button>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium mb-2">שם החברה *</label>
+                  <label className="block text-sm font-medium mb-2">Company Name *</label>
                   <input
                     type="text"
                     value={formData.company}
@@ -323,7 +323,7 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">מיקום/מדינה</label>
+                  <label className="block text-sm font-medium mb-2">Location/Country</label>
                   <input
                     type="text"
                     value={formData.location}
@@ -333,7 +333,7 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">איש קשר</label>
+                  <label className="block text-sm font-medium mb-2">Contact Person</label>
                   <input
                     type="text"
                     value={formData.contact_person}
@@ -343,7 +343,7 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">אולם</label>
+                  <label className="block text-sm font-medium mb-2">Hall</label>
                   <input
                     type="text"
                     value={formData.hall}
@@ -354,7 +354,7 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">דוכן</label>
+                  <label className="block text-sm font-medium mb-2">Stand</label>
                   <input
                     type="text"
                     value={formData.stand}
@@ -365,7 +365,7 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">אימייל</label>
+                  <label className="block text-sm font-medium mb-2">Email</label>
                   <input
                     type="email"
                     value={formData.email}
@@ -375,7 +375,7 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">טלפון</label>
+                  <label className="block text-sm font-medium mb-2">Phone</label>
                   <input
                     type="tel"
                     value={formData.phone}
@@ -385,7 +385,7 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">אתר אינטרנט</label>
+                  <label className="block text-sm font-medium mb-2">Website</label>
                   <input
                     type="url"
                     value={formData.website}
@@ -395,7 +395,7 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium mb-2">תיאור החברה</label>
+                  <label className="block text-sm font-medium mb-2">Company Description</label>
                   <textarea
                     value={formData.description}
                     onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
@@ -411,13 +411,13 @@ export function LiveCompanyAdd({ onCompanyAdded }: LiveCompanyAddProps) {
                   disabled={saving || !formData.company.trim()}
                   className="flex-1 py-3 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
                 >
-                  {saving ? '⏳ שומר...' : '💾 שמור חברה'}
+                  {saving ? '⏳ Saving...' : '💾 Save Company'}
                 </button>
                 <button
                   onClick={handleClose}
                   className="px-6 py-3 border rounded-lg hover:bg-gray-50"
                 >
-                  ביטול
+                  Cancel
                 </button>
               </div>
             </div>

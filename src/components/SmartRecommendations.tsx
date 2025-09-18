@@ -234,7 +234,7 @@ export function SmartRecommendations({ currentCompany, onCompanyClick }: SmartRe
               <button
                 key={company.id}
                 onClick={() => onCompanyClick?.(company)}
-                className="text-right p-3 bg-white rounded-lg border hover:shadow-md transition-all group"
+                className="text-left p-3 bg-white rounded-lg border hover:shadow-md transition-all group"
               >
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-medium text-sm group-hover:text-blue-600" style={{ color: 'var(--balena-dark)' }}>

@@ -51,7 +51,7 @@ export function BusinessCardScanner({ companyId, onCardAdded }: BusinessCardScan
       
     } catch (error) {
       console.error('Error uploading file:', error)
-      alert('שגיאה בהעלאת התמונה')
+      alert('Error uploading image')
     }
     
     setUploading(false)
@@ -92,7 +92,7 @@ Website: www.advancedmaterials.de`,
       
     } catch (error) {
       console.error('Error extracting text:', error)
-      alert('שגיאה בחילוץ הטקסט')
+      alert('Error extracting text')
     }
     
     setProcessing(false)
@@ -110,7 +110,7 @@ Website: www.advancedmaterials.de`,
       }
     } catch (error) {
       console.error('Error accessing camera:', error)
-      alert('לא ניתן לגשת למצלמה')
+      alert('Cannot access camera')
     }
   }
 
@@ -171,7 +171,7 @@ Website: www.advancedmaterials.de`,
           user_name: user.user_metadata?.full_name || user.email,
           action_type: 'business_card_scanned',
           company_id: companyId,
-          description: `סרק כרטיס ביקור של ${extractedData.contact_name}`,
+          description: `Scanned business card of ${extractedData.contact_name}`,
           metadata: {
             contact_name: extractedData.contact_name,
             company_name: extractedData.company_name
@@ -184,7 +184,7 @@ Website: www.advancedmaterials.de`,
       
     } catch (error) {
       console.error('Error saving business card:', error)
-      alert('שגיאה בשמירת כרטיס הביקור')
+      alert('Error saving business card')
     }
     
     setUploading(false)
@@ -211,7 +211,7 @@ Website: www.advancedmaterials.de`,
         style={{ borderColor: 'var(--balena-brown)', color: 'var(--balena-brown)' }}
       >
         <Camera className="w-5 h-5" />
-        סרוק כרטיס ביקור
+        Scan Business Card
       </button>
     )
   }
@@ -223,7 +223,7 @@ Website: www.advancedmaterials.de`,
         <div className="flex items-center justify-between p-6 border-b" style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}>
           <div className="flex items-center gap-3">
             <Camera className="w-6 h-6 text-white" />
-            <h2 className="text-xl font-bold text-white">סריקת כרטיס ביקור</h2>
+            <h2 className="text-xl font-bold text-white">Business Card Scanning</h2>
           </div>
           <button
             onClick={handleClose}
@@ -237,7 +237,7 @@ Website: www.advancedmaterials.de`,
           {!imageUrl && !showCamera && (
             <div className="space-y-6">
               <div className="text-center">
-                <p className="text-gray-600 mb-6">בחר דרך לצלם או להעלות כרטיס ביקור</p>
+                <p className="text-gray-600 mb-6">Choose a way to photograph or upload a business card</p>
                 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <button
@@ -246,8 +246,8 @@ Website: www.advancedmaterials.de`,
                   >
                     <Camera className="w-12 h-12 text-blue-600" />
                     <div>
-                      <div className="font-medium">צלם עכשיו</div>
-                      <div className="text-sm text-gray-500">השתמש במצלמה</div>
+                      <div className="font-medium">Take Photo Now</div>
+                      <div className="text-sm text-gray-500">Use camera</div>
                     </div>
                   </button>
                   
@@ -257,8 +257,8 @@ Website: www.advancedmaterials.de`,
                   >
                     <Upload className="w-12 h-12 text-green-600" />
                     <div>
-                      <div className="font-medium">העלה תמונה</div>
-                      <div className="text-sm text-gray-500">מהגלריה</div>
+                      <div className="font-medium">Upload Image</div>
+                      <div className="text-sm text-gray-500">From gallery</div>
                     </div>
                   </button>
                 </div>
@@ -295,13 +295,13 @@ Website: www.advancedmaterials.de`,
                   onClick={capturePhoto}
                   className="flex-1 py-3 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                 >
-                  📸 צלם
+                  📸 Take Photo
                 </button>
                 <button
                   onClick={stopCamera}
                   className="px-4 py-3 border rounded-lg hover:bg-gray-50"
                 >
-                  ביטול
+                  Cancel
                 </button>
               </div>
             </div>
@@ -316,17 +316,17 @@ Website: www.advancedmaterials.de`,
               {processing && (
                 <div className="text-center py-6">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-3"></div>
-                  <p>מחלץ טקסט מהתמונה...</p>
+                  <p>Extracting text from image...</p>
                 </div>
               )}
 
               {isEditing && (
                 <div className="space-y-4">
-                  <h3 className="font-bold text-lg">פרטים מחולצים - אמת וערוך:</h3>
+                  <h3 className="font-bold text-lg">Extracted Details - Verify and Edit:</h3>
                   
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="block text-sm font-medium mb-2">שם איש קשר</label>
+                      <label className="block text-sm font-medium mb-2">Contact Name</label>
                       <input
                         type="text"
                         value={extractedData.contact_name || ''}
@@ -336,7 +336,7 @@ Website: www.advancedmaterials.de`,
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium mb-2">תפקיד</label>
+                      <label className="block text-sm font-medium mb-2">Position</label>
                       <input
                         type="text"
                         value={extractedData.contact_title || ''}
@@ -346,7 +346,7 @@ Website: www.advancedmaterials.de`,
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium mb-2">אימייל</label>
+                      <label className="block text-sm font-medium mb-2">Email</label>
                       <input
                         type="email"
                         value={extractedData.contact_email || ''}
@@ -356,7 +356,7 @@ Website: www.advancedmaterials.de`,
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium mb-2">טלפון</label>
+                      <label className="block text-sm font-medium mb-2">Phone</label>
                       <input
                         type="tel"
                         value={extractedData.contact_phone || ''}
@@ -366,7 +366,7 @@ Website: www.advancedmaterials.de`,
                     </div>
                     
                     <div className="sm:col-span-2">
-                      <label className="block text-sm font-medium mb-2">שם החברה</label>
+                      <label className="block text-sm font-medium mb-2">Company Name</label>
                       <input
                         type="text"
                         value={extractedData.company_name || ''}
@@ -377,7 +377,7 @@ Website: www.advancedmaterials.de`,
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">טקסט מחולץ (גולמי)</label>
+                    <label className="block text-sm font-medium mb-2">Extracted Text (Raw)</label>
                     <textarea
                       value={extractedData.extracted_text || ''}
                       onChange={(e) => setExtractedData(prev => ({ ...prev, extracted_text: e.target.value }))}
@@ -392,13 +392,13 @@ Website: www.advancedmaterials.de`,
                       disabled={uploading}
                       className="flex-1 py-3 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
                     >
-                      {uploading ? '⏳ שומר...' : '💾 שמור כרטיס ביקור'}
+                      {uploading ? '⏳ Saving...' : '💾 Save Business Card'}
                     </button>
                     <button
                       onClick={resetState}
                       className="px-4 py-3 border rounded-lg hover:bg-gray-50"
                     >
-                      צלם שוב
+                      Take Photo Again
                     </button>
                   </div>
                 </div>

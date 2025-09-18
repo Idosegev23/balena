@@ -230,7 +230,7 @@ export function DataExport() {
           visit.company?.company || '',
           visit.user?.full_name || visit.user?.email || '',
           visit.visit_status || '',
-          new Date(visit.visit_date).toLocaleDateString('he-IL'),
+          new Date(visit.visit_date).toLocaleDateString('en-US'),
           visit.duration_minutes || '',
           (visit.notes || '').replace(/,/g, ';')
         ].map(field => `"${field}"`).join(',') + '\n'
@@ -254,22 +254,22 @@ export function DataExport() {
     
     const htmlContent = `
       <!DOCTYPE html>
-      <html dir="rtl" lang="he">
+      <html dir="ltr" lang="en">
       <head>
         <meta charset="UTF-8">
         <title>Data Export - Balena K-Show 2025</title>
         <style>
-          body { font-family: Arial, sans-serif; direction: rtl; }
+          body { font-family: Arial, sans-serif; direction: ltr; }
           h1, h2 { color: #0E2226; }
           table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-          th, td { border: 1px solid #ddd; padding: 8px; text-align: right; }
+          th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
           th { background-color: #f2f2f2; }
           .page-break { page-break-before: always; }
         </style>
       </head>
       <body>
         <h1>Data Export - Balena K-Show 2025</h1>
-        <p>Export Date: ${new Date().toLocaleDateString('he-IL')}</p>
+        <p>Export Date: ${new Date().toLocaleDateString('en-US')}</p>
         <p>Exported by: ${user?.user_metadata?.full_name || user?.email || 'Unknown'}</p>
         
         ${data.companies ? `
@@ -309,7 +309,7 @@ export function DataExport() {
               <tr>
                 <td>${visit.company?.company || ''}</td>
                 <td>${visit.user?.full_name || visit.user?.email || ''}</td>
-                <td>${new Date(visit.visit_date).toLocaleDateString('he-IL')}</td>
+                <td>${new Date(visit.visit_date).toLocaleDateString('en-US')}</td>
                 <td>${visit.duration_minutes || ''} minutes</td>
                 <td>${visit.visit_status || ''}</td>
               </tr>

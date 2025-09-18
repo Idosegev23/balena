@@ -6,6 +6,7 @@ import { useAuth } from '@/components/AuthProvider'
 import { Search, Filter, Download, Eye, Star, MapPin, Building2, X, ChevronDown, ChevronUp } from 'lucide-react'
 import { RealtimeRating } from './RealtimeRating'
 import { LogoDisplay } from './LogoUploader'
+import { EnhancedCompanyModal } from './EnhancedCompanyModal'
 
 interface CompanyDiscoveryPageProps {
   onClose: () => void
@@ -33,6 +34,16 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
   const [showFilters, setShowFilters] = useState(false)
   const [sortBy, setSortBy] = useState<'relevance' | 'company' | 'location' | 'priority' | 'department' | 'hall'>('relevance')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
+  
+  // Helper function to check if data is valid
+  const hasValidData = (value: any): boolean => {
+    if (!value) return false
+    if (typeof value === 'string') {
+      const cleaned = value.trim()
+      return cleaned !== '' && cleaned !== 'Skip to main content' && cleaned !== 'N/A'
+    }
+    return true
+  }
   
   // Autocomplete states
   const [searchInput, setSearchInput] = useState('')
@@ -165,7 +176,6 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
         company.company?.toLowerCase().includes(term) ||
         company.description?.toLowerCase().includes(term) ||
         company.location?.toLowerCase().includes(term) ||
-        company.balena_value?.toLowerCase().includes(term) ||
         company.why_relevant?.toLowerCase().includes(term) ||
         company.department?.toLowerCase().includes(term) ||
         company.goal_category?.toLowerCase().includes(term) ||
@@ -210,19 +220,19 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       )
     }
 
-    // Connection Type
-    if (filters.connectionType) {
-      filtered = filtered.filter(company => company.connection_type === filters.connectionType)
-    }
+    // Connection Type - removed as column no longer exists
+    // if (filters.connectionType) {
+    //   filtered = filtered.filter(company => company.connection_type === filters.connectionType)
+    // }
 
     // Has Contact
     if (filters.hasContact) {
-      filtered = filtered.filter(company => company.email || company.phone)
+      filtered = filtered.filter(company => company.main_email || company.email || company.main_phone || company.phone)
     }
 
     // Has Website
     if (filters.hasWebsite) {
-      filtered = filtered.filter(company => company.website)
+      filtered = filtered.filter(company => company.main_website || company.website)
     }
 
     // Sorting
@@ -309,8 +319,8 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
         company.relevance_score || '',
         company.department || '',
         company.goal_category || '',
-        company.connection_type || '',
-        company.where_they_present || '',
+        '',  // removed connection_type column
+        '',  // removed where_they_present column
         company.contact_person || '',
         company.email || '',
         company.phone || '',
@@ -318,7 +328,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
         company.website_emails || '',
         company.website_phones || '',
         (company.why_relevant || '').replace(/\n/g, ' ').slice(0, 300),
-        (company.balena_value || '').replace(/\n/g, ' ').slice(0, 300),
+        '',  // removed balena_value column
         (company.about_us || '').replace(/\n/g, ' ').slice(0, 200),
         (company.products_services || '').replace(/\n/g, ' ').slice(0, 200),
         (company.sustainability_info || '').replace(/\n/g, ' ').slice(0, 200)
@@ -617,15 +627,20 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
               {paginatedCompanies.map((company) => (
                 <div
                   key={company.id}
-                  className="border rounded-lg p-4 hover:shadow-md transition-shadow bg-white cursor-pointer"
+                  className="border rounded-lg p-4 hover:shadow-lg transition-all bg-white cursor-pointer hover:border-blue-300"
                   onClick={() => onCompanyClick(company)}
                 >
-                  <div className="flex items-start gap-3 mb-2">
-                    <LogoDisplay company={company} size="sm" className="flex-shrink-0 mt-1" />
+                  <div className="flex items-start gap-3 mb-3">
+                    <LogoDisplay company={company} size="md" className="flex-shrink-0 mt-1" />
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-bold text-sm truncate" style={{ color: 'var(--balena-dark)' }}>
+                      <h3 className="font-bold text-base mb-1" style={{ color: 'var(--balena-dark)' }}>
                         {company.company}
                       </h3>
+                      {hasValidData(company.contact_person) && (
+                        <p className="text-sm text-gray-600 mb-1">
+                          👤 {company.contact_person}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-1 mb-2">
@@ -641,71 +656,112 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
                     )}
                   </div>
 
-                  <div className="space-y-1 text-xs text-gray-600 mb-3">
-                    <div className="flex items-center gap-1">
-                      <MapPin className="w-3 h-3" />
-                      <span>{company.location}</span>
+                  {/* Contact Information */}
+                  <div className="grid grid-cols-1 gap-2 mb-3">
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <MapPin className="w-4 h-4 text-blue-500" />
+                      <span className="flex-1 truncate">{company.location}</span>
+                      {company.hall && company.stand && (
+                        <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
+                          {company.hall}/{company.stand}
+                        </span>
+                      )}
                     </div>
-                    {company.hall && company.stand && (
-                      <div className="flex items-center gap-1">
-                        <Building2 className="w-3 h-3" />
-                        <span>{company.hall} / {company.stand}</span>
-                      </div>
-                    )}
-                    {(company.email || company.website_emails) && (
-                      <div className="flex items-center gap-1">
-                        <span>📧 {company.email || company.website_emails?.split(',')[0]}</span>
-                      </div>
-                    )}
-                    {(company.phone || company.website_phones) && (
-                      <div className="flex items-center gap-1">
-                        <span>📞 {company.phone || company.website_phones?.split(',')[0]}</span>
-                      </div>
-                    )}
-                    {company.website && (
-                      <div className="flex items-center gap-1">
+                    
+                    {/* Email */}
+                    {(company.main_email || company.email || company.website_emails) && (
+                      <div className="flex items-center gap-2 text-sm">
+                        <span className="text-green-600">📧</span>
                         <a 
-                          href={company.website.startsWith('http') ? company.website : `https://${company.website}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline flex items-center gap-1"
+                          href={`mailto:${company.main_email || company.email || company.website_emails?.split(',')[0]}`}
+                          className="text-blue-600 hover:underline truncate flex-1"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          <span>🌐</span>
-                          <span className="underline">Company Website</span>
+                          {company.main_email || company.email || company.website_emails?.split(',')[0]}
                         </a>
                       </div>
                     )}
-                    {company.contact_person && (
-                      <div className="flex items-center gap-1">
-                        <span>👤 {company.contact_person}</span>
+                    
+                    {/* Phone */}
+                    {(company.main_phone || company.phone || company.website_phones) && (
+                      <div className="flex items-center gap-2 text-sm">
+                        <span className="text-blue-600">📞</span>
+                        <a 
+                          href={`tel:${company.main_phone || company.phone || company.website_phones?.split(',')[0]}`}
+                          className="text-blue-600 hover:underline flex-1"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {company.main_phone || company.phone || company.website_phones?.split(',')[0]}
+                        </a>
                       </div>
                     )}
-                    {(company.about_us || company.products_services) && (
-                      <div className="text-xs text-gray-600 mt-1">
-                        📋 {(company.about_us || company.products_services || '').substring(0, 100)}
-                        {(company.about_us || company.products_services || '').length > 100 ? '...' : ''}
-                      </div>
-                    )}
-                    {company.sustainability_info && (
-                      <div className="text-xs text-green-600 mt-1">
-                        🌱 Sustainability: {company.sustainability_info.substring(0, 80)}
-                        {company.sustainability_info.length > 80 ? '...' : ''}
+                    
+                    {/* Website */}
+                    {(company.main_website || company.website) && (
+                      <div className="flex items-center gap-2 text-sm">
+                        <span className="text-purple-600">🌐</span>
+                        <a 
+                          href={(company.main_website || company.website)?.startsWith('http') ? (company.main_website || company.website) : `https://${company.main_website || company.website}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline truncate flex-1"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          Visit Website
+                        </a>
                       </div>
                     )}
                   </div>
+                  
+                  {/* Company Description */}
+                  {(company.company_description || company.about_us || company.products_services) && (
+                    <div className="bg-gray-50 p-3 rounded-md mb-3">
+                      <p className="text-xs text-gray-700 leading-relaxed">
+                        📋 {(company.company_description || company.about_us || company.products_services || '').substring(0, 120)}
+                        {(company.company_description || company.about_us || company.products_services || '').length > 120 ? '...' : ''}
+                      </p>
+                    </div>
+                  )}
+                  
+                  {/* Business Info */}
+                  {(company.employees_count || company.foundation_year || company.sales_volume) && (
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {company.employees_count && (
+                        <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">
+                          👥 {company.employees_count} employees
+                        </span>
+                      )}
+                      {company.foundation_year && (
+                        <span className="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs">
+                          📅 Est. {company.foundation_year}
+                        </span>
+                      )}
+                      {company.sales_volume && (
+                        <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">
+                          💰 {company.sales_volume}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                  
+                  {/* Sustainability */}
+                  {company.sustainability_info && (
+                    <div className="bg-green-50 p-2 rounded-md mb-3">
+                      <p className="text-xs text-green-700">
+                        🌱 <strong>Sustainability:</strong> {company.sustainability_info.substring(0, 80)}
+                        {company.sustainability_info.length > 80 ? '...' : ''}
+                      </p>
+                    </div>
+                  )}
 
-                  {(company.why_relevant || company.balena_value) && (
+                  {company.why_relevant && (
                     <details className="mb-3">
                       <summary className="text-xs cursor-pointer" style={{ color: 'var(--balena-dark)' }}>
-                        💡 {(company.why_relevant || company.balena_value || '').slice(0, 60)}{(company.why_relevant || company.balena_value || '').length > 60 ? '…' : ''}
+                        💡 {(company.why_relevant || '').slice(0, 60)}{(company.why_relevant || '').length > 60 ? '…' : ''}
                       </summary>
                       <div className="text-xs mt-1 space-y-1" style={{ color: 'var(--balena-dark)' }}>
                         {company.why_relevant && (
                           <p><strong>Claude Analysis:</strong> {company.why_relevant}</p>
-                        )}
-                        {company.balena_value && company.balena_value !== company.why_relevant && (
-                          <p><strong>Balena Value:</strong> {company.balena_value}</p>
                         )}
                         {company.department && (
                           <p><strong>Department:</strong> {company.department}</p>

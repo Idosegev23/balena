@@ -67,7 +67,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
 
   const renderExpandableText = (text: string | undefined | null, sectionKey: string, maxLength: number = 500) => {
     if (!hasValidData(text)) {
-      return <div className="text-gray-400 italic text-sm">מידע לא זמין</div>
+      return <div className="text-gray-400 italic text-sm">Information not available</div>
     }
     
     const cleanText = text!.trim()
@@ -79,7 +79,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
       <div>
         <div 
           className={`leading-6 whitespace-pre-wrap ${
-            isEnglishText(cleanText) ? 'text-left' : 'text-right'
+            'text-left'
           }`} 
           style={{ color: 'var(--balena-dark)' }}
         >
@@ -91,7 +91,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
             onClick={() => toggleExpanded(sectionKey)}
             className="mt-2 text-sm text-blue-600 hover:text-blue-800 font-medium"
           >
-            {isExpanded ? 'הקטן טקסט' : 'הצג עוד...'}
+            {isExpanded ? 'Show less' : 'Show more...'}
           </button>
         )}
       </div>
@@ -536,13 +536,13 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                       type="text"
                       value={editedCompany.company}
                       onChange={(e) => handleInputChange('company', e.target.value)}
-                      className="w-full p-3 border rounded-lg text-base text-right focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full p-3 border rounded-lg text-base text-left focus:outline-none focus:ring-2 focus:ring-blue-500"
                       style={{ borderColor: 'var(--balena-brown)' }}
                     />
                   ) : (
                     <div 
                       className={`text-base font-semibold ${
-                        isEnglishText(editedCompany.company || '') ? 'text-left' : 'text-right'
+                        isEnglishText(editedCompany.company || '') ? 'text-left' : 'text-left'
                       }`} 
                       style={{ color: 'var(--balena-dark)' }}
                     >
@@ -559,13 +559,13 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                       type="text"
                       value={editedCompany.location || ''}
                       onChange={(e) => handleInputChange('location', e.target.value)}
-                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
+                      className="w-full p-2 border rounded text-sm text-left focus:outline-none focus:ring-1"
                       style={{ borderColor: 'var(--balena-brown)' }}
                     />
                   ) : (
                     <div 
                       className={`text-sm ${
-                        isEnglishText(editedCompany.location || '') ? 'text-left' : 'text-right'
+                        isEnglishText(editedCompany.location || '') ? 'text-left' : 'text-left'
                       }`}
                     >
                       {editedCompany.location || '—'}
@@ -584,12 +584,12 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                       type="text"
                       value={editedCompany.hall || ''}
                       onChange={(e) => handleInputChange('hall', e.target.value)}
-                      className="w-full p-3 border rounded-lg text-base text-right focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full p-3 border rounded-lg text-base text-left focus:outline-none focus:ring-2 focus:ring-blue-500"
                       style={{ borderColor: 'var(--balena-brown)' }}
                       placeholder="Hall 8a"
                     />
                   ) : (
-                    <div className="text-lg font-bold text-right text-blue-700">
+                    <div className="text-lg font-bold text-left text-blue-700">
                       {editedCompany.hall || '—'}
                     </div>
                   )}
@@ -606,12 +606,12 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                       type="text"
                       value={editedCompany.stand || ''}
                       onChange={(e) => handleInputChange('stand', e.target.value)}
-                      className="w-full p-3 border rounded-lg text-base text-right focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full p-3 border rounded-lg text-base text-left focus:outline-none focus:ring-2 focus:ring-blue-500"
                       style={{ borderColor: 'var(--balena-brown)' }}
                       placeholder="B40"
                     />
                   ) : (
-                    <div className="text-lg font-bold text-right text-blue-700">
+                    <div className="text-lg font-bold text-left text-blue-700">
                       {editedCompany.stand || '—'}
                     </div>
                   )}
@@ -625,12 +625,12 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                       type="email"
                       value={editedCompany.email || ''}
                       onChange={(e) => handleInputChange('email', e.target.value)}
-                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
+                      className="w-full p-2 border rounded text-sm text-left focus:outline-none focus:ring-1"
                       style={{ borderColor: 'var(--balena-brown)' }}
                       autoComplete="email"
                     />
                   ) : (
-                    <div className="text-sm text-right">
+                    <div className="text-sm text-left">
                       {editedCompany.email ? (
                         <a href={`mailto:${editedCompany.email}`} className="text-blue-600 hover:underline">
                           {editedCompany.email}
@@ -659,12 +659,12 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                       type="tel"
                       value={editedCompany.phone || ''}
                       onChange={(e) => handleInputChange('phone', e.target.value)}
-                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
+                      className="w-full p-2 border rounded text-sm text-left focus:outline-none focus:ring-1"
                       style={{ borderColor: 'var(--balena-brown)' }}
                       autoComplete="tel"
                     />
                   ) : (
-                    <div className="text-sm text-right">
+                    <div className="text-sm text-left">
                       {editedCompany.phone ? (
                         <a href={`tel:${editedCompany.phone}`} className="text-blue-600 hover:underline">
                           {editedCompany.phone}
@@ -693,12 +693,12 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                       type="url"
                       value={editedCompany.website || ''}
                       onChange={(e) => handleInputChange('website', e.target.value)}
-                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
+                      className="w-full p-2 border rounded text-sm text-left focus:outline-none focus:ring-1"
                       style={{ borderColor: 'var(--balena-brown)' }}
                       autoComplete="url"
                     />
                   ) : (
-                    <div className="text-sm text-right">
+                    <div className="text-sm text-left">
                       {editedCompany.website ? (
                         <a 
                           href={editedCompany.website.startsWith('http') ? editedCompany.website : `https://${editedCompany.website}`} 
@@ -720,7 +720,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                     <select
                       value={editedCompany.visit_priority || 'LOW'}
                       onChange={(e) => handleInputChange('visit_priority', e.target.value)}
-                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
+                      className="w-full p-2 border rounded text-sm text-left focus:outline-none focus:ring-1"
                       style={{ borderColor: 'var(--balena-brown)' }}
                     >
                       <option value="MUST_VISIT">Must Visit</option>
@@ -746,7 +746,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                     <select
                       value={editedCompany.connection_type || 'SUPPLIER'}
                       onChange={(e) => handleInputChange('connection_type', e.target.value)}
-                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
+                      className="w-full p-2 border rounded text-sm text-left focus:outline-none focus:ring-1"
                       style={{ borderColor: 'var(--balena-brown)' }}
                     >
                       <option value="SUPPLIER">Supplier</option>
@@ -774,7 +774,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                     <select
                       value={editedCompany.department || 'Commercial'}
                       onChange={(e) => handleInputChange('department', e.target.value)}
-                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
+                      className="w-full p-2 border rounded text-sm text-left focus:outline-none focus:ring-1"
                       style={{ borderColor: 'var(--balena-brown)' }}
                     >
                       <option value="Commercial">Commercial</option>
@@ -783,7 +783,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                       <option value="Marketing">Marketing</option>
                     </select>
                   ) : (
-                    <div className="text-sm text-right font-medium">
+                    <div className="text-sm text-left font-medium">
                       {editedCompany.department || '—'}
                     </div>
                   )}
@@ -797,11 +797,11 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                       type="text"
                       value={editedCompany.where_they_present || ''}
                       onChange={(e) => handleInputChange('where_they_present', e.target.value)}
-                      className="w-full p-2 border rounded text-sm text-right focus:outline-none focus:ring-1"
+                      className="w-full p-2 border rounded text-sm text-left focus:outline-none focus:ring-1"
                       style={{ borderColor: 'var(--balena-brown)' }}
                     />
                   ) : (
-                    <div className="text-sm text-right">{editedCompany.where_they_present || '—'}</div>
+                    <div className="text-sm text-left">{editedCompany.where_they_present || '—'}</div>
                   )}
                 </div>
               </div>
@@ -881,7 +881,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                     const hasAnyContact = hasEmail || hasMainEmail || hasPhone || hasMainPhone || hasWebsite || hasMainWebsite || hasContactPerson || hasWebsiteEmails || hasWebsitePhones
                     
                     if (!hasAnyContact && !isEditing) {
-                      return <div className="text-gray-400 italic">פרטי התקשרות לא זמינים</div>
+                      return <div className="text-gray-400 italic">Contact information not available</div>
                     }
 
                     return (
@@ -891,14 +891,14 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                           <div className="flex items-center gap-3 p-3 bg-white rounded-lg">
                             <Users size={18} className="text-blue-600" />
                             <div className="flex-1">
-                              <div className="text-xs text-gray-500 mb-1">איש קשר</div>
+                              <div className="text-xs text-gray-500 mb-1">Contact Person</div>
                               {isEditing ? (
                                 <input
                                   type="text"
                                   value={editedCompany?.contact_person || ''}
                                   onChange={(e) => handleInputChange('contact_person', e.target.value)}
                                   className="w-full p-2 border rounded text-sm focus:outline-none focus:ring-1"
-                                  placeholder="שם איש קשר"
+                                  placeholder="Contact person name"
                                 />
                               ) : (
                                 <div className="font-medium">{company?.contact_person || '—'}</div>
@@ -912,12 +912,12 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                           <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
                             <Mail size={18} className="text-green-600 mt-1" />
                             <div className="space-y-2 flex-1">
-                              <div className="text-xs text-gray-500">אימייל</div>
+                              <div className="text-xs text-gray-500">Email</div>
                               
                               {/* Primary Email */}
                               {(hasEmail || isEditing) && (
                                 <div>
-                                  <div className="text-xs text-gray-400 mb-1">עיקרי:</div>
+                                  <div className="text-xs text-gray-400 mb-1">Primary:</div>
                                   {isEditing ? (
                                     <input
                                       type="email"
@@ -939,7 +939,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                               {/* Main Email (from scraping) */}
                               {(hasMainEmail || isEditing) && (
                                 <div>
-                                  <div className="text-xs text-blue-400 mb-1">מהאתר:</div>
+                                  <div className="text-xs text-blue-400 mb-1">From website:</div>
                                   {isEditing ? (
                                     <input
                                       type="email"
@@ -961,7 +961,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                               {/* Additional Emails */}
                               {hasWebsiteEmails && company?.website_emails !== company?.email && company?.website_emails !== company?.main_email && (
                                 <div>
-                                  <div className="text-xs text-gray-400 mb-1">נוספים:</div>
+                                  <div className="text-xs text-gray-400 mb-1">Additional:</div>
                                   <div className="text-sm text-gray-600">{company?.website_emails}</div>
                                 </div>
                               )}
@@ -974,12 +974,12 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                           <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
                             <Phone size={18} className="text-purple-600 mt-1" />
                             <div className="space-y-2 flex-1">
-                              <div className="text-xs text-gray-500">טלפון</div>
+                              <div className="text-xs text-gray-500">Phone</div>
                               
                               {/* Primary Phone */}
                               {(hasPhone || isEditing) && (
                                 <div>
-                                  <div className="text-xs text-gray-400 mb-1">עיקרי:</div>
+                                  <div className="text-xs text-gray-400 mb-1">Primary:</div>
                                   {isEditing ? (
                                     <input
                                       type="tel"
@@ -1001,7 +1001,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                               {/* Main Phone (from scraping) */}
                               {(hasMainPhone || isEditing) && (
                                 <div>
-                                  <div className="text-xs text-blue-400 mb-1">מהאתר:</div>
+                                  <div className="text-xs text-blue-400 mb-1">From website:</div>
                                   {isEditing ? (
                                     <input
                                       type="tel"
@@ -1023,7 +1023,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                               {/* Additional Phones */}
                               {hasWebsitePhones && company?.website_phones !== company?.phone && company?.website_phones !== company?.main_phone && (
                                 <div>
-                                  <div className="text-xs text-gray-400 mb-1">נוספים:</div>
+                                  <div className="text-xs text-gray-400 mb-1">Additional:</div>
                                   <div className="text-sm text-gray-600">{company?.website_phones}</div>
                             </div>
                           )}
@@ -1036,12 +1036,12 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                           <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
                             <Globe size={18} className="text-blue-600 mt-1" />
                             <div className="space-y-2 flex-1">
-                              <div className="text-xs text-gray-500">אתר אינטרנט</div>
+                              <div className="text-xs text-gray-500">Website</div>
                               
                               {/* Primary Website */}
                               {(hasWebsite || isEditing) && (
                                 <div>
-                                  <div className="text-xs text-gray-400 mb-1">עיקרי:</div>
+                                  <div className="text-xs text-gray-400 mb-1">Primary:</div>
                                   {isEditing ? (
                                     <input
                                       type="url"
@@ -1068,7 +1068,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                               {/* Main Website (from scraping) */}
                               {(hasMainWebsite || isEditing) && (
                                 <div>
-                                  <div className="text-xs text-blue-400 mb-1">מהאתר:</div>
+                                  <div className="text-xs text-blue-400 mb-1">From website:</div>
                                   {isEditing ? (
                                     <input
                                       type="url"
@@ -1098,14 +1098,14 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                         {/* Additional Contact Info */}
                         {(hasValidData(company?.contact_info) || isEditing) && (
                           <div className="p-3 bg-white rounded-lg">
-                            <div className="text-xs text-gray-500 mb-2">מידע נוסף</div>
+                            <div className="text-xs text-gray-500 mb-2">Additional Information</div>
                             {isEditing ? (
                               <textarea
                                 value={editedCompany?.contact_info || ''}
                                 onChange={(e) => handleInputChange('contact_info', e.target.value)}
                                 className="w-full p-3 border rounded text-sm focus:outline-none focus:ring-1"
                                 rows={3}
-                                placeholder="מידע נוסף על התקשרות..."
+                                placeholder="Additional contact information..."
                               />
                             ) : (
                               <div className="text-sm">
@@ -1315,7 +1315,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                   </h3>
                   <div 
                     className={`text-base leading-7 whitespace-pre-wrap ${
-                      isEnglishText(company.why_relevant) ? 'text-left' : 'text-right'
+                      isEnglishText(company.why_relevant) ? 'text-left' : 'text-left'
                     }`} 
                     style={{ color: 'var(--balena-dark)' }}
                   >
@@ -1360,7 +1360,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                     </div>
                     {hasValidData(company?.about_us) && hasValidData(company?.description) && company?.about_us !== company?.description && (
                       <div className="mt-3 pt-3 border-t border-blue-200">
-                        <div className="text-xs text-blue-600 mb-2">מידע נוסף מהמערכת:</div>
+                        <div className="text-xs text-blue-600 mb-2">Additional system information:</div>
                         <div className="text-sm">
                           {renderExpandableText(company.description, 'additional_description', 300)}
                   </div>
@@ -1430,7 +1430,7 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
                 <h3 className="text-sm font-bold text-yellow-700 mb-3">✏️ Manual Assessment</h3>
                 <div 
                   className={`text-base leading-7 whitespace-pre-wrap ${
-                  isEnglishText(editedCompany.balena_value || '') ? 'text-left' : 'text-right'
+                  isEnglishText(editedCompany.balena_value || '') ? 'text-left' : 'text-left'
                 }`} 
                 style={{ color: 'var(--balena-dark)' }}
               >
