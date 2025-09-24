@@ -465,26 +465,32 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
         WebkitOverflowScrolling: 'touch'
       }}
     >
-      {/* Header */}
-      <div className="flex items-center justify-between p-6 border-b bg-gradient-to-r" style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}>
-        <div className="flex items-center gap-3">
-          <Building2 className="w-6 h-6 text-white" />
-          <h1 className="text-2xl font-bold text-white">Advanced Company Discovery</h1>
-          <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm">
-            {filteredCompanies.length} of {companies.length}
-          </span>
+      {/* Header - Mobile Optimized */}
+      <div className="flex items-center justify-between p-3 xs:p-4 sm:p-6 border-b bg-gradient-to-r safe-area-top" style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}>
+        <div className="flex items-center gap-2 xs:gap-3 flex-1 min-w-0">
+          <Building2 className="w-5 h-5 xs:w-6 xs:h-6 text-white flex-shrink-0" />
+          <div className="min-w-0 flex-1">
+            <h1 className="text-lg xs:text-xl sm:text-2xl font-bold text-white leading-tight">
+              <span className="sm:hidden">Discovery</span>
+              <span className="hidden sm:inline">Advanced Company Discovery</span>
+            </h1>
+            <span className="bg-white/20 text-white px-2 xs:px-3 py-1 rounded-full text-xs xs:text-sm">
+              {filteredCompanies.length} of {companies.length}
+            </span>
+          </div>
         </div>
         <button
           onClick={onClose}
-          className="p-2 hover:bg-white/20 rounded-lg text-white"
+          className="p-1.5 xs:p-2 hover:bg-white/20 rounded-lg text-white touch-target flex-shrink-0"
+          aria-label="Close"
         >
-          <X className="w-6 h-6" />
+          <X className="w-5 h-5 xs:w-6 xs:h-6" />
         </button>
       </div>
 
-      {/* Search & Filters Bar */}
-      <div className="p-6 border-b bg-gray-50">
-        <div className="flex gap-4 mb-4">
+      {/* Search & Filters Bar - Mobile Optimized */}
+      <div className="p-3 xs:p-4 sm:p-6 border-b bg-gray-50">
+        <div className="flex gap-2 xs:gap-3 sm:gap-4 mb-3 sm:mb-4">
           {/* Desktop Search */}
           <div className="hidden sm:flex flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -570,12 +576,13 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
           {/* Mobile Search Button */}
           <button
             onClick={() => setShowMobileSearch(true)}
-            className={`sm:hidden p-3 border rounded-lg transition-colors relative ${
+            className={`sm:hidden p-2.5 xs:p-3 border rounded-lg transition-colors relative touch-target ${
               searchInput ? 'bg-blue-50 border-blue-300 text-blue-700' : 'bg-white hover:bg-gray-50 text-gray-600'
             }`}
             title={searchInput ? `Searching: "${searchInput}"` : "Search companies"}
+            aria-label="Open search"
           >
-            <Search className="w-5 h-5" />
+            <Search className="w-4 h-4 xs:w-5 xs:h-5" />
             {searchInput && (
               <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
                 ●
@@ -585,30 +592,31 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
 
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className={`flex items-center gap-2 px-4 py-3 border rounded-lg transition-colors relative ${
+            className={`flex items-center gap-1 xs:gap-2 px-2 xs:px-3 sm:px-4 py-2.5 xs:py-3 border rounded-lg transition-colors relative touch-target ${
               activeFiltersCount > 0 
                 ? 'bg-blue-50 border-blue-300 text-blue-700 hover:bg-blue-100' 
                 : 'hover:bg-gray-100'
             }`}
           >
-            <Filter className="w-5 h-5" />
-            Filters
+            <Filter className="w-4 h-4 xs:w-5 xs:h-5" />
+            <span className="hidden xs:inline">Filters</span>
             {activeFiltersCount > 0 && (
-              <span className="bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+              <span className="bg-blue-600 text-white text-xs rounded-full h-4 w-4 xs:h-5 xs:w-5 flex items-center justify-center font-medium">
                 {activeFiltersCount}
               </span>
             )}
-            {showFilters ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            {showFilters ? <ChevronUp className="w-3 h-3 xs:w-4 xs:h-4" /> : <ChevronDown className="w-3 h-3 xs:w-4 xs:h-4" />}
           </button>
           <ShimmerButton
             onClick={exportToCSV}
-            className="flex items-center gap-2"
+            className="flex items-center gap-1 xs:gap-2 px-2 xs:px-3 sm:px-4 py-2.5 xs:py-3 touch-target"
             background="linear-gradient(135deg, #059669 0%, #047857 100%)"
             shimmerColor="#ffffff"
             shimmerDuration="2s"
           >
-            <Download className="w-5 h-5" />
-            Export CSV
+            <Download className="w-4 h-4 xs:w-5 xs:h-5" />
+            <span className="hidden xs:inline">Export CSV</span>
+            <span className="xs:hidden">Export</span>
           </ShimmerButton>
         </div>
 

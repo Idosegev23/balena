@@ -659,8 +659,8 @@ export default function Home() {
 
       {/* Mobile-First Content */}
       {activeView === 'dashboard' && (
-        <div ref={elementRef} className="max-w-7xl mx-auto p-3 sm:p-4 lg:p-6 pb-32 overflow-y-auto">
-          <div className="space-y-4">
+        <div ref={elementRef} className="max-w-7xl mx-auto p-2 xs:p-3 sm:p-4 lg:p-6 pb-32 overflow-y-auto safe-area-inset">
+          <div className="space-y-3 sm:space-y-4">
           {/* Mobile-First Welcome */}
           <div className="text-center py-4 bg-white rounded-lg shadow-sm">
             <h2 className="text-lg sm:text-xl font-bold mb-1" style={{ color: 'var(--balena-dark)' }}>
@@ -673,10 +673,10 @@ export default function Home() {
 
           {/* Department Filter Tabs - Mobile First with improved spacing */}
           <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-            <div className="flex border-b overflow-x-auto">
+            <div className="flex border-b overflow-x-auto hide-scrollbar">
               <button
                 onClick={() => setDeptFilter('')}
-                className={`flex-shrink-0 px-2 sm:px-3 py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
+                className={`flex-shrink-0 px-2 xs:px-3 sm:px-3 py-2.5 xs:py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap touch-target ${
                   !deptFilter 
                     ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
@@ -686,7 +686,7 @@ export default function Home() {
               </button>
               <button
                 onClick={() => setDeptFilter('Commercial')}
-                className={`flex-shrink-0 px-2 sm:px-3 py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
+                className={`flex-shrink-0 px-2 xs:px-3 sm:px-3 py-2.5 xs:py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap touch-target ${
                   deptFilter === 'Commercial' 
                     ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
@@ -696,7 +696,7 @@ export default function Home() {
               </button>
               <button
                 onClick={() => setDeptFilter('Operations')}
-                className={`flex-shrink-0 px-2 sm:px-3 py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
+                className={`flex-shrink-0 px-2 xs:px-3 sm:px-3 py-2.5 xs:py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap touch-target ${
                   deptFilter === 'Operations' 
                     ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
@@ -706,7 +706,7 @@ export default function Home() {
               </button>
               <button
                 onClick={() => setDeptFilter('R&D')}
-                className={`flex-shrink-0 px-2 sm:px-3 py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
+                className={`flex-shrink-0 px-2 xs:px-3 sm:px-3 py-2.5 xs:py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap touch-target ${
                   deptFilter === 'R&D' 
                     ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
@@ -716,7 +716,7 @@ export default function Home() {
               </button>
               <button
                 onClick={() => setDeptFilter('Marketing')}
-                className={`flex-shrink-0 px-2 sm:px-3 py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
+                className={`flex-shrink-0 px-2 xs:px-3 sm:px-3 py-2.5 xs:py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap touch-target ${
                   deptFilter === 'Marketing' 
                     ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
@@ -728,7 +728,7 @@ export default function Home() {
           </div>
 
           {/* Mobile-First Stats */}
-          <div className="grid gap-2 grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-2 xs:gap-3 grid-cols-2 lg:grid-cols-4">
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(59, 130, 246, 0.3)" }}
               whileTap={{ scale: 0.95 }}
@@ -739,24 +739,24 @@ export default function Home() {
                 setActiveView('discovery')
                 setShowDiscoveryPage(true)
               }}
-              className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 shadow-lg text-center hover:shadow-xl transition-all flex flex-col items-center gap-2 text-white"
+              className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-3 xs:p-4 shadow-lg text-center hover:shadow-xl transition-all flex flex-col items-center gap-1 xs:gap-2 text-white touch-target"
             >
               <motion.div
                 animate={{ rotate: [0, 10, -10, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                <Building2 className="w-6 h-6 mb-1" />
+                <Building2 className="w-5 h-5 xs:w-6 xs:h-6 mb-1" />
               </motion.div>
-              <div className="text-2xl font-bold">
+              <div className="text-xl xs:text-2xl font-bold">
                 {stats?.totalCompanies || 0}
               </div>
               <div className="text-xs font-medium opacity-90">
                 🏢 Discover
               </div>
             </motion.button>
-            <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-xl p-4 shadow-lg text-center flex flex-col items-center gap-2 text-white">
-              <Star className="w-6 h-6 mb-1" />
-              <div className="text-2xl font-bold">
+            <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-xl p-3 xs:p-4 shadow-lg text-center flex flex-col items-center gap-1 xs:gap-2 text-white">
+              <Star className="w-5 h-5 xs:w-6 xs:h-6 mb-1" />
+              <div className="text-xl xs:text-2xl font-bold">
                 {stats?.mustVisitCompanies || 0}
               </div>
               <div className="text-xs font-medium opacity-90">
@@ -765,19 +765,19 @@ export default function Home() {
             </div>
             <button
               onClick={() => setActiveView('visits')}
-              className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 shadow-lg text-center hover:shadow-xl transition-all active:scale-95 flex flex-col items-center gap-2 text-white"
+              className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-3 xs:p-4 shadow-lg text-center hover:shadow-xl transition-all active:scale-95 flex flex-col items-center gap-1 xs:gap-2 text-white touch-target"
             >
-              <CheckSquare className="w-6 h-6 mb-1" />
-              <div className="text-2xl font-bold">
+              <CheckSquare className="w-5 h-5 xs:w-6 xs:h-6 mb-1" />
+              <div className="text-xl xs:text-2xl font-bold">
                 {stats?.visitedCompanies || 0}
               </div>
               <div className="text-xs font-medium opacity-90">
                 ✅ Visited
               </div>
             </button>
-            <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-4 shadow-lg text-center flex flex-col items-center gap-2 text-white">
-              <Calendar className="w-6 h-6 mb-1" />
-              <div className="text-2xl font-bold">
+            <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-3 xs:p-4 shadow-lg text-center flex flex-col items-center gap-1 xs:gap-2 text-white">
+              <Calendar className="w-5 h-5 xs:w-6 xs:h-6 mb-1" />
+              <div className="text-xl xs:text-2xl font-bold">
                 {stats?.followUpRequired || 0}
               </div>
               <div className="text-xs font-medium opacity-90">

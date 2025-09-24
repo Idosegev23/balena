@@ -319,7 +319,7 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-[60]"
+      className="fixed inset-0 bg-black bg-opacity-50 z-[60] mobile-modal"
       onClick={(e) => {
         // Close modal if clicking on backdrop (not on modal content)
         if (e.target === e.currentTarget) {
@@ -328,7 +328,7 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
       }}
     >
       <div
-        className="bg-white rounded-xl shadow-2xl max-w-6xl w-full max-h-[98vh] sm:max-h-[95vh] overflow-hidden"
+        className="bg-white h-full w-full sm:rounded-xl sm:shadow-2xl sm:max-w-6xl sm:w-full sm:max-h-[95vh] sm:m-4 overflow-hidden flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Mobile-Optimized Header */}
@@ -410,7 +410,7 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
         </div>
 
         {/* Mobile-Optimized Content */}
-        <div className="p-3 sm:p-6 overflow-y-auto max-h-[70vh] sm:max-h-[60vh]">
+        <div className="flex-1 p-3 sm:p-6 overflow-y-auto safe-area-inset modal-container">
           {message && (
             <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg">
               {message}
@@ -1167,25 +1167,25 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
           )}
         </div>
 
-        {/* Footer */}
+        {/* Footer - Mobile Optimized */}
         {isEditing && (
-          <div className="bg-gray-50 px-6 py-4 border-t flex justify-end gap-3">
+          <div className="bg-gray-50 px-3 sm:px-6 py-3 sm:py-4 border-t flex flex-col sm:flex-row gap-2 sm:gap-3 sm:justify-end safe-area-bottom">
             <button
               onClick={() => setIsEditing(false)}
-              className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100"
+              className="w-full sm:w-auto px-4 py-3 sm:py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100 touch-target font-medium"
             >
               Cancel
             </button>
             <ShimmerButton
               onClick={() => handleSave()}
               disabled={loading}
-              className="px-4 py-2 disabled:opacity-50 flex items-center gap-2"
+              className="w-full sm:w-auto px-4 py-3 sm:py-2 disabled:opacity-50 flex items-center justify-center gap-2 touch-target"
               background="linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)"
               shimmerColor="#ffffff"
               shimmerDuration="2s"
             >
               <Save className="h-4 w-4" />
-              {loading ? 'Saving...' : 'Save'}
+              {loading ? 'Saving...' : 'Save Changes'}
             </ShimmerButton>
           </div>
         )}
