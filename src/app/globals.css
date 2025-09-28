@@ -173,6 +173,25 @@ button {
   background: white;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  /* Ensure modal takes full viewport */
+  height: 100vh;
+  height: 100dvh; /* Dynamic viewport height */
+  width: 100vw;
+  width: 100dvw; /* Dynamic viewport width */
+}
+
+/* Modal content container for mobile */
+@media (max-width: 640px) {
+  .mobile-modal .modal-content {
+    height: 100vh;
+    height: 100dvh;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 /* Safe area improvements */

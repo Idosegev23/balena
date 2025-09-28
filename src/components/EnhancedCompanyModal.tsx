@@ -309,7 +309,7 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
   const TabButton = ({ id, label, icon: Icon, isActive }: { id: string, label: string, icon: any, isActive: boolean }) => (
     <button
       onClick={() => setActiveTab(id as any)}
-      className={`flex flex-col sm:flex-row items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-2 rounded-lg font-medium transition-colors whitespace-nowrap text-xs sm:text-sm min-w-0 flex-shrink-0 ${
+      className={`touch-target flex flex-col sm:flex-row items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-2 rounded-lg font-medium transition-colors whitespace-nowrap text-xs sm:text-sm min-w-0 flex-shrink-0 ${
         isActive 
           ? 'bg-blue-100 text-blue-700 border-b-2 border-blue-500' 
           : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
@@ -331,11 +331,11 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
       }}
     >
       <div
-        className="bg-white h-full w-full sm:rounded-xl sm:shadow-2xl sm:max-w-6xl sm:w-full sm:max-h-[95vh] sm:m-4 overflow-hidden flex flex-col"
+        className="modal-content bg-white w-full sm:rounded-xl sm:shadow-2xl sm:max-w-6xl sm:w-full sm:max-h-[95vh] sm:m-4 overflow-hidden flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Mobile-Optimized Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-3 sm:p-6 text-white">
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-3 sm:p-6 text-white safe-area-top">
           <div className="flex items-start justify-between gap-2">
             <div className="flex items-start gap-2 sm:gap-4 flex-1 min-w-0">
               <div className="flex-shrink-0">

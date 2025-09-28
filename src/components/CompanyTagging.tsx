@@ -66,13 +66,14 @@ export function CompanyTagging({
   const [showCustomInput, setShowCustomInput] = useState(false)
   const [availableCustomTags, setAvailableCustomTags] = useState<string[]>([])
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([])
+  const [tagUsageCount, setTagUsageCount] = useState<Map<string, number>>(new Map())
 
   useEffect(() => {
     console.log('CompanyTagging: company.tags changed to:', company.tags)
     setCurrentTags(company.tags || [])
   }, [company.tags, company.id])
 
-  // Fetch existing custom tags for suggestions
+  // Fetch existing custom tags for suggestions with usage count
   useEffect(() => {
     const fetchExistingTags = async () => {
       try {
@@ -83,18 +84,27 @@ export function CompanyTagging({
         
         if (error) throw error
         
-        const allTags = new Set<string>()
+        const tagCounts = new Map<string, number>()
         data?.forEach(row => {
           if (row.tags) {
-            row.tags.forEach((tag: string) => allTags.add(tag))
+            row.tags.forEach((tag: string) => {
+              tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1)
+            })
           }
         })
         
         // Filter out predefined tags to show only custom ones
         const predefinedTagValues = availableTags.map(t => t.id)
-        const customTags = Array.from(allTags).filter(tag => !predefinedTagValues.includes(tag))
+        const customTags = Array.from(tagCounts.keys())
+          .filter(tag => !predefinedTagValues.includes(tag))
+          .sort((a, b) => {
+            // Sort by usage count (descending), then alphabetically
+            const countDiff = (tagCounts.get(b) || 0) - (tagCounts.get(a) || 0)
+            return countDiff !== 0 ? countDiff : a.localeCompare(b)
+          })
         
-        setAvailableCustomTags(customTags.sort())
+        setAvailableCustomTags(customTags)
+        setTagUsageCount(tagCounts)
       } catch (error) {
         console.error('Error fetching existing tags:', error)
       }
@@ -103,16 +113,35 @@ export function CompanyTagging({
     fetchExistingTags()
   }, [])
 
-  // Filter suggestions based on input
+  // Filter suggestions based on input - improved with better matching
   useEffect(() => {
     if (customTagInput.trim()) {
-      const filtered = availableCustomTags.filter(tag => 
-        tag.toLowerCase().includes(customTagInput.toLowerCase()) &&
-        !currentTags.includes(tag)
-      )
-      setFilteredSuggestions(filtered.slice(0, 5)) // Show max 5 suggestions
+      const input = customTagInput.toLowerCase()
+      const filtered = availableCustomTags.filter(tag => {
+        const tagLower = tag.toLowerCase()
+        return (
+          tagLower.includes(input) || // Contains input
+          tagLower.startsWith(input) || // Starts with input
+          tag.split('_').some(part => part.toLowerCase().startsWith(input)) // Word starts with input
+        ) && !currentTags.includes(tag)
+      })
+      
+      // Sort by relevance: exact match > starts with > contains
+      filtered.sort((a, b) => {
+        const aLower = a.toLowerCase()
+        const bLower = b.toLowerCase()
+        
+        if (aLower === input) return -1
+        if (bLower === input) return 1
+        if (aLower.startsWith(input) && !bLower.startsWith(input)) return -1
+        if (bLower.startsWith(input) && !aLower.startsWith(input)) return 1
+        return a.localeCompare(b)
+      })
+      
+      setFilteredSuggestions(filtered.slice(0, 8)) // Show max 8 suggestions
     } else {
-      setFilteredSuggestions([])
+      // Show popular tags when no input
+      setFilteredSuggestions(availableCustomTags.slice(0, 5))
     }
   }, [customTagInput, availableCustomTags, currentTags])
 
@@ -163,6 +192,15 @@ export function CompanyTagging({
       
       setCurrentTags(newTags)
       onTagsUpdate?.(newTags)
+      
+      // Refresh available tags if we added a new custom tag
+      if (newTags.length > currentTags.length) {
+        const newTag = newTags.find(tag => !currentTags.includes(tag))
+        if (newTag && !availableCustomTags.includes(newTag)) {
+          setAvailableCustomTags(prev => [newTag, ...prev])
+          setTagUsageCount(prev => new Map(prev.set(newTag, 1)))
+        }
+      }
       
       // Show success feedback
       setShowSuccess(true)
@@ -317,24 +355,38 @@ export function CompanyTagging({
                 
                 {/* Suggestions */}
                 {filteredSuggestions.length > 0 && (
-                  <div className="space-y-1">
-                    <p className="text-xs text-gray-500">Existing tags you can use:</p>
+                  <div className="space-y-2">
+                    <p className="text-xs text-gray-500 font-medium">
+                      {customTagInput.trim() ? `📋 Matching tags (${filteredSuggestions.length}):` : '🏷️ Popular tags:'}
+                    </p>
                     <div className="flex flex-wrap gap-1">
-                      {filteredSuggestions.map(tag => (
-                        <button
-                          key={tag}
-                          onClick={() => {
-                            setCustomTagInput(tag)
-                            handleTagToggle(tag)
-                            setCustomTagInput('')
-                          }}
-                          className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
-                          disabled={isUpdating}
-                        >
-                          {tag.replace(/_/g, ' ')}
-                        </button>
-                      ))}
+                      {filteredSuggestions.map(tag => {
+                        const usageCount = tagUsageCount.get(tag) || 0
+                        return (
+                          <button
+                            key={tag}
+                            onClick={() => {
+                              handleTagToggle(tag)
+                              setCustomTagInput('')
+                            }}
+                            className="px-2 py-1 text-xs bg-blue-50 text-blue-700 border border-blue-200 rounded hover:bg-blue-100 transition-colors flex items-center gap-1"
+                            disabled={isUpdating}
+                            title={`Used by ${usageCount} ${usageCount === 1 ? 'company' : 'companies'}`}
+                          >
+                            <span>{tag.replace(/_/g, ' ')}</span>
+                            {usageCount > 1 && (
+                              <span className="text-blue-400 bg-blue-100 px-1 rounded text-xs">
+                                {usageCount}
+                              </span>
+                            )}
+                            <span className="text-blue-500">+</span>
+                          </button>
+                        )
+                      })}
                     </div>
+                    {customTagInput.trim() && (
+                      <p className="text-xs text-gray-400">💡 Click any tag to add it instantly</p>
+                    )}
                   </div>
                 )}
               </div>
