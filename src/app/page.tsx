@@ -640,7 +640,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="main-content bg-gray-50">
       {/* Top Bar */}
       {/* Header */}
       <Header 
@@ -659,7 +659,7 @@ export default function Home() {
 
       {/* Mobile-First Content */}
       {activeView === 'dashboard' && (
-        <div ref={elementRef} className="max-w-7xl mx-auto p-2 xs:p-3 sm:p-4 lg:p-6 pb-32 overflow-y-auto safe-area-inset">
+        <div ref={elementRef} className="max-w-7xl mx-auto p-2 xs:p-3 sm:p-4 lg:p-6 mobile-content overflow-y-auto safe-area-inset">
           <div className="space-y-3 sm:space-y-4">
           {/* Mobile-First Welcome */}
           <div className="text-center py-4 bg-white rounded-lg shadow-sm">
@@ -805,7 +805,7 @@ export default function Home() {
 
       {/* Settings View */}
       {activeView === 'settings' && (
-        <div className="p-6 pb-32">
+        <div className="p-6 mobile-content">
           <div className="max-w-md mx-auto">
             <h1 className="text-2xl font-bold mb-6 text-center" style={{ color: 'var(--balena-dark)' }}>Settings</h1>
             <div className="bg-white rounded-lg p-6 shadow-sm space-y-4">

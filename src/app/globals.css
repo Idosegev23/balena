@@ -25,6 +25,10 @@ body {
   -webkit-text-size-adjust: 100%;
   /* Smooth scrolling on mobile */
   scroll-behavior: smooth;
+  /* Fix viewport height issues on mobile */
+  height: 100%;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
 }
 
 /* Improved viewport handling for small screens */
@@ -36,6 +40,7 @@ body {
   body {
     min-height: 100vh;
     min-height: -webkit-fill-available; /* iOS safari fix */
+    min-height: calc(100vh - env(safe-area-inset-bottom));
   }
 }
 
@@ -211,5 +216,26 @@ button {
   
   .safe-area-top {
     padding-top: max(0.5rem, env(safe-area-inset-top));
+  }
+
+  .safe-area-inset {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+    padding-top: max(16px, env(safe-area-inset-top));
+  }
+}
+
+/* Ensure main content doesn't get cut off */
+.main-content {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  padding-bottom: max(80px, calc(80px + env(safe-area-inset-bottom)));
+}
+
+/* Mobile navigation spacing */
+@media (max-width: 768px) {
+  .mobile-content {
+    padding-bottom: max(90px, calc(90px + env(safe-area-inset-bottom)));
   }
 }

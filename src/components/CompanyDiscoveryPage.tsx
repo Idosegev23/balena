@@ -458,7 +458,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
 
   return (
     <div 
-      className="fixed inset-0 bg-white z-50 flex flex-col pb-16"
+      className="fixed inset-0 bg-white z-50 flex flex-col mobile-content"
       style={{
         overscrollBehavior: 'none',
         touchAction: 'pan-x pan-y',

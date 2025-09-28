@@ -61,7 +61,11 @@ export function LogoDisplayWithUpload({
       // Update company in database
       const { error: updateError } = await supabase
         .from('companies')
-        .update({ logo_url: logoUrl })
+        .update({ 
+          logo_url: logoUrl,
+          logo: logoUrl,
+          updated_at: new Date().toISOString()
+        })
         .eq('id', company.id)
 
       if (updateError) throw updateError
@@ -103,7 +107,11 @@ export function LogoDisplayWithUpload({
             // Update company in database
             const { error } = await supabase
               .from('companies')
-              .update({ logo_url: logoUrl })
+              .update({ 
+                logo_url: logoUrl,
+                logo: logoUrl,
+                updated_at: new Date().toISOString()
+              })
               .eq('id', company.id)
 
             if (!error) {

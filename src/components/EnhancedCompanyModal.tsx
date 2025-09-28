@@ -26,12 +26,12 @@ interface EnhancedCompanyModalProps {
 }
 
 export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCompanyUpdate }: EnhancedCompanyModalProps) {
-  const [editedCompany, setEditedCompany] = useState<Company | null>(null)
   const [loading, setLoading] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [activeTab, setActiveTab] = useState<'overview' | 'details' | 'contact' | 'business' | 'analysis' | 'actions' | 'notes'>('overview')
   const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({})
   const [message, setMessage] = useState('')
+  const [editedCompany, setEditedCompany] = useState<Company | null>(null)
 
   // Helper function to ensure URL has proper protocol
   const formatUrl = (url: string | undefined | null): string => {
@@ -80,7 +80,7 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
 
   useEffect(() => {
     if (company) {
-      setEditedCompany(company)
+      setEditedCompany({ ...company })
     }
   }, [company])
 
@@ -214,6 +214,9 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
       setMessage('Company updated successfully')
       setIsEditing(false)
       onUpdate()
+      onCompanyUpdate?.(targetCompany)
+      // Refresh the edited company state
+      setEditedCompany({ ...targetCompany })
     } catch (error) {
       console.error('Error updating company:', error)
       setMessage('Error updating company')

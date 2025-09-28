@@ -190,6 +190,8 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
       setMessage('✅ Company updated successfully!')
       setIsEditing(false)
       onUpdate()
+      // Refresh the edited company state
+      setEditedCompany({ ...editedCompany })
       setTimeout(() => {
         setMessage('')
       }, 3000)
