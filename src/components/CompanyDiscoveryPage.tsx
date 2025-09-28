@@ -395,44 +395,48 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       let companyIds: number[]
       
       if (exportAll) {
-        // Export ALL companies from the database
-        const { data: allCompanies, error: allCompaniesError } = await supabase
+        // Export ALL companies from the database - remove any limits
+        const { data: allCompanies, error: allCompaniesError, count } = await supabase
           .from('companies')
-          .select('id')
+          .select('id', { count: 'exact' })
+          .limit(1000) // Set a high limit to ensure we get all companies
         
         if (allCompaniesError) throw allCompaniesError
         companyIds = allCompanies?.map(c => c.id) || []
-        console.log('📊 Starting export for ALL companies:', companyIds.length)
+        console.log('📊 Starting export for ALL companies:', companyIds.length, 'Total in DB:', count)
       } else {
         // Export only filtered companies
         companyIds = filteredCompanies.map(c => c.id)
         console.log('📊 Starting export for filtered companies:', companyIds.length)
       }
       
-      // Get companies data
+      // Get companies data - ensure no limit
       const { data: companies, error: companiesError } = await supabase
         .from('companies')
         .select('*')
         .in('id', companyIds)
+        .limit(1000) // Set high limit to ensure we get all companies
         .order('company')
 
       if (companiesError) throw companiesError
 
-      // Get ratings data separately
+      // Get ratings data separately - ensure no limit
       const { data: ratings, error: ratingsError } = await supabase
         .from('company_ratings')
         .select('company_id, rating, notes, user_id, created_at')
         .in('company_id', companyIds)
+        .limit(5000) // High limit for ratings
 
       if (ratingsError) {
         console.warn('⚠️ Could not fetch ratings:', ratingsError)
       }
 
-      // Get notes data separately  
+      // Get notes data separately - ensure no limit
       const { data: notes, error: notesError } = await supabase
         .from('notes')
         .select('company_id, content, note_type, created_at, user_id, is_private')
         .in('company_id', companyIds)
+        .limit(5000) // High limit for notes
 
       if (notesError) {
         console.warn('⚠️ Could not fetch notes:', notesError)
@@ -446,6 +450,8 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       }))
 
       console.log('📊 Export data sample:', {
+        requestedCompanyIds: companyIds.length,
+        actualCompaniesReturned: companies?.length || 0,
         totalCompanies: detailedCompanies?.length,
         totalRatings: ratings?.length || 0,
         totalNotes: notes?.length || 0,
