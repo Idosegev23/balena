@@ -385,16 +385,29 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
     }
   }
 
-  const handleExportFilteredCompanies = async () => {
+  const handleExportFilteredCompanies = async (exportAll = false) => {
     if (isExporting) return
     
     setIsExporting(true)
     
     try {
-      // Get detailed company data with ratings, notes and tags
-      const companyIds = filteredCompanies.map(c => c.id)
+      // Determine which companies to export
+      let companyIds: number[]
       
-      console.log('📊 Starting export for', companyIds.length, 'companies')
+      if (exportAll) {
+        // Export ALL companies from the database
+        const { data: allCompanies, error: allCompaniesError } = await supabase
+          .from('companies')
+          .select('id')
+        
+        if (allCompaniesError) throw allCompaniesError
+        companyIds = allCompanies?.map(c => c.id) || []
+        console.log('📊 Starting export for ALL companies:', companyIds.length)
+      } else {
+        // Export only filtered companies
+        companyIds = filteredCompanies.map(c => c.id)
+        console.log('📊 Starting export for filtered companies:', companyIds.length)
+      }
       
       // Get companies data
       const { data: companies, error: companiesError } = await supabase
@@ -536,7 +549,10 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       const encodedUri = encodeURI(csvContent)
       const link = document.createElement("a")
       link.setAttribute("href", encodedUri)
-      link.setAttribute("download", `filtered_companies_${new Date().toISOString().split('T')[0]}.csv`)
+      const fileName = exportAll 
+        ? `all_companies_${new Date().toISOString().split('T')[0]}.csv`
+        : `filtered_companies_${new Date().toISOString().split('T')[0]}.csv`
+      link.setAttribute("download", fileName)
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
@@ -547,20 +563,20 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       const notesCount = notes?.length || 0
       const companiesWithTags = detailedCompanies?.filter((c: any) => c.tags && c.tags.length > 0).length || 0
       
-      alert(`✅ קובץ CSV נוצר בהצלחה!
+      alert(`✅ CSV Export Completed Successfully!
 
-📊 ${exportedCount} חברות יוצאו
-👍 ${ratingsCount} דירוגים
-📝 ${notesCount} הערות  
-🏷️ ${companiesWithTags} חברות עם תגיות
+📊 ${exportedCount} companies exported ${exportAll ? '(All Companies)' : '(Filtered Companies)'}
+👍 ${ratingsCount} ratings
+📝 ${notesCount} notes  
+🏷️ ${companiesWithTags} companies with tags
 
-📋 הקובץ כולל:
-• שורה אחת לכל חברה
-• קישורים קליקאבילים לאתרים
-• כל התגיות, הערות ודירוגים
-• פורמט נוח לעבודה באקסל
+📋 File includes:
+• One row per company
+• Clickable website links
+• All tags, notes and ratings
+• Excel-friendly format
 
-📁 נשמר בשם: filtered_companies_${new Date().toISOString().split('T')[0]}.csv`)
+📁 Saved as: ${fileName}`)
       
     } catch (error: any) {
       console.error('Export error:', error)
@@ -625,20 +641,20 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
         </div>
         <div className="flex items-center gap-2">
           <button
-            onClick={handleExportFilteredCompanies}
+            onClick={() => handleExportFilteredCompanies(true)}
             disabled={isExporting}
             className={`p-1.5 xs:p-2 rounded-lg text-white touch-target flex-shrink-0 transition-all ${
               isExporting 
                 ? 'bg-white/10 cursor-not-allowed' 
                 : 'hover:bg-white/20'
             }`}
-            aria-label="Export filtered companies"
-            title={isExporting ? "Exporting..." : "Export current list to CSV"}
+            aria-label="Export all companies"
+            title={isExporting ? "Exporting..." : "Export ALL companies to CSV"}
           >
             {isExporting ? (
-              <div className="animate-spin rounded-full h-5 w-5 xs:h-6 xs:w-6 border-2 border-white border-t-transparent" />
+              <div className="animate-spin w-3 h-3 xs:w-4 xs:h-4 border border-white/30 border-t-white rounded-full" />
             ) : (
-              <Download className="w-5 h-5 xs:w-6 xs:h-6" />
+              <Download className="w-3 h-3 xs:w-4 xs:h-4" />
             )}
           </button>
           <button
@@ -771,7 +787,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
             {showFilters ? <ChevronUp className="w-3 h-3 xs:w-4 xs:h-4" /> : <ChevronDown className="w-3 h-3 xs:w-4 xs:h-4" />}
           </button>
           <ShimmerButton
-            onClick={handleExportFilteredCompanies}
+            onClick={() => handleExportFilteredCompanies(true)}
             disabled={isExporting}
             className={`flex items-center gap-1 xs:gap-2 px-2 xs:px-3 sm:px-4 py-2.5 xs:py-3 touch-target transition-all ${
               isExporting ? 'opacity-50 cursor-not-allowed' : ''
@@ -786,10 +802,10 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
               <Download className="w-4 h-4 xs:w-5 xs:h-5" />
             )}
             <span className="hidden xs:inline">
-              {isExporting ? 'Exporting...' : 'Export CSV'}
+              {isExporting ? 'Exporting...' : 'Export All Companies'}
             </span>
             <span className="xs:hidden">
-              {isExporting ? 'Wait...' : 'Export'}
+              {isExporting ? 'Exporting...' : 'Export All'}
             </span>
           </ShimmerButton>
         </div>
