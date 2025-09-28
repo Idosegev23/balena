@@ -162,6 +162,9 @@ export function TagManager({ company, onUpdate, isEditing = false }: TagManagerP
       {/* הוספת תגית חדשה */}
       {isAddingTag && (
         <div className="space-y-3">
+          <div className="text-xs text-gray-500 mb-2">
+            💡 Popular custom tags: foam, additive, pelletizing, pha, pla, color, plasticizer
+          </div>
           {/* תגיות מוגדרות מראש */}
           <div>
             <label className="block text-xs font-medium text-gray-600 mb-2">Quick Tags</label>

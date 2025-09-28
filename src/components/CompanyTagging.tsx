@@ -64,11 +64,57 @@ export function CompanyTagging({
   const [showSuccess, setShowSuccess] = useState(false)
   const [customTagInput, setCustomTagInput] = useState('')
   const [showCustomInput, setShowCustomInput] = useState(false)
+  const [availableCustomTags, setAvailableCustomTags] = useState<string[]>([])
+  const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([])
 
   useEffect(() => {
     console.log('CompanyTagging: company.tags changed to:', company.tags)
     setCurrentTags(company.tags || [])
   }, [company.tags, company.id])
+
+  // Fetch existing custom tags for suggestions
+  useEffect(() => {
+    const fetchExistingTags = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('companies')
+          .select('tags')
+          .not('tags', 'is', null)
+        
+        if (error) throw error
+        
+        const allTags = new Set<string>()
+        data?.forEach(row => {
+          if (row.tags) {
+            row.tags.forEach((tag: string) => allTags.add(tag))
+          }
+        })
+        
+        // Filter out predefined tags to show only custom ones
+        const predefinedTagValues = availableTags.map(t => t.id)
+        const customTags = Array.from(allTags).filter(tag => !predefinedTagValues.includes(tag))
+        
+        setAvailableCustomTags(customTags.sort())
+      } catch (error) {
+        console.error('Error fetching existing tags:', error)
+      }
+    }
+    
+    fetchExistingTags()
+  }, [])
+
+  // Filter suggestions based on input
+  useEffect(() => {
+    if (customTagInput.trim()) {
+      const filtered = availableCustomTags.filter(tag => 
+        tag.toLowerCase().includes(customTagInput.toLowerCase()) &&
+        !currentTags.includes(tag)
+      )
+      setFilteredSuggestions(filtered.slice(0, 5)) // Show max 5 suggestions
+    } else {
+      setFilteredSuggestions([])
+    }
+  }, [customTagInput, availableCustomTags, currentTags])
 
   const getTagConfig = (tagId: string) => {
     return availableTags.find(tag => tag.id === tagId) || {
@@ -234,23 +280,48 @@ export function CompanyTagging({
             </div>
             
             {showCustomInput && (
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={customTagInput}
-                  onChange={(e) => setCustomTagInput(e.target.value)}
-                  placeholder="Enter custom tag..."
-                  className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                  onKeyPress={(e) => e.key === 'Enter' && handleAddCustomTag()}
-                  disabled={isUpdating}
-                />
-                <button
-                  onClick={handleAddCustomTag}
-                  disabled={!customTagInput.trim() || isUpdating}
-                  className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Add
-                </button>
+              <div className="space-y-2">
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={customTagInput}
+                    onChange={(e) => setCustomTagInput(e.target.value)}
+                    placeholder="Type custom tag... (e.g. foam, additive, pelletizing)"
+                    className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                    onKeyPress={(e) => e.key === 'Enter' && handleAddCustomTag()}
+                    disabled={isUpdating}
+                  />
+                  <button
+                    onClick={handleAddCustomTag}
+                    disabled={!customTagInput.trim() || isUpdating}
+                    className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Add
+                  </button>
+                </div>
+                
+                {/* Suggestions */}
+                {filteredSuggestions.length > 0 && (
+                  <div className="space-y-1">
+                    <p className="text-xs text-gray-500">Existing tags you can use:</p>
+                    <div className="flex flex-wrap gap-1">
+                      {filteredSuggestions.map(tag => (
+                        <button
+                          key={tag}
+                          onClick={() => {
+                            setCustomTagInput(tag)
+                            handleTagToggle(tag)
+                            setCustomTagInput('')
+                          }}
+                          className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
+                          disabled={isUpdating}
+                        >
+                          {tag.replace(/_/g, ' ')}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
