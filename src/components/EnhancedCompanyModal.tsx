@@ -32,6 +32,7 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
   const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({})
   const [message, setMessage] = useState('')
   const [editedCompany, setEditedCompany] = useState<Company | null>(null)
+  const [isSavingPriority, setIsSavingPriority] = useState(false)
 
   // Helper function to ensure URL has proper protocol
   const formatUrl = (url: string | undefined | null): string => {
@@ -41,6 +42,60 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
       return cleanUrl
     }
     return `https://${cleanUrl}`
+  }
+
+  // Handle priority change with immediate save
+  const handlePriorityChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (!company) return
+    
+    const newPriority = e.target.value
+    
+    if (isSavingPriority) return
+    
+    setIsSavingPriority(true)
+    
+    try {
+      console.log('🎯 Updating priority for company:', company.id, 'to:', newPriority)
+      
+      // Update local state immediately
+      const updatedCompany: Company = { ...company, visit_priority: newPriority as any }
+      setEditedCompany(updatedCompany)
+      
+      // Save to database
+      const { data, error } = await supabase
+        .from('companies')
+        .update({ 
+          visit_priority: newPriority,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', company.id)
+        .select()
+
+      if (error) {
+        console.error('❌ Priority update error:', error)
+        throw error
+      }
+
+      console.log('✅ Priority updated successfully:', data)
+      
+      // Notify parent components
+      onUpdate()
+      onCompanyUpdate?.(updatedCompany)
+      
+      // Show success message briefly
+      setMessage('✅ Priority updated!')
+      setTimeout(() => setMessage(''), 2000)
+      
+    } catch (error: any) {
+      console.error('❌ Failed to update priority:', error)
+      setMessage(`❌ Failed to update priority: ${error.message}`)
+      setTimeout(() => setMessage(''), 3000)
+      
+      // Reset to original value on error
+      setEditedCompany(company)
+    } finally {
+      setIsSavingPriority(false)
+    }
   }
 
   // Prevent background scrolling when modal is open
@@ -1205,24 +1260,46 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
                 </div>
               </div>
 
-              {/* Priority Selection */}
-              {isEditing && (
-                <div className="bg-yellow-50 p-6 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-4">Visit Priority</h3>
+              {/* Priority Selection - Always Available */}
+              <div className="bg-yellow-50 p-6 rounded-lg">
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <Star className="h-5 w-5 text-yellow-600" />
+                  Visit Priority
+                </h3>
+                <div className="relative">
                   <select
-                    value={editedCompany?.visit_priority || ''}
-                    onChange={(e) => setEditedCompany(prev => prev ? {...prev, visit_priority: e.target.value as any} : null)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    value={editedCompany?.visit_priority || company.visit_priority || 'MEDIUM'}
+                    onChange={handlePriorityChange}
+                    disabled={isSavingPriority}
+                    className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white transition-all ${
+                      isSavingPriority ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
                   >
-                    <option value="">Select Priority</option>
-                    <option value="MUST_VISIT">Must Visit</option>
-                    <option value="HIGH">High</option>
-                    <option value="MEDIUM">Medium</option>
-                    <option value="LOW">Low</option>
-                    <option value="MONITOR_ONLY">Monitor Only</option>
+                    <option value="MUST_VISIT">🔴 Must Visit</option>
+                    <option value="HIGH">🟠 High Priority</option>
+                    <option value="MEDIUM">🟡 Medium Priority</option>
+                    <option value="LOW">🟢 Low Priority</option>
+                    <option value="MONITOR_ONLY">⚪ Monitor Only</option>
                   </select>
+                  {isSavingPriority && (
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-500 border-t-transparent"></div>
+                    </div>
+                  )}
                 </div>
-              )}
+                <p className="text-sm text-gray-600 mt-2 flex items-center gap-2">
+                  {isSavingPriority ? (
+                    <>
+                      <div className="animate-spin rounded-full h-3 w-3 border-2 border-blue-500 border-t-transparent"></div>
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      ✅ Changes are saved automatically
+                    </>
+                  )}
+                </p>
+              </div>
             </div>
           )}
 

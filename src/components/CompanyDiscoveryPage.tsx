@@ -394,17 +394,53 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       // Get detailed company data with ratings, notes and tags
       const companyIds = filteredCompanies.map(c => c.id)
       
-      const { data: detailedCompanies, error } = await supabase
+      console.log('📊 Starting export for', companyIds.length, 'companies')
+      
+      // Get companies data
+      const { data: companies, error: companiesError } = await supabase
         .from('companies')
-        .select(`
-          *,
-          company_ratings(rating, notes, user_id, created_at),
-          notes(content, note_type, created_at, user_id, is_private)
-        `)
+        .select('*')
         .in('id', companyIds)
         .order('company')
 
-      if (error) throw error
+      if (companiesError) throw companiesError
+
+      // Get ratings data separately
+      const { data: ratings, error: ratingsError } = await supabase
+        .from('company_ratings')
+        .select('company_id, rating, notes, user_id, created_at')
+        .in('company_id', companyIds)
+
+      if (ratingsError) {
+        console.warn('⚠️ Could not fetch ratings:', ratingsError)
+      }
+
+      // Get notes data separately  
+      const { data: notes, error: notesError } = await supabase
+        .from('notes')
+        .select('company_id, content, note_type, created_at, user_id, is_private')
+        .in('company_id', companyIds)
+
+      if (notesError) {
+        console.warn('⚠️ Could not fetch notes:', notesError)
+      }
+
+      // Combine the data
+      const detailedCompanies = companies?.map(company => ({
+        ...company,
+        company_ratings: ratings?.filter(r => r.company_id === company.id) || [],
+        notes: notes?.filter(n => n.company_id === company.id) || []
+      }))
+
+      console.log('📊 Export data sample:', {
+        totalCompanies: detailedCompanies?.length,
+        totalRatings: ratings?.length || 0,
+        totalNotes: notes?.length || 0,
+        firstCompany: detailedCompanies?.[0]?.company,
+        sampleRatings: detailedCompanies?.[0]?.company_ratings?.length || 0,
+        sampleNotes: detailedCompanies?.[0]?.notes?.length || 0,
+        sampleTags: detailedCompanies?.[0]?.tags
+      })
 
       // Create CSV content with BOM for Hebrew support
       let csvContent = "data:text/csv;charset=utf-8,\uFEFF"
@@ -413,7 +449,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       csvContent += "Company Name,Location,Hall,Stand,Email,Phone,Website,Description,Visit Priority,Relevance Score,Tags,Likes,Dislikes,Rating Notes,General Notes,Private Notes,Last Updated\n"
       
       // Process each company
-      detailedCompanies?.forEach((company: any) => {
+      detailedCompanies?.forEach((company: any, index: number) => {
         // Process ratings
         const ratings = company.company_ratings || []
         const likes = ratings.filter((r: any) => r.rating === 1).length
@@ -430,6 +466,21 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
         
         // Get last updated date
         const lastUpdated = company.updated_at ? new Date(company.updated_at).toLocaleDateString('he-IL') : ''
+
+        // Debug log for first few companies
+        if (index < 3) {
+          console.log(`📋 Company ${index + 1} (${company.company}):`, {
+            ratings: ratings.length,
+            likes,
+            dislikes,
+            ratingNotes,
+            notes: notes.length,
+            generalNotes,
+            privateNotes,
+            tags,
+            lastUpdated
+          })
+        }
         
         csvContent += [
           company.company || '',
