@@ -445,24 +445,49 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       // Create CSV content with BOM for Hebrew support
       let csvContent = "data:text/csv;charset=utf-8,\uFEFF"
       
-      // Headers
-      csvContent += "Company Name,Location,Hall,Stand,Email,Phone,Website,Description,Visit Priority,Relevance Score,Tags,Likes,Dislikes,Rating Notes,General Notes,Private Notes,Last Updated\n"
+      // Headers - organized for maximum usability
+      csvContent += "Company Name,Hall,Stand,Location,Visit Priority,Relevance Score,Tags,Likes,Dislikes,Email,Phone,Website,Contact Person,Rating Notes,General Notes,Private Notes,Description,Last Updated\n"
       
       // Process each company
       detailedCompanies?.forEach((company: any, index: number) => {
+        // Helper function to clean text for CSV
+        const cleanText = (text: string | null | undefined): string => {
+          if (!text) return ''
+          return String(text)
+            .replace(/[\r\n\t]+/g, ' ')  // Replace newlines and tabs with spaces
+            .replace(/\s+/g, ' ')        // Replace multiple spaces with single space
+            .replace(/"/g, '""')         // Escape quotes for CSV
+            .trim()                      // Remove leading/trailing spaces
+        }
+
         // Process ratings
         const ratings = company.company_ratings || []
         const likes = ratings.filter((r: any) => r.rating === 1).length
         const dislikes = ratings.filter((r: any) => r.rating === -1).length
-        const ratingNotes = ratings.map((r: any) => r.notes).filter(Boolean).join('; ')
+        const ratingNotes = ratings
+          .map((r: any) => cleanText(r.notes))
+          .filter(Boolean)
+          .join('; ')
         
         // Process notes by type
         const notes = company.notes || []
-        const generalNotes = notes.filter((n: any) => !n.is_private).map((n: any) => `${n.note_type || 'Note'}: ${n.content}`).join('; ')
-        const privateNotes = notes.filter((n: any) => n.is_private).map((n: any) => `${n.note_type || 'Private'}: ${n.content}`).join('; ')
+        const generalNotes = notes
+          .filter((n: any) => !n.is_private)
+          .map((n: any) => `${cleanText(n.note_type || 'Note')}: ${cleanText(n.content)}`)
+          .filter((note: string) => note.length > 2) // Only include non-empty notes
+          .join('; ')
+        const privateNotes = notes
+          .filter((n: any) => n.is_private)
+          .map((n: any) => `${cleanText(n.note_type || 'Private')}: ${cleanText(n.content)}`)
+          .filter((note: string) => note.length > 2) // Only include non-empty notes
+          .join('; ')
         
         // Process tags
-        const tags = Array.isArray(company.tags) ? company.tags.join(', ') : (company.tags || '')
+        const tags = Array.isArray(company.tags) ? company.tags.join(', ') : cleanText(company.tags)
+        
+        // Format website as clickable link
+        const website = company.website ? 
+          (company.website.startsWith('http') ? company.website : `https://${company.website}`) : ''
         
         // Get last updated date
         const lastUpdated = company.updated_at ? new Date(company.updated_at).toLocaleDateString('he-IL') : ''
@@ -482,25 +507,29 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
           })
         }
         
-        csvContent += [
-          company.company || '',
-          company.location || '',
-          company.hall || '',
-          company.stand || '',
-          company.email || '',
-          company.phone || '',
-          company.website || '',
-          (company.description || '').replace(/,/g, ';'),
-          company.visit_priority || '',
-          company.relevance_score || '',
-          tags,
-          likes.toString(),
-          dislikes.toString(),
-          ratingNotes.replace(/,/g, ';'),
-          generalNotes.replace(/,/g, ';'),
-          privateNotes.replace(/,/g, ';'),
-          lastUpdated
-        ].map(field => `"${field}"`).join(',') + '\n'
+        // Create CSV row with proper order: Company Name,Hall,Stand,Location,Visit Priority,Relevance Score,Tags,Likes,Dislikes,Email,Phone,Website,Contact Person,Rating Notes,General Notes,Private Notes,Description,Last Updated
+        const csvRow = [
+          cleanText(company.company),                    // Company Name
+          cleanText(company.hall),                       // Hall  
+          cleanText(company.stand),                      // Stand
+          cleanText(company.location),                   // Location
+          cleanText(company.visit_priority),             // Visit Priority
+          cleanText(company.relevance_score?.toString()), // Relevance Score
+          tags,                                          // Tags
+          likes.toString(),                              // Likes
+          dislikes.toString(),                           // Dislikes
+          cleanText(company.email),                      // Email
+          cleanText(company.phone),                      // Phone
+          website,                                       // Website (formatted as link)
+          cleanText(company.contact_person),             // Contact Person
+          ratingNotes,                                   // Rating Notes
+          generalNotes,                                  // General Notes
+          privateNotes,                                  // Private Notes
+          cleanText(company.description),                // Description
+          lastUpdated                                    // Last Updated
+        ].map(field => `"${field}"`).join(',')
+
+        csvContent += csvRow + '\n'
       })
 
       // Download the file
@@ -512,8 +541,26 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       link.click()
       document.body.removeChild(link)
 
-      // Show success message
-      alert(`✅ Exported ${detailedCompanies?.length || 0} companies to CSV successfully!`)
+      // Show success message with details
+      const exportedCount = detailedCompanies?.length || 0
+      const ratingsCount = ratings?.length || 0
+      const notesCount = notes?.length || 0
+      const companiesWithTags = detailedCompanies?.filter((c: any) => c.tags && c.tags.length > 0).length || 0
+      
+      alert(`✅ קובץ CSV נוצר בהצלחה!
+
+📊 ${exportedCount} חברות יוצאו
+👍 ${ratingsCount} דירוגים
+📝 ${notesCount} הערות  
+🏷️ ${companiesWithTags} חברות עם תגיות
+
+📋 הקובץ כולל:
+• שורה אחת לכל חברה
+• קישורים קליקאבילים לאתרים
+• כל התגיות, הערות ודירוגים
+• פורמט נוח לעבודה באקסל
+
+📁 נשמר בשם: filtered_companies_${new Date().toISOString().split('T')[0]}.csv`)
       
     } catch (error: any) {
       console.error('Export error:', error)
