@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Upload, Image as ImageIcon, Building2 } from 'lucide-react'
 import { Company, supabase } from '@/lib/supabase'
 import { useAuth } from '@/components/AuthProvider'
@@ -22,7 +22,13 @@ export function LogoDisplayWithUpload({
 }: LogoDisplayWithUploadProps) {
   const [isUploading, setIsUploading] = useState(false)
   const [showUploadOverlay, setShowUploadOverlay] = useState(false)
+  const [currentLogoUrl, setCurrentLogoUrl] = useState<string | null>(null)
   const { user } = useAuth()
+
+  // Update local state when company prop changes
+  useEffect(() => {
+    setCurrentLogoUrl(null) // Reset to use company's logo
+  }, [company.id, company.logo_url, company.logo])
 
   const sizeClasses = {
     sm: 'h-8 w-8',
@@ -95,6 +101,10 @@ export function LogoDisplayWithUpload({
       console.log('✅ Upload successful:', result)
       const logoUrl = result.logoUrl
 
+      // Update local state immediately for instant UI update
+      setCurrentLogoUrl(logoUrl)
+      
+      // Notify parent component
       onLogoUpdate?.(logoUrl)
       setShowUploadOverlay(false)
       
@@ -170,8 +180,10 @@ export function LogoDisplayWithUpload({
     }
   }
 
-  const hasLogo = company.logo_url || company.logo
-  const logoSrc = company.logo_url || company.logo
+  // Use current logo URL if available, otherwise fall back to company logo
+  const effectiveLogoUrl = currentLogoUrl || company.logo_url || company.logo
+  const hasLogo = effectiveLogoUrl
+  const logoSrc = effectiveLogoUrl
 
   return (
     <div 
