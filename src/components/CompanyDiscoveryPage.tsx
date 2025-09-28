@@ -58,6 +58,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
   const [showAutocomplete, setShowAutocomplete] = useState(false)
   const [autocompleteCompanies, setAutocompleteCompanies] = useState<Company[]>([])
   const [showMobileSearch, setShowMobileSearch] = useState(false)
+  const [isExporting, setIsExporting] = useState(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
   
   const companiesPerPage = 20
@@ -384,6 +385,93 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
     }
   }
 
+  const handleExportFilteredCompanies = async () => {
+    if (isExporting) return
+    
+    setIsExporting(true)
+    
+    try {
+      // Get detailed company data with ratings, notes and tags
+      const companyIds = filteredCompanies.map(c => c.id)
+      
+      const { data: detailedCompanies, error } = await supabase
+        .from('companies')
+        .select(`
+          *,
+          company_ratings(rating, notes, user_id, created_at),
+          notes(content, note_type, created_at, user_id, is_private)
+        `)
+        .in('id', companyIds)
+        .order('company')
+
+      if (error) throw error
+
+      // Create CSV content with BOM for Hebrew support
+      let csvContent = "data:text/csv;charset=utf-8,\uFEFF"
+      
+      // Headers
+      csvContent += "Company Name,Location,Hall,Stand,Email,Phone,Website,Description,Visit Priority,Relevance Score,Tags,Likes,Dislikes,Rating Notes,General Notes,Private Notes,Last Updated\n"
+      
+      // Process each company
+      detailedCompanies?.forEach((company: any) => {
+        // Process ratings
+        const ratings = company.company_ratings || []
+        const likes = ratings.filter((r: any) => r.rating === 1).length
+        const dislikes = ratings.filter((r: any) => r.rating === -1).length
+        const ratingNotes = ratings.map((r: any) => r.notes).filter(Boolean).join('; ')
+        
+        // Process notes by type
+        const notes = company.notes || []
+        const generalNotes = notes.filter((n: any) => !n.is_private).map((n: any) => `${n.note_type || 'Note'}: ${n.content}`).join('; ')
+        const privateNotes = notes.filter((n: any) => n.is_private).map((n: any) => `${n.note_type || 'Private'}: ${n.content}`).join('; ')
+        
+        // Process tags
+        const tags = Array.isArray(company.tags) ? company.tags.join(', ') : (company.tags || '')
+        
+        // Get last updated date
+        const lastUpdated = company.updated_at ? new Date(company.updated_at).toLocaleDateString('he-IL') : ''
+        
+        csvContent += [
+          company.company || '',
+          company.location || '',
+          company.hall || '',
+          company.stand || '',
+          company.email || '',
+          company.phone || '',
+          company.website || '',
+          (company.description || '').replace(/,/g, ';'),
+          company.visit_priority || '',
+          company.relevance_score || '',
+          tags,
+          likes.toString(),
+          dislikes.toString(),
+          ratingNotes.replace(/,/g, ';'),
+          generalNotes.replace(/,/g, ';'),
+          privateNotes.replace(/,/g, ';'),
+          lastUpdated
+        ].map(field => `"${field}"`).join(',') + '\n'
+      })
+
+      // Download the file
+      const encodedUri = encodeURI(csvContent)
+      const link = document.createElement("a")
+      link.setAttribute("href", encodedUri)
+      link.setAttribute("download", `filtered_companies_${new Date().toISOString().split('T')[0]}.csv`)
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+
+      // Show success message
+      alert(`✅ Exported ${detailedCompanies?.length || 0} companies to CSV successfully!`)
+      
+    } catch (error: any) {
+      console.error('Export error:', error)
+      alert(`❌ Export failed: ${error.message}`)
+    } finally {
+      setIsExporting(false)
+    }
+  }
+
   const getPriorityText = (priority: string) => {
     switch (priority) {
       case 'MUST_VISIT': return 'Must Visit'
@@ -479,13 +567,32 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
             </span>
           </div>
         </div>
-        <button
-          onClick={onClose}
-          className="p-1.5 xs:p-2 hover:bg-white/20 rounded-lg text-white touch-target flex-shrink-0"
-          aria-label="Close"
-        >
-          <X className="w-5 h-5 xs:w-6 xs:h-6" />
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleExportFilteredCompanies}
+            disabled={isExporting}
+            className={`p-1.5 xs:p-2 rounded-lg text-white touch-target flex-shrink-0 transition-all ${
+              isExporting 
+                ? 'bg-white/10 cursor-not-allowed' 
+                : 'hover:bg-white/20'
+            }`}
+            aria-label="Export filtered companies"
+            title={isExporting ? "Exporting..." : "Export current list to CSV"}
+          >
+            {isExporting ? (
+              <div className="animate-spin rounded-full h-5 w-5 xs:h-6 xs:w-6 border-2 border-white border-t-transparent" />
+            ) : (
+              <Download className="w-5 h-5 xs:w-6 xs:h-6" />
+            )}
+          </button>
+          <button
+            onClick={onClose}
+            className="p-1.5 xs:p-2 hover:bg-white/20 rounded-lg text-white touch-target flex-shrink-0"
+            aria-label="Close"
+          >
+            <X className="w-5 h-5 xs:w-6 xs:h-6" />
+          </button>
+        </div>
       </div>
 
       {/* Search & Filters Bar - Mobile Optimized */}

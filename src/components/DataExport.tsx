@@ -58,8 +58,8 @@ export function DataExport() {
           .from('companies')
           .select(`
             *,
-            company_ratings(rating, notes, user_id),
-            notes(content, note_type, created_at, user_id)
+            company_ratings(rating, notes, user_id, created_at),
+            notes(content, note_type, created_at, user_id, is_private)
           `)
           .order('company')
 
@@ -205,7 +205,7 @@ export function DataExport() {
     // Companies sheet
     if (data.companies) {
       csvContent += "=== Companies ===\n"
-      csvContent += "Company Name,Location,Hall,Stand,Email,Phone,Website,Description,Visit Priority,Relevance Score,Tags,Like/Dislike,User Notes,All Notes\n"
+      csvContent += "Company Name,Location,Hall,Stand,Email,Phone,Website,Description,Visit Priority,Relevance Score,Tags,Likes,Dislikes,Rating Notes,General Notes,Private Notes,Last Updated\n"
       
       data.companies.forEach((company: any) => {
         // Process ratings to get like/dislike info
@@ -213,14 +213,17 @@ export function DataExport() {
         const likes = ratings.filter((r: any) => r.rating === 1).length
         const dislikes = ratings.filter((r: any) => r.rating === -1).length
         const ratingNotes = ratings.map((r: any) => r.notes).filter(Boolean).join('; ')
-        const likeDislikeInfo = `👍${likes} 👎${dislikes}`
         
-        // Process notes
+        // Process notes by type
         const notes = company.notes || []
-        const allNotes = notes.map((n: any) => `${n.note_type}: ${n.content}`).join('; ')
+        const generalNotes = notes.filter((n: any) => !n.is_private).map((n: any) => `${n.note_type || 'Note'}: ${n.content}`).join('; ')
+        const privateNotes = notes.filter((n: any) => n.is_private).map((n: any) => `${n.note_type || 'Private'}: ${n.content}`).join('; ')
         
         // Process tags
         const tags = Array.isArray(company.tags) ? company.tags.join(', ') : (company.tags || '')
+        
+        // Get last updated date
+        const lastUpdated = company.updated_at ? new Date(company.updated_at).toLocaleDateString('he-IL') : ''
         
         csvContent += [
           company.company || '',
@@ -234,9 +237,12 @@ export function DataExport() {
           company.visit_priority || '',
           company.relevance_score || '',
           tags,
-          likeDislikeInfo,
+          likes.toString(),
+          dislikes.toString(),
           ratingNotes.replace(/,/g, ';'),
-          allNotes.replace(/,/g, ';')
+          generalNotes.replace(/,/g, ';'),
+          privateNotes.replace(/,/g, ';'),
+          lastUpdated
         ].map(field => `"${field}"`).join(',') + '\n'
       })
       csvContent += '\n'
