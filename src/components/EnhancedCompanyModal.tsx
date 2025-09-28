@@ -377,6 +377,25 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
                     </span>
                   )}
                 </div>
+                
+                {/* Tags in Header */}
+                {company.tags && company.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {company.tags.slice(0, 4).map((tag) => (
+                      <span
+                        key={tag}
+                        className="bg-white bg-opacity-30 text-white px-2 py-0.5 rounded-full text-xs font-medium"
+                      >
+                        {tag.replace(/_/g, ' ')}
+                      </span>
+                    ))}
+                    {company.tags.length > 4 && (
+                      <span className="bg-white bg-opacity-20 text-white px-2 py-0.5 rounded-full text-xs">
+                        +{company.tags.length - 4} more
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
             
@@ -423,6 +442,47 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
           {/* Overview Tab */}
           {activeTab === 'overview' && (
             <div className="space-y-6">
+              {/* Quick Tags Display */}
+              {company.tags && company.tags.length > 0 && (
+                <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Tag className="h-4 w-4 text-blue-600" />
+                    <h3 className="text-sm font-semibold text-gray-700">Company Tags</h3>
+                    <span className="text-xs text-gray-500">({company.tags.length})</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {company.tags.map((tag) => {
+                      const predefinedTag = [
+                        { id: 'supplier', label: 'Supplier', color: 'bg-blue-100 text-blue-800' },
+                        { id: 'competitor', label: 'Competitor', color: 'bg-red-100 text-red-800' },
+                        { id: 'partner', label: 'Partner', color: 'bg-green-100 text-green-800' },
+                        { id: 'customer', label: 'Customer', color: 'bg-purple-100 text-purple-800' },
+                        { id: 'vendor', label: 'Vendor', color: 'bg-yellow-100 text-yellow-800' },
+                        { id: 'distributor', label: 'Distributor', color: 'bg-orange-100 text-orange-800' },
+                        { id: 'manufacturer', label: 'Manufacturer', color: 'bg-indigo-100 text-indigo-800' },
+                        { id: 'rd', label: 'R&D', color: 'bg-emerald-100 text-emerald-800' },
+                        { id: 'commercial', label: 'Commercial', color: 'bg-sky-100 text-sky-800' },
+                        { id: 'operations', label: 'Operations', color: 'bg-amber-100 text-amber-800' },
+                        { id: 'marketing', label: 'Marketing', color: 'bg-rose-100 text-rose-800' },
+                        { id: 'sustainability', label: 'Sustainability', color: 'bg-lime-100 text-lime-800' }
+                      ].find(t => t.id === tag)
+                      
+                      const tagColor = predefinedTag?.color || 'bg-gray-100 text-gray-800'
+                      const tagLabel = predefinedTag?.label || tag.replace(/_/g, ' ')
+                      
+                      return (
+                        <span
+                          key={tag}
+                          className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${tagColor}`}
+                        >
+                          {tagLabel}
+                        </span>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+              
               {/* Company Logo and Basic Info */}
               <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-6 rounded-lg">
                 <div className="flex items-start gap-6">

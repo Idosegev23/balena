@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { supabase, Company } from '@/lib/supabase'
 import { Upload, Image as ImageIcon, X, Check, Download, Trash2 } from 'lucide-react'
+import { useAuth } from '@/components/AuthProvider'
 
 interface LogoUploaderProps {
   company: Company
@@ -16,8 +17,8 @@ export function LogoUploader({ company, onLogoUpdated, className = '' }: LogoUpl
   const [message, setMessage] = useState('')
   const fileInputRef = useRef<HTMLInputElement>(null)
   
-  // For now, assume user is available (we'll add proper auth later)
-  const user = { id: 'temp-user' }
+  // Use proper auth
+  const { user } = useAuth()
 
   const showMessage = (msg: string, isError = false) => {
     setMessage(msg)

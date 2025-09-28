@@ -166,6 +166,8 @@ export function CompanyModal({ company, isOpen, onClose, onUpdate }: CompanyModa
           website: editedCompany.website,
           visit_priority: editedCompany.visit_priority,
           department: editedCompany.department,
+          goal_category: editedCompany.goal_category,
+          tags: editedCompany.tags, // ✅ הוספתי את התגיות!
           // Enhanced fields from scraping
           detailed_address: editedCompany.detailed_address,
           sales_volume: editedCompany.sales_volume,

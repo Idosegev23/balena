@@ -50,13 +50,17 @@ export function DataExport() {
         }
       }
 
-      // Export companies
+      // Export companies with ratings, notes and tags
       if (options.includeCompanies) {
         setExportStatus('Exporting company data...')
         
         let companiesQuery = supabase
           .from('companies')
-          .select('*')
+          .select(`
+            *,
+            company_ratings(rating, notes, user_id),
+            notes(content, note_type, created_at, user_id)
+          `)
           .order('company')
 
         if (options.priorities.length > 0) {
@@ -201,9 +205,23 @@ export function DataExport() {
     // Companies sheet
     if (data.companies) {
       csvContent += "=== Companies ===\n"
-      csvContent += "Company Name,Location,Hall,Stand,Email,Phone,Website,Description,Visit Priority,Relevance Score\n"
+      csvContent += "Company Name,Location,Hall,Stand,Email,Phone,Website,Description,Visit Priority,Relevance Score,Tags,Like/Dislike,User Notes,All Notes\n"
       
       data.companies.forEach((company: any) => {
+        // Process ratings to get like/dislike info
+        const ratings = company.company_ratings || []
+        const likes = ratings.filter((r: any) => r.rating === 1).length
+        const dislikes = ratings.filter((r: any) => r.rating === -1).length
+        const ratingNotes = ratings.map((r: any) => r.notes).filter(Boolean).join('; ')
+        const likeDislikeInfo = `👍${likes} 👎${dislikes}`
+        
+        // Process notes
+        const notes = company.notes || []
+        const allNotes = notes.map((n: any) => `${n.note_type}: ${n.content}`).join('; ')
+        
+        // Process tags
+        const tags = Array.isArray(company.tags) ? company.tags.join(', ') : (company.tags || '')
+        
         csvContent += [
           company.company || '',
           company.location || '',
@@ -214,7 +232,11 @@ export function DataExport() {
           company.website || '',
           (company.description || '').replace(/,/g, ';'),
           company.visit_priority || '',
-          company.relevance_score || ''
+          company.relevance_score || '',
+          tags,
+          likeDislikeInfo,
+          ratingNotes.replace(/,/g, ';'),
+          allNotes.replace(/,/g, ';')
         ].map(field => `"${field}"`).join(',') + '\n'
       })
       csvContent += '\n'
@@ -281,16 +303,32 @@ export function DataExport() {
               <th>Hall/Stand</th>
               <th>Priority</th>
               <th>Relevance Score</th>
+              <th>Tags</th>
+              <th>Like/Dislike</th>
+              <th>Notes</th>
             </tr>
-            ${data.companies.map((company: any) => `
+            ${data.companies.map((company: any) => {
+              const ratings = company.company_ratings || []
+              const likes = ratings.filter((r: any) => r.rating === 1).length
+              const dislikes = ratings.filter((r: any) => r.rating === -1).length
+              const likeDislikeInfo = `👍${likes} 👎${dislikes}`
+              
+              const notes = company.notes || []
+              const allNotes = notes.map((n: any) => n.content).join('; ')
+              const tags = Array.isArray(company.tags) ? company.tags.join(', ') : (company.tags || '')
+              
+              return `
               <tr>
                 <td>${company.company || ''}</td>
                 <td>${company.location || ''}</td>
                 <td>${company.hall || ''}/${company.stand || ''}</td>
                 <td>${company.visit_priority || ''}</td>
                 <td>${company.relevance_score || ''}</td>
-              </tr>
-            `).join('')}
+                <td>${tags}</td>
+                <td>${likeDislikeInfo}</td>
+                <td>${allNotes}</td>
+              </tr>`
+            }).join('')}
           </table>
         ` : ''}
         

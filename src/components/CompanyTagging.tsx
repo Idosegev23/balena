@@ -134,6 +134,13 @@ export function CompanyTagging({
     console.log('Updating tags for company:', company.id, 'from:', currentTags, 'to:', newTags)
 
     try {
+      console.log('🏷️ Attempting to save tags to database:', {
+        companyId: company.id,
+        oldTags: currentTags,
+        newTags: newTags,
+        user: (await supabase.auth.getUser())?.data?.user?.email
+      })
+
       const { data, error } = await supabase
         .from('companies')
         .update({ tags: newTags })
@@ -141,11 +148,19 @@ export function CompanyTagging({
         .select()
 
       if (error) {
-        console.error('Database error:', error)
+        console.error('❌ Database error while saving tags:', error)
+        console.error('❌ Error details:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        })
         throw error
       }
 
-      console.log('Tags updated successfully:', data)
+      console.log('✅ Tags saved successfully to database:', data)
+      console.log('✅ Updated company data:', data[0])
+      
       setCurrentTags(newTags)
       onTagsUpdate?.(newTags)
       

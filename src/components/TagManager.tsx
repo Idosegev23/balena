@@ -75,6 +75,14 @@ export function TagManager({ company, onUpdate, isEditing = false }: TagManagerP
     setSaving(true)
     try {
       const updatedTags = [...currentTags, tagValue]
+      
+      console.log('🏷️ TagManager: Adding tag to database:', {
+        companyId: company.id,
+        newTag: tagValue,
+        currentTags,
+        updatedTags
+      })
+
       const { data, error } = await supabase
         .from('companies')
         .update({ tags: updatedTags })
@@ -82,13 +90,17 @@ export function TagManager({ company, onUpdate, isEditing = false }: TagManagerP
         .select()
         .single()
 
-      if (error) throw error
+      if (error) {
+        console.error('❌ TagManager: Database error:', error)
+        throw error
+      }
 
+      console.log('✅ TagManager: Tag added successfully:', data)
       onUpdate({ ...company, tags: updatedTags })
       setNewTag('')
       setIsAddingTag(false)
     } catch (error) {
-      console.error('Error adding tag:', error)
+      console.error('❌ TagManager: Error adding tag:', error)
     }
     setSaving(false)
   }
