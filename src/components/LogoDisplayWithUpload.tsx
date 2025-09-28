@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { Upload, Image as ImageIcon, Building2 } from 'lucide-react'
 import { Company, supabase } from '@/lib/supabase'
+import { useAuth } from '@/components/AuthProvider'
 
 interface LogoDisplayWithUploadProps {
   company: Company
@@ -21,6 +22,7 @@ export function LogoDisplayWithUpload({
 }: LogoDisplayWithUploadProps) {
   const [isUploading, setIsUploading] = useState(false)
   const [showUploadOverlay, setShowUploadOverlay] = useState(false)
+  const { user } = useAuth()
 
   const sizeClasses = {
     sm: 'h-8 w-8',
@@ -40,16 +42,51 @@ export function LogoDisplayWithUpload({
     const file = event.target.files?.[0]
     if (!file) return
 
+    // Check authentication
+    if (!user) {
+      alert('❌ You must be logged in to upload logos')
+      return
+    }
+
+    console.log('🖼️ Starting logo upload for company:', company.id, company.company)
+    console.log('👤 User authenticated:', user.email)
     setIsUploading(true)
     
     try {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        throw new Error('Please select an image file')
+      }
+
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        throw new Error('File size must be less than 5MB')
+      }
+
+      // Create clean filename
+      const fileExt = file.name.split('.').pop()?.toLowerCase() || 'png'
+      const companySlug = company.company.toLowerCase()
+        .replace(/[^a-z0-9]/g, '_')
+        .replace(/_+/g, '_')
+        .slice(0, 50)
+      const fileName = `logo_${companySlug}_${Date.now()}.${fileExt}`
+
+      console.log('📤 Uploading file:', fileName)
+
       // Upload to Supabase Storage
-      const fileName = `${company.id}-${Date.now()}-${file.name}`
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('company-logos')
-        .upload(fileName, file)
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: false
+        })
 
-      if (uploadError) throw uploadError
+      if (uploadError) {
+        console.error('❌ Upload error:', uploadError)
+        throw new Error(`Upload failed: ${uploadError.message}`)
+      }
+
+      console.log('✅ File uploaded successfully:', uploadData)
 
       // Get public URL
       const { data: urlData } = supabase.storage
@@ -57,31 +94,53 @@ export function LogoDisplayWithUpload({
         .getPublicUrl(fileName)
 
       const logoUrl = urlData.publicUrl
+      console.log('🔗 Generated public URL:', logoUrl)
 
       // Update company in database
-      const { error: updateError } = await supabase
+      const { data: updateData, error: updateError } = await supabase
         .from('companies')
         .update({ 
           logo_url: logoUrl,
           logo: logoUrl,
+          logo_file: fileName,
           updated_at: new Date().toISOString()
         })
         .eq('id', company.id)
+        .select()
 
-      if (updateError) throw updateError
+      if (updateError) {
+        console.error('❌ Database update error:', updateError)
+        throw new Error(`Database update failed: ${updateError.message}`)
+      }
+
+      console.log('✅ Database updated successfully:', updateData)
 
       onLogoUpdate?.(logoUrl)
       setShowUploadOverlay(false)
-    } catch (error) {
-      console.error('Error uploading logo:', error)
+      
+      // Show success message
+      alert('✅ Logo uploaded successfully!')
+      
+    } catch (error: any) {
+      console.error('❌ Logo upload error:', error)
+      alert(`❌ Upload failed: ${error.message}`)
     } finally {
       setIsUploading(false)
+      // Reset file input
+      event.target.value = ''
     }
   }
 
   const fetchWebsiteLogo = async () => {
     if (!company.website && !company.main_website) return
+    
+    // Check authentication
+    if (!user) {
+      alert('❌ You must be logged in to fetch logos')
+      return
+    }
 
+    console.log('🌐 Fetching logo from website for company:', company.company)
     setIsUploading(true)
     
     try {
@@ -132,6 +191,7 @@ export function LogoDisplayWithUpload({
   }
 
   const hasLogo = company.logo_url || company.logo
+  const logoSrc = company.logo_url || company.logo
 
   return (
     <div 
@@ -141,15 +201,19 @@ export function LogoDisplayWithUpload({
     >
       {hasLogo ? (
         <img 
-          src={company.logo_url || company.logo} 
+          src={logoSrc} 
           alt={`${company.company} logo`}
           className={`${sizeClasses[size]} object-contain bg-white rounded-lg border shadow-sm`}
           onError={(e) => {
+            console.log('❌ Logo failed to load:', logoSrc)
             const target = e.currentTarget;
             target.style.display = 'none';
             // Show fallback
             const fallback = target.nextElementSibling as HTMLElement;
             if (fallback) fallback.style.display = 'flex';
+          }}
+          onLoad={() => {
+            console.log('✅ Logo loaded successfully:', logoSrc)
           }}
         />
       ) : null}
@@ -172,18 +236,38 @@ export function LogoDisplayWithUpload({
               <>
                 <div className="flex gap-1">
                   <button
-                    onClick={() => document.getElementById(`file-input-${company.id}`)?.click()}
-                    className="p-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full transition-all"
-                    title="Upload logo"
+                    onClick={() => {
+                      if (!user) {
+                        alert('❌ You must be logged in to upload logos')
+                        return
+                      }
+                      document.getElementById(`file-input-${company.id}`)?.click()
+                    }}
+                    className={`p-2 rounded-full transition-all ${
+                      user 
+                        ? 'bg-white bg-opacity-20 hover:bg-opacity-30' 
+                        : 'bg-red-500 bg-opacity-30 cursor-not-allowed'
+                    }`}
+                    title={user ? "Upload logo" : "Login required to upload"}
                   >
                     <Upload className="w-4 h-4 text-white" />
                   </button>
                   
                   {(company.website || company.main_website) && (
                     <button
-                      onClick={fetchWebsiteLogo}
-                      className="p-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full transition-all"
-                      title="Get logo from website"
+                      onClick={() => {
+                        if (!user) {
+                          alert('❌ You must be logged in to fetch logos')
+                          return
+                        }
+                        fetchWebsiteLogo()
+                      }}
+                      className={`p-2 rounded-full transition-all ${
+                        user 
+                          ? 'bg-white bg-opacity-20 hover:bg-opacity-30' 
+                          : 'bg-red-500 bg-opacity-30 cursor-not-allowed'
+                      }`}
+                      title={user ? "Get logo from website" : "Login required to fetch logo"}
                     >
                       <ImageIcon className="w-4 h-4 text-white" />
                     </button>
@@ -191,7 +275,7 @@ export function LogoDisplayWithUpload({
                 </div>
                 
                 <span className="text-xs text-white text-center">
-                  {hasLogo ? 'Change' : 'Add Logo'}
+                  {!user ? '⚠️ Login required' : hasLogo ? 'Change' : 'Add Logo'}
                 </span>
               </>
             )}

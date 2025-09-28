@@ -345,9 +345,11 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
                   className="h-12 w-12 sm:h-16 sm:w-16"
                   showUploadButton={true}
                   onLogoUpdate={(logoUrl) => {
-                    const updatedCompany = { ...company, logo_url: logoUrl }
+                    console.log('🔄 Logo updated in modal:', logoUrl)
+                    const updatedCompany = { ...company, logo_url: logoUrl, logo: logoUrl }
                     setEditedCompany(updatedCompany)
                     onUpdate()
+                    onCompanyUpdate?.(updatedCompany)
                   }}
                 />
               </div>
