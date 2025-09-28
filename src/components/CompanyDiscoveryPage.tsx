@@ -534,49 +534,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
     }
   }
 
-  const exportToCSV = () => {
-    const headers = [
-      'Company Name', 'Location', 'Hall', 'Stand', 'Priority', 'Relevance Score', 'Department', 'Goal Category',
-      'Connection Type', 'Where Presenting', 'Contact Person', 'Email', 'Phone', 'Website', 'Website Emails', 'Website Phones',
-      'Claude Analysis', 'Manual Value Assessment', 'About Us', 'Products & Services', 'Sustainability'
-    ]
-    const csvContent = [
-      headers.join(','),
-      ...filteredCompanies.map(company => [
-        company.company || '',
-        company.location || '',
-        company.hall || '',
-        company.stand || '',
-        getPriorityText(company.visit_priority || ''),
-        company.relevance_score || '',
-        company.department || '',
-        company.goal_category || '',
-        '',  // removed connection_type column
-        '',  // removed where_they_present column
-        company.contact_person || '',
-        company.email || '',
-        company.phone || '',
-        company.website || '',
-        company.website_emails || '',
-        company.website_phones || '',
-        (company.why_relevant || '').replace(/\n/g, ' ').slice(0, 300),
-        '',  // removed balena_value column
-        (company.about_us || '').replace(/\n/g, ' ').slice(0, 200),
-        (company.products_services || '').replace(/\n/g, ' ').slice(0, 200),
-        (company.sustainability_info || '').replace(/\n/g, ' ').slice(0, 200)
-      ].map(field => `"${field}"`).join(','))
-    ].join('\n')
-
-    const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `companies-export-${new Date().toISOString().split('T')[0]}.csv`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
-  }
+  // Old exportToCSV function removed - now using handleExportFilteredCompanies with full data
 
   const totalPages = Math.ceil(filteredCompanies.length / companiesPerPage)
   
@@ -766,15 +724,26 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
             {showFilters ? <ChevronUp className="w-3 h-3 xs:w-4 xs:h-4" /> : <ChevronDown className="w-3 h-3 xs:w-4 xs:h-4" />}
           </button>
           <ShimmerButton
-            onClick={exportToCSV}
-            className="flex items-center gap-1 xs:gap-2 px-2 xs:px-3 sm:px-4 py-2.5 xs:py-3 touch-target"
-            background="linear-gradient(135deg, #059669 0%, #047857 100%)"
+            onClick={handleExportFilteredCompanies}
+            disabled={isExporting}
+            className={`flex items-center gap-1 xs:gap-2 px-2 xs:px-3 sm:px-4 py-2.5 xs:py-3 touch-target transition-all ${
+              isExporting ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            background={isExporting ? "linear-gradient(135deg, #6b7280 0%, #4b5563 100%)" : "linear-gradient(135deg, #059669 0%, #047857 100%)"}
             shimmerColor="#ffffff"
             shimmerDuration="2s"
           >
-            <Download className="w-4 h-4 xs:w-5 xs:h-5" />
-            <span className="hidden xs:inline">Export CSV</span>
-            <span className="xs:hidden">Export</span>
+            {isExporting ? (
+              <div className="animate-spin rounded-full h-4 w-4 xs:h-5 xs:w-5 border-2 border-white border-t-transparent"></div>
+            ) : (
+              <Download className="w-4 h-4 xs:w-5 xs:h-5" />
+            )}
+            <span className="hidden xs:inline">
+              {isExporting ? 'Exporting...' : 'Export CSV'}
+            </span>
+            <span className="xs:hidden">
+              {isExporting ? 'Wait...' : 'Export'}
+            </span>
           </ShimmerButton>
         </div>
 
