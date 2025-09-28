@@ -71,49 +71,29 @@ export function LogoDisplayWithUpload({
         .slice(0, 50)
       const fileName = `logo_${companySlug}_${Date.now()}.${fileExt}`
 
-      console.log('📤 Uploading file:', fileName)
+      console.log('📤 Uploading via API route')
 
-      // Upload to Supabase Storage
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('company-logos')
-        .upload(fileName, file, {
-          cacheControl: '3600',
-          upsert: false
-        })
+      // Create form data for API
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('companyId', company.id.toString())
+      formData.append('companyName', company.company)
 
-      if (uploadError) {
-        console.error('❌ Upload error:', uploadError)
-        throw new Error(`Upload failed: ${uploadError.message}`)
+      // Upload via API route (bypasses RLS issues)
+      const response = await fetch('/api/upload-logo', {
+        method: 'POST',
+        body: formData
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        console.error('❌ API error:', result)
+        throw new Error(result.error || 'Upload failed')
       }
 
-      console.log('✅ File uploaded successfully:', uploadData)
-
-      // Get public URL
-      const { data: urlData } = supabase.storage
-        .from('company-logos')
-        .getPublicUrl(fileName)
-
-      const logoUrl = urlData.publicUrl
-      console.log('🔗 Generated public URL:', logoUrl)
-
-      // Update company in database
-      const { data: updateData, error: updateError } = await supabase
-        .from('companies')
-        .update({ 
-          logo_url: logoUrl,
-          logo: logoUrl,
-          logo_file: fileName,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', company.id)
-        .select()
-
-      if (updateError) {
-        console.error('❌ Database update error:', updateError)
-        throw new Error(`Database update failed: ${updateError.message}`)
-      }
-
-      console.log('✅ Database updated successfully:', updateData)
+      console.log('✅ Upload successful:', result)
+      const logoUrl = result.logoUrl
 
       onLogoUpdate?.(logoUrl)
       setShowUploadOverlay(false)

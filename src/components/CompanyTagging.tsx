@@ -299,26 +299,76 @@ export function CompanyTagging({
             </button>
           </div>
           
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-            {availableTags.map(tag => {
-              const isSelected = currentTags.includes(tag.id)
-              return (
-                <button
-                  key={tag.id}
-                  onClick={() => handleTagToggle(tag.id)}
-                  className={`${classes.button} border rounded-lg font-medium transition-all duration-200 flex items-center justify-between ${
-                    isSelected
-                      ? `${tag.color} border-current`
-                      : 'border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-50'
-                  }`}
-                  disabled={isUpdating}
-                >
-                  <span className="truncate">{tag.label}</span>
-                  {isSelected && <Check className="w-3 h-3 ml-1 flex-shrink-0" />}
-                </button>
-              )
-            })}
+          {/* Predefined Tags */}
+          <div>
+            <h4 className="text-xs font-medium text-gray-700 mb-2 flex items-center gap-1">
+              <span>⭐ Standard Tags</span>
+              <span className="text-xs text-gray-500">- Predefined categories</span>
+            </h4>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {availableTags.map(tag => {
+                const isSelected = currentTags.includes(tag.id)
+                return (
+                  <button
+                    key={tag.id}
+                    onClick={() => handleTagToggle(tag.id)}
+                    className={`${classes.button} border rounded-lg font-medium transition-all duration-200 flex items-center justify-between ${
+                      isSelected
+                        ? `${tag.color} border-current`
+                        : 'border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-50'
+                    }`}
+                    disabled={isUpdating}
+                  >
+                    <span className="truncate">{tag.label}</span>
+                    {isSelected && <Check className="w-3 h-3 ml-1 flex-shrink-0" />}
+                  </button>
+                )
+              })}
+            </div>
           </div>
+
+          {/* Custom Tags from other companies */}
+          {availableCustomTags.length > 0 && (
+            <div>
+              <h4 className="text-xs font-medium text-gray-700 mb-2 flex items-center gap-1">
+                <span>🏷️ Custom Tags ({availableCustomTags.length})</span>
+                <span className="text-xs text-gray-500">- Created by users</span>
+              </h4>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {availableCustomTags
+                  .sort((a, b) => (tagUsageCount.get(b) || 0) - (tagUsageCount.get(a) || 0))
+                  .map(tagId => {
+                  const isSelected = currentTags.includes(tagId)
+                  const tagConfig = getTagConfig(tagId)
+                  const usageCount = tagUsageCount.get(tagId) || 0
+                  
+                  return (
+                    <button
+                      key={tagId}
+                      onClick={() => handleTagToggle(tagId)}
+                      className={`${classes.button} border rounded-lg font-medium transition-all duration-200 flex items-center justify-between ${
+                        isSelected
+                          ? `${tagConfig.color} border-current`
+                          : 'border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-50'
+                      }`}
+                      disabled={isUpdating}
+                      title={`Used by ${usageCount} ${usageCount === 1 ? 'company' : 'companies'}`}
+                    >
+                      <span className="truncate">{tagConfig.label}</span>
+                      <div className="flex items-center gap-1 ml-1 flex-shrink-0">
+                        {usageCount > 1 && (
+                          <span className="text-xs bg-gray-200 text-gray-600 px-1 rounded">
+                            {usageCount}
+                          </span>
+                        )}
+                        {isSelected && <Check className="w-3 h-3" />}
+                      </div>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Custom Tag Input */}
           <div className="border-t pt-3">
