@@ -169,7 +169,12 @@ export default function Home() {
 
   const calculateFilteredStats = (allCompanies: Company[], filter: string) => {
     const filteredCompanies = filter 
-      ? allCompanies.filter(c => c.department === filter)
+      ? allCompanies.filter(c => {
+          if (!c.department) return false
+          // Split department string and check if any matches the filter
+          const departments = c.department.split(',').map(d => d.trim())
+          return departments.includes(filter)
+        })
       : allCompanies
 
     const totalCompanies = filteredCompanies.length
@@ -858,6 +863,7 @@ export default function Home() {
             setActiveView('dashboard')
           }}
           onCompanyClick={handleCompanyClick}
+          initialCompanies={companies}
         />
       )}
 

@@ -17,6 +17,7 @@ import { ShimmerButton } from './ui/shimmer-button'
 interface CompanyDiscoveryPageProps {
   onClose: () => void
   onCompanyClick: (company: Company) => void
+  initialCompanies?: Company[]
 }
 
 interface FilterOptions {
@@ -33,7 +34,7 @@ interface FilterOptions {
   visitedStatus: 'all' | 'visited' | 'not_visited'
 }
 
-export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscoveryPageProps) {
+export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies }: CompanyDiscoveryPageProps) {
   const { user } = useAuth()
   const [companies, setCompanies] = useState<Company[]>([])
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([])
@@ -120,14 +121,24 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
         setFilters(prev => ({ ...prev, department: userDept }))
       }
     }
-    fetchCompanies()
+    
+    // Use initialCompanies if provided (from parent), otherwise fetch from database
+    if (initialCompanies && initialCompanies.length > 0) {
+      console.log('🔄 CompanyDiscoveryPage: Using initial companies from parent:', initialCompanies.length)
+      setCompanies(initialCompanies)
+      setLoading(false)
+    } else {
+      console.log('🔄 CompanyDiscoveryPage: Fetching companies from database')
+      fetchCompanies()
+    }
+    
     setupRealtimeSubscription()
     
     return () => {
       // Cleanup subscription on unmount
       supabase.removeAllChannels()
     }
-  }, [])
+  }, [initialCompanies])
 
   useEffect(() => {
     // Save all discovery state to sessionStorage
@@ -264,9 +275,14 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       )
     }
 
-    // Department
+    // Department - support multiple departments separated by comma
     if (filters.department) {
-      filtered = filtered.filter(company => company.department === filters.department)
+      filtered = filtered.filter(company => {
+        if (!company.department) return false
+        // Split department string and check if any matches the filter
+        const departments = company.department.split(',').map(d => d.trim())
+        return departments.includes(filters.department)
+      })
     }
 
     // Visit Priority
