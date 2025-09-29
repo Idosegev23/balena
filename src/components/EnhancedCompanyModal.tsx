@@ -109,6 +109,7 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
   const [editedCompany, setEditedCompany] = useState<Company | null>(null)
   const [isSavingPriority, setIsSavingPriority] = useState(false)
   const [isSavingDepartment, setIsSavingDepartment] = useState(false)
+  const [currentDepartments, setCurrentDepartments] = useState<string>('')
 
   // Helper function to ensure URL has proper protocol
   const formatUrl = (url: string | undefined | null): string => {
@@ -235,9 +236,13 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
 
       console.log('✅ Department updated successfully:', data)
       
-      // Update local state only after successful database update
+      // Update local state only after successful database update  
       const updatedCompany: Company = { ...company, department: newDepartments }
       setEditedCompany(updatedCompany)
+      
+      // CRITICAL: Update the currentDepartments state to trigger DepartmentSelector re-render
+      setCurrentDepartments(newDepartments)
+      console.log('🔄 Updated currentDepartments state to:', newDepartments)
       
       console.log('🔄 Notifying parent components of department change:', updatedCompany.id, 'new department:', newDepartments)
       
@@ -304,8 +309,9 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
 
   useEffect(() => {
     if (company) {
-      console.log('🔄 Company changed, updating editedCompany:', { id: company.id, priority: company.visit_priority })
+      console.log('🔄 Company changed, updating editedCompany:', { id: company.id, priority: company.visit_priority, department: company.department })
       setEditedCompany({ ...company })
+      setCurrentDepartments(company.department || '')
     }
   }, [company])
 
@@ -1437,9 +1443,12 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
                   Department Assignment
                 </h3>
                 <DepartmentSelector 
-                  currentDepartments={editedCompany?.department || company?.department || ''}
+                  currentDepartments={currentDepartments}
                   onDepartmentsChange={(newDepts) => {
                     console.log('🔄 DepartmentSelector callback triggered with:', newDepts)
+                    // Update local state immediately for responsive UI
+                    setCurrentDepartments(newDepts)
+                    // Then save to database
                     handleDepartmentChange(newDepts)
                   }}
                   disabled={isSavingDepartment}
