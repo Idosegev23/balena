@@ -25,6 +25,72 @@ interface EnhancedCompanyModalProps {
   onCompanyUpdate?: (company: Company) => void
 }
 
+interface DepartmentSelectorProps {
+  currentDepartments: string
+  onDepartmentsChange: (departments: string) => void
+  disabled?: boolean
+}
+
+// Department selector component
+function DepartmentSelector({ currentDepartments, onDepartmentsChange, disabled }: DepartmentSelectorProps) {
+  const availableDepartments = ['Commercial', 'Operations', 'R&D', 'Marketing']
+  const selectedDepartments = currentDepartments ? currentDepartments.split(', ').filter(d => d.trim()) : []
+
+  const handleDepartmentToggle = (department: string) => {
+    if (disabled) return
+    
+    let newDepartments = [...selectedDepartments]
+    
+    if (newDepartments.includes(department)) {
+      newDepartments = newDepartments.filter(d => d !== department)
+    } else {
+      newDepartments.push(department)
+    }
+    
+    const departmentString = newDepartments.join(', ')
+    onDepartmentsChange(departmentString)
+  }
+
+  return (
+    <div className="space-y-3">
+      <p className="text-sm text-gray-600">Select relevant departments for this company:</p>
+      <div className="space-y-2">
+        {availableDepartments.map(department => (
+          <label 
+            key={department} 
+            className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
+              selectedDepartments.includes(department) 
+                ? 'bg-blue-100 border-blue-300 text-blue-800' 
+                : 'bg-white border-gray-200 hover:bg-gray-50'
+            } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            <input
+              type="checkbox"
+              checked={selectedDepartments.includes(department)}
+              onChange={() => handleDepartmentToggle(department)}
+              disabled={disabled}
+              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+            />
+            <span className="font-medium">{department}</span>
+            <span className="text-sm text-gray-500">
+              {department === 'Commercial' && '💼 Sales & Business Development'}
+              {department === 'Operations' && '⚙️ Manufacturing & Supply Chain'}
+              {department === 'R&D' && '🔬 Research & Development'}
+              {department === 'Marketing' && '📢 Marketing & Strategy'}
+            </span>
+          </label>
+        ))}
+      </div>
+      {selectedDepartments.length > 0 && (
+        <div className="mt-3 p-3 bg-blue-50 rounded-lg">
+          <p className="text-sm font-medium text-blue-800">Selected Departments:</p>
+          <p className="text-sm text-blue-700">{selectedDepartments.join(', ')}</p>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCompanyUpdate }: EnhancedCompanyModalProps) {
   const [loading, setLoading] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
@@ -33,6 +99,7 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
   const [message, setMessage] = useState('')
   const [editedCompany, setEditedCompany] = useState<Company | null>(null)
   const [isSavingPriority, setIsSavingPriority] = useState(false)
+  const [isSavingDepartment, setIsSavingDepartment] = useState(false)
 
   // Helper function to ensure URL has proper protocol
   const formatUrl = (url: string | undefined | null): string => {
@@ -111,6 +178,75 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
       setEditedCompany({ ...company })
     } finally {
       setIsSavingPriority(false)
+    }
+  }
+
+  // Handle department change with immediate save
+  const handleDepartmentChange = async (newDepartments: string) => {
+    if (!company) {
+      console.log('❌ No company found')
+      return
+    }
+    
+    console.log('🏢 Department change initiated:', { companyId: company.id, oldDepartment: company.department, newDepartment: newDepartments })
+    
+    if (isSavingDepartment) {
+      console.log('❌ Already saving department, skipping')
+      return
+    }
+    
+    setIsSavingDepartment(true)
+    
+    try {
+      console.log('🏢 Updating department for company:', company.id, 'to:', newDepartments)
+      
+      // Save to database first
+      const { data, error } = await supabase
+        .from('companies')
+        .update({ 
+          department: newDepartments
+        })
+        .eq('id', company.id)
+        .select()
+
+      if (error) {
+        console.error('❌ Department update error:', error)
+        setMessage(`❌ Failed to update department: ${error.message}`)
+        setTimeout(() => setMessage(''), 3000)
+        return
+      }
+
+      console.log('✅ Department updated successfully:', data)
+      
+      // Update local state only after successful database update
+      const updatedCompany: Company = { ...company, department: newDepartments }
+      setEditedCompany(updatedCompany)
+      
+      console.log('🔄 Notifying parent components of department change:', updatedCompany.id, 'new department:', newDepartments)
+      
+      // Notify parent components - IMPORTANT: This updates the main companies list!
+      if (onUpdate) {
+        console.log('📞 Calling onUpdate()')
+        onUpdate()
+      }
+      if (onCompanyUpdate) {
+        console.log('📞 Calling onCompanyUpdate with updated company')
+        onCompanyUpdate(updatedCompany)
+      }
+      
+      // Show success message briefly
+      setMessage('✅ Department updated successfully!')
+      setTimeout(() => setMessage(''), 2000)
+      
+    } catch (error: any) {
+      console.error('❌ Failed to update department:', error)
+      setMessage(`❌ Failed to update department: ${error.message}`)
+      setTimeout(() => setMessage(''), 3000)
+      
+      // Reset to original value on error
+      setEditedCompany({ ...company })
+    } finally {
+      setIsSavingDepartment(false)
     }
   }
 
@@ -1275,6 +1411,25 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
                     Scan Business Card
                   </button>
                 </div>
+              </div>
+
+              {/* Department Assignment */}
+              <div className="bg-blue-50 p-6 rounded-lg">
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <Building2 className="h-5 w-5 text-blue-600" />
+                  Department Assignment
+                </h3>
+                <DepartmentSelector 
+                  currentDepartments={editedCompany?.department || company?.department || ''}
+                  onDepartmentsChange={handleDepartmentChange}
+                  disabled={isSavingDepartment}
+                />
+                {isSavingDepartment && (
+                  <div className="mt-2 flex items-center gap-2 text-blue-600">
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-500 border-t-transparent"></div>
+                    <span className="text-sm">Saving department assignment...</span>
+                  </div>
+                )}
               </div>
 
               {/* Priority Selection - Always Available */}
