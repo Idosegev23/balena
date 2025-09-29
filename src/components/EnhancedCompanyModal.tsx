@@ -46,44 +46,56 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
 
   // Handle priority change with immediate save
   const handlePriorityChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (!company) return
+    if (!company) {
+      console.log('❌ No company found')
+      return
+    }
     
     const newPriority = e.target.value
+    console.log('🎯 Priority change initiated:', { companyId: company.id, oldPriority: company.visit_priority, newPriority })
     
-    if (isSavingPriority) return
+    if (isSavingPriority) {
+      console.log('❌ Already saving priority, skipping')
+      return
+    }
     
     setIsSavingPriority(true)
     
     try {
       console.log('🎯 Updating priority for company:', company.id, 'to:', newPriority)
       
-      // Update local state immediately
-      const updatedCompany: Company = { ...company, visit_priority: newPriority as any }
-      setEditedCompany(updatedCompany)
-      
-      // Save to database
+      // Save to database first
       const { data, error } = await supabase
         .from('companies')
         .update({ 
-          visit_priority: newPriority,
-          updated_at: new Date().toISOString()
+          visit_priority: newPriority
         })
         .eq('id', company.id)
         .select()
 
       if (error) {
         console.error('❌ Priority update error:', error)
-        throw error
+        setMessage(`❌ Failed to update priority: ${error.message}`)
+        setTimeout(() => setMessage(''), 3000)
+        return
       }
 
       console.log('✅ Priority updated successfully:', data)
       
+      // Update local state only after successful database update
+      const updatedCompany: Company = { ...company, visit_priority: newPriority as any }
+      setEditedCompany(updatedCompany)
+      
       // Notify parent components
-      onUpdate()
-      onCompanyUpdate?.(updatedCompany)
+      if (onUpdate) {
+        onUpdate()
+      }
+      if (onCompanyUpdate) {
+        onCompanyUpdate(updatedCompany)
+      }
       
       // Show success message briefly
-      setMessage('✅ Priority updated!')
+      setMessage('✅ Priority updated successfully!')
       setTimeout(() => setMessage(''), 2000)
       
     } catch (error: any) {
@@ -91,8 +103,8 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
       setMessage(`❌ Failed to update priority: ${error.message}`)
       setTimeout(() => setMessage(''), 3000)
       
-      // Reset to original value on error
-      setEditedCompany(company)
+      // Reset to original value on error - this will trigger a re-render
+      setEditedCompany({ ...company })
     } finally {
       setIsSavingPriority(false)
     }
@@ -135,6 +147,7 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
 
   useEffect(() => {
     if (company) {
+      console.log('🔄 Company changed, updating editedCompany:', { id: company.id, priority: company.visit_priority })
       setEditedCompany({ ...company })
     }
   }, [company])
@@ -1268,7 +1281,7 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
                 </h3>
                 <div className="relative">
                   <select
-                    value={editedCompany?.visit_priority || company.visit_priority || 'MEDIUM'}
+                    value={editedCompany?.visit_priority || company?.visit_priority || 'MEDIUM'}
                     onChange={handlePriorityChange}
                     disabled={isSavingPriority}
                     className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white transition-all ${
