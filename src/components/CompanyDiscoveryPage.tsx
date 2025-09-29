@@ -462,7 +462,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       })
 
       // Create CSV content with BOM for Hebrew support
-      let csvContent = "data:text/csv;charset=utf-8,\uFEFF"
+      let csvContent = "\uFEFF"
       
       // Headers - organized for maximum usability
       csvContent += "Company Name,Hall,Stand,Location,Visit Priority,Relevance Score,Tags,Likes,Dislikes,Email,Phone,Website,Contact Person,Rating Notes,General Notes,Private Notes,Description,Last Updated\n"
@@ -563,17 +563,24 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
         }
       }
 
-      // Download the file
-      const encodedUri = encodeURI(csvContent)
-      const link = document.createElement("a")
-      link.setAttribute("href", encodedUri)
+      // Download the file using Blob (handles large files better)
       const fileName = exportAll 
         ? `all_companies_${new Date().toISOString().split('T')[0]}.csv`
         : `filtered_companies_${new Date().toISOString().split('T')[0]}.csv`
+      
+      console.log('📄 CSV content size:', csvContent.length, 'characters')
+      
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+      const link = document.createElement("a")
+      const url = URL.createObjectURL(blob)
+      link.setAttribute("href", url)
       link.setAttribute("download", fileName)
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
+      
+      // Clean up the URL object
+      URL.revokeObjectURL(url)
 
       // Show success message with details
       const exportedCount = detailedCompanies?.length || 0
