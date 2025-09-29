@@ -837,16 +837,16 @@ export default function Home() {
         onClose={handleCloseModal}
         onUpdate={handleUpdateCompany}
         onCompanyUpdate={(updatedCompany) => {
-          console.log('page.tsx: Updating company in main list:', updatedCompany.id, 'tags:', updatedCompany.tags)
+          console.log('🏠 page.tsx: Updating company in main list:', updatedCompany.id, 'priority:', updatedCompany.visit_priority, 'tags:', updatedCompany.tags)
           // Update the company in the companies list
           setCompanies(prev => {
             const newCompanies = prev.map(c => c.id === updatedCompany.id ? updatedCompany : c)
-            console.log('page.tsx: Companies list updated')
+            console.log('🏠 page.tsx: Companies list updated - priority should now show in discovery page!')
             return newCompanies
           })
           // Update the selected company
           setSelectedCompany(updatedCompany)
-          console.log('page.tsx: Selected company updated')
+          console.log('🏠 page.tsx: Selected company updated')
         }}
       />
 

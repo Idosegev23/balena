@@ -86,11 +86,15 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
       const updatedCompany: Company = { ...company, visit_priority: newPriority as any }
       setEditedCompany(updatedCompany)
       
-      // Notify parent components
+      console.log('🔄 Notifying parent components of priority change:', updatedCompany.id, 'new priority:', newPriority)
+      
+      // Notify parent components - IMPORTANT: This updates the main companies list!
       if (onUpdate) {
+        console.log('📞 Calling onUpdate()')
         onUpdate()
       }
       if (onCompanyUpdate) {
+        console.log('📞 Calling onCompanyUpdate with updated company')
         onCompanyUpdate(updatedCompany)
       }
       
