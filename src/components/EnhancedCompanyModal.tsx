@@ -33,21 +33,30 @@ interface DepartmentSelectorProps {
 
 // Department selector component
 function DepartmentSelector({ currentDepartments, onDepartmentsChange, disabled }: DepartmentSelectorProps) {
+  console.log('🏢 DepartmentSelector rendered with currentDepartments:', currentDepartments)
+  
   const availableDepartments = ['Commercial', 'Operations', 'R&D', 'Marketing']
   const selectedDepartments = currentDepartments ? currentDepartments.split(', ').filter(d => d.trim()) : []
+  
+  console.log('🏢 selectedDepartments parsed:', selectedDepartments)
 
   const handleDepartmentToggle = (department: string) => {
     if (disabled) return
+    
+    console.log('🏢 Department toggle clicked:', department, 'currently selected:', selectedDepartments)
     
     let newDepartments = [...selectedDepartments]
     
     if (newDepartments.includes(department)) {
       newDepartments = newDepartments.filter(d => d !== department)
+      console.log('🏢 Removing department:', department)
     } else {
       newDepartments.push(department)
+      console.log('🏢 Adding department:', department)
     }
     
     const departmentString = newDepartments.join(', ')
+    console.log('🏢 Final department string:', departmentString)
     onDepartmentsChange(departmentString)
   }
 
@@ -183,8 +192,16 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
 
   // Handle department change with immediate save
   const handleDepartmentChange = async (newDepartments: string) => {
+    console.log('🔥 handleDepartmentChange called with:', newDepartments)
+    
     if (!company) {
       console.log('❌ No company found')
+      return
+    }
+    
+    // Don't save if departments are the same
+    if (newDepartments === (company.department || '')) {
+      console.log('🏢 Department unchanged, skipping save')
       return
     }
     
@@ -1421,7 +1438,10 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
                 </h3>
                 <DepartmentSelector 
                   currentDepartments={editedCompany?.department || company?.department || ''}
-                  onDepartmentsChange={handleDepartmentChange}
+                  onDepartmentsChange={(newDepts) => {
+                    console.log('🔄 DepartmentSelector callback triggered with:', newDepts)
+                    handleDepartmentChange(newDepts)
+                  }}
                   disabled={isSavingDepartment}
                 />
                 {isSavingDepartment && (
