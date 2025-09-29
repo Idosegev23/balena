@@ -467,8 +467,10 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
       // Headers - organized for maximum usability
       csvContent += "Company Name,Hall,Stand,Location,Visit Priority,Relevance Score,Tags,Likes,Dislikes,Email,Phone,Website,Contact Person,Rating Notes,General Notes,Private Notes,Description,Last Updated\n"
       
-      // Process each company
-      detailedCompanies?.forEach((company: any, index: number) => {
+      // Process each company with error handling
+      for (let index = 0; index < (detailedCompanies?.length || 0); index++) {
+        const company = detailedCompanies![index]
+        try {
         // Helper function to clean text for CSV
         const cleanText = (text: string | null | undefined): string => {
           if (!text) return ''
@@ -549,7 +551,17 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick }: CompanyDiscove
         ].map(field => `"${field}"`).join(',')
 
         csvContent += csvRow + '\n'
-      })
+        
+        // Log progress every 50 companies
+        if (index % 50 === 0 || index === (detailedCompanies?.length || 0) - 1) {
+          console.log(`📋 Processed ${index + 1}/${detailedCompanies?.length || 0} companies`)
+        }
+        
+        } catch (error: any) {
+          console.error(`❌ Error processing company ${index + 1}:`, company?.company || 'Unknown', error)
+          // Continue with next company - don't break the export
+        }
+      }
 
       // Download the file
       const encodedUri = encodeURI(csvContent)
