@@ -761,23 +761,24 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
 
   return (
     <div 
-      className="fixed inset-0 bg-white z-50 flex flex-col mobile-content"
+      className="fixed inset-0 z-50 flex flex-col mobile-content"
       style={{
         overscrollBehavior: 'none',
         touchAction: 'pan-x pan-y',
-        WebkitOverflowScrolling: 'touch'
+        WebkitOverflowScrolling: 'touch',
+        background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%)'
       }}
     >
-      {/* Header - Mobile Optimized */}
-      <div className="flex items-center justify-between p-3 xs:p-4 sm:p-6 border-b bg-gradient-to-r safe-area-top" style={{ background: `linear-gradient(135deg, var(--balena-dark) 0%, var(--balena-brown) 100%)` }}>
+      {/* Header - Glassmorphism Style */}
+      <div className="flex items-center justify-between p-3 xs:p-4 sm:p-6 safe-area-top backdrop-blur-xl bg-white/20 border-b border-white/30 shadow-lg">
         <div className="flex items-center gap-2 xs:gap-3 flex-1 min-w-0">
-          <Building2 className="w-5 h-5 xs:w-6 xs:h-6 text-white flex-shrink-0" />
+          <Building2 className="w-5 h-5 xs:w-6 xs:h-6 text-slate-700 flex-shrink-0" />
           <div className="min-w-0 flex-1">
-            <h1 className="text-lg xs:text-xl sm:text-2xl font-bold text-white leading-tight">
+            <h1 className="text-lg xs:text-xl sm:text-2xl font-bold text-slate-800 leading-tight">
               <span className="sm:hidden">Discovery</span>
-              <span className="hidden sm:inline">Advanced Company Discovery</span>
+              <span className="hidden sm:inline">Company Discovery</span>
             </h1>
-            <span className="bg-white/20 text-white px-2 xs:px-3 py-1 rounded-full text-xs xs:text-sm">
+            <span className="bg-white/40 backdrop-blur-sm text-slate-700 px-2 xs:px-3 py-1 rounded-full text-xs xs:text-sm border border-white/20">
               {filteredCompanies.length} of {companies.length}
             </span>
           </div>
@@ -786,23 +787,23 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
           <button
             onClick={() => handleExportFilteredCompanies(true)}
             disabled={isExporting}
-            className={`p-1.5 xs:p-2 rounded-lg text-white touch-target flex-shrink-0 transition-all ${
+            className={`p-1.5 xs:p-2 rounded-lg text-slate-700 touch-target flex-shrink-0 transition-all backdrop-blur-sm ${
               isExporting 
-                ? 'bg-white/10 cursor-not-allowed' 
-                : 'hover:bg-white/20'
+                ? 'bg-white/20 cursor-not-allowed' 
+                : 'bg-white/30 hover:bg-white/40 border border-white/20'
             }`}
             aria-label="Export all companies"
             title={isExporting ? "Exporting..." : "Export ALL companies to CSV"}
           >
             {isExporting ? (
-              <div className="animate-spin w-3 h-3 xs:w-4 xs:h-4 border border-white/30 border-t-white rounded-full" />
+              <div className="animate-spin w-3 h-3 xs:w-4 xs:h-4 border border-slate-300 border-t-slate-700 rounded-full" />
             ) : (
               <Download className="w-3 h-3 xs:w-4 xs:h-4" />
             )}
           </button>
           <button
             onClick={onClose}
-            className="p-1.5 xs:p-2 hover:bg-white/20 rounded-lg text-white touch-target flex-shrink-0"
+            className="p-1.5 xs:p-2 bg-white/30 hover:bg-white/40 rounded-lg text-slate-700 touch-target flex-shrink-0 backdrop-blur-sm border border-white/20 transition-all"
             aria-label="Close"
           >
             <X className="w-5 h-5 xs:w-6 xs:h-6" />
@@ -810,12 +811,12 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
         </div>
       </div>
 
-      {/* Search & Filters Bar - Mobile Optimized */}
-      <div className="p-3 xs:p-4 sm:p-6 border-b bg-gray-50">
+      {/* Search & Filters Bar - Glassmorphism */}
+      <div className="p-3 xs:p-4 sm:p-6 backdrop-blur-lg bg-white/10 border-b border-white/20">
         <div className="flex gap-2 xs:gap-3 sm:gap-4 mb-3 sm:mb-4">
           {/* Desktop Search */}
           <div className="hidden sm:flex flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500 w-5 h-5" />
             <input
               ref={searchInputRef}
               type="text"
@@ -851,8 +852,8 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                 // Delay hiding to allow click on autocomplete
                 setTimeout(() => setShowAutocomplete(false), 200)
               }}
-              placeholder="🔍 Search by company name, description, location, hall, products..."
-              className="w-full pl-10 pr-10 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="🔍 Search companies..."
+              className="w-full pl-10 pr-10 py-3 bg-white/40 backdrop-blur-sm border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/60 transition-all text-slate-800 placeholder-slate-500"
             />
             
             {/* Clear Search Button */}
@@ -899,15 +900,15 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
           {/* Mobile Search Button */}
           <button
             onClick={() => setShowMobileSearch(true)}
-            className={`sm:hidden p-2.5 xs:p-3 border rounded-lg transition-colors relative touch-target ${
-              searchInput ? 'bg-blue-50 border-blue-300 text-blue-700' : 'bg-white hover:bg-gray-50 text-gray-600'
+            className={`sm:hidden p-2.5 xs:p-3 backdrop-blur-sm border border-white/30 rounded-xl transition-all relative touch-target ${
+              searchInput ? 'bg-white/60 text-slate-700' : 'bg-white/40 hover:bg-white/50 text-slate-600'
             }`}
             title={searchInput ? `Searching: "${searchInput}"` : "Search companies"}
             aria-label="Open search"
           >
             <Search className="w-4 h-4 xs:w-5 xs:h-5" />
             {searchInput && (
-              <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-slate-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center backdrop-blur-sm">
                 ●
               </span>
             )}
@@ -915,16 +916,16 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
 
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className={`flex items-center gap-1 xs:gap-2 px-2 xs:px-3 sm:px-4 py-2.5 xs:py-3 border rounded-lg transition-colors relative touch-target ${
+            className={`flex items-center gap-1 xs:gap-2 px-2 xs:px-3 sm:px-4 py-2.5 xs:py-3 backdrop-blur-sm border border-white/30 rounded-xl transition-all relative touch-target ${
               activeFiltersCount > 0 
-                ? 'bg-blue-50 border-blue-300 text-blue-700 hover:bg-blue-100' 
-                : 'hover:bg-gray-100'
+                ? 'bg-white/60 text-slate-700' 
+                : 'bg-white/40 hover:bg-white/50 text-slate-600'
             }`}
           >
             <Filter className="w-4 h-4 xs:w-5 xs:h-5" />
             <span className="hidden xs:inline">Filters</span>
             {activeFiltersCount > 0 && (
-              <span className="bg-blue-600 text-white text-xs rounded-full h-4 w-4 xs:h-5 xs:w-5 flex items-center justify-center font-medium">
+              <span className="bg-slate-600 text-white text-xs rounded-full h-4 w-4 xs:h-5 xs:w-5 flex items-center justify-center font-medium backdrop-blur-sm">
                 {activeFiltersCount}
               </span>
             )}
@@ -962,14 +963,14 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5 p-3 bg-white rounded-lg border shadow-sm max-h-64 overflow-y-auto"
+              className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5 p-4 bg-white/30 backdrop-blur-xl rounded-2xl border border-white/30 shadow-xl max-h-64 overflow-y-auto"
             >
             <div>
-              <label className="block text-xs font-medium mb-1">Department</label>
+              <label className="block text-xs font-medium mb-1 text-slate-700">Department</label>
               <select
                 value={filters.department}
                 onChange={(e) => setFilters(prev => ({ ...prev, department: e.target.value }))}
-                className="w-full px-2 py-1.5 text-sm border rounded"
+                className="w-full px-2 py-1.5 text-sm bg-white/50 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60 focus:bg-white/70 transition-all text-slate-700"
               >
                 <option value="">All Departments</option>
                 {departments.map(dept => (
@@ -979,11 +980,11 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
             </div>
 
             <div>
-              <label className="block text-xs font-medium mb-1">Visit Priority</label>
+              <label className="block text-xs font-medium mb-1 text-slate-700">Visit Priority</label>
               <select
                 value={filters.visitPriority}
                 onChange={(e) => setFilters(prev => ({ ...prev, visitPriority: e.target.value }))}
-                className="w-full px-2 py-1.5 text-sm border rounded"
+                className="w-full px-2 py-1.5 text-sm bg-white/50 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60 focus:bg-white/70 transition-all text-slate-700"
               >
                 <option value="">All Priorities</option>
                 {visitPriorities.map(priority => (
@@ -993,22 +994,22 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
             </div>
 
             <div>
-              <label className="block text-xs font-medium mb-1">Location</label>
+              <label className="block text-xs font-medium mb-1 text-slate-700">Location</label>
               <input
                 type="text"
                 value={filters.location}
                 onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value }))}
                 placeholder="Germany, Netherlands..."
-                className="w-full px-2 py-1.5 text-sm border rounded"
+                className="w-full px-2 py-1.5 text-sm bg-white/50 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60 focus:bg-white/70 transition-all text-slate-700"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium mb-1">Hall</label>
+              <label className="block text-xs font-medium mb-1 text-slate-700">Hall</label>
               <select
                 value={filters.hall}
                 onChange={(e) => setFilters(prev => ({ ...prev, hall: e.target.value }))}
-                className="w-full px-2 py-1.5 text-sm border rounded"
+                className="w-full px-2 py-1.5 text-sm bg-white/50 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60 focus:bg-white/70 transition-all text-slate-700"
               >
                 <option value="">All Halls</option>
                 {availableHalls.map(hall => (
@@ -1043,7 +1044,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
 
             {/* Tags Filter */}
             <div className="lg:col-span-3">
-              <label className="block text-xs font-medium mb-1">Tags</label>
+              <label className="block text-xs font-medium mb-1 text-slate-700">Tags</label>
               <div className="flex flex-wrap gap-1">
                 {availableTags.map(tag => (
                   <button
@@ -1054,10 +1055,10 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                         : [...filters.tags, tag]
                       setFilters(prev => ({ ...prev, tags: newTags }))
                     }}
-                    className={`px-2 py-0.5 rounded text-xs transition-colors ${
+                    className={`px-2 py-0.5 rounded-lg text-xs transition-all backdrop-blur-sm ${
                       filters.tags.includes(tag)
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        ? 'bg-slate-600 text-white border border-slate-500'
+                        : 'bg-white/50 text-slate-700 hover:bg-white/70 border border-white/40'
                     }`}
                   >
                     {tag.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
@@ -1076,11 +1077,11 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
 
             {/* Visit Status Filter */}
             <div>
-              <label className="block text-xs font-medium mb-1">Visit Status</label>
+              <label className="block text-xs font-medium mb-1 text-slate-700">Visit Status</label>
               <select
                 value={filters.visitedStatus}
                 onChange={(e) => setFilters(prev => ({ ...prev, visitedStatus: e.target.value as 'all' | 'visited' | 'not_visited' }))}
-                className="w-full px-2 py-1.5 text-sm border rounded"
+                className="w-full px-2 py-1.5 text-sm bg-white/50 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60 focus:bg-white/70 transition-all text-slate-700"
               >
                 <option value="all">All Companies</option>
                 <option value="visited">✅ Visited</option>
@@ -1103,11 +1104,11 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
 
             {/* Meeting Status Filter */}
             <div>
-              <label className="block text-xs font-medium mb-1">Meetings</label>
+              <label className="block text-xs font-medium mb-1 text-slate-700">Meetings</label>
               <select
                 value={filters.meetingStatus}
                 onChange={(e) => setFilters(prev => ({ ...prev, meetingStatus: e.target.value as 'all' | 'requested' | 'scheduled' | 'completed' }))}
-                className="w-full px-2 py-1.5 text-sm border rounded"
+                className="w-full px-2 py-1.5 text-sm bg-white/50 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60 focus:bg-white/70 transition-all text-slate-700"
               >
                 <option value="all">All Meetings</option>
                 <option value="requested">📝 Requested</option>
@@ -1137,7 +1138,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                   })
                   setShowAutocomplete(false)
                 }}
-                className="w-full px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded transition-colors flex items-center justify-center gap-1.5 text-sm"
+                className="w-full px-3 py-1.5 bg-white/50 hover:bg-white/70 text-slate-700 rounded-lg transition-all flex items-center justify-center gap-1.5 text-sm backdrop-blur-sm border border-white/40"
               >
                 <X className="w-3 h-3" />
                 Clear All
@@ -1149,11 +1150,11 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
 
         {/* Sorting */}
         <div className="flex items-center gap-4 mt-4">
-          <span className="text-sm font-medium">Sort by:</span>
+          <span className="text-sm font-medium text-slate-700">Sort by:</span>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
-            className="px-3 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-3 py-1.5 bg-white/50 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60 transition-all text-slate-700"
           >
             <option value="company">🏢 Company Name (A-Z)</option>
             <option value="location">📍 Location</option>
@@ -1163,15 +1164,15 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
           </select>
           <button
             onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-            className="px-3 py-1 border rounded hover:bg-gray-100"
+            className="px-3 py-1.5 bg-white/50 backdrop-blur-sm border border-white/40 rounded-lg hover:bg-white/70 transition-all text-slate-700"
           >
             {sortOrder === 'asc' ? '↑ Ascending' : '↓ Descending'}
           </button>
         </div>
       </div>
 
-      {/* Companies Table */}
-      <div className="flex-1 overflow-hidden">
+      {/* Companies Table - Glassmorphism */}
+      <div className="flex-1 overflow-hidden bg-white/5 backdrop-blur-sm">
         {loading ? (
           <div className="flex items-center justify-center h-full">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
