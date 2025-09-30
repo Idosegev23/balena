@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '@/components/AuthProvider'
 import { supabase, Company } from '@/lib/supabase'
-import { Building2, Star, CheckSquare, Calendar, MapPin, Lightbulb } from 'lucide-react'
+import { Building2, Star, CheckSquare, Calendar, MapPin, Lightbulb, Plus, Zap, Search } from 'lucide-react'
 import { EnhancedCompanyModal } from '@/components/EnhancedCompanyModal'
 import { RealtimeRating } from '@/components/RealtimeRating'
 import { SmartRecommendations } from '@/components/SmartRecommendations'
@@ -662,144 +662,254 @@ export default function Home() {
         style={pullToRefreshStyles}
       />
 
-      {/* Mobile-First Content */}
+      {/* Premium Corporate Dashboard */}
       {activeView === 'dashboard' && (
-        <div ref={elementRef} className="max-w-7xl mx-auto p-2 xs:p-3 sm:p-4 lg:p-6 mobile-content overflow-y-auto safe-area-inset">
-          <div className="space-y-3 sm:space-y-4">
-          {/* Mobile-First Welcome */}
-          <div className="text-center py-4 bg-white rounded-lg shadow-sm">
-            <h2 className="text-lg sm:text-xl font-bold mb-1" style={{ color: 'var(--balena-dark)' }}>
-              K-Show 2025
-            </h2>
-            <p className="text-xs sm:text-sm" style={{ color: 'var(--balena-brown)' }}>
-              Düsseldorf • October 8-15
-            </p>
-          </div>
-
-          {/* Department Filter Tabs - Mobile First with improved spacing */}
-          <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-            <div className="flex border-b overflow-x-auto hide-scrollbar">
-              <button
-                onClick={() => setDeptFilter('')}
-                className={`flex-shrink-0 px-2 xs:px-3 sm:px-3 py-2.5 xs:py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap touch-target ${
-                  !deptFilter 
-                    ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
-                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-                }`}
-              >
-                All Depts
-              </button>
-              <button
-                onClick={() => setDeptFilter('Commercial')}
-                className={`flex-shrink-0 px-2 xs:px-3 sm:px-3 py-2.5 xs:py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap touch-target ${
-                  deptFilter === 'Commercial' 
-                    ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
-                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-                }`}
-              >
-                Commercial
-              </button>
-              <button
-                onClick={() => setDeptFilter('Operations')}
-                className={`flex-shrink-0 px-2 xs:px-3 sm:px-3 py-2.5 xs:py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap touch-target ${
-                  deptFilter === 'Operations' 
-                    ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
-                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-                }`}
-              >
-                Operations
-              </button>
-              <button
-                onClick={() => setDeptFilter('R&D')}
-                className={`flex-shrink-0 px-2 xs:px-3 sm:px-3 py-2.5 xs:py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap touch-target ${
-                  deptFilter === 'R&D' 
-                    ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
-                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-                }`}
-              >
-                R&D
-              </button>
-              <button
-                onClick={() => setDeptFilter('Marketing')}
-                className={`flex-shrink-0 px-2 xs:px-3 sm:px-3 py-2.5 xs:py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap touch-target ${
-                  deptFilter === 'Marketing' 
-                    ? 'bg-blue-600 text-white border-b-2 border-blue-600' 
-                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-                }`}
-              >
-                Marketing
-              </button>
+        <div ref={elementRef} className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            
+            {/* Executive Header */}
+            <div className="mb-8">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-light text-slate-900 tracking-tight">
+                    K-Show 2025
+                  </h1>
+                  <p className="text-sm sm:text-base text-slate-500 font-light mt-1">
+                    Düsseldorf Exhibition • Oct 8-15, 2025
+                  </p>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <div className="hidden sm:flex items-center space-x-2 px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span>Live</span>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xs text-slate-400 uppercase tracking-wider">Current User</p>
+                    <p className="text-sm font-medium text-slate-700">{user?.user_metadata?.full_name || user?.email}</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Elegant Divider */}
+              <div className="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
             </div>
-          </div>
 
-          {/* Mobile-First Stats */}
-          <div className="grid gap-2 xs:gap-3 grid-cols-2 lg:grid-cols-4">
-            <motion.button
-              whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(59, 130, 246, 0.3)" }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              onClick={() => {
-                setActiveView('discovery')
-                setShowDiscoveryPage(true)
-              }}
-              className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-3 xs:p-4 shadow-lg text-center hover:shadow-xl transition-all flex flex-col items-center gap-1 xs:gap-2 text-white touch-target"
-            >
+            {/* Executive Department Navigation */}
+            <div className="mb-8">
+              <div className="flex items-center space-x-1 bg-slate-100/50 backdrop-blur-sm rounded-xl p-1">
+                {[
+                  { key: '', label: 'All Departments' },
+                  { key: 'Commercial', label: 'Commercial' },
+                  { key: 'Operations', label: 'Operations' },
+                  { key: 'R&D', label: 'R&D' },
+                  { key: 'Marketing', label: 'Marketing' }
+                ].map((dept) => (
+                  <button
+                    key={dept.key}
+                    onClick={() => setDeptFilter(dept.key)}
+                    className={`flex-1 px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
+                      deptFilter === dept.key
+                        ? 'bg-white text-slate-900 shadow-sm'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                    }`}
+                  >
+                    {dept.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Executive KPI Dashboard */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+              {/* Total Companies - Primary CTA */}
+              <motion.button
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                onClick={() => {
+                  setActiveView('discovery')
+                  setShowDiscoveryPage(true)
+                }}
+                className="group relative bg-white rounded-2xl p-6 shadow-sm border border-slate-200/50 hover:shadow-lg hover:border-slate-300/50 transition-all duration-300"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="p-2 bg-slate-100 rounded-xl group-hover:bg-slate-200 transition-colors">
+                    <Building2 className="w-5 h-5 text-slate-600" />
+                  </div>
+                  <div className="text-xs text-slate-400 uppercase tracking-wider">Total</div>
+                </div>
+                <div className="text-3xl font-light text-slate-900 mb-1">
+                  {stats?.totalCompanies || 0}
+                </div>
+                <div className="text-sm text-slate-500 font-medium">
+                  Companies to Discover
+                </div>
+                <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-slate-200 to-slate-300 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              </motion.button>
+
+              {/* Must Visit - High Priority */}
               <motion.div
-                animate={{ rotate: [0, 10, -10, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="relative bg-white rounded-2xl p-6 shadow-sm border border-slate-200/50"
               >
-                <Building2 className="w-5 h-5 xs:w-6 xs:h-6 mb-1" />
+                <div className="flex items-center justify-between mb-4">
+                  <div className="p-2 bg-amber-50 rounded-xl">
+                    <Star className="w-5 h-5 text-amber-600" />
+                  </div>
+                  <div className="text-xs text-slate-400 uppercase tracking-wider">Priority</div>
+                </div>
+                <div className="text-3xl font-light text-slate-900 mb-1">
+                  {stats?.mustVisitCompanies || 0}
+                </div>
+                <div className="text-sm text-slate-500 font-medium">
+                  Must Visit Companies
+                </div>
+                <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-amber-200 to-amber-300 rounded-b-2xl"></div>
               </motion.div>
-              <div className="text-xl xs:text-2xl font-bold">
-                {stats?.totalCompanies || 0}
-              </div>
-              <div className="text-xs font-medium opacity-90">
-                🏢 Discover
-              </div>
-            </motion.button>
-            <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-xl p-3 xs:p-4 shadow-lg text-center flex flex-col items-center gap-1 xs:gap-2 text-white">
-              <Star className="w-5 h-5 xs:w-6 xs:h-6 mb-1" />
-              <div className="text-xl xs:text-2xl font-bold">
-                {stats?.mustVisitCompanies || 0}
-              </div>
-              <div className="text-xs font-medium opacity-90">
-                ⭐ Must Visit
-              </div>
-            </div>
-            <button
-              onClick={() => setActiveView('visits')}
-              className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-3 xs:p-4 shadow-lg text-center hover:shadow-xl transition-all active:scale-95 flex flex-col items-center gap-1 xs:gap-2 text-white touch-target"
-            >
-              <CheckSquare className="w-5 h-5 xs:w-6 xs:h-6 mb-1" />
-              <div className="text-xl xs:text-2xl font-bold">
-                {stats?.visitedCompanies || 0}
-              </div>
-              <div className="text-xs font-medium opacity-90">
-                ✅ Visited
-              </div>
-            </button>
-            <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-3 xs:p-4 shadow-lg text-center flex flex-col items-center gap-1 xs:gap-2 text-white">
-              <Calendar className="w-5 h-5 xs:w-6 xs:h-6 mb-1" />
-              <div className="text-xl xs:text-2xl font-bold">
-                {stats?.followUpRequired || 0}
-              </div>
-              <div className="text-xs font-medium opacity-90">
-                📅 Follow-up
-              </div>
-            </div>
-          </div>
 
-          {/* AI-Powered Smart Recommendations */}
-          <div className="bg-white rounded-lg shadow-sm p-4">
-            <ProactiveRecommendations 
-              currentCompany={selectedCompany || undefined}
-              onCompanyClick={handleCompanyClick}
-              trigger="manual"
-            />
+              {/* Visited - Success Metric */}
+              <motion.button
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                onClick={() => setActiveView('visits')}
+                className="group relative bg-white rounded-2xl p-6 shadow-sm border border-slate-200/50 hover:shadow-lg hover:border-slate-300/50 transition-all duration-300"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="p-2 bg-emerald-50 rounded-xl group-hover:bg-emerald-100 transition-colors">
+                    <CheckSquare className="w-5 h-5 text-emerald-600" />
+                  </div>
+                  <div className="text-xs text-slate-400 uppercase tracking-wider">Completed</div>
+                </div>
+                <div className="text-3xl font-light text-slate-900 mb-1">
+                  {stats?.visitedCompanies || 0}
+                </div>
+                <div className="text-sm text-slate-500 font-medium">
+                  Companies Visited
+                </div>
+                <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-emerald-200 to-emerald-300 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              </motion.button>
+
+              {/* Follow-up - Action Required */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="relative bg-white rounded-2xl p-6 shadow-sm border border-slate-200/50"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="p-2 bg-blue-50 rounded-xl">
+                    <Calendar className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div className="text-xs text-slate-400 uppercase tracking-wider">Pending</div>
+                </div>
+                <div className="text-3xl font-light text-slate-900 mb-1">
+                  {stats?.followUpRequired || 0}
+                </div>
+                <div className="text-sm text-slate-500 font-medium">
+                  Follow-up Required
+                </div>
+                <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-blue-200 to-blue-300 rounded-b-2xl"></div>
+              </motion.div>
+            </div>
+
+            {/* Executive Quick Actions */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+              {/* Quick Actions Panel */}
+              <div className="lg:col-span-1">
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6">
+                  <h3 className="text-lg font-medium text-slate-900 mb-4">Quick Actions</h3>
+                  <div className="space-y-3">
+                    <motion.button
+                      whileHover={{ x: 4 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setShowAddCompanyModal(true)}
+                      className="w-full flex items-center space-x-3 p-3 text-left rounded-xl hover:bg-slate-50 transition-colors group"
+                    >
+                      <div className="p-2 bg-slate-100 rounded-lg group-hover:bg-slate-200 transition-colors">
+                        <Plus className="w-4 h-4 text-slate-600" />
+                      </div>
+                      <div>
+                        <div className="font-medium text-slate-900">Add Company</div>
+                        <div className="text-sm text-slate-500">Register new exhibitor</div>
+                      </div>
+                    </motion.button>
+                    
+                    <motion.button
+                      whileHover={{ x: 4 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setShowQuickAddModal(true)}
+                      className="w-full flex items-center space-x-3 p-3 text-left rounded-xl hover:bg-slate-50 transition-colors group"
+                    >
+                      <div className="p-2 bg-slate-100 rounded-lg group-hover:bg-slate-200 transition-colors">
+                        <Zap className="w-4 h-4 text-slate-600" />
+                      </div>
+                      <div>
+                        <div className="font-medium text-slate-900">Quick Actions</div>
+                        <div className="text-sm text-slate-500">Bulk operations</div>
+                      </div>
+                    </motion.button>
+                    
+                    <motion.button
+                      whileHover={{ x: 4 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => {
+                        setActiveView('discovery')
+                        setShowDiscoveryPage(true)
+                      }}
+                      className="w-full flex items-center space-x-3 p-3 text-left rounded-xl hover:bg-slate-50 transition-colors group"
+                    >
+                      <div className="p-2 bg-slate-100 rounded-lg group-hover:bg-slate-200 transition-colors">
+                        <Search className="w-4 h-4 text-slate-600" />
+                      </div>
+                      <div>
+                        <div className="font-medium text-slate-900">Advanced Search</div>
+                        <div className="text-sm text-slate-500">Find companies</div>
+                      </div>
+                    </motion.button>
+                  </div>
+                </div>
+              </div>
+
+              {/* AI-Powered Smart Recommendations */}
+              <div className="lg:col-span-2">
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200/50 overflow-hidden h-full">
+                  <div className="px-6 py-4 border-b border-slate-100">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className="p-2 bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl">
+                          <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-medium text-slate-900">Smart Recommendations</h3>
+                          <p className="text-sm text-slate-500">AI-powered company suggestions</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2 px-3 py-1.5 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                        <span className="text-xs font-medium text-purple-700">AI Active</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <ProactiveRecommendations 
+                      currentCompany={selectedCompany || undefined}
+                      onCompanyClick={handleCompanyClick}
+                      trigger="manual"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
         </div>
       )}
 
