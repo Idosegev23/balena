@@ -825,28 +825,29 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
         overscrollBehavior: 'none',
         touchAction: 'pan-x pan-y',
         WebkitOverflowScrolling: 'touch',
-        background: 'linear-gradient(135deg, #fafbfc 0%, #f7f9fb 25%, #f4f6f8 50%, #f1f4f7 75%, #eef2f6 100%)'
+        background: 'linear-gradient(135deg, #fafbfc 0%, #f7f9fb 25%, #f4f6f8 50%, #f1f4f7 75%, #eef2f6 100%)',
+        minHeight: '100dvh' // Dynamic viewport height for mobile
       }}
     >
       {/* Header - Glassmorphism Style */}
-      <div className="flex items-center justify-between p-4 xs:p-5 sm:p-6 safe-area-top backdrop-blur-2xl bg-white/40 border-b border-white/20" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1)' }}>
+      <div className="flex items-center justify-between px-3 py-3 xs:px-4 xs:py-4 sm:px-6 sm:py-4 safe-area-top backdrop-blur-2xl bg-white/40 border-b border-white/20" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1)' }}>
         <div className="flex items-center gap-2 xs:gap-3 flex-1 min-w-0">
-          <Building2 className="w-5 h-5 xs:w-6 xs:h-6 text-slate-600 flex-shrink-0" />
+          <Building2 className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 text-slate-600 flex-shrink-0" />
           <div className="min-w-0 flex-1">
-            <h1 className="text-lg xs:text-xl sm:text-2xl font-semibold text-slate-700 leading-tight tracking-tight">
+            <h1 className="text-base xs:text-lg sm:text-xl md:text-2xl font-semibold text-slate-700 leading-tight tracking-tight">
               <span className="sm:hidden">Discovery</span>
               <span className="hidden sm:inline">Company Discovery</span>
             </h1>
-            <span className="inline-flex items-center bg-white/60 backdrop-blur-md text-slate-600 px-3 py-1 rounded-full text-xs xs:text-sm border border-white/30 mt-1" style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+            <span className="inline-flex items-center bg-white/60 backdrop-blur-md text-slate-600 px-2 xs:px-3 py-0.5 xs:py-1 rounded-full text-xs border border-white/30 mt-0.5 xs:mt-1" style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
               {filteredCompanies.length} of {companies.length}
             </span>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 xs:gap-2">
           <button
             onClick={() => handleExportFilteredCompanies(true)}
             disabled={isExporting}
-            className={`p-2 rounded-xl text-slate-600 touch-target flex-shrink-0 transition-all duration-200 backdrop-blur-md ${
+            className={`p-1.5 xs:p-2 rounded-xl text-slate-600 touch-target flex-shrink-0 transition-all duration-200 backdrop-blur-md ${
               isExporting 
                 ? 'bg-white/30 cursor-not-allowed opacity-50' 
                 : 'bg-white/50 hover:bg-white/70 border border-white/30 hover:border-white/40 hover:shadow-sm'
@@ -862,17 +863,17 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
           </button>
           <button
             onClick={onClose}
-            className="p-2 bg-white/50 hover:bg-white/70 rounded-xl text-slate-600 touch-target flex-shrink-0 backdrop-blur-md border border-white/30 hover:border-white/40 transition-all duration-200 hover:shadow-sm"
+            className="p-1.5 xs:p-2 bg-white/50 hover:bg-white/70 rounded-xl text-slate-600 touch-target flex-shrink-0 backdrop-blur-md border border-white/30 hover:border-white/40 transition-all duration-200 hover:shadow-sm"
             aria-label="Close"
           >
-            <X className="w-5 h-5 xs:w-6 xs:h-6" />
+            <X className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
       </div>
 
       {/* Search & Controls Bar - Single Line */}
-      <div className="p-3 backdrop-blur-2xl bg-white/20 border-b border-white/15" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)' }}>
-        <div className="flex items-center gap-3">
+      <div className="px-2 xs:px-3 sm:px-4 py-2 xs:py-3 backdrop-blur-2xl bg-white/20 border-b border-white/15" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)' }}>
+        <div className="flex items-center gap-1 xs:gap-2 sm:gap-3 overflow-x-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {/* Desktop Search */}
           <div className="hidden sm:flex flex-1 relative">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
@@ -912,7 +913,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                 setTimeout(() => setShowAutocomplete(false), 200)
               }}
               placeholder="Search companies..."
-              className="w-full pl-11 pr-12 py-2.5 bg-white/60 backdrop-blur-md border border-white/25 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/40 focus:bg-white/80 transition-all duration-200 text-slate-700 placeholder-slate-400 text-sm"
+              className="w-full pl-10 pr-10 py-2 xs:py-2.5 bg-white/60 backdrop-blur-md border border-white/25 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/40 focus:bg-white/80 transition-all duration-200 text-slate-700 placeholder-slate-400 text-sm"
               style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1)' }}
             />
             
@@ -960,15 +961,15 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
           {/* Mobile Search Button */}
           <button
             onClick={() => setShowMobileSearch(true)}
-            className={`sm:hidden p-2.5 backdrop-blur-md border border-white/25 rounded-xl transition-all duration-200 relative touch-target ${
+            className={`sm:hidden p-2 xs:p-2.5 backdrop-blur-md border border-white/25 rounded-xl transition-all duration-200 relative touch-target flex-shrink-0 ${
               searchInput ? 'bg-white/70 text-slate-600 shadow-sm' : 'bg-white/50 hover:bg-white/65 text-slate-500 hover:shadow-sm'
             }`}
             title={searchInput ? `Searching: "${searchInput}"` : "Search companies"}
             aria-label="Open search"
           >
-            <Search className="w-4 h-4" />
+            <Search className="w-3.5 h-3.5 xs:w-4 xs:h-4" />
             {searchInput && (
-              <span className="absolute -top-1 -right-1 bg-slate-600 text-white text-xs rounded-full h-3 w-3 flex items-center justify-center backdrop-blur-sm">
+              <span className="absolute -top-0.5 -right-0.5 bg-slate-600 text-white text-xs rounded-full h-2.5 w-2.5 xs:h-3 xs:w-3 flex items-center justify-center backdrop-blur-sm">
                 ●
               </span>
             )}
@@ -978,7 +979,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
-            className="px-3 py-2.5 bg-white/70 backdrop-blur-md border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200 text-slate-600 text-sm"
+            className="px-2 xs:px-3 py-2 xs:py-2.5 bg-white/70 backdrop-blur-md border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200 text-slate-600 text-xs xs:text-sm flex-shrink-0 min-w-0"
             style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1)' }}
           >
             <option value="company">🏢 Company</option>
@@ -990,29 +991,29 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
 
           <button
             onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-            className="p-2.5 bg-white/70 backdrop-blur-md border border-white/30 rounded-xl hover:bg-white/90 transition-all duration-200 text-slate-600 hover:shadow-sm"
+            className="p-2 xs:p-2.5 bg-white/70 backdrop-blur-md border border-white/30 rounded-xl hover:bg-white/90 transition-all duration-200 text-slate-600 hover:shadow-sm flex-shrink-0"
             style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}
             title={sortOrder === 'asc' ? 'Sort Descending' : 'Sort Ascending'}
           >
-            {sortOrder === 'asc' ? '↑' : '↓'}
+            <span className="text-sm xs:text-base">{sortOrder === 'asc' ? '↑' : '↓'}</span>
           </button>
 
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className={`flex items-center gap-1.5 px-3 py-2.5 backdrop-blur-md border border-white/25 rounded-xl transition-all duration-200 relative touch-target ${
+            className={`flex items-center gap-1 xs:gap-1.5 px-2 xs:px-3 py-2 xs:py-2.5 backdrop-blur-md border border-white/25 rounded-xl transition-all duration-200 relative touch-target flex-shrink-0 ${
               activeFiltersCount > 0 
                 ? 'bg-white/70 text-slate-600 shadow-sm' 
                 : 'bg-white/50 hover:bg-white/65 text-slate-500 hover:shadow-sm'
             }`}
           >
-            <Filter className="w-4 h-4" />
-            <span className="hidden sm:inline text-sm">Filters</span>
+            <Filter className="w-3.5 h-3.5 xs:w-4 xs:h-4" />
+            <span className="hidden sm:inline text-xs xs:text-sm">Filters</span>
             {activeFiltersCount > 0 && (
-              <span className="bg-slate-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium backdrop-blur-sm">
+              <span className="bg-slate-600 text-white text-xs rounded-full h-3.5 w-3.5 xs:h-4 xs:w-4 flex items-center justify-center font-medium backdrop-blur-sm">
                 {activeFiltersCount}
               </span>
             )}
-            {showFilters ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+            {showFilters ? <ChevronUp className="w-2.5 h-2.5 xs:w-3 xs:h-3" /> : <ChevronDown className="w-2.5 h-2.5 xs:w-3 xs:h-3" />}
           </button>
         </div>
 
@@ -1236,11 +1237,11 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
               WebkitOverflowScrolling: 'touch'
             }}
           >
-            <div className="grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+            <div className="grid gap-2 xs:gap-3 p-2 xs:p-3 sm:p-4 grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
               {paginatedCompanies.map((company) => (
                 <div
                   key={company.id}
-                  className="backdrop-blur-md bg-white/60 border border-white/30 rounded-2xl p-4 hover:bg-white/80 hover:shadow-lg transition-all duration-200 cursor-pointer hover:border-white/50 hover:scale-[1.02]"
+                  className="backdrop-blur-md bg-white/60 border border-white/30 rounded-2xl p-3 xs:p-4 hover:bg-white/80 hover:shadow-lg transition-all duration-200 cursor-pointer hover:border-white/50 hover:scale-[1.01] xs:hover:scale-[1.02]"
                   onClick={() => onCompanyClick(company)}
                   style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1)' }}
                 >
@@ -1416,20 +1417,21 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
 
       {/* Compact Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between px-4 py-2 backdrop-blur-2xl bg-white/30 border-t border-white/20" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)' }}>
+        <div className="flex items-center justify-between px-2 xs:px-3 sm:px-4 py-2 backdrop-blur-2xl bg-white/30 border-t border-white/20 safe-area-bottom" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)' }}>
           <button
             onClick={() => setPage(Math.max(1, validPage - 1))}
             disabled={validPage === 1}
-            className="px-3 py-1.5 bg-white/50 backdrop-blur-md border border-white/30 rounded-lg hover:bg-white/70 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 text-slate-600 text-sm"
+            className="px-2 xs:px-3 py-1.5 bg-white/50 backdrop-blur-md border border-white/30 rounded-lg hover:bg-white/70 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 text-slate-600 text-xs xs:text-sm flex-shrink-0"
           >
-            ← Prev
+            <span className="hidden xs:inline">← Prev</span>
+            <span className="xs:hidden">←</span>
           </button>
           
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-slate-600">
-              Page {validPage} of {totalPages}
+          <div className="flex items-center gap-1 xs:gap-2 min-w-0 flex-1 justify-center">
+            <span className="text-xs xs:text-sm text-slate-600 truncate">
+              <span className="hidden xs:inline">Page </span>{validPage}<span className="hidden xs:inline"> of {totalPages}</span>
             </span>
-            <span className="text-xs text-slate-500">
+            <span className="text-xs text-slate-500 hidden sm:inline">
               • {paginatedCompanies.length} of {filteredCompanies.length}
             </span>
           </div>
@@ -1437,9 +1439,10 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
           <button
             onClick={() => setPage(Math.min(totalPages, validPage + 1))}
             disabled={validPage === totalPages}
-            className="px-3 py-1.5 bg-white/50 backdrop-blur-md border border-white/30 rounded-lg hover:bg-white/70 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 text-slate-600 text-sm"
+            className="px-2 xs:px-3 py-1.5 bg-white/50 backdrop-blur-md border border-white/30 rounded-lg hover:bg-white/70 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 text-slate-600 text-xs xs:text-sm flex-shrink-0"
           >
-            Next →
+            <span className="hidden xs:inline">Next →</span>
+            <span className="xs:hidden">→</span>
           </button>
         </div>
       )}
