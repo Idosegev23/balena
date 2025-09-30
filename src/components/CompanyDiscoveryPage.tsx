@@ -42,6 +42,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
   const [userRatings, setUserRatings] = useState<Set<number>>(new Set())
+  const [availableHalls, setAvailableHalls] = useState<string[]>([])
   const [showFilters, setShowFilters] = useState(false)
   const [sortBy, setSortBy] = useState<'company' | 'location' | 'priority' | 'department' | 'hall'>('company')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
@@ -130,6 +131,34 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
     if (initialCompanies && initialCompanies.length > 0) {
       console.log('🔄 CompanyDiscoveryPage: Using initial companies from parent:', initialCompanies.length)
       setCompanies(initialCompanies)
+      
+      // Extract halls from initial companies too
+      const halls = new Set<string>()
+      initialCompanies.forEach(company => {
+        if (company.hall && company.hall.trim() !== '') {
+          halls.add(company.hall.trim())
+        }
+      })
+      
+      const sortedHalls = Array.from(halls).sort((a, b) => {
+        const aMatch = a.match(/^(\d+)([a-z]?)$/i)
+        const bMatch = b.match(/^(\d+)([a-z]?)$/i)
+        
+        if (aMatch && bMatch) {
+          const aNum = parseInt(aMatch[1])
+          const bNum = parseInt(bMatch[1])
+          
+          if (aNum !== bNum) {
+            return aNum - bNum
+          }
+          
+          return (aMatch[2] || '').localeCompare(bMatch[2] || '')
+        }
+        
+        return a.localeCompare(b)
+      })
+      
+      setAvailableHalls(sortedHalls)
       setLoading(false)
     } else {
       console.log('🔄 CompanyDiscoveryPage: Fetching companies from database')
@@ -255,6 +284,38 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
       })
       
       setCompanies(companiesWithParsedLocation)
+      
+      // Extract unique halls from companies data
+      const halls = new Set<string>()
+      companiesWithParsedLocation.forEach(company => {
+        if (company.hall && company.hall.trim() !== '') {
+          halls.add(company.hall.trim())
+        }
+      })
+      
+      // Sort halls naturally (1, 2, 3, 7a, 8a, 8b, etc.)
+      const sortedHalls = Array.from(halls).sort((a, b) => {
+        // Extract numeric part and letter part
+        const aMatch = a.match(/^(\d+)([a-z]?)$/i)
+        const bMatch = b.match(/^(\d+)([a-z]?)$/i)
+        
+        if (aMatch && bMatch) {
+          const aNum = parseInt(aMatch[1])
+          const bNum = parseInt(bMatch[1])
+          
+          if (aNum !== bNum) {
+            return aNum - bNum
+          }
+          
+          // Same number, compare letters
+          return (aMatch[2] || '').localeCompare(bMatch[2] || '')
+        }
+        
+        // Fallback to string comparison
+        return a.localeCompare(b)
+      })
+      
+      setAvailableHalls(sortedHalls)
     } catch (error) {
       console.error('Error fetching companies:', error)
     }
@@ -950,24 +1011,11 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                 className="w-full px-3 py-2 border rounded-lg"
               >
                 <option value="">All Halls</option>
-                <option value="1">Hall 1</option>
-                <option value="3">Hall 3</option>
-                <option value="4">Hall 4</option>
-                <option value="5">Hall 5</option>
-                <option value="6">Hall 6</option>
-                <option value="7">Hall 7</option>
-                <option value="7a">Hall 7a</option>
-                <option value="8a">Hall 8a</option>
-                <option value="8b">Hall 8b</option>
-                <option value="9">Hall 9</option>
-                <option value="10">Hall 10</option>
-                <option value="11">Hall 11</option>
-                <option value="12">Hall 12</option>
-                <option value="13">Hall 13</option>
-                <option value="14">Hall 14</option>
-                <option value="15">Hall 15</option>
-                <option value="16">Hall 16</option>
-                <option value="17">Hall 17</option>
+                {availableHalls.map(hall => (
+                  <option key={hall} value={hall}>
+                    Hall {hall}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -1052,7 +1100,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                 <span className="text-sm font-medium">⭐ Show only favorites</span>
               </label>
               <p className="text-xs text-gray-500 mt-1">
-                Companies you've rated with 👍
+                Companies you&apos;ve rated with 👍
               </p>
             </div>
 
