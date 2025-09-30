@@ -766,19 +766,19 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
         overscrollBehavior: 'none',
         touchAction: 'pan-x pan-y',
         WebkitOverflowScrolling: 'touch',
-        background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%)'
+        background: 'linear-gradient(135deg, #fafbfc 0%, #f7f9fb 25%, #f4f6f8 50%, #f1f4f7 75%, #eef2f6 100%)'
       }}
     >
       {/* Header - Glassmorphism Style */}
-      <div className="flex items-center justify-between p-3 xs:p-4 sm:p-6 safe-area-top backdrop-blur-xl bg-white/20 border-b border-white/30 shadow-lg">
+      <div className="flex items-center justify-between p-4 xs:p-5 sm:p-6 safe-area-top backdrop-blur-2xl bg-white/40 border-b border-white/20" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1)' }}>
         <div className="flex items-center gap-2 xs:gap-3 flex-1 min-w-0">
-          <Building2 className="w-5 h-5 xs:w-6 xs:h-6 text-slate-700 flex-shrink-0" />
+          <Building2 className="w-5 h-5 xs:w-6 xs:h-6 text-slate-600 flex-shrink-0" />
           <div className="min-w-0 flex-1">
-            <h1 className="text-lg xs:text-xl sm:text-2xl font-bold text-slate-800 leading-tight">
+            <h1 className="text-lg xs:text-xl sm:text-2xl font-semibold text-slate-700 leading-tight tracking-tight">
               <span className="sm:hidden">Discovery</span>
               <span className="hidden sm:inline">Company Discovery</span>
             </h1>
-            <span className="bg-white/40 backdrop-blur-sm text-slate-700 px-2 xs:px-3 py-1 rounded-full text-xs xs:text-sm border border-white/20">
+            <span className="inline-flex items-center bg-white/60 backdrop-blur-md text-slate-600 px-3 py-1 rounded-full text-xs xs:text-sm border border-white/30 mt-1" style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
               {filteredCompanies.length} of {companies.length}
             </span>
           </div>
@@ -787,10 +787,10 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
           <button
             onClick={() => handleExportFilteredCompanies(true)}
             disabled={isExporting}
-            className={`p-1.5 xs:p-2 rounded-lg text-slate-700 touch-target flex-shrink-0 transition-all backdrop-blur-sm ${
+            className={`p-2 rounded-xl text-slate-600 touch-target flex-shrink-0 transition-all duration-200 backdrop-blur-md ${
               isExporting 
-                ? 'bg-white/20 cursor-not-allowed' 
-                : 'bg-white/30 hover:bg-white/40 border border-white/20'
+                ? 'bg-white/30 cursor-not-allowed opacity-50' 
+                : 'bg-white/50 hover:bg-white/70 border border-white/30 hover:border-white/40 hover:shadow-sm'
             }`}
             aria-label="Export all companies"
             title={isExporting ? "Exporting..." : "Export ALL companies to CSV"}
@@ -803,7 +803,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
           </button>
           <button
             onClick={onClose}
-            className="p-1.5 xs:p-2 bg-white/30 hover:bg-white/40 rounded-lg text-slate-700 touch-target flex-shrink-0 backdrop-blur-sm border border-white/20 transition-all"
+            className="p-2 bg-white/50 hover:bg-white/70 rounded-xl text-slate-600 touch-target flex-shrink-0 backdrop-blur-md border border-white/30 hover:border-white/40 transition-all duration-200 hover:shadow-sm"
             aria-label="Close"
           >
             <X className="w-5 h-5 xs:w-6 xs:h-6" />
@@ -812,11 +812,11 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
       </div>
 
       {/* Search & Filters Bar - Glassmorphism */}
-      <div className="p-3 xs:p-4 sm:p-6 backdrop-blur-lg bg-white/10 border-b border-white/20">
+      <div className="p-4 xs:p-5 sm:p-6 backdrop-blur-2xl bg-white/20 border-b border-white/15" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)' }}>
         <div className="flex gap-2 xs:gap-3 sm:gap-4 mb-3 sm:mb-4">
           {/* Desktop Search */}
           <div className="hidden sm:flex flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500 w-5 h-5" />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
             <input
               ref={searchInputRef}
               type="text"
@@ -852,8 +852,9 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                 // Delay hiding to allow click on autocomplete
                 setTimeout(() => setShowAutocomplete(false), 200)
               }}
-              placeholder="🔍 Search companies..."
-              className="w-full pl-10 pr-10 py-3 bg-white/40 backdrop-blur-sm border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/60 transition-all text-slate-800 placeholder-slate-500"
+              placeholder="Search companies..."
+              className="w-full pl-11 pr-12 py-3.5 bg-white/60 backdrop-blur-md border border-white/25 rounded-2xl focus:outline-none focus:ring-2 focus:ring-white/40 focus:bg-white/80 transition-all duration-200 text-slate-700 placeholder-slate-400 text-sm"
+              style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1)' }}
             />
             
             {/* Clear Search Button */}
@@ -900,8 +901,8 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
           {/* Mobile Search Button */}
           <button
             onClick={() => setShowMobileSearch(true)}
-            className={`sm:hidden p-2.5 xs:p-3 backdrop-blur-sm border border-white/30 rounded-xl transition-all relative touch-target ${
-              searchInput ? 'bg-white/60 text-slate-700' : 'bg-white/40 hover:bg-white/50 text-slate-600'
+            className={`sm:hidden p-3 backdrop-blur-md border border-white/25 rounded-2xl transition-all duration-200 relative touch-target ${
+              searchInput ? 'bg-white/70 text-slate-600 shadow-sm' : 'bg-white/50 hover:bg-white/65 text-slate-500 hover:shadow-sm'
             }`}
             title={searchInput ? `Searching: "${searchInput}"` : "Search companies"}
             aria-label="Open search"
@@ -916,10 +917,10 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
 
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className={`flex items-center gap-1 xs:gap-2 px-2 xs:px-3 sm:px-4 py-2.5 xs:py-3 backdrop-blur-sm border border-white/30 rounded-xl transition-all relative touch-target ${
+            className={`flex items-center gap-2 px-4 py-3 backdrop-blur-md border border-white/25 rounded-2xl transition-all duration-200 relative touch-target ${
               activeFiltersCount > 0 
-                ? 'bg-white/60 text-slate-700' 
-                : 'bg-white/40 hover:bg-white/50 text-slate-600'
+                ? 'bg-white/70 text-slate-600 shadow-sm' 
+                : 'bg-white/50 hover:bg-white/65 text-slate-500 hover:shadow-sm'
             }`}
           >
             <Filter className="w-4 h-4 xs:w-5 xs:h-5" />
@@ -963,14 +964,16 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5 p-4 bg-white/30 backdrop-blur-xl rounded-2xl border border-white/30 shadow-xl max-h-64 overflow-y-auto"
+              className="grid gap-4 sm:grid-cols-3 lg:grid-cols-5 p-6 bg-white/50 backdrop-blur-2xl rounded-3xl border border-white/20 max-h-72 overflow-y-auto"
+              style={{ boxShadow: '0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.15)' }}
             >
             <div>
-              <label className="block text-xs font-medium mb-1 text-slate-700">Department</label>
+              <label className="block text-xs font-medium mb-2 text-slate-600">Department</label>
               <select
                 value={filters.department}
                 onChange={(e) => setFilters(prev => ({ ...prev, department: e.target.value }))}
-                className="w-full px-2 py-1.5 text-sm bg-white/50 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60 focus:bg-white/70 transition-all text-slate-700"
+                className="w-full px-3 py-2.5 text-sm bg-white/70 backdrop-blur-md border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/90 transition-all duration-200 text-slate-600"
+                style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1)' }}
               >
                 <option value="">All Departments</option>
                 {departments.map(dept => (
@@ -980,11 +983,12 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
             </div>
 
             <div>
-              <label className="block text-xs font-medium mb-1 text-slate-700">Visit Priority</label>
+              <label className="block text-xs font-medium mb-2 text-slate-600">Visit Priority</label>
               <select
                 value={filters.visitPriority}
                 onChange={(e) => setFilters(prev => ({ ...prev, visitPriority: e.target.value }))}
-                className="w-full px-2 py-1.5 text-sm bg-white/50 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60 focus:bg-white/70 transition-all text-slate-700"
+                className="w-full px-3 py-2.5 text-sm bg-white/70 backdrop-blur-md border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/90 transition-all duration-200 text-slate-600"
+                style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1)' }}
               >
                 <option value="">All Priorities</option>
                 {visitPriorities.map(priority => (
@@ -994,22 +998,24 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
             </div>
 
             <div>
-              <label className="block text-xs font-medium mb-1 text-slate-700">Location</label>
+              <label className="block text-xs font-medium mb-2 text-slate-600">Location</label>
               <input
                 type="text"
                 value={filters.location}
                 onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value }))}
                 placeholder="Germany, Netherlands..."
-                className="w-full px-2 py-1.5 text-sm bg-white/50 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60 focus:bg-white/70 transition-all text-slate-700"
+                className="w-full px-3 py-2.5 text-sm bg-white/70 backdrop-blur-md border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/90 transition-all duration-200 text-slate-600"
+                style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1)' }}
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium mb-1 text-slate-700">Hall</label>
+              <label className="block text-xs font-medium mb-2 text-slate-600">Hall</label>
               <select
                 value={filters.hall}
                 onChange={(e) => setFilters(prev => ({ ...prev, hall: e.target.value }))}
-                className="w-full px-2 py-1.5 text-sm bg-white/50 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60 focus:bg-white/70 transition-all text-slate-700"
+                className="w-full px-3 py-2.5 text-sm bg-white/70 backdrop-blur-md border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/90 transition-all duration-200 text-slate-600"
+                style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1)' }}
               >
                 <option value="">All Halls</option>
                 {availableHalls.map(hall => (
@@ -1044,7 +1050,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
 
             {/* Tags Filter */}
             <div className="lg:col-span-3">
-              <label className="block text-xs font-medium mb-1 text-slate-700">Tags</label>
+              <label className="block text-xs font-medium mb-2 text-slate-600">Tags</label>
               <div className="flex flex-wrap gap-1">
                 {availableTags.map(tag => (
                   <button
@@ -1055,11 +1061,12 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                         : [...filters.tags, tag]
                       setFilters(prev => ({ ...prev, tags: newTags }))
                     }}
-                    className={`px-2 py-0.5 rounded-lg text-xs transition-all backdrop-blur-sm ${
+                    className={`px-3 py-1.5 rounded-xl text-xs transition-all duration-200 backdrop-blur-md ${
                       filters.tags.includes(tag)
-                        ? 'bg-slate-600 text-white border border-slate-500'
-                        : 'bg-white/50 text-slate-700 hover:bg-white/70 border border-white/40'
+                        ? 'bg-slate-500 text-white border border-slate-400 shadow-sm'
+                        : 'bg-white/70 text-slate-600 hover:bg-white/90 border border-white/30 hover:shadow-sm'
                     }`}
+                    style={{ boxShadow: filters.tags.includes(tag) ? '0 1px 3px rgba(0,0,0,0.1)' : '0 1px 2px rgba(0,0,0,0.05)' }}
                   >
                     {tag.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
                   </button>
@@ -1077,11 +1084,12 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
 
             {/* Visit Status Filter */}
             <div>
-              <label className="block text-xs font-medium mb-1 text-slate-700">Visit Status</label>
+              <label className="block text-xs font-medium mb-2 text-slate-600">Visit Status</label>
               <select
                 value={filters.visitedStatus}
                 onChange={(e) => setFilters(prev => ({ ...prev, visitedStatus: e.target.value as 'all' | 'visited' | 'not_visited' }))}
-                className="w-full px-2 py-1.5 text-sm bg-white/50 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60 focus:bg-white/70 transition-all text-slate-700"
+                className="w-full px-3 py-2.5 text-sm bg-white/70 backdrop-blur-md border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/90 transition-all duration-200 text-slate-600"
+                style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1)' }}
               >
                 <option value="all">All Companies</option>
                 <option value="visited">✅ Visited</option>
@@ -1104,11 +1112,12 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
 
             {/* Meeting Status Filter */}
             <div>
-              <label className="block text-xs font-medium mb-1 text-slate-700">Meetings</label>
+              <label className="block text-xs font-medium mb-2 text-slate-600">Meetings</label>
               <select
                 value={filters.meetingStatus}
                 onChange={(e) => setFilters(prev => ({ ...prev, meetingStatus: e.target.value as 'all' | 'requested' | 'scheduled' | 'completed' }))}
-                className="w-full px-2 py-1.5 text-sm bg-white/50 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60 focus:bg-white/70 transition-all text-slate-700"
+                className="w-full px-3 py-2.5 text-sm bg-white/70 backdrop-blur-md border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/90 transition-all duration-200 text-slate-600"
+                style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1)' }}
               >
                 <option value="all">All Meetings</option>
                 <option value="requested">📝 Requested</option>
@@ -1138,7 +1147,8 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                   })
                   setShowAutocomplete(false)
                 }}
-                className="w-full px-3 py-1.5 bg-white/50 hover:bg-white/70 text-slate-700 rounded-lg transition-all flex items-center justify-center gap-1.5 text-sm backdrop-blur-sm border border-white/40"
+                className="w-full px-4 py-2.5 bg-white/70 hover:bg-white/90 text-slate-600 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-sm backdrop-blur-md border border-white/30 hover:shadow-sm"
+                style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}
               >
                 <X className="w-3 h-3" />
                 Clear All
@@ -1149,12 +1159,13 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
         </AnimatePresence>
 
         {/* Sorting */}
-        <div className="flex items-center gap-4 mt-4">
-          <span className="text-sm font-medium text-slate-700">Sort by:</span>
+        <div className="flex items-center gap-4 mt-5">
+          <span className="text-sm font-medium text-slate-600">Sort by:</span>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
-            className="px-3 py-1.5 bg-white/50 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60 transition-all text-slate-700"
+            className="px-4 py-2.5 bg-white/70 backdrop-blur-md border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200 text-slate-600"
+            style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1)' }}
           >
             <option value="company">🏢 Company Name (A-Z)</option>
             <option value="location">📍 Location</option>
@@ -1164,7 +1175,8 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
           </select>
           <button
             onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-            className="px-3 py-1.5 bg-white/50 backdrop-blur-sm border border-white/40 rounded-lg hover:bg-white/70 transition-all text-slate-700"
+            className="px-4 py-2.5 bg-white/70 backdrop-blur-md border border-white/30 rounded-xl hover:bg-white/90 transition-all duration-200 text-slate-600 hover:shadow-sm"
+            style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}
           >
             {sortOrder === 'asc' ? '↑ Ascending' : '↓ Descending'}
           </button>
