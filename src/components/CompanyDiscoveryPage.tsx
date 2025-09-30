@@ -811,9 +811,9 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
         </div>
       </div>
 
-      {/* Search & Filters Bar - Glassmorphism */}
-      <div className="p-4 xs:p-5 sm:p-6 backdrop-blur-2xl bg-white/20 border-b border-white/15" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)' }}>
-        <div className="flex gap-2 xs:gap-3 sm:gap-4 mb-3 sm:mb-4">
+      {/* Search & Controls Bar - Single Line */}
+      <div className="p-3 backdrop-blur-2xl bg-white/20 border-b border-white/15" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)' }}>
+        <div className="flex items-center gap-3">
           {/* Desktop Search */}
           <div className="hidden sm:flex flex-1 relative">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
@@ -853,7 +853,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                 setTimeout(() => setShowAutocomplete(false), 200)
               }}
               placeholder="Search companies..."
-              className="w-full pl-11 pr-12 py-3.5 bg-white/60 backdrop-blur-md border border-white/25 rounded-2xl focus:outline-none focus:ring-2 focus:ring-white/40 focus:bg-white/80 transition-all duration-200 text-slate-700 placeholder-slate-400 text-sm"
+              className="w-full pl-11 pr-12 py-2.5 bg-white/60 backdrop-blur-md border border-white/25 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/40 focus:bg-white/80 transition-all duration-200 text-slate-700 placeholder-slate-400 text-sm"
               style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1)' }}
             />
             
@@ -901,59 +901,60 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
           {/* Mobile Search Button */}
           <button
             onClick={() => setShowMobileSearch(true)}
-            className={`sm:hidden p-3 backdrop-blur-md border border-white/25 rounded-2xl transition-all duration-200 relative touch-target ${
+            className={`sm:hidden p-2.5 backdrop-blur-md border border-white/25 rounded-xl transition-all duration-200 relative touch-target ${
               searchInput ? 'bg-white/70 text-slate-600 shadow-sm' : 'bg-white/50 hover:bg-white/65 text-slate-500 hover:shadow-sm'
             }`}
             title={searchInput ? `Searching: "${searchInput}"` : "Search companies"}
             aria-label="Open search"
           >
-            <Search className="w-4 h-4 xs:w-5 xs:h-5" />
+            <Search className="w-4 h-4" />
             {searchInput && (
-              <span className="absolute -top-1 -right-1 bg-slate-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center backdrop-blur-sm">
+              <span className="absolute -top-1 -right-1 bg-slate-600 text-white text-xs rounded-full h-3 w-3 flex items-center justify-center backdrop-blur-sm">
                 ●
               </span>
             )}
           </button>
 
+          {/* Sort Controls */}
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as any)}
+            className="px-3 py-2.5 bg-white/70 backdrop-blur-md border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200 text-slate-600 text-sm"
+            style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1)' }}
+          >
+            <option value="company">🏢 Company</option>
+            <option value="location">📍 Location</option>
+            <option value="hall">🏛️ Hall</option>
+            <option value="department">🏢 Department</option>
+            <option value="priority">🎯 Priority</option>
+          </select>
+
+          <button
+            onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+            className="p-2.5 bg-white/70 backdrop-blur-md border border-white/30 rounded-xl hover:bg-white/90 transition-all duration-200 text-slate-600 hover:shadow-sm"
+            style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}
+            title={sortOrder === 'asc' ? 'Sort Descending' : 'Sort Ascending'}
+          >
+            {sortOrder === 'asc' ? '↑' : '↓'}
+          </button>
+
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className={`flex items-center gap-2 px-4 py-3 backdrop-blur-md border border-white/25 rounded-2xl transition-all duration-200 relative touch-target ${
+            className={`flex items-center gap-1.5 px-3 py-2.5 backdrop-blur-md border border-white/25 rounded-xl transition-all duration-200 relative touch-target ${
               activeFiltersCount > 0 
                 ? 'bg-white/70 text-slate-600 shadow-sm' 
                 : 'bg-white/50 hover:bg-white/65 text-slate-500 hover:shadow-sm'
             }`}
           >
-            <Filter className="w-4 h-4 xs:w-5 xs:h-5" />
-            <span className="hidden xs:inline">Filters</span>
+            <Filter className="w-4 h-4" />
+            <span className="hidden sm:inline text-sm">Filters</span>
             {activeFiltersCount > 0 && (
-              <span className="bg-slate-600 text-white text-xs rounded-full h-4 w-4 xs:h-5 xs:w-5 flex items-center justify-center font-medium backdrop-blur-sm">
+              <span className="bg-slate-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium backdrop-blur-sm">
                 {activeFiltersCount}
               </span>
             )}
-            {showFilters ? <ChevronUp className="w-3 h-3 xs:w-4 xs:h-4" /> : <ChevronDown className="w-3 h-3 xs:w-4 xs:h-4" />}
+            {showFilters ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
           </button>
-          <ShimmerButton
-            onClick={() => handleExportFilteredCompanies(true)}
-            disabled={isExporting}
-            className={`flex items-center gap-1 xs:gap-2 px-2 xs:px-3 sm:px-4 py-2.5 xs:py-3 touch-target transition-all ${
-              isExporting ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
-            background={isExporting ? "linear-gradient(135deg, #6b7280 0%, #4b5563 100%)" : "linear-gradient(135deg, #059669 0%, #047857 100%)"}
-            shimmerColor="#ffffff"
-            shimmerDuration="2s"
-          >
-            {isExporting ? (
-              <div className="animate-spin rounded-full h-4 w-4 xs:h-5 xs:w-5 border-2 border-white border-t-transparent"></div>
-            ) : (
-              <Download className="w-4 h-4 xs:w-5 xs:h-5" />
-            )}
-            <span className="hidden xs:inline">
-              {isExporting ? 'Exporting...' : 'Export All Companies'}
-            </span>
-            <span className="xs:hidden">
-              {isExporting ? 'Exporting...' : 'Export All'}
-            </span>
-          </ShimmerButton>
         </div>
 
         {/* Advanced Filters */}
@@ -1158,29 +1159,6 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
           )}
         </AnimatePresence>
 
-        {/* Sorting */}
-        <div className="flex items-center gap-4 mt-5">
-          <span className="text-sm font-medium text-slate-600">Sort by:</span>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as any)}
-            className="px-4 py-2.5 bg-white/70 backdrop-blur-md border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200 text-slate-600"
-            style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1)' }}
-          >
-            <option value="company">🏢 Company Name (A-Z)</option>
-            <option value="location">📍 Location</option>
-            <option value="hall">🏛️ Hall</option>
-            <option value="department">🏢 Department</option>
-            <option value="priority">🎯 Visit Priority</option>
-          </select>
-          <button
-            onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-            className="px-4 py-2.5 bg-white/70 backdrop-blur-md border border-white/30 rounded-xl hover:bg-white/90 transition-all duration-200 text-slate-600 hover:shadow-sm"
-            style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}
-          >
-            {sortOrder === 'asc' ? '↑ Ascending' : '↓ Descending'}
-          </button>
-        </div>
       </div>
 
       {/* Companies Table - Glassmorphism */}
@@ -1419,87 +1397,33 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
         )}
       </div>
 
-      {/* Pagination */}
+      {/* Compact Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2 p-4 border-t bg-gray-50">
+        <div className="flex items-center justify-between px-4 py-2 backdrop-blur-2xl bg-white/30 border-t border-white/20" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)' }}>
           <button
-            onClick={() => {
-              const newPage = Math.max(1, validPage - 1)
-              setPage(newPage)
-            }}
+            onClick={() => setPage(Math.max(1, validPage - 1))}
             disabled={validPage === 1}
-            className="px-4 py-2 border rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-3 py-1.5 bg-white/50 backdrop-blur-md border border-white/30 rounded-lg hover:bg-white/70 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 text-slate-600 text-sm"
           >
-            Previous
+            ← Prev
           </button>
           
-          <div className="flex items-center gap-1">
-            {/* Show first page if not in range */}
-            {validPage > 3 && (
-              <>
-                <button
-                  onClick={() => setPage(1)}
-                  className="px-3 py-2 border rounded-lg hover:bg-gray-100"
-                >
-                  1
-                </button>
-                {validPage > 4 && <span className="px-2">...</span>}
-              </>
-            )}
-            
-            {/* Show pages around current page */}
-            {[...Array(Math.min(5, totalPages))].map((_, i) => {
-              const startPage = Math.max(1, Math.min(totalPages - 4, validPage - 2))
-              const pageNum = startPage + i
-              
-              if (pageNum > totalPages) return null
-              
-              return (
-                <button
-                  key={pageNum}
-                  onClick={() => setPage(pageNum)}
-                  className={`px-3 py-2 border rounded-lg transition-colors ${
-                    validPage === pageNum 
-                      ? 'bg-blue-600 text-white border-blue-600' 
-                      : 'hover:bg-gray-100'
-                  }`}
-                >
-                  {pageNum}
-                </button>
-              )
-            })}
-            
-            {/* Show last page if not in range */}
-            {validPage < totalPages - 2 && (
-              <>
-                {validPage < totalPages - 3 && <span className="px-2">...</span>}
-                <button
-                  onClick={() => setPage(totalPages)}
-                  className="px-3 py-2 border rounded-lg hover:bg-gray-100"
-                >
-                  {totalPages}
-                </button>
-              </>
-            )}
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-slate-600">
+              Page {validPage} of {totalPages}
+            </span>
+            <span className="text-xs text-slate-500">
+              • {paginatedCompanies.length} of {filteredCompanies.length}
+            </span>
           </div>
 
           <button
-            onClick={() => {
-              const newPage = Math.min(totalPages, validPage + 1)
-              setPage(newPage)
-            }}
+            onClick={() => setPage(Math.min(totalPages, validPage + 1))}
             disabled={validPage === totalPages}
-            className="px-4 py-2 border rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-3 py-1.5 bg-white/50 backdrop-blur-md border border-white/30 rounded-lg hover:bg-white/70 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 text-slate-600 text-sm"
           >
-            Next
+            Next →
           </button>
-        </div>
-      )}
-      
-      {/* Page Info */}
-      {totalPages > 1 && (
-        <div className="text-center py-2 text-sm text-gray-600 bg-gray-50">
-          Page {validPage} of {totalPages} • Showing {paginatedCompanies.length} of {filteredCompanies.length} companies
         </div>
       )}
 
