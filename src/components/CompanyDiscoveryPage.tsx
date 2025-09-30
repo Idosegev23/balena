@@ -304,7 +304,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
       const { data, error } = await supabase
         .from('companies')
         .select('*')
-        .order('company')
+        .order('created_at', { ascending: false })
 
       if (error) throw error
       
