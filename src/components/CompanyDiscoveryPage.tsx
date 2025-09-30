@@ -886,8 +886,8 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                 
                 // Show autocomplete for company names
                 if (value.length >= 2) {
-                  // Use filteredCompanies instead of companies to respect active filters
-                  const suggestions = filteredCompanies
+                  // Use all companies for autocomplete, not filtered ones
+                  const suggestions = companies
                     .filter(company => 
                       company.company?.toLowerCase().includes(value.toLowerCase())
                     )
