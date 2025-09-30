@@ -24,7 +24,6 @@ interface FilterOptions {
   searchTerm: string
   department: string
   visitPriority: string
-  relevanceScore: [number, number]
   location: string
   hall: string
   connectionType: string
@@ -32,6 +31,8 @@ interface FilterOptions {
   hasWebsite: boolean
   tags: string[]
   visitedStatus: 'all' | 'visited' | 'not_visited'
+  isFavorite: boolean
+  meetingStatus: 'all' | 'requested' | 'scheduled' | 'completed'
 }
 
 export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies }: CompanyDiscoveryPageProps) {
@@ -40,8 +41,9 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([])
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
+  const [userRatings, setUserRatings] = useState<Set<number>>(new Set())
   const [showFilters, setShowFilters] = useState(false)
-  const [sortBy, setSortBy] = useState<'relevance' | 'company' | 'location' | 'priority' | 'department' | 'hall'>('relevance')
+  const [sortBy, setSortBy] = useState<'company' | 'location' | 'priority' | 'department' | 'hall'>('company')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
   
   // Helper function to check if data is valid
@@ -68,14 +70,15 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
     searchTerm: '',
     department: '',
     visitPriority: '',
-    relevanceScore: [0, 100],
     location: '',
     hall: '',
     connectionType: '',
     hasContact: false,
     hasWebsite: false,
     tags: [],
-    visitedStatus: 'all'
+    visitedStatus: 'all',
+    isFavorite: false,
+    meetingStatus: 'all'
   })
 
   const departments = ['Commercial', 'Operations', 'R&D', 'Marketing']
@@ -89,7 +92,6 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
     if (filters.searchTerm) count++
     if (filters.department) count++
     if (filters.visitPriority) count++
-    if (filters.relevanceScore[0] !== 0 || filters.relevanceScore[1] !== 100) count++
     if (filters.location) count++
     if (filters.hall) count++
     if (filters.connectionType) count++
@@ -97,6 +99,8 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
     if (filters.hasWebsite) count++
     if (filters.tags.length > 0) count++
     if (filters.visitedStatus !== 'all') count++
+    if (filters.isFavorite) count++
+    if (filters.meetingStatus !== 'all') count++
     return count
   }
 
@@ -109,7 +113,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
       try {
         const parsed = JSON.parse(persistedState)
         setFilters(prev => ({ ...prev, ...parsed.filters }))
-        setSortBy(parsed.sortBy || 'relevance_score')
+        setSortBy(parsed.sortBy || 'company')
         setSortOrder(parsed.sortOrder || 'desc')
         setPage(parsed.page || 1)
         setShowFilters(parsed.showFilters || false)
@@ -131,6 +135,9 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
       console.log('🔄 CompanyDiscoveryPage: Fetching companies from database')
       fetchCompanies()
     }
+    
+    // Fetch user ratings for favorites filter
+    fetchUserRatings()
     
     setupRealtimeSubscription()
     
@@ -156,10 +163,12 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
     applyFilters()
   }, [companies, filters, sortBy, sortOrder])
 
-  // Reset page to 1 when filters actually change (not on mount)
+  // Reset page to 1 when filters actually change (not on mount or state restore)
   const [isFirstLoad, setIsFirstLoad] = useState(true)
+  const [filtersInitialized, setFiltersInitialized] = useState(false)
+  
   useEffect(() => {
-    if (!isFirstLoad) {
+    if (!isFirstLoad && filtersInitialized) {
       setPage(1)
     }
   }, [filters, sortBy, sortOrder])
@@ -167,6 +176,8 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
   useEffect(() => {
     if (isFirstLoad) {
       setIsFirstLoad(false)
+      // Mark filters as initialized after first load (including persisted state)
+      setTimeout(() => setFiltersInitialized(true), 100)
     }
   }, [])
 
@@ -251,6 +262,25 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
     setLoading(false)
   }
 
+  const fetchUserRatings = async () => {
+    if (!user?.id) return
+    
+    try {
+      const { data, error } = await supabase
+        .from('company_ratings')
+        .select('company_id')
+        .eq('user_id', user.id)
+        .eq('rating', 1)
+
+      if (error) throw error
+      
+      const likedCompanyIds = new Set((data || []).map(r => r.company_id))
+      setUserRatings(likedCompanyIds)
+    } catch (error) {
+      console.error('Error fetching user ratings:', error)
+    }
+  }
+
   const applyFilters = () => {
     let filtered = [...companies]
 
@@ -290,11 +320,6 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
       filtered = filtered.filter(company => company.visit_priority === filters.visitPriority)
     }
 
-    // Relevance Score
-    filtered = filtered.filter(company => {
-      const score = company.relevance_score || 0
-      return score >= filters.relevanceScore[0] && score <= filters.relevanceScore[1]
-    })
 
     // Location
     if (filters.location) {
@@ -345,15 +370,32 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
       })
     }
 
+    // Favorites filter
+    if (filters.isFavorite) {
+      filtered = filtered.filter(company => userRatings.has(company.id))
+    }
+
+    // Meeting status filter
+    if (filters.meetingStatus !== 'all') {
+      filtered = filtered.filter(company => {
+        switch (filters.meetingStatus) {
+          case 'requested':
+            return company.meeting_requested === true
+          case 'scheduled':
+            return company.meeting_scheduled === true
+          case 'completed':
+            return company.meeting_completed === true
+          default:
+            return true
+        }
+      })
+    }
+
     // Sorting
     filtered.sort((a, b) => {
       let aValue: any, bValue: any
 
       switch (sortBy) {
-        case 'relevance':
-          aValue = a.relevance_score || 0
-          bValue = b.relevance_score || 0
-          break
         case 'company':
           aValue = a.company?.toLowerCase() || ''
           bValue = b.company?.toLowerCase() || ''
@@ -481,7 +523,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
       let csvContent = "\uFEFF"
       
       // Headers - organized for maximum usability
-      csvContent += "Company Name,Hall,Stand,Location,Visit Priority,Relevance Score,Tags,Likes,Dislikes,Email,Phone,Website,Contact Person,Rating Notes,General Notes,Private Notes,Description,Last Updated\n"
+      csvContent += "Company Name,Hall,Stand,Location,Visit Priority,Tags,Likes,Dislikes,Email,Phone,Website,Contact Person,Rating Notes,General Notes,Private Notes,Description,Last Updated\n"
       
       // Process each company with error handling
       for (let index = 0; index < (detailedCompanies?.length || 0); index++) {
@@ -544,14 +586,13 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
           })
         }
         
-        // Create CSV row with proper order: Company Name,Hall,Stand,Location,Visit Priority,Relevance Score,Tags,Likes,Dislikes,Email,Phone,Website,Contact Person,Rating Notes,General Notes,Private Notes,Description,Last Updated
+        // Create CSV row with proper order: Company Name,Hall,Stand,Location,Visit Priority,Tags,Likes,Dislikes,Email,Phone,Website,Contact Person,Rating Notes,General Notes,Private Notes,Description,Last Updated
         const csvRow = [
           cleanText(company.company),                    // Company Name
           cleanText(company.hall),                       // Hall  
           cleanText(company.stand),                      // Stand
           cleanText(company.location),                   // Location
           cleanText(company.visit_priority),             // Visit Priority
-          cleanText(company.relevance_score?.toString()), // Relevance Score
           tags,                                          // Tags
           likes.toString(),                              // Likes
           dislikes.toString(),                           // Dislikes
@@ -724,7 +765,8 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                 
                 // Show autocomplete for company names
                 if (value.length >= 2) {
-                  const suggestions = companies
+                  // Use filteredCompanies instead of companies to respect active filters
+                  const suggestions = filteredCompanies
                     .filter(company => 
                       company.company?.toLowerCase().includes(value.toLowerCase())
                     )
@@ -931,33 +973,6 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
               </select>
             </div>
 
-            <div className="sm:col-span-2">
-              <label className="block text-sm font-medium mb-2">Relevance Score: {filters.relevanceScore[0]} - {filters.relevanceScore[1]}</label>
-              <div className="flex gap-2">
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={filters.relevanceScore[0]}
-                  onChange={(e) => setFilters(prev => ({ 
-                    ...prev, 
-                    relevanceScore: [parseInt(e.target.value), prev.relevanceScore[1]] 
-                  }))}
-                  className="flex-1"
-                />
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={filters.relevanceScore[1]}
-                  onChange={(e) => setFilters(prev => ({ 
-                    ...prev, 
-                    relevanceScore: [prev.relevanceScore[0], parseInt(e.target.value)] 
-                  }))}
-                  className="flex-1"
-                />
-              </div>
-            </div>
 
             <div className="flex items-center gap-4">
               <label className="flex items-center gap-2">
@@ -1027,6 +1042,37 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
               </select>
             </div>
 
+            {/* Favorites Filter */}
+            <div>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={filters.isFavorite}
+                  onChange={(e) => setFilters(prev => ({ ...prev, isFavorite: e.target.checked }))}
+                  className="w-4 h-4 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500"
+                />
+                <span className="text-sm font-medium">⭐ Show only favorites</span>
+              </label>
+              <p className="text-xs text-gray-500 mt-1">
+                Companies you've rated with 👍
+              </p>
+            </div>
+
+            {/* Meeting Status Filter */}
+            <div>
+              <label className="block text-sm font-medium mb-2">Meeting Status</label>
+              <select
+                value={filters.meetingStatus}
+                onChange={(e) => setFilters(prev => ({ ...prev, meetingStatus: e.target.value as 'all' | 'requested' | 'scheduled' | 'completed' }))}
+                className="w-full px-3 py-2 border rounded-lg"
+              >
+                <option value="all">All Meetings</option>
+                <option value="requested">📝 Meeting Requested</option>
+                <option value="scheduled">📅 Meeting Scheduled</option>
+                <option value="completed">✅ Meeting Completed</option>
+              </select>
+            </div>
+
             {/* Clear All Filters Button */}
             <div className="lg:col-span-4 pt-4 border-t">
               <button
@@ -1036,14 +1082,15 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                     searchTerm: '',
                     department: '',
                     visitPriority: '',
-                    relevanceScore: [0, 100],
                     location: '',
                     hall: '',
                     connectionType: '',
                     hasContact: false,
                     hasWebsite: false,
                     tags: [],
-                    visitedStatus: 'all'
+                    visitedStatus: 'all',
+                    isFavorite: false,
+                    meetingStatus: 'all'
                   })
                   setShowAutocomplete(false)
                 }}
@@ -1065,7 +1112,6 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
             onChange={(e) => setSortBy(e.target.value as any)}
             className="px-3 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="relevance">⭐ Relevance (Score)</option>
             <option value="company">🏢 Company Name (A-Z)</option>
             <option value="location">📍 Location</option>
             <option value="hall">🏛️ Hall</option>
@@ -1415,7 +1461,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
               setFilters(prev => ({ ...prev, searchTerm: value }))
             }, 250)
           }}
-        companies={companies}
+        companies={filteredCompanies}
         autocompleteCompanies={autocompleteCompanies}
         showAutocomplete={showAutocomplete}
         onAutocompleteSelect={(company) => {
