@@ -950,26 +950,24 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                 className="w-full px-3 py-2 border rounded-lg"
               >
                 <option value="">All Halls</option>
-                <option value="Hall 1">Hall 1</option>
-                <option value="Hall 2">Hall 2</option>
-                <option value="Hall 3">Hall 3</option>
-                <option value="Hall 4">Hall 4</option>
-                <option value="Hall 5">Hall 5</option>
-                <option value="Hall 6">Hall 6</option>
-                <option value="Hall 7">Hall 7</option>
-                <option value="Hall 7a">Hall 7a</option>
-                <option value="Hall 8">Hall 8</option>
-                <option value="Hall 8a">Hall 8a</option>
-                <option value="Hall 8b">Hall 8b</option>
-                <option value="Hall 9">Hall 9</option>
-                <option value="Hall 10">Hall 10</option>
-                <option value="Hall 11">Hall 11</option>
-                <option value="Hall 12">Hall 12</option>
-                <option value="Hall 13">Hall 13</option>
-                <option value="Hall 14">Hall 14</option>
-                <option value="Hall 15">Hall 15</option>
-                <option value="Hall 16">Hall 16</option>
-                <option value="Hall 17">Hall 17</option>
+                <option value="1">Hall 1</option>
+                <option value="3">Hall 3</option>
+                <option value="4">Hall 4</option>
+                <option value="5">Hall 5</option>
+                <option value="6">Hall 6</option>
+                <option value="7">Hall 7</option>
+                <option value="7a">Hall 7a</option>
+                <option value="8a">Hall 8a</option>
+                <option value="8b">Hall 8b</option>
+                <option value="9">Hall 9</option>
+                <option value="10">Hall 10</option>
+                <option value="11">Hall 11</option>
+                <option value="12">Hall 12</option>
+                <option value="13">Hall 13</option>
+                <option value="14">Hall 14</option>
+                <option value="15">Hall 15</option>
+                <option value="16">Hall 16</option>
+                <option value="17">Hall 17</option>
               </select>
             </div>
 
