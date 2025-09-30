@@ -1025,7 +1025,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="grid gap-4 sm:grid-cols-3 lg:grid-cols-5 p-6 bg-white/50 backdrop-blur-2xl rounded-3xl border border-white/20 max-h-72 overflow-y-auto"
+              className="grid gap-4 sm:grid-cols-3 lg:grid-cols-4 p-6 bg-white/50 backdrop-blur-2xl rounded-3xl border border-white/20 max-h-72 overflow-y-auto"
               style={{ boxShadow: '0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.15)' }}
             >
             <div>
@@ -1109,37 +1109,63 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
               </label>
             </div>
 
-            {/* Tags Filter */}
-            <div className="lg:col-span-3">
-              <label className="block text-xs font-medium mb-2 text-slate-600">Tags</label>
-              <div className="flex flex-wrap gap-1">
-                {allAvailableTags.map(tag => (
-                  <button
-                    key={tag}
-                    onClick={() => {
-                      const newTags = filters.tags.includes(tag)
-                        ? filters.tags.filter(t => t !== tag)
-                        : [...filters.tags, tag]
-                      setFilters(prev => ({ ...prev, tags: newTags }))
-                    }}
-                    className={`px-3 py-1.5 rounded-xl text-xs transition-all duration-200 backdrop-blur-md ${
-                      filters.tags.includes(tag)
-                        ? 'bg-slate-500 text-white border border-slate-400 shadow-sm'
-                        : 'bg-white/70 text-slate-600 hover:bg-white/90 border border-white/30 hover:shadow-sm'
-                    }`}
-                    style={{ boxShadow: filters.tags.includes(tag) ? '0 1px 3px rgba(0,0,0,0.1)' : '0 1px 2px rgba(0,0,0,0.05)' }}
-                  >
-                    {tag.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                  </button>
-                ))}
-              </div>
-              {filters.tags.length > 0 && (
-                <button
-                  onClick={() => setFilters(prev => ({ ...prev, tags: [] }))}
-                  className="mt-2 text-xs text-blue-600 hover:text-blue-800"
+            {/* Tags Filter - Compact */}
+            <div className="lg:col-span-2">
+              <label className="block text-xs font-medium mb-2 text-slate-600">
+                Tags {filters.tags.length > 0 && (
+                  <span className="ml-1 bg-slate-500 text-white px-1.5 py-0.5 rounded-full text-xs">
+                    {filters.tags.length}
+                  </span>
+                )}
+              </label>
+              <div className="relative">
+                <select
+                  multiple
+                  value={filters.tags}
+                  onChange={(e) => {
+                    const selectedTags = Array.from(e.target.selectedOptions, option => option.value)
+                    setFilters(prev => ({ ...prev, tags: selectedTags }))
+                  }}
+                  className="w-full px-3 py-2.5 text-sm bg-white/70 backdrop-blur-md border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/90 transition-all duration-200 text-slate-600 max-h-24 overflow-y-auto"
+                  style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1)' }}
                 >
-                  Clear all tags
-                </button>
+                  {allAvailableTags.map(tag => (
+                    <option key={tag} value={tag} className="py-1">
+                      {tag.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                    </option>
+                  ))}
+                </select>
+                {filters.tags.length > 0 && (
+                  <button
+                    onClick={() => setFilters(prev => ({ ...prev, tags: [] }))}
+                    className="absolute top-1 right-1 p-1 text-slate-400 hover:text-slate-600 transition-colors"
+                    title="Clear all tags"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                )}
+              </div>
+              {/* Selected tags display */}
+              {filters.tags.length > 0 && (
+                <div className="mt-2 flex flex-wrap gap-1">
+                  {filters.tags.map(tag => (
+                    <span
+                      key={tag}
+                      className="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-500 text-white text-xs rounded-lg"
+                    >
+                      {tag.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                      <button
+                        onClick={() => {
+                          const newTags = filters.tags.filter(t => t !== tag)
+                          setFilters(prev => ({ ...prev, tags: newTags }))
+                        }}
+                        className="hover:bg-slate-600 rounded-full p-0.5 transition-colors"
+                      >
+                        <X className="w-2.5 h-2.5" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
               )}
             </div>
 
