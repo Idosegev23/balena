@@ -148,8 +148,8 @@ export default function Home() {
     if (persisted) {
       setDeptFilter(persisted)
     } else {
-      const userDept = (user.user_metadata?.team_role as string) || ''
-      setDeptFilter(userDept)
+      // Don't auto-filter by department - show all companies by default
+      setDeptFilter('')
     }
   }, [user])
 
@@ -664,7 +664,7 @@ export default function Home() {
 
       {/* Premium Corporate Dashboard */}
       {activeView === 'dashboard' && (
-        <div ref={elementRef} className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
+        <div ref={elementRef} className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 pt-16 xs:pt-18">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
             
             {/* Executive Header */}
@@ -915,12 +915,14 @@ export default function Home() {
 
       {/* Visits Dashboard */}
       {activeView === 'visits' && (
-        <VisitsDashboard onCompanyClick={handleCompanyClick} />
+        <div className="pt-16 xs:pt-18">
+          <VisitsDashboard onCompanyClick={handleCompanyClick} />
+        </div>
       )}
 
       {/* Settings View */}
       {activeView === 'settings' && (
-        <div className="p-6 mobile-content">
+        <div className="p-6 mobile-content pt-16 xs:pt-18">
           <div className="max-w-md mx-auto">
             <h1 className="text-2xl font-bold mb-6 text-center" style={{ color: 'var(--balena-dark)' }}>Settings</h1>
             <div className="bg-white rounded-lg p-6 shadow-sm space-y-4">
