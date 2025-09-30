@@ -521,17 +521,6 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
             </div>
           )}
           
-          {analysis.score && (
-            <div className="bg-white p-3 rounded-md border border-purple-100">
-              <div className="flex items-center gap-2 mb-1">
-                <Star className="h-4 w-4 text-purple-600" />
-                <span className="text-sm font-medium text-purple-800">Relevance Score</span>
-              </div>
-              <span className={`inline-block px-2 py-1 rounded-full text-sm font-medium ${getRelevanceColor(analysis.score)}`}>
-                {analysis.score}/100
-              </span>
-            </div>
-          )}
         </div>
       </div>
     )
@@ -590,11 +579,6 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
                   {hasValidData(company.hall) && (
                     <span className="bg-white bg-opacity-20 px-2 sm:px-3 py-1 rounded-full">
                       🏢 {company.hall}{company.stand && ` / ${company.stand}`}
-                    </span>
-                  )}
-                  {company.relevance_score && (
-                    <span className="bg-white bg-opacity-20 px-2 sm:px-3 py-1 rounded-full">
-                      ⭐ <span className="hidden sm:inline">Score: </span>{company.relevance_score}
                     </span>
                   )}
                   {company.visit_priority && (
@@ -830,13 +814,6 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
 
               {/* Quick Stats */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-blue-50 p-4 rounded-lg text-center">
-                  <div className="flex items-center justify-center gap-2 mb-2">
-                    <Star className="h-5 w-5 text-blue-600" />
-                    <span className="text-sm font-medium text-blue-800">Relevance</span>
-                  </div>
-                  <p className="text-2xl font-bold text-blue-900">{company.relevance_score || 'N/A'}</p>
-                </div>
                 
                 <div className="bg-green-50 p-4 rounded-lg text-center">
                   <div className="flex items-center justify-center gap-2 mb-2">
@@ -1286,14 +1263,6 @@ export function EnhancedCompanyModal({ company, isOpen, onClose, onUpdate, onCom
               <div className="bg-gray-50 p-6 rounded-lg">
                 <h3 className="text-lg font-semibold mb-4">Relevance Metrics</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="text-center">
-                    <div className={`text-3xl font-bold ${getRelevanceColor(company.relevance_score).includes('green') ? 'text-green-600' : 
-                      getRelevanceColor(company.relevance_score).includes('yellow') ? 'text-yellow-600' : 
-                      getRelevanceColor(company.relevance_score).includes('orange') ? 'text-orange-600' : 'text-red-600'}`}>
-                      {company.relevance_score || 'N/A'}
-                    </div>
-                    <div className="text-sm text-gray-600">Relevance Score</div>
-                  </div>
                   
                   <div className="text-center">
                     <div className={`text-3xl font-bold ${company.priority_score ? 'text-blue-600' : 'text-gray-400'}`}>

@@ -43,6 +43,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
   const [page, setPage] = useState(1)
   const [userRatings, setUserRatings] = useState<Set<number>>(new Set())
   const [availableHalls, setAvailableHalls] = useState<string[]>([])
+  const [allAvailableTags, setAllAvailableTags] = useState<string[]>([])
   const [showFilters, setShowFilters] = useState(false)
   const [sortBy, setSortBy] = useState<'company' | 'location' | 'priority' | 'department' | 'hall'>('company')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
@@ -55,6 +56,20 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
       return cleaned !== '' && cleaned !== 'Skip to main content' && cleaned !== 'N/A'
     }
     return true
+  }
+
+  // Helper function to update available tags when new tags are added
+  const updateAvailableTags = (newTags: string[]) => {
+    const allTags = new Set(allAvailableTags)
+    
+    newTags.forEach(tag => {
+      if (tag && tag.trim() !== '') {
+        allTags.add(tag.trim())
+      }
+    })
+    
+    const sortedTags = Array.from(allTags).sort((a, b) => a.localeCompare(b))
+    setAllAvailableTags(sortedTags)
   }
   
   // Autocomplete states
@@ -120,11 +135,8 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
         setShowFilters(parsed.showFilters || false)
       } catch {}
     } else {
-      // Default department filter to user's team_role when first loading
-      const userDept = user?.user_metadata?.team_role as string | undefined
-      if (userDept && ['Commercial', 'Operations', 'R&D', 'Marketing'].includes(userDept)) {
-        setFilters(prev => ({ ...prev, department: userDept }))
-      }
+      // No default department filter - show all companies by default
+      // Users can manually select their department if needed
     }
     
     // Use initialCompanies if provided (from parent), otherwise fetch from database
@@ -159,6 +171,28 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
       })
       
       setAvailableHalls(sortedHalls)
+      
+      // Extract all unique tags from initial companies
+      const allTags = new Set<string>()
+      
+      // Add predefined tags
+      availableTags.forEach(tag => allTags.add(tag))
+      
+      // Add manual tags from companies
+      initialCompanies.forEach(company => {
+        if (company.tags && Array.isArray(company.tags)) {
+          company.tags.forEach((tag: string) => {
+            if (tag && tag.trim() !== '') {
+              allTags.add(tag.trim())
+            }
+          })
+        }
+      })
+      
+      // Sort tags alphabetically
+      const sortedTags = Array.from(allTags).sort((a, b) => a.localeCompare(b))
+      setAllAvailableTags(sortedTags)
+      
       setLoading(false)
     } else {
       console.log('🔄 CompanyDiscoveryPage: Fetching companies from database')
@@ -243,6 +277,10 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
               console.log('CompanyDiscoveryPage: Real-time companies list updated')
               return newCompanies
             })
+            // Update available tags if the company has new tags
+            if (updatedCompany.tags && Array.isArray(updatedCompany.tags)) {
+              updateAvailableTags(updatedCompany.tags)
+            }
           } else if (payload.eventType === 'INSERT') {
             const newCompany = payload.new as Company
             setCompanies(prev => [...prev, newCompany])
@@ -316,6 +354,27 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
       })
       
       setAvailableHalls(sortedHalls)
+      
+      // Extract all unique tags from companies (both predefined and manual)
+      const allTags = new Set<string>()
+      
+      // Add predefined tags
+      availableTags.forEach(tag => allTags.add(tag))
+      
+      // Add manual tags from companies
+      companiesWithParsedLocation.forEach(company => {
+        if (company.tags && Array.isArray(company.tags)) {
+          company.tags.forEach((tag: string) => {
+            if (tag && tag.trim() !== '') {
+              allTags.add(tag.trim())
+            }
+          })
+        }
+      })
+      
+      // Sort tags alphabetically
+      const sortedTags = Array.from(allTags).sort((a, b) => a.localeCompare(b))
+      setAllAvailableTags(sortedTags)
     } catch (error) {
       console.error('Error fetching companies:', error)
     }
@@ -1053,7 +1112,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
             <div className="lg:col-span-3">
               <label className="block text-xs font-medium mb-2 text-slate-600">Tags</label>
               <div className="flex flex-wrap gap-1">
-                {availableTags.map(tag => (
+                {allAvailableTags.map(tag => (
                   <button
                     key={tag}
                     onClick={() => {
@@ -1177,18 +1236,19 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
               WebkitOverflowScrolling: 'touch'
             }}
           >
-            <div className="grid gap-4 p-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
               {paginatedCompanies.map((company) => (
                 <div
                   key={company.id}
-                  className="border rounded-lg p-4 hover:shadow-lg transition-all bg-white cursor-pointer hover:border-blue-300"
+                  className="backdrop-blur-md bg-white/60 border border-white/30 rounded-2xl p-4 hover:bg-white/80 hover:shadow-lg transition-all duration-200 cursor-pointer hover:border-white/50 hover:scale-[1.02]"
                   onClick={() => onCompanyClick(company)}
+                  style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1)' }}
                 >
-                  <div className="flex items-start gap-3 mb-3">
+                  <div className="flex items-start gap-2.5 mb-2.5">
                     <LogoDisplayWithUpload 
                       company={company} 
-                      size="md" 
-                      className="flex-shrink-0 mt-1"
+                      size="sm" 
+                      className="flex-shrink-0"
                       showUploadButton={true}
                       onLogoUpdate={(logoUrl) => {
                         // Update the company in the list
@@ -1198,48 +1258,43 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                       }}
                     />
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-bold text-base mb-1" style={{ color: 'var(--balena-dark)' }}>
+                      <h3 className="font-semibold text-sm mb-1 text-slate-700 leading-tight line-clamp-2">
                         {company.company}
                       </h3>
                       {hasValidData(company.contact_person) && (
-                        <p className="text-sm text-gray-600 mb-1">
+                        <p className="text-xs text-slate-500 truncate">
                           👤 {company.contact_person}
                         </p>
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 mb-2">
+                  <div className="flex items-center gap-1.5 mb-2">
                     {company.visit_priority && (
-                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium border ${getPriorityColor(company.visit_priority)}`}>
+                      <span className={`text-xs px-2 py-0.5 rounded-lg font-medium backdrop-blur-sm ${getPriorityColor(company.visit_priority)}`}>
                         {getPriorityText(company.visit_priority)}
                       </span>
                     )}
-                    {company.relevance_score && (
-                      <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full">
-                        ⭐ {company.relevance_score}
+                    {company.hall && company.stand && (
+                      <span className="bg-slate-100/80 text-slate-600 px-2 py-0.5 rounded-lg text-xs font-medium backdrop-blur-sm">
+                        {company.hall}/{company.stand}
                       </span>
                     )}
                   </div>
 
-                  {/* Contact Information */}
-                  <div className="grid grid-cols-1 gap-2 mb-3">
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <MapPin className="w-4 h-4 text-blue-500" />
-                      <span className="flex-1 truncate">{company.location}</span>
-                      {company.hall && company.stand && (
-                        <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
-                          {company.hall}/{company.stand}
-                        </span>
-                      )}
+                  {/* Contact Information - Compact */}
+                  <div className="space-y-1.5 mb-2.5">
+                    <div className="flex items-center gap-1.5 text-xs text-slate-600">
+                      <MapPin className="w-3 h-3 text-slate-400 flex-shrink-0" />
+                      <span className="truncate">{company.location}</span>
                     </div>
                     
                     {/* Email */}
                     {(company.main_email || company.email || company.website_emails) && (
-                      <div className="flex items-center gap-2 text-sm">
-                        <span className="text-green-600">📧</span>
+                      <div className="flex items-center gap-1.5 text-xs">
+                        <span className="text-slate-400">📧</span>
                         <a 
                           href={`mailto:${company.main_email || company.email || company.website_emails?.split(',')[0]}`}
-                          className="text-blue-600 hover:underline truncate flex-1"
+                          className="text-slate-600 hover:text-slate-800 truncate flex-1 transition-colors"
                           onClick={(e) => e.stopPropagation()}
                         >
                           {company.main_email || company.email || company.website_emails?.split(',')[0]}
@@ -1247,29 +1302,15 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                       </div>
                     )}
                     
-                    {/* Phone */}
-                    {(company.main_phone || company.phone || company.website_phones) && (
-                      <div className="flex items-center gap-2 text-sm">
-                        <span className="text-blue-600">📞</span>
-                        <a 
-                          href={`tel:${company.main_phone || company.phone || company.website_phones?.split(',')[0]}`}
-                          className="text-blue-600 hover:underline flex-1"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          {company.main_phone || company.phone || company.website_phones?.split(',')[0]}
-                        </a>
-                      </div>
-                    )}
-                    
                     {/* Website */}
                     {(company.main_website || company.website) && (
-                      <div className="flex items-center gap-2 text-sm">
-                        <span className="text-purple-600">🌐</span>
+                      <div className="flex items-center gap-1.5 text-xs">
+                        <span className="text-slate-400">🌐</span>
                         <a 
                           href={(company.main_website || company.website)?.startsWith('http') ? (company.main_website || company.website) : `https://${company.main_website || company.website}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline truncate flex-1"
+                          className="text-slate-600 hover:text-slate-800 truncate flex-1 transition-colors"
                           onClick={(e) => e.stopPropagation()}
                         >
                           Visit Website
@@ -1278,108 +1319,84 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                     )}
                   </div>
                   
-                  {/* Company Description */}
+                  {/* Company Description - Compact */}
                   {(company.company_description || company.about_us || company.products_services) && (
-                    <div className="bg-gray-50 p-3 rounded-md mb-3">
-                      <p className="text-xs text-gray-700 leading-relaxed">
-                        📋 {(company.company_description || company.about_us || company.products_services || '').substring(0, 120)}
-                        {(company.company_description || company.about_us || company.products_services || '').length > 120 ? '...' : ''}
+                    <div className="bg-white/40 backdrop-blur-sm p-2.5 rounded-xl mb-2 border border-white/20">
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        {(company.company_description || company.about_us || company.products_services || '').substring(0, 80)}
+                        {(company.company_description || company.about_us || company.products_services || '').length > 80 ? '...' : ''}
                       </p>
                     </div>
                   )}
                   
-                  {/* Business Info */}
-                  {(company.employees_count || company.foundation_year || company.sales_volume) && (
-                    <div className="flex flex-wrap gap-2 mb-3">
+                  {/* Business Info - Compact */}
+                  {(company.employees_count || company.foundation_year) && (
+                    <div className="flex flex-wrap gap-1.5 mb-2">
                       {company.employees_count && (
-                        <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">
-                          👥 {company.employees_count} employees
+                        <span className="bg-slate-100/80 text-slate-600 px-2 py-0.5 rounded-lg text-xs backdrop-blur-sm">
+                          👥 {company.employees_count}
                         </span>
                       )}
                       {company.foundation_year && (
-                        <span className="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs">
-                          📅 Est. {company.foundation_year}
-                        </span>
-                      )}
-                      {company.sales_volume && (
-                        <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">
-                          💰 {company.sales_volume}
+                        <span className="bg-slate-100/80 text-slate-600 px-2 py-0.5 rounded-lg text-xs backdrop-blur-sm">
+                          📅 {company.foundation_year}
                         </span>
                       )}
                     </div>
                   )}
                   
-                  {/* Sustainability */}
-                  {company.sustainability_info && (
-                    <div className="bg-green-50 p-2 rounded-md mb-3">
-                      <p className="text-xs text-green-700">
-                        🌱 <strong>Sustainability:</strong> {company.sustainability_info.substring(0, 80)}
-                        {company.sustainability_info.length > 80 ? '...' : ''}
+                  {/* Why Relevant - Compact */}
+                  {company.why_relevant && (
+                    <div className="bg-white/40 backdrop-blur-sm p-2 rounded-xl mb-2 border border-white/20">
+                      <p className="text-xs text-slate-600">
+                        💡 {(company.why_relevant || '').slice(0, 60)}{(company.why_relevant || '').length > 60 ? '…' : ''}
                       </p>
                     </div>
                   )}
 
-                  {company.why_relevant && (
-                    <details className="mb-3">
-                      <summary className="text-xs cursor-pointer" style={{ color: 'var(--balena-dark)' }}>
-                        💡 {(company.why_relevant || '').slice(0, 60)}{(company.why_relevant || '').length > 60 ? '…' : ''}
-                      </summary>
-                      <div className="text-xs mt-1 space-y-1" style={{ color: 'var(--balena-dark)' }}>
-                        {company.why_relevant && (
-                          <p><strong>Claude Analysis:</strong> {company.why_relevant}</p>
-                        )}
-                        {company.department && (
-                          <p><strong>Department:</strong> {company.department}</p>
-                        )}
-                        {company.goal_category && (
-                          <p><strong>Goal Category:</strong> {company.goal_category}</p>
-                        )}
-                      </div>
-                    </details>
-                  )}
+                  {/* Bottom Actions - Compact */}
+                  <div className="flex items-center justify-between pt-2 border-t border-white/20">
+                    {/* Visit Status */}
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <VisitedStatus
+                        company={company}
+                        onUpdate={(updatedCompany) => {
+                          setCompanies(prev => 
+                            prev.map(c => c.id === updatedCompany.id ? updatedCompany : c)
+                          )
+                        }}
+                        size="small"
+                        showDetails={false}
+                      />
+                    </div>
 
-                  {/* Visit Status */}
-                  <div onClick={(e) => e.stopPropagation()} className="mb-3">
-                    <VisitedStatus
-                      company={company}
-                      onUpdate={(updatedCompany) => {
-                        // Update the company in the list
-                        setCompanies(prev => 
-                          prev.map(c => c.id === updatedCompany.id ? updatedCompany : c)
-                        )
-                      }}
-                      size="small"
-                      showDetails={false}
-                    />
+                    {/* Rating */}
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <EnhancedRealtimeRating 
+                        companyId={company.id} 
+                        company={company}
+                        size="small"
+                        showTeamRatings={false}
+                        showSuggestions={false}
+                        onSuggestionClick={onCompanyClick}
+                      />
+                    </div>
                   </div>
 
-                  {/* Company Tagging */}
-                  <div onClick={(e) => e.stopPropagation()} className="mb-3">
+                  {/* Company Tagging - Hidden in compact view */}
+                  <div onClick={(e) => e.stopPropagation()} className="mt-2 hidden">
                     <CompanyTagging
                       company={company}
                       onTagsUpdate={(tags) => {
-                        // Update the company in the list
-                        console.log('CompanyDiscoveryPage: Updating tags for company', company.id, 'to:', tags)
                         const updatedCompany = { ...company, tags }
-                        setCompanies(prev => {
-                          const newCompanies = prev.map(c => c.id === updatedCompany.id ? updatedCompany : c)
-                          console.log('CompanyDiscoveryPage: Updated companies array')
-                          return newCompanies
-                        })
+                        setCompanies(prev => 
+                          prev.map(c => c.id === updatedCompany.id ? updatedCompany : c)
+                        )
+                        // Update available tags list with any new tags
+                        updateAvailableTags(tags)
                       }}
                       size="small"
-                      showAddButton={true}
-                    />
-                  </div>
-
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <EnhancedRealtimeRating 
-                      companyId={company.id} 
-                      company={company}
-                      size="small"
-                      showTeamRatings={false}
-                      showSuggestions={true}
-                      onSuggestionClick={onCompanyClick}
+                      showAddButton={false}
                     />
                   </div>
                 </div>
