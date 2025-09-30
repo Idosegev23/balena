@@ -961,15 +961,15 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 p-4 bg-white rounded-lg border shadow-md max-h-96 overflow-y-auto"
+              transition={{ duration: 0.2 }}
+              className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5 p-3 bg-white rounded-lg border shadow-sm max-h-64 overflow-y-auto"
             >
             <div>
-              <label className="block text-sm font-medium mb-2">Department</label>
+              <label className="block text-xs font-medium mb-1">Department</label>
               <select
                 value={filters.department}
                 onChange={(e) => setFilters(prev => ({ ...prev, department: e.target.value }))}
-                className="w-full px-3 py-2 border rounded-lg"
+                className="w-full px-2 py-1.5 text-sm border rounded"
               >
                 <option value="">All Departments</option>
                 {departments.map(dept => (
@@ -979,11 +979,11 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Visit Priority</label>
+              <label className="block text-xs font-medium mb-1">Visit Priority</label>
               <select
                 value={filters.visitPriority}
                 onChange={(e) => setFilters(prev => ({ ...prev, visitPriority: e.target.value }))}
-                className="w-full px-3 py-2 border rounded-lg"
+                className="w-full px-2 py-1.5 text-sm border rounded"
               >
                 <option value="">All Priorities</option>
                 {visitPriorities.map(priority => (
@@ -993,22 +993,22 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Location</label>
+              <label className="block text-xs font-medium mb-1">Location</label>
               <input
                 type="text"
                 value={filters.location}
                 onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value }))}
                 placeholder="Germany, Netherlands..."
-                className="w-full px-3 py-2 border rounded-lg"
+                className="w-full px-2 py-1.5 text-sm border rounded"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Hall</label>
+              <label className="block text-xs font-medium mb-1">Hall</label>
               <select
                 value={filters.hall}
                 onChange={(e) => setFilters(prev => ({ ...prev, hall: e.target.value }))}
-                className="w-full px-3 py-2 border rounded-lg"
+                className="w-full px-2 py-1.5 text-sm border rounded"
               >
                 <option value="">All Halls</option>
                 {availableHalls.map(hall => (
@@ -1020,31 +1020,31 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
             </div>
 
 
-            <div className="flex items-center gap-4">
-              <label className="flex items-center gap-2">
+            <div className="flex flex-col gap-2">
+              <label className="flex items-center gap-1.5">
                 <input
                   type="checkbox"
                   checked={filters.hasContact}
                   onChange={(e) => setFilters(prev => ({ ...prev, hasContact: e.target.checked }))}
-                  className="rounded"
+                  className="rounded w-3 h-3"
                 />
-                <span className="text-sm">Has Contact Info</span>
+                <span className="text-xs">Has Contact</span>
               </label>
-              <label className="flex items-center gap-2">
+              <label className="flex items-center gap-1.5">
                 <input
                   type="checkbox"
                   checked={filters.hasWebsite}
                   onChange={(e) => setFilters(prev => ({ ...prev, hasWebsite: e.target.checked }))}
-                  className="rounded"
+                  className="rounded w-3 h-3"
                 />
-                <span className="text-sm">Has Website</span>
+                <span className="text-xs">Has Website</span>
               </label>
             </div>
 
             {/* Tags Filter */}
-            <div className="lg:col-span-4">
-              <label className="block text-sm font-medium mb-2">Filter by Tags</label>
-              <div className="flex flex-wrap gap-2">
+            <div className="lg:col-span-3">
+              <label className="block text-xs font-medium mb-1">Tags</label>
+              <div className="flex flex-wrap gap-1">
                 {availableTags.map(tag => (
                   <button
                     key={tag}
@@ -1054,7 +1054,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                         : [...filters.tags, tag]
                       setFilters(prev => ({ ...prev, tags: newTags }))
                     }}
-                    className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                    className={`px-2 py-0.5 rounded text-xs transition-colors ${
                       filters.tags.includes(tag)
                         ? 'bg-blue-500 text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -1076,11 +1076,11 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
 
             {/* Visit Status Filter */}
             <div>
-              <label className="block text-sm font-medium mb-2">Visit Status</label>
+              <label className="block text-xs font-medium mb-1">Visit Status</label>
               <select
                 value={filters.visitedStatus}
                 onChange={(e) => setFilters(prev => ({ ...prev, visitedStatus: e.target.value as 'all' | 'visited' | 'not_visited' }))}
-                className="w-full px-3 py-2 border rounded-lg"
+                className="w-full px-2 py-1.5 text-sm border rounded"
               >
                 <option value="all">All Companies</option>
                 <option value="visited">✅ Visited</option>
@@ -1090,37 +1090,34 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
 
             {/* Favorites Filter */}
             <div>
-              <label className="flex items-center gap-2 cursor-pointer">
+              <label className="flex items-center gap-1.5 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={filters.isFavorite}
                   onChange={(e) => setFilters(prev => ({ ...prev, isFavorite: e.target.checked }))}
-                  className="w-4 h-4 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500"
+                  className="w-3 h-3 text-yellow-600 border-gray-300 rounded"
                 />
-                <span className="text-sm font-medium">⭐ Show only favorites</span>
+                <span className="text-xs">⭐ Favorites only</span>
               </label>
-              <p className="text-xs text-gray-500 mt-1">
-                Companies you&apos;ve rated with 👍
-              </p>
             </div>
 
             {/* Meeting Status Filter */}
             <div>
-              <label className="block text-sm font-medium mb-2">Meeting Status</label>
+              <label className="block text-xs font-medium mb-1">Meetings</label>
               <select
                 value={filters.meetingStatus}
                 onChange={(e) => setFilters(prev => ({ ...prev, meetingStatus: e.target.value as 'all' | 'requested' | 'scheduled' | 'completed' }))}
-                className="w-full px-3 py-2 border rounded-lg"
+                className="w-full px-2 py-1.5 text-sm border rounded"
               >
                 <option value="all">All Meetings</option>
-                <option value="requested">📝 Meeting Requested</option>
-                <option value="scheduled">📅 Meeting Scheduled</option>
-                <option value="completed">✅ Meeting Completed</option>
+                <option value="requested">📝 Requested</option>
+                <option value="scheduled">📅 Scheduled</option>
+                <option value="completed">✅ Completed</option>
               </select>
             </div>
 
             {/* Clear All Filters Button */}
-            <div className="lg:col-span-4 pt-4 border-t">
+            <div className="lg:col-span-5 pt-2 border-t">
               <button
                 onClick={() => {
                   setSearchInput('')
@@ -1140,10 +1137,10 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                   })
                   setShowAutocomplete(false)
                 }}
-                className="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors flex items-center justify-center gap-2"
+                className="w-full px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded transition-colors flex items-center justify-center gap-1.5 text-sm"
               >
-                <X className="w-4 h-4" />
-                Clear All Filters
+                <X className="w-3 h-3" />
+                Clear All
               </button>
             </div>
             </motion.div>
