@@ -25,132 +25,13 @@ interface BusinessCardScannerProps {
 }
 
 export function BusinessCardScanner({ onScanComplete, onClose, companyName, companyId }: BusinessCardScannerProps) {
-  const [isScanning, setIsScanning] = useState(false)
   const [scannedImage, setScannedImage] = useState<string | null>(null)
   const [extractedData, setExtractedData] = useState<ScannedData | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [showVideo, setShowVideo] = useState(false)
   
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const streamRef = useRef<MediaStream | null>(null)
 
-  const startCamera = useCallback(async () => {
-    try {
-      console.log('Starting camera...')
-      setError(null)
-      
-      // Check if getUserMedia is supported
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        throw new Error('Camera not supported on this device/browser')
-      }
-
-      // Wait a bit for the component to fully render
-      await new Promise(resolve => setTimeout(resolve, 100))
-
-      console.log('Requesting camera access...')
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { 
-          facingMode: 'environment',
-          width: { ideal: 1920 },
-          height: { ideal: 1080 }
-        } 
-      })
-      
-      console.log('Camera access granted, setting up video stream...')
-      
-      // Wait for video element to be available with retry
-      let retries = 0
-      const maxRetries = 10
-      
-      const setupVideo = () => {
-        if (videoRef.current) {
-          console.log('Video element found, setting up stream...')
-          videoRef.current.srcObject = stream
-          streamRef.current = stream
-          
-          // Wait for video to be ready
-          videoRef.current.onloadedmetadata = () => {
-            console.log('Video metadata loaded, starting playback...')
-            if (videoRef.current) {
-              videoRef.current.play().then(() => {
-                setIsScanning(true)
-                console.log('Camera started successfully')
-              }).catch((playError) => {
-                console.error('Error starting video playback:', playError)
-                setError('Failed to start camera playback. Please try again.')
-              })
-            }
-          }
-          
-          // Handle video errors
-          videoRef.current.onerror = (error) => {
-            console.error('Video element error:', error)
-            setError('Video playback error. Please try again.')
-          }
-        } else if (retries < maxRetries) {
-          retries++
-          console.log(`Video element not ready, retrying... (${retries}/${maxRetries})`)
-          setTimeout(setupVideo, 100)
-        } else {
-          console.error('Video element not available after retries')
-          setError('Video element not ready. Please try again.')
-          // Clean up stream if video setup failed
-          stream.getTracks().forEach(track => track.stop())
-        }
-      }
-      
-      setupVideo()
-      
-    } catch (err) {
-      console.error('Camera access error:', err)
-      let errorMessage = 'Unable to access camera. '
-      
-      if (err instanceof Error) {
-        if (err.name === 'NotAllowedError') {
-          errorMessage += 'Camera permission denied. Please allow camera access and try again.'
-        } else if (err.name === 'NotFoundError') {
-          errorMessage += 'No camera found on this device.'
-        } else if (err.name === 'NotSupportedError') {
-          errorMessage += 'Camera not supported on this browser.'
-        } else {
-          errorMessage += err.message
-        }
-      } else {
-        errorMessage += 'Please check permissions or try uploading an image.'
-      }
-      
-      setError(errorMessage)
-    }
-  }, [])
-
-  const stopCamera = useCallback(() => {
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach(track => track.stop())
-      streamRef.current = null
-    }
-    setIsScanning(false)
-  }, [])
-
-  const captureImage = useCallback(() => {
-    if (!videoRef.current || !canvasRef.current) return
-    
-    const canvas = canvasRef.current
-    const video = videoRef.current
-    const context = canvas.getContext('2d')
-    
-    if (!context) return
-    
-    canvas.width = video.videoWidth
-    canvas.height = video.videoHeight
-    context.drawImage(video, 0, 0)
-    
-    const imageData = canvas.toDataURL('image/jpeg', 0.8)
-    setScannedImage(imageData)
-        stopCamera()
-  }, [stopCamera])
 
   const handleFileUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -451,16 +332,16 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
             </div>
           )}
 
-          {!scannedImage && !isScanning && (
+          {!scannedImage && (
             <div className="text-center space-y-6">
               <div className="space-y-4">
-                  <button
-                    onClick={startCamera}
+                <button
+                  onClick={() => fileInputRef.current?.click()}
                   className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   <Camera className="h-5 w-5" />
                   Take Photo
-                  </button>
+                </button>
                   
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">
@@ -468,15 +349,26 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
                   </div>
                   <div className="relative flex justify-center text-sm">
                     <span className="px-2 bg-white text-gray-500">or</span>
-                    </div>
+                  </div>
                 </div>
 
                 <button
-                  onClick={() => fileInputRef.current?.click()}
+                  onClick={() => {
+                    const input = document.createElement('input')
+                    input.type = 'file'
+                    input.accept = 'image/*'
+                    input.onchange = (e) => {
+                      const file = (e.target as HTMLInputElement).files?.[0]
+                      if (file) {
+                        handleFileUpload({ target: { files: [file] } } as any)
+                      }
+                    }
+                    input.click()
+                  }}
                   className="w-full flex items-center justify-center gap-3 px-6 py-4 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors"
                 >
                   <Upload className="h-5 w-5 text-gray-400" />
-                  <span className="text-gray-600">Upload Image</span>
+                  <span className="text-gray-600">Upload from Gallery</span>
                 </button>
               </div>
 
@@ -484,46 +376,13 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
                 ref={fileInputRef}
                 type="file"
                 accept="image/*"
+                capture="environment"
                 onChange={handleFileUpload}
                 className="hidden"
               />
             </div>
           )}
 
-          {isScanning && (
-            <div className="space-y-4">
-              <div className="relative rounded-lg overflow-hidden bg-black">
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  playsInline
-                  className="w-full h-64 object-cover"
-                />
-                <div className="absolute inset-4 border-2 border-white border-dashed rounded-lg pointer-events-none">
-                  <div className="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-white"></div>
-                  <div className="absolute top-0 right-0 w-6 h-6 border-t-4 border-r-4 border-white"></div>
-                  <div className="absolute bottom-0 left-0 w-6 h-6 border-b-4 border-l-4 border-white"></div>
-                  <div className="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-white"></div>
-                </div>
-              </div>
-              
-              <div className="flex gap-3">
-                <button
-                  onClick={captureImage}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  <Camera className="h-4 w-4" />
-                  Capture
-                </button>
-                <button
-                  onClick={stopCamera}
-                  className="px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          )}
 
           {scannedImage && !extractedData && !isProcessing && (
             <div className="space-y-4">
@@ -640,7 +499,6 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
           )}
         </div>
 
-        <canvas ref={canvasRef} className="hidden" />
       </div>
     </div>
   )
