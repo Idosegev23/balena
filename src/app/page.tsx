@@ -19,7 +19,7 @@ import { Footer } from '@/components/Footer'
 import { VisitsDashboard } from '@/components/VisitsDashboard'
 import { QuickAddModal } from '@/components/QuickAddModal'
 import { AddCompanyModal } from '@/components/AddCompanyModal'
-import { BusinessCardScannerWithCompanySelection } from '@/components/BusinessCardScannerWithCompanySelection'
+import { SmartBusinessCardScanner } from '@/components/SmartBusinessCardScanner'
 import { usePullToRefresh } from '@/hooks/usePullToRefresh'
 import { PullToRefreshIndicator } from '@/components/PullToRefreshIndicator'
 import { ShimmerButton } from '@/components/ui/shimmer-button'
@@ -1001,13 +1001,17 @@ export default function Home() {
         }}
       />
 
-      {/* Business Card Scanner */}
-      <BusinessCardScannerWithCompanySelection
+      {/* Smart Business Card Scanner */}
+      <SmartBusinessCardScanner
         isOpen={showBusinessCardScanner}
         onClose={() => setShowBusinessCardScanner(false)}
-        onScanComplete={(data) => {
-          console.log('Business card scanned:', data)
-          setMessage('Business card scanned successfully!')
+        onScanComplete={(data, selectedCompany) => {
+          console.log('Business card scanned:', data, 'Company:', selectedCompany)
+          if (selectedCompany) {
+            setMessage(`Business card linked to ${selectedCompany.company}!`)
+          } else {
+            setMessage('Business card scanned successfully!')
+          }
         }}
       />
 

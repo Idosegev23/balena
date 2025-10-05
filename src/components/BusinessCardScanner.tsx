@@ -30,6 +30,7 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
   const [extractedData, setExtractedData] = useState<ScannedData | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [showVideo, setShowVideo] = useState(false)
   
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -46,6 +47,9 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
         throw new Error('Camera not supported on this device/browser')
       }
 
+      // Wait a bit for the component to fully render
+      await new Promise(resolve => setTimeout(resolve, 100))
+
       console.log('Requesting camera access...')
       const stream = await navigator.mediaDevices.getUserMedia({ 
         video: { 
@@ -56,15 +60,50 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
       })
       
       console.log('Camera access granted, setting up video stream...')
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream
-        streamRef.current = stream
-        setIsScanning(true)
-        console.log('Camera started successfully')
-      } else {
-        console.error('Video ref not available')
-        setError('Video element not ready. Please try again.')
+      
+      // Wait for video element to be available with retry
+      let retries = 0
+      const maxRetries = 10
+      
+      const setupVideo = () => {
+        if (videoRef.current) {
+          console.log('Video element found, setting up stream...')
+          videoRef.current.srcObject = stream
+          streamRef.current = stream
+          
+          // Wait for video to be ready
+          videoRef.current.onloadedmetadata = () => {
+            console.log('Video metadata loaded, starting playback...')
+            if (videoRef.current) {
+              videoRef.current.play().then(() => {
+                setIsScanning(true)
+                console.log('Camera started successfully')
+              }).catch((playError) => {
+                console.error('Error starting video playback:', playError)
+                setError('Failed to start camera playback. Please try again.')
+              })
+            }
+          }
+          
+          // Handle video errors
+          videoRef.current.onerror = (error) => {
+            console.error('Video element error:', error)
+            setError('Video playback error. Please try again.')
+          }
+        } else if (retries < maxRetries) {
+          retries++
+          console.log(`Video element not ready, retrying... (${retries}/${maxRetries})`)
+          setTimeout(setupVideo, 100)
+        } else {
+          console.error('Video element not available after retries')
+          setError('Video element not ready. Please try again.')
+          // Clean up stream if video setup failed
+          stream.getTracks().forEach(track => track.stop())
+        }
       }
+      
+      setupVideo()
+      
     } catch (err) {
       console.error('Camera access error:', err)
       let errorMessage = 'Unable to access camera. '
