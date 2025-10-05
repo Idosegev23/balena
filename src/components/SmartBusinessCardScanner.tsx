@@ -203,8 +203,6 @@ export function SmartBusinessCardScanner({
     setSelectedCompany(null)
   }
 
-  if (!isOpen) return null
-
   // Show debug info when entering match step
   useEffect(() => {
     if (step === 'match' && scannedData) {
@@ -212,6 +210,8 @@ export function SmartBusinessCardScanner({
       setTimeout(() => setDebugMessage(''), 3000)
     }
   }, [step, scannedData, suggestedMatches.length])
+
+  if (!isOpen) return null
 
   if (step === 'scan') {
     return (
