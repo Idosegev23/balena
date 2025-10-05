@@ -5,7 +5,7 @@ import { Camera, Upload, X, Check, Loader2, CreditCard } from 'lucide-react'
 import { createWorker } from 'tesseract.js'
 import { supabase } from '@/lib/supabase'
 
-interface ScannedData {
+export interface ScannedData {
   name?: string
   title?: string
   company?: string
@@ -333,7 +333,7 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
     } finally {
       setIsProcessing(false)
     }
-  }, [scannedImage, companyName])
+  }, [scannedImage, companyName, parseBusinessCard])
 
   const handleConfirm = useCallback(async () => {
     if (extractedData && scannedImage) {
@@ -363,7 +363,7 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
         setIsProcessing(false)
       }
     }
-  }, [extractedData, scannedImage, onScanComplete, onClose, uploadCardImage, saveBusinessCardToDatabase])
+  }, [extractedData, scannedImage, onScanComplete, onClose, companyId, companyName])
 
   const retakePhoto = useCallback(() => {
     setScannedImage(null)
