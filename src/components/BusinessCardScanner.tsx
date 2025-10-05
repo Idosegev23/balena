@@ -3,6 +3,7 @@
 import React, { useState, useRef, useCallback } from 'react'
 import { Camera, Upload, X, Check, Loader2, CreditCard } from 'lucide-react'
 import { createWorker } from 'tesseract.js'
+import { supabase } from '@/lib/supabase'
 
 interface ScannedData {
   name?: string
@@ -13,15 +14,17 @@ interface ScannedData {
   website?: string
   address?: string
   rawText?: string
+  cardImageUrl?: string // Add image URL to the scanned data
 }
 
 interface BusinessCardScannerProps {
   onScanComplete: (data: ScannedData) => void
   onClose: () => void
   companyName?: string
+  companyId?: number
 }
 
-export function BusinessCardScanner({ onScanComplete, onClose, companyName }: BusinessCardScannerProps) {
+export function BusinessCardScanner({ onScanComplete, onClose, companyName, companyId }: BusinessCardScannerProps) {
   const [isScanning, setIsScanning] = useState(false)
   const [scannedImage, setScannedImage] = useState<string | null>(null)
   const [extractedData, setExtractedData] = useState<ScannedData | null>(null)
@@ -92,6 +95,71 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName }: Bu
     }
     reader.readAsDataURL(file)
   }, [])
+
+  // Upload business card image to Supabase Storage
+  const uploadCardImage = async (imageDataUrl: string): Promise<string | null> => {
+    try {
+      // Convert data URL to blob
+      const response = await fetch(imageDataUrl)
+      const blob = await response.blob()
+      
+      // Generate unique filename
+      const timestamp = new Date().getTime()
+      const filename = `business-card-${companyId || 'unknown'}-${timestamp}.jpg`
+      
+      // Upload to Supabase Storage
+      const { data, error } = await supabase.storage
+        .from('business-cards')
+        .upload(filename, blob, {
+          contentType: 'image/jpeg',
+          upsert: false
+        })
+      
+      if (error) {
+        console.error('Error uploading business card image:', error)
+        return null
+      }
+      
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('business-cards')
+        .getPublicUrl(data.path)
+      
+      return publicUrl
+    } catch (error) {
+      console.error('Error uploading business card image:', error)
+      return null
+    }
+  }
+
+  // Save business card data to database
+  const saveBusinessCardToDatabase = async (scannedData: ScannedData, imageUrl: string) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+      
+      const { error } = await supabase
+        .from('business_cards')
+        .insert({
+          company_id: companyId,
+          user_id: user.id,
+          contact_name: scannedData.name,
+          contact_title: scannedData.title,
+          contact_email: scannedData.email,
+          contact_phone: scannedData.phone,
+          company_name: scannedData.company || companyName,
+          card_image_url: imageUrl,
+          extracted_text: scannedData.rawText,
+          is_processed: true
+        })
+      
+      if (error) {
+        console.error('Error saving business card to database:', error)
+      }
+    } catch (error) {
+      console.error('Error saving business card to database:', error)
+    }
+  }
 
   const parseBusinessCard = (text: string): ScannedData => {
     const lines = text.split('\n').filter(line => line.trim())
@@ -174,12 +242,35 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName }: Bu
     }
   }, [scannedImage, companyName, parseBusinessCard])
 
-  const handleConfirm = useCallback(() => {
-    if (extractedData) {
-      onScanComplete(extractedData)
-      onClose()
+  const handleConfirm = useCallback(async () => {
+    if (extractedData && scannedImage) {
+      setIsProcessing(true)
+      
+      try {
+        // Upload image to Supabase Storage
+        const imageUrl = await uploadCardImage(scannedImage)
+        
+        if (imageUrl) {
+          // Save to database
+          await saveBusinessCardToDatabase(extractedData, imageUrl)
+          
+          // Add image URL to extracted data
+          const dataWithImage = { ...extractedData, cardImageUrl: imageUrl }
+          onScanComplete(dataWithImage)
+        } else {
+          // If image upload fails, still proceed with text data
+          onScanComplete(extractedData)
+        }
+        
+        onClose()
+      } catch (error) {
+        console.error('Error saving business card:', error)
+        setError('Failed to save business card. Please try again.')
+      } finally {
+        setIsProcessing(false)
+      }
     }
-  }, [extractedData, onScanComplete, onClose])
+  }, [extractedData, scannedImage, onScanComplete, onClose, uploadCardImage, saveBusinessCardToDatabase])
 
   const retakePhoto = useCallback(() => {
     setScannedImage(null)

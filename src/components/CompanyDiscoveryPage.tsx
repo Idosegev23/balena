@@ -820,13 +820,12 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex flex-col mobile-content"
+      className="fixed inset-0 bottom-16 z-30 flex flex-col"
       style={{
         overscrollBehavior: 'none',
         touchAction: 'pan-x pan-y',
         WebkitOverflowScrolling: 'touch',
-        background: 'linear-gradient(135deg, #fafbfc 0%, #f7f9fb 25%, #f4f6f8 50%, #f1f4f7 75%, #eef2f6 100%)',
-        minHeight: '100dvh' // Dynamic viewport height for mobile
+        background: 'linear-gradient(135deg, #fafbfc 0%, #f7f9fb 25%, #f4f6f8 50%, #f1f4f7 75%, #eef2f6 100%)'
       }}
     >
       {/* Header - Glassmorphism Style */}
@@ -1410,22 +1409,27 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
                     </div>
                   </div>
 
-                  {/* Company Tagging - Hidden in compact view */}
-                  <div onClick={(e) => e.stopPropagation()} className="mt-2 hidden">
-                    <CompanyTagging
-                      company={company}
-                      onTagsUpdate={(tags) => {
-                        const updatedCompany = { ...company, tags }
-                        setCompanies(prev => 
-                          prev.map(c => c.id === updatedCompany.id ? updatedCompany : c)
-                        )
-                        // Update available tags list with any new tags
-                        updateAvailableTags(tags)
-                      }}
-                      size="small"
-                      showAddButton={false}
-                    />
-                  </div>
+                  {/* Company Tags - Compact Display */}
+                  {company.tags && company.tags.length > 0 && (
+                    <div className="mt-2 pt-2 border-t border-white/20">
+                      <div className="flex flex-wrap gap-1">
+                        {company.tags.slice(0, 3).map((tag, index) => (
+                          <span
+                            key={index}
+                            className="inline-flex items-center px-2 py-0.5 bg-slate-100/80 text-slate-600 text-xs rounded-lg backdrop-blur-sm border border-white/30"
+                            style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}
+                          >
+                            {tag.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                          </span>
+                        ))}
+                        {company.tags.length > 3 && (
+                          <span className="inline-flex items-center px-2 py-0.5 bg-slate-200/80 text-slate-500 text-xs rounded-lg backdrop-blur-sm border border-white/30">
+                            +{company.tags.length - 3}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -1508,6 +1512,7 @@ export function CompanyDiscoveryPage({ onClose, onCompanyClick, initialCompanies
         }}
         />
       )}
+
     </div>
   )
 }
