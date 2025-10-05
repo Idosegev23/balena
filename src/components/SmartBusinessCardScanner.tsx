@@ -30,6 +30,7 @@ export function SmartBusinessCardScanner({
   const [searchTerm, setSearchTerm] = useState('')
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([])
   const [loading, setLoading] = useState(false)
+  const [debugMessage, setDebugMessage] = useState<string>('')
 
   console.log('SmartBusinessCardScanner: Rendered with', { isOpen, step, scannedData: !!scannedData })
 
@@ -54,6 +55,7 @@ export function SmartBusinessCardScanner({
   const fetchCompanies = async () => {
     try {
       console.log('SmartBusinessCardScanner: Fetching companies...')
+      setDebugMessage('טוען חברות...')
       setLoading(true)
       const { data, error } = await supabase
         .from('companies')
@@ -62,10 +64,15 @@ export function SmartBusinessCardScanner({
 
       if (error) throw error
       console.log('SmartBusinessCardScanner: Fetched companies:', data?.length || 0)
+      setDebugMessage(`נטענו ${data?.length || 0} חברות`)
       setCompanies(data || [])
       setFilteredCompanies(data || [])
+      
+      // Clear debug message after 2 seconds
+      setTimeout(() => setDebugMessage(''), 2000)
     } catch (error) {
       console.error('SmartBusinessCardScanner: Error fetching companies:', error)
+      setDebugMessage(`שגיאה בטעינת חברות: ${error}`)
     } finally {
       setLoading(false)
     }
@@ -164,13 +171,18 @@ export function SmartBusinessCardScanner({
 
   const handleScanComplete = (data: ScannedData) => {
     console.log('SmartBusinessCardScanner: Scan completed, finding matching companies...', data)
+    setDebugMessage('סריקה הושלמה! מחפש חברות מתאימות...')
     setScannedData(data)
     
     const matches = findMatchingCompanies(data)
     console.log('SmartBusinessCardScanner: Found matches:', matches)
+    setDebugMessage(`נמצאו ${matches.length} חברות מתאימות`)
     setSuggestedMatches(matches)
     setStep('match')
     console.log('SmartBusinessCardScanner: Switched to match step')
+    
+    // Clear debug message after 3 seconds
+    setTimeout(() => setDebugMessage(''), 3000)
   }
 
   const handleCompanySelect = (company: Company) => {
@@ -193,17 +205,41 @@ export function SmartBusinessCardScanner({
 
   if (!isOpen) return null
 
+  // Show debug info when entering match step
+  useEffect(() => {
+    if (step === 'match' && scannedData) {
+      setDebugMessage(`מסך בחירת חברה - ${suggestedMatches.length} הצעות`)
+      setTimeout(() => setDebugMessage(''), 3000)
+    }
+  }, [step, scannedData, suggestedMatches.length])
+
   if (step === 'scan') {
     return (
-      <BusinessCardScanner
-        onScanComplete={handleScanComplete}
-        onClose={onClose}
-      />
+      <div>
+        <BusinessCardScanner
+          onScanComplete={handleScanComplete}
+          onClose={onClose}
+        />
+        
+        {/* Debug Message for Mobile */}
+        {debugMessage && (
+          <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm">
+            {debugMessage}
+          </div>
+        )}
+      </div>
     )
   }
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      {/* Debug Message for Mobile */}
+      {debugMessage && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm">
+          {debugMessage}
+        </div>
+      )}
+      
       <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
