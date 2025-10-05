@@ -19,6 +19,7 @@ import { Footer } from '@/components/Footer'
 import { VisitsDashboard } from '@/components/VisitsDashboard'
 import { QuickAddModal } from '@/components/QuickAddModal'
 import { AddCompanyModal } from '@/components/AddCompanyModal'
+import { BusinessCardScannerWithCompanySelection } from '@/components/BusinessCardScannerWithCompanySelection'
 import { usePullToRefresh } from '@/hooks/usePullToRefresh'
 import { PullToRefreshIndicator } from '@/components/PullToRefreshIndicator'
 import { ShimmerButton } from '@/components/ui/shimmer-button'
@@ -48,6 +49,7 @@ export default function Home() {
   const [activeView, setActiveView] = useState<'dashboard' | 'discovery' | 'visits' | 'settings'>('dashboard')
   const [showQuickAddModal, setShowQuickAddModal] = useState(false)
   const [showAddCompanyModal, setShowAddCompanyModal] = useState(false)
+  const [showBusinessCardScanner, setShowBusinessCardScanner] = useState(false)
 
   // Browser history management for mobile back button
   useEffect(() => {
@@ -358,8 +360,8 @@ export default function Home() {
       setShowAddCompanyModal(true)
     },
     scanCard: () => {
-      // TODO: Implement business card scanning
-      setMessage('Card scanning feature in development')
+      setShowQuickAddModal(false)
+      setShowBusinessCardScanner(true)
     },
     addNote: () => {
       // TODO: Implement quick note
@@ -996,6 +998,16 @@ export default function Home() {
         onCompanyAdded={() => {
           fetchDashboardData()
           setMessage('Company added successfully!')
+        }}
+      />
+
+      {/* Business Card Scanner */}
+      <BusinessCardScannerWithCompanySelection
+        isOpen={showBusinessCardScanner}
+        onClose={() => setShowBusinessCardScanner(false)}
+        onScanComplete={(data) => {
+          console.log('Business card scanned:', data)
+          setMessage('Business card scanned successfully!')
         }}
       />
 

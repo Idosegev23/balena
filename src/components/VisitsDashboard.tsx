@@ -128,19 +128,59 @@ export function VisitsDashboard({ onCompanyClick }: VisitsDashboardProps) {
   const fetchVisits = async () => {
     setLoading(true)
     try {
-      const { data, error } = await supabase
+      // Fetch visits from visits table
+      const { data: visitsData, error: visitsError } = await supabase
         .from('visits')
         .select(`
           id,
           company_id,
-          status,
-          created_at,
+          visit_status as status,
+          visit_date as created_at,
           companies!inner (*)
         `)
-        .order('created_at', { ascending: false })
+        .eq('user_id', user?.id)
+        .order('visit_date', { ascending: false })
 
-      if (error) throw error
-      setVisits((data as unknown as Visit[]) || [])
+      if (visitsError) throw visitsError
+
+      // Also fetch companies marked as visited but not in visits table
+      const { data: visitedCompanies, error: companiesError } = await supabase
+        .from('companies')
+        .select('*')
+        .eq('visited', true)
+        .eq('visited_by', user?.id)
+
+      if (companiesError) throw companiesError
+
+      // Combine both sources and avoid duplicates
+      const allVisits: Visit[] = []
+      
+      // Add visits from visits table
+      if (visitsData) {
+        allVisits.push(...(visitsData as unknown as Visit[]))
+      }
+
+      // Add visited companies that don't have a visit record
+      if (visitedCompanies) {
+        const existingCompanyIds = new Set(allVisits.map(v => parseInt(v.company_id)))
+        
+        visitedCompanies.forEach(company => {
+          if (!existingCompanyIds.has(company.id)) {
+            allVisits.push({
+              id: `company-${company.id}`,
+              company_id: company.id.toString(),
+              status: 'completed',
+              created_at: company.visit_date || company.updated_at,
+              companies: company
+            })
+          }
+        })
+      }
+
+      // Sort by date
+      allVisits.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      
+      setVisits(allVisits)
     } catch (error) {
       console.error('Error fetching visits:', error)
     }

@@ -28,6 +28,7 @@ export function VisitedStatus({ company, onUpdate, size = 'medium', showDetails 
         visited_by: newVisitedStatus ? user.id : null
       }
 
+      // Update the company record
       const { data, error } = await supabase
         .from('companies')
         .update(updateData)
@@ -36,6 +37,39 @@ export function VisitedStatus({ company, onUpdate, size = 'medium', showDetails 
         .single()
 
       if (error) throw error
+
+      // If marking as visited, also create a visit record
+      if (newVisitedStatus) {
+        const { error: visitError } = await supabase
+          .from('visits')
+          .insert({
+            company_id: company.id,
+            user_id: user.id,
+            visit_status: 'completed',
+            visit_date: new Date().toISOString(),
+            notes: 'Marked as visited from company card',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          })
+
+        if (visitError) {
+          console.error('Error creating visit record:', visitError)
+          // Don't fail the whole operation if visit creation fails
+        }
+      } else {
+        // If marking as not visited, remove the visit record
+        const { error: deleteError } = await supabase
+          .from('visits')
+          .delete()
+          .eq('company_id', company.id)
+          .eq('user_id', user.id)
+          .eq('notes', 'Marked as visited from company card')
+
+        if (deleteError) {
+          console.error('Error removing visit record:', deleteError)
+          // Don't fail the whole operation if visit deletion fails
+        }
+      }
 
       console.log('Visit status updated successfully:', data)
       

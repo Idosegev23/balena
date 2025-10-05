@@ -38,7 +38,15 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
 
   const startCamera = useCallback(async () => {
     try {
+      console.log('Starting camera...')
       setError(null)
+      
+      // Check if getUserMedia is supported
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error('Camera not supported on this device/browser')
+      }
+
+      console.log('Requesting camera access...')
       const stream = await navigator.mediaDevices.getUserMedia({ 
         video: { 
           facingMode: 'environment',
@@ -47,14 +55,35 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
         } 
       })
       
+      console.log('Camera access granted, setting up video stream...')
       if (videoRef.current) {
         videoRef.current.srcObject = stream
         streamRef.current = stream
         setIsScanning(true)
+        console.log('Camera started successfully')
+      } else {
+        console.error('Video ref not available')
+        setError('Video element not ready. Please try again.')
       }
     } catch (err) {
       console.error('Camera access error:', err)
-      setError('Unable to access camera. Please check permissions or try uploading an image.')
+      let errorMessage = 'Unable to access camera. '
+      
+      if (err instanceof Error) {
+        if (err.name === 'NotAllowedError') {
+          errorMessage += 'Camera permission denied. Please allow camera access and try again.'
+        } else if (err.name === 'NotFoundError') {
+          errorMessage += 'No camera found on this device.'
+        } else if (err.name === 'NotSupportedError') {
+          errorMessage += 'Camera not supported on this browser.'
+        } else {
+          errorMessage += err.message
+        }
+      } else {
+        errorMessage += 'Please check permissions or try uploading an image.'
+      }
+      
+      setError(errorMessage)
     }
   }, [])
 
@@ -96,16 +125,56 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
     reader.readAsDataURL(file)
   }, [])
 
+  // Ensure business-cards bucket exists
+  const ensureBucketExists = async () => {
+    try {
+      // Try to list files in the bucket to check if it exists
+      const { error } = await supabase.storage
+        .from('business-cards')
+        .list('', { limit: 1 })
+      
+      if (error && error.message.includes('not found')) {
+        console.log('Business cards bucket not found, creating it...')
+        // Try to create the bucket (this might fail if we don't have admin permissions)
+        const { error: createError } = await supabase.storage
+          .createBucket('business-cards', {
+            public: true,
+            allowedMimeTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
+            fileSizeLimit: 10485760 // 10MB
+          })
+        
+        if (createError) {
+          console.error('Failed to create bucket:', createError)
+          setError('Storage bucket not available. Please contact administrator.')
+          return false
+        }
+        console.log('Business cards bucket created successfully')
+      }
+      return true
+    } catch (error) {
+      console.error('Error checking bucket:', error)
+      return true // Continue anyway, might work
+    }
+  }
+
   // Upload business card image to Supabase Storage
   const uploadCardImage = async (imageDataUrl: string): Promise<string | null> => {
     try {
+      console.log('Starting image upload to Supabase...')
+      
+      // Ensure bucket exists
+      const bucketReady = await ensureBucketExists()
+      if (!bucketReady) return null
+      
       // Convert data URL to blob
       const response = await fetch(imageDataUrl)
       const blob = await response.blob()
+      console.log('Image converted to blob, size:', blob.size)
       
       // Generate unique filename
       const timestamp = new Date().getTime()
       const filename = `business-card-${companyId || 'unknown'}-${timestamp}.jpg`
+      console.log('Generated filename:', filename)
       
       // Upload to Supabase Storage
       const { data, error } = await supabase.storage
@@ -117,17 +186,22 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
       
       if (error) {
         console.error('Error uploading business card image:', error)
+        setError(`Failed to upload image: ${error.message}`)
         return null
       }
+      
+      console.log('Image uploaded successfully:', data)
       
       // Get public URL
       const { data: { publicUrl } } = supabase.storage
         .from('business-cards')
         .getPublicUrl(data.path)
       
+      console.log('Generated public URL:', publicUrl)
       return publicUrl
     } catch (error) {
       console.error('Error uploading business card image:', error)
+      setError(`Failed to upload image: ${error instanceof Error ? error.message : 'Unknown error'}`)
       return null
     }
   }
@@ -135,29 +209,44 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
   // Save business card data to database
   const saveBusinessCardToDatabase = async (scannedData: ScannedData, imageUrl: string) => {
     try {
+      console.log('Saving business card to database...')
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
-      
+      if (!user) {
+        setError('User not authenticated')
+        return
+      }
+
+      const insertData = {
+        company_id: companyId,
+        user_id: user.id,
+        contact_name: scannedData.name,
+        contact_title: scannedData.title,
+        contact_email: scannedData.email,
+        contact_phone: scannedData.phone,
+        company_name: scannedData.company || companyName,
+        card_image_url: imageUrl,
+        card_photo_url: imageUrl, // Also save to old column for compatibility
+        extracted_text: scannedData.rawText,
+        is_processed: true,
+        collected_by: user.email || user.id,
+        collected_at: new Date().toISOString()
+      }
+
+      console.log('Inserting business card data:', insertData)
+
       const { error } = await supabase
         .from('business_cards')
-        .insert({
-          company_id: companyId,
-          user_id: user.id,
-          contact_name: scannedData.name,
-          contact_title: scannedData.title,
-          contact_email: scannedData.email,
-          contact_phone: scannedData.phone,
-          company_name: scannedData.company || companyName,
-          card_image_url: imageUrl,
-          extracted_text: scannedData.rawText,
-          is_processed: true
-        })
+        .insert(insertData)
       
       if (error) {
-        console.error('Error saving business card to database:', error)
+        console.error('Database insert error:', error)
+        setError(`Failed to save business card: ${error.message}`)
+        throw error
       }
+      console.log('Business card saved to database successfully')
     } catch (error) {
       console.error('Error saving business card to database:', error)
+      setError(`Failed to save business card: ${error instanceof Error ? error.message : 'Unknown error'}`)
     }
   }
 
@@ -227,20 +316,24 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
     setError(null)
 
     try {
+      console.log('Starting OCR processing...')
       const worker = await createWorker('eng')
+      console.log('Tesseract worker created successfully')
       
       const { data: { text } } = await worker.recognize(scannedImage)
+      console.log('OCR completed, extracted text:', text)
       await worker.terminate()
 
       const parsedData = parseBusinessCard(text)
+      console.log('Parsed business card data:', parsedData)
       setExtractedData(parsedData)
     } catch (err) {
       console.error('OCR processing error:', err)
-      setError('Failed to process the image. Please try again or upload a clearer image.')
+      setError(`Failed to process the image: ${err instanceof Error ? err.message : 'Unknown error'}. Please try again or upload a clearer image.`)
     } finally {
       setIsProcessing(false)
     }
-  }, [scannedImage, companyName, parseBusinessCard])
+  }, [scannedImage, companyName])
 
   const handleConfirm = useCallback(async () => {
     if (extractedData && scannedImage) {
@@ -299,7 +392,23 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
 
           {error && (
             <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-700 text-sm">{error}</p>
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0">
+                  <svg className="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-red-800">Error</h3>
+                  <p className="text-red-700 text-sm mt-1">{error}</p>
+                  <button
+                    onClick={() => setError(null)}
+                    className="mt-2 text-sm text-red-600 hover:text-red-800 underline"
+                  >
+                    Try again
+                  </button>
+                </div>
+              </div>
             </div>
           )}
 
