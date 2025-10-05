@@ -236,19 +236,19 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
     setError(null)
 
     try {
-      console.log('Starting OCR processing...')
+      console.log('BusinessCardScanner: Starting OCR processing...')
       const worker = await createWorker('eng')
-      console.log('Tesseract worker created successfully')
+      console.log('BusinessCardScanner: Tesseract worker created successfully')
       
       const { data: { text } } = await worker.recognize(scannedImage)
-      console.log('OCR completed, extracted text:', text)
+      console.log('BusinessCardScanner: OCR completed, extracted text:', text)
       await worker.terminate()
 
       const parsedData = parseBusinessCard(text)
-      console.log('Parsed business card data:', parsedData)
+      console.log('BusinessCardScanner: Parsed business card data:', parsedData)
       setExtractedData(parsedData)
     } catch (err) {
-      console.error('OCR processing error:', err)
+      console.error('BusinessCardScanner: OCR processing error:', err)
       setError(`Failed to process the image: ${err instanceof Error ? err.message : 'Unknown error'}. Please try again or upload a clearer image.`)
     } finally {
       setIsProcessing(false)
@@ -256,6 +256,7 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
   }, [scannedImage, companyName, parseBusinessCard])
 
   const handleConfirm = useCallback(async () => {
+    console.log('BusinessCardScanner: Confirm button clicked', { extractedData, scannedImage })
     if (extractedData && scannedImage) {
       setIsProcessing(true)
       
@@ -269,9 +270,11 @@ export function BusinessCardScanner({ onScanComplete, onClose, companyName, comp
           
           // Add image URL to extracted data
           const dataWithImage = { ...extractedData, cardImageUrl: imageUrl }
+          console.log('BusinessCardScanner: Calling onScanComplete with data:', dataWithImage)
           onScanComplete(dataWithImage)
         } else {
           // If image upload fails, still proceed with text data
+          console.log('BusinessCardScanner: Calling onScanComplete with basic data:', extractedData)
           onScanComplete(extractedData)
         }
         

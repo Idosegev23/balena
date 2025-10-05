@@ -31,6 +31,8 @@ export function SmartBusinessCardScanner({
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([])
   const [loading, setLoading] = useState(false)
 
+  console.log('SmartBusinessCardScanner: Rendered with', { isOpen, step, scannedData: !!scannedData })
+
   useEffect(() => {
     if (isOpen) {
       fetchCompanies()
@@ -51,6 +53,7 @@ export function SmartBusinessCardScanner({
 
   const fetchCompanies = async () => {
     try {
+      console.log('SmartBusinessCardScanner: Fetching companies...')
       setLoading(true)
       const { data, error } = await supabase
         .from('companies')
@@ -58,10 +61,11 @@ export function SmartBusinessCardScanner({
         .order('company', { ascending: true })
 
       if (error) throw error
+      console.log('SmartBusinessCardScanner: Fetched companies:', data?.length || 0)
       setCompanies(data || [])
       setFilteredCompanies(data || [])
     } catch (error) {
-      console.error('Error fetching companies:', error)
+      console.error('SmartBusinessCardScanner: Error fetching companies:', error)
     } finally {
       setLoading(false)
     }
@@ -159,12 +163,14 @@ export function SmartBusinessCardScanner({
   }
 
   const handleScanComplete = (data: ScannedData) => {
-    console.log('Scan completed, finding matching companies...', data)
+    console.log('SmartBusinessCardScanner: Scan completed, finding matching companies...', data)
     setScannedData(data)
     
     const matches = findMatchingCompanies(data)
+    console.log('SmartBusinessCardScanner: Found matches:', matches)
     setSuggestedMatches(matches)
     setStep('match')
+    console.log('SmartBusinessCardScanner: Switched to match step')
   }
 
   const handleCompanySelect = (company: Company) => {
