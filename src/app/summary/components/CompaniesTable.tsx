@@ -109,6 +109,9 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
               <SortableHeader field="relevance_score">Score</SortableHeader>
               <SortableHeader field="visit_date">Visit Date</SortableHeader>
               <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                Team Notes
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                 Tags
               </th>
             </tr>
@@ -169,6 +172,19 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
                   <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-900">
                     {company.visit_date ? new Date(company.visit_date).toLocaleDateString() : '-'}
                   </td>
+                  <td className="px-4 py-4 max-w-xs">
+                    <div className="text-sm text-slate-700">
+                      {company.notes_summary ? (
+                        <div className="truncate" title={company.notes_summary}>
+                          {company.notes_summary.length > 100 
+                            ? `${company.notes_summary.substring(0, 100)}...` 
+                            : company.notes_summary}
+                        </div>
+                      ) : (
+                        <span className="text-slate-400 italic">No notes</span>
+                      )}
+                    </div>
+                  </td>
                   <td className="px-4 py-4">
                     <div className="flex flex-wrap gap-1">
                       {company.tags.slice(0, 2).map(tag => (
@@ -186,7 +202,7 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
                 </tr>
                 {expandedRows.has(company.id) && (
                   <tr>
-                    <td colSpan={9} className="px-4 py-4 bg-slate-50">
+                    <td colSpan={10} className="px-4 py-4 bg-slate-50">
                       <div className="space-y-4">
                         {/* Contact Information */}
                         {(company.contact_person || company.email || company.phone) && (
@@ -231,6 +247,16 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
                                 ? `${company.description.substring(0, 300)}...` 
                                 : company.description}
                             </p>
+                          </div>
+                        )}
+
+                        {/* Team Notes */}
+                        {company.notes_summary && (
+                          <div className="bg-white rounded-lg p-4">
+                            <h4 className="text-sm font-semibold text-slate-900 mb-2">Team Notes</h4>
+                            <div className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                              {company.notes_summary}
+                            </div>
                           </div>
                         )}
 

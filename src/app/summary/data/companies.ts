@@ -32,7 +32,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "נשמע מאוד רלוונטי - בגזרת המתחרים",
   },
   {
     id: 1106,
@@ -65,7 +66,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "מנסים לקבוע איתם פגישה גם דרך חביאר וגם דרך יניר.\nספק PHA\nחומרים בדרך אלינו:\nPB2001IM-3 (EXW):PHA injection molding\nPB2001IM-4 (EXW): PHA injection molding\nPB3430(G): P34HB (15% 4HB) Pellets\nPV3000(G): PHBV Pellets\nPB3460(G)-R: P34HB (30% 4HB) Pellets",
   },
   {
     id: 1397,
@@ -98,7 +100,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: null
   },
   {
     id: 1144,
@@ -131,7 +134,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "RETAIL & E-COMMERCE\nCONSUMER GOODS PACKAGING\nGASTRONOMY & FOOD SERVICE\n\n\nCOMING SOON... \nAdhesives & Hot Melts\nSeed & Fertilizer Coatings"
   },
   {
     id: 1097,
@@ -164,7 +168,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "מאותה הקבוצה של - SHANDONG RUIFENG CHEMICAL CO., LTD\nשגם אותם סימנו כרלוונטים לביקור. אך הם לא יושבים באותו הדוכן. \nShandong Ruian Biotechnology Co., Ltd.\nכנרא הספק שאחראי הפול על החומרים המתכלים והחידושים . מתמחים בחדשנות של חומרי ביו ועובדים עם הרבה אקדמיות ומכוני מחקר. לשים לב שיכולים להיות מתחרים\n#COMPETITORS\n\n\nSHANDONG RUIFENG CHEMICAL CO., LTD\nתוספי PVC, אבל גם חומרים מתכלים כמו PLA PBAT. \nלבדוק אם יש עוד חומרים, לקחת איש קשר וקטלוג מוצרים."
   },
   {
     id: 1134,
@@ -197,7 +202,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "חברה טורקית עם מגוון מוצרים שיכולים להיות רלוונטיים - לא ממש מתחרים.\nיש להם ליין של מוצרים מתכלים\nGEMABiO\nיש מאסטרבצים, יש חומרים לאפליקציות שונות. שווה לראות/להפגש | PLA"
   },
   {
     id: 1403,
@@ -230,7 +236,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "BIOGRANIC®\nThe Bio Mineral Masterbatch\n\nBIOGRANIC is our most sustainable mineral masterbatch. The portfolio includes grades that are biobased, biodegradable, or both, designed to optimize film performance in compostable applications.\n\nBIOGRANIC enhances the processing and mechanical performance of compostable resins while maintaining fully compatible with all bio-compostable carriers. | https://gcrplasticsolutions.com/products/mineral-masterbatch/biogranic/"
   },
   {
     id: 1154,
@@ -263,7 +270,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "חברה עם חומרי גלם שיכולים להיות מאוד רלוונטיים אלינו - תוספים עם דגש על ססטנביליות"
   },
   {
     id: 1189,
@@ -296,7 +304,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "חברה של כמה שותפים, בין היתר TRAMCO שלנו.\nרלוונטים גם למאסטרבצ'ים של צבעים- לבדוק אם יש להם אופציות לעבוד עם חומרים וצבעים מתכלים.\nלבדוק אם יש להם אופציות להתאמות צבעים.\nאותו הדבר כמו ROWA INC - יושבים באותו במקום. \nINC=USA"
   },
   {
     id: 1367,
@@ -329,7 +338,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: null
   },
   {
     id: 1368,
@@ -362,7 +372,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: null
   },
   {
     id: 1161,
@@ -395,7 +406,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: null
   },
   {
     id: 1194,
@@ -428,7 +440,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "מופיעים כמה פעמים, הרבה חברות בת. פירוט אצל האחרים"
   },
   {
     id: 1184,
@@ -461,7 +474,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "חברה של כמה שותפים, בין היתר TRAMCO שלנו.\nרלוונטים גם למאסטרבצ'ים של צבעים- לבדוק אם יש להם אופציות לעבוד עם חומרים וצבעים מתכלים.\nלבדוק אם יש להם אופציות להתאמות צבעים.\nאותו הדבר כמו ROWA INC - יושבים באותו במקום. \nINC=USA"
   },
   {
     id: 1222,
@@ -494,7 +508,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: null
   },
   {
     id: 1182,
@@ -527,7 +542,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "חברה עם אוריינטציה ססטנבילית. יש להם מוצרים ותוספים ייעודיים לפולימרים.\n לדוגמה QolorTech\nחברת בת או ליין מוצרים/מאסטרבצים לכלכלה מעגלית"
   },
   {
     id: 1055,
@@ -560,7 +576,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "Beograde\nThe Beograde family of compounds includes mainly blends of fossil and bio-based biodegradable polymers.\n\nWe increasingly replace the plastic substrate by a biodegradable alternative. Adding wood creates a look and a feel that emphasizes the biodegradable characteristics.\n\nMain characteristics\nTypical materials\nPLA, PHA, PHBH, PBAT, PBS\nTarget processing\nSample applications\nbags, food packaging, coffee cups, cosmetics packaging, bottles, canisters, caps, closures, bins, trays, technical parts, shrink/stretch films, toys, cutlery, kitchenware"
   },
   {
     id: 1095,
@@ -593,7 +610,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "אחת מיצרניות מאסטרבץ' הגדולות באירופה, המספקת מאסטרבץ' צבע, תוספים, לבן ושחור בעלי ביצועים גבוהים לתעשיית הפלסטיק ברחבי העולם. \n\nלבדוק אם יש להם מתכלים"
   },
   {
     id: 1133,
@@ -626,7 +644,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "חברה ענקית.\nפעם שעברה קצת נפנפו אותנו, כי היינו קטנים מידי.\n\nמאסטרבצים על pla \nמטריצות מתכלות\nכמו Pla pbs pha\nColor palette for pha pla \n#color #supplier"
   },
   {
     id: 1142,
@@ -659,7 +678,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "מאסטרבצ׳ים ותוספים לפולימרים שונים. בעיקר צבעים.\nיש להם סדרת מוצרים שנקראת \nPrisma Bio \nוזה נראה רלוונטי לביו-התכלות"
   },
   {
     id: 1394,
@@ -692,7 +712,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: null
   },
   {
     id: 1137,
@@ -725,7 +746,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "פגשנו אותם ב-K האחרון ולא הצלחנו לתפוס אותם אחר כך.\nהיה להם תוסף אבריישן שפומה או מישהו המליצו לנו עליו. \n\nלהבין כל מה שמתכלה"
   },
   {
     id: 1065,
@@ -758,7 +780,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "חברה ענקית \nאבל אני לא רואה באתר שלהם שלום\nללכת לבדוק אם יש להם חומרים מתכלים"
   },
   {
     id: 1138,
@@ -791,7 +814,8 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "ביו-פולימרים- Bio polymers:\nAnti fogging\nCoupling agent\nPlasticizer\nProcessing aid\nRelease agent and lubricant"
   },
   {
     id: 1107,
@@ -824,6 +848,7 @@ export const companiesData: Company[] = [
     actual_visit_duration: null,
     follow_up_priority: 1,
     next_follow_up_date: null,
-    follow_up_notes: null
+    follow_up_notes: null,
+    notes_summary: "ספק ל-PHA. \nתכננו להתקשר איתם בקרוב אז חייבים לתפוס אותם ב-לK\nנקבע פגישה מראש | לבקש מהם קטלוג של חומרים \nלמרות שיש מצב שיש להם רק חומר אחד לפי מה שראיתי בשתי תצורות  (אבקה ופלטס)- אנחנו תמיד מעדיפים את הפלטס\n TDS \nלשאול איזה סרטיפיקציות יש לחומר שלהם\nהאם יש מגבלות רגולטוריות או שימוש (מזון, קוסמטיקה, מגע עם עור וכו')?\nמה סטטוס הייצור הנוכחי?\nפיילוט בלבד או ייצור בקנה מידה תעשייתי?\nזמינות מסחרית | נקודה מוזרה שבדקתי עם הצאט זה שייש חברה שבידיוק נסגרה שקראו לה דנימר. שגם עושה PHA וויש לה לוגו ממש דומה. \nאבל בדקתי עם הצאט ואין קשר. אבל לך תדע 🙂"
   }
 ]

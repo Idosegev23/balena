@@ -30,6 +30,7 @@ export interface Company {
   follow_up_priority: number
   next_follow_up_date: string | null
   follow_up_notes: string | null
+  notes_summary?: string | null // Combined notes from notes table
 }
 
 export interface Visit {
