@@ -1,7 +1,8 @@
 'use client'
 
 import React from 'react'
-import { Plus, Home, Search, MapPin, Settings } from 'lucide-react'
+import { Plus, Home, Search, MapPin, Settings, BookOpen } from 'lucide-react'
+import Link from 'next/link'
 
 interface FooterProps {
   activeTab: string
@@ -34,6 +35,12 @@ export function Footer({ activeTab, onTabChange, onQuickAdd }: FooterProps) {
       label: 'Settings',
       icon: Settings,
       color: 'text-gray-600'
+    },
+    {
+      id: 'readme',
+      label: 'Docs',
+      icon: BookOpen,
+      color: 'text-orange-600'
     }
   ]
 
@@ -53,10 +60,33 @@ export function Footer({ activeTab, onTabChange, onQuickAdd }: FooterProps) {
         className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-40"
         style={{ paddingBottom: 'max(0.5rem, env(safe-area-inset-bottom))' }}
       >
-        <div className="grid grid-cols-4 h-14 xs:h-16">
+        <div className="grid grid-cols-5 h-14 xs:h-16">
           {tabs.map((tab) => {
             const Icon = tab.icon
             const isActive = activeTab === tab.id
+            
+            // Special handling for README tab
+            if (tab.id === 'readme') {
+              return (
+                <Link
+                  key={tab.id}
+                  href="/readme"
+                  className={`flex flex-col items-center justify-center py-1.5 xs:py-2 px-1 transition-all duration-200 active:scale-95 touch-target ${
+                    isActive 
+                      ? `${tab.color} bg-orange-50 relative` 
+                      : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  {isActive && (
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-6 xs:w-8 h-0.5 bg-current rounded-full" />
+                  )}
+                  <Icon className={`w-4 h-4 xs:w-5 xs:h-5 mb-0.5 xs:mb-1 ${isActive ? 'scale-110' : ''} transition-transform duration-200`} />
+                  <span className={`text-xs font-medium ${isActive ? 'font-semibold' : ''} leading-tight`}>
+                    {tab.label}
+                  </span>
+                </Link>
+              )
+            }
             
             return (
               <button

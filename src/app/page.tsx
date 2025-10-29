@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '@/components/AuthProvider'
 import { supabase, Company } from '@/lib/supabase'
-import { Building2, Star, CheckSquare, Calendar, MapPin, Lightbulb, Plus, Zap, Search } from 'lucide-react'
+import { Building2, Star, CheckSquare, Calendar, MapPin, Lightbulb, Plus, Zap, Search, BookOpen, BarChart3 } from 'lucide-react'
 import { EnhancedCompanyModal } from '@/components/EnhancedCompanyModal'
 import { RealtimeRating } from '@/components/RealtimeRating'
 import { SmartRecommendations } from '@/components/SmartRecommendations'
@@ -875,6 +875,38 @@ export default function Home() {
                         <div className="text-sm text-slate-500">Find companies</div>
                       </div>
                     </motion.button>
+                    
+                    <Link href="/readme">
+                      <motion.div
+                        whileHover={{ x: 4 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="w-full flex items-center space-x-3 p-3 text-left rounded-xl hover:bg-slate-50 transition-colors group cursor-pointer"
+                      >
+                        <div className="p-2 bg-slate-100 rounded-lg group-hover:bg-slate-200 transition-colors">
+                          <BookOpen className="w-4 h-4 text-slate-600" />
+                        </div>
+                        <div>
+                          <div className="font-medium text-slate-900">Documentation</div>
+                          <div className="text-sm text-slate-500">Project guide & setup</div>
+                        </div>
+                      </motion.div>
+                    </Link>
+                    
+                    <Link href="/summary">
+                      <motion.div
+                        whileHover={{ x: 4 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="w-full flex items-center space-x-3 p-3 text-left rounded-xl hover:bg-slate-50 transition-colors group cursor-pointer"
+                      >
+                        <div className="p-2 bg-slate-100 rounded-lg group-hover:bg-slate-200 transition-colors">
+                          <BarChart3 className="w-4 h-4 text-slate-600" />
+                        </div>
+                        <div>
+                          <div className="font-medium text-slate-900">Exhibition Summary</div>
+                          <div className="text-sm text-slate-500">Visit data & analytics</div>
+                        </div>
+                      </motion.div>
+                    </Link>
                   </div>
                 </div>
               </div>

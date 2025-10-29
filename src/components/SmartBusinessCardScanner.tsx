@@ -32,7 +32,15 @@ export function SmartBusinessCardScanner({
   const [loading, setLoading] = useState(false)
   const [debugMessage, setDebugMessage] = useState<string>('')
 
-  console.log('SmartBusinessCardScanner: Rendered with', { isOpen, step, scannedData: !!scannedData })
+  console.log('SmartBusinessCardScanner: Rendered with', { isOpen, step, scannedData: !!scannedData, suggestedMatches: suggestedMatches.length })
+  
+  // Add debug message for render
+  useEffect(() => {
+    if (isOpen) {
+      setDebugMessage(`SmartBusinessCardScanner פתוח - step: ${step}`)
+      setTimeout(() => setDebugMessage(''), 2000)
+    }
+  }, [isOpen, step])
 
   useEffect(() => {
     if (isOpen) {
@@ -176,13 +184,18 @@ export function SmartBusinessCardScanner({
     
     const matches = findMatchingCompanies(data)
     console.log('SmartBusinessCardScanner: Found matches:', matches)
-    setDebugMessage(`נמצאו ${matches.length} חברות מתאימות`)
+    setDebugMessage(`נמצאו ${matches.length} חברות מתאימות - עובר למסך בחירה`)
     setSuggestedMatches(matches)
-    setStep('match')
-    console.log('SmartBusinessCardScanner: Switched to match step')
     
-    // Clear debug message after 3 seconds
-    setTimeout(() => setDebugMessage(''), 3000)
+    // Add a small delay to ensure state is updated
+    setTimeout(() => {
+      setStep('match')
+      console.log('SmartBusinessCardScanner: Switched to match step')
+      setDebugMessage(`מסך בחירת חברה פתוח - ${matches.length} הצעות`)
+    }, 500)
+    
+    // Clear debug message after 5 seconds
+    setTimeout(() => setDebugMessage(''), 5000)
   }
 
   const handleCompanySelect = (company: Company) => {
@@ -258,6 +271,11 @@ export function SmartBusinessCardScanner({
           >
             <X className="h-5 w-5 text-gray-500" />
           </button>
+        </div>
+
+        {/* Debug Info */}
+        <div className="p-3 bg-yellow-50 border-b border-yellow-200">
+          <p className="text-sm text-yellow-800">🔍 DEBUG: מסך בחירת חברה פתוח - {suggestedMatches.length} הצעות</p>
         </div>
 
         {/* Scanned Data Summary */}

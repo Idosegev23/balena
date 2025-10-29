@@ -1,8 +1,9 @@
 'use client'
 
 import React from 'react'
-import { Building2, Menu, Bell, User } from 'lucide-react'
+import { Building2, Menu, Bell, User, BookOpen } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
+import Link from 'next/link'
 
 interface HeaderProps {
   title?: string
@@ -55,6 +56,15 @@ export function Header({
 
         {/* Right Side */}
         <div className="flex items-center gap-2">
+          {/* README Link */}
+          <Link
+            href="/readme"
+            className="p-1.5 xs:p-2 hover:bg-gray-100 rounded-lg transition-colors touch-target"
+            aria-label="Documentation"
+          >
+            <BookOpen className="w-4 h-4 xs:w-5 xs:h-5 text-gray-600" />
+          </Link>
+
           {showNotifications && (
             <button
               className="relative p-1.5 xs:p-2 hover:bg-gray-100 rounded-lg transition-colors touch-target"
