@@ -226,7 +226,7 @@ export default function SummaryPage() {
                     Showing <span className="font-semibold">{filteredCompanies.length}</span> companies 
                     and <span className="font-semibold">{filteredVisits.length}</span> visits
                     {filters.search && (
-                      <span> matching "{filters.search}"</span>
+                      <span> matching &quot;{filters.search}&quot;</span>
                     )}
                   </div>
                   <button

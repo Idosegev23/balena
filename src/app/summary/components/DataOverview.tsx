@@ -118,9 +118,9 @@ export function DataOverview({ companies, visits }: DataOverviewProps) {
               <div className="text-sm text-slate-500">Must Visit</div>
             </div>
           </div>
-          <div className="text-sm text-slate-600">
-            Companies marked as "Must Visit" priority
-          </div>
+            <div className="text-sm text-slate-600">
+              Companies marked as &quot;Must Visit&quot; priority
+            </div>
         </motion.div>
 
         <motion.div variants={fadeInUp} className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
@@ -133,9 +133,9 @@ export function DataOverview({ companies, visits }: DataOverviewProps) {
               <div className="text-sm text-slate-500">High Priority</div>
             </div>
           </div>
-          <div className="text-sm text-slate-600">
-            Companies marked as "High" priority for visits
-          </div>
+            <div className="text-sm text-slate-600">
+              Companies marked as &quot;High&quot; priority for visits
+            </div>
         </motion.div>
 
         <motion.div variants={fadeInUp} className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
